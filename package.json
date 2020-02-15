@@ -13,6 +13,8 @@
   },
   "devDependencies": {
     "@mdi/font": "^4.9.95",
+    "sass": "^1.25.0",
+    "sass-loader": "^8.0.2",
     "webpack-node-externals": "^1.7.2"
   }
 }
