@@ -6,9 +6,14 @@
 </template>
 
 <script>
-export default {
-  metaInfo: {
-    title: 'About us'
+  export default {
+    metaInfo () {
+      return {
+        title: 'About us',
+        meta: [
+          { name: 'description', content: 'Contact page' },
+        ],
+      }
+    },
   }
-}
 </script>
