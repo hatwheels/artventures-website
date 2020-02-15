@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-app-bar app absolute color="white">
-      <v-btn id="logo" class="mx-2" text icon to="/">
+      <v-btn id="logo" class="mx-1" text icon to="/">
         <v-img
           class="flex-grow-0"
           :src="require('~/assets/images/artventures-logo.png')"
@@ -15,6 +15,18 @@
           <v-tab class="black--text" :ripple="false" to="/for-home">For Home</v-tab>
           <v-tab class="black--text" :ripple="false" to="/for-business">For Business</v-tab>
         </v-tabs>
+        <v-menu bottom left :offset-y="true">
+          <template v-slot:activator="{ on }">
+            <v-btn text icon v-on="on" :ripple="false">
+              <v-img height="44px" contain :src="require('~/assets/svg/' + flags[flagId])" />
+            </v-btn>
+          </template>
+          <v-list width="100px">
+            <v-list-item v-for="(flag, i) in flags" :key="i" @click="changeLang(i)">
+              <v-img height="34px" contain :src="require('~/assets/svg/' + flag)" />
+            </v-list-item>
+          </v-list>
+        </v-menu>
       </v-toolbar-items>
     </v-app-bar>
     <v-content class="px-0 py-0">
@@ -36,6 +48,25 @@
       </v-footer>
   </v-app>
 </template>
+
+<script>
+export default {
+  data () {
+    return {
+      flags: [
+        'gr-flag.svg',
+        'gb-flag.svg',
+      ],
+      flagId: 0,
+    }
+  },
+  methods: {
+    changeLang (id) {
+      this.flagId = id
+    },
+  }
+}
+</script>
 
 <style>
 #logo:active {
