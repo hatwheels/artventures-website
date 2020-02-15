@@ -1,29 +1,14 @@
 <template>
   <v-app>
-    <div>
-      <v-app-bar>
-        <v-btn
-          icon
-          :to="$url('/')"
-          title="Home"
-        >
-          <v-icon>mdi-home</v-icon>
-        </v-btn>
-        <v-toolbar-title>{{ $static.metadata.siteName }}</v-toolbar-title>
-        <v-spacer />
-
-        <v-btn :to="$url('/')">
-          Home
-        </v-btn>
-        <v-btn :to="$url('/about')">
-          About
-        </v-btn>
-      </v-app-bar>
-    </div>
+    <v-app-bar app>
+      <div class="flex-grow-1"></div>
+      <v-toolbar-items>
+        <v-btn color="black--text" text to="/for-home"/>
+        <v-btn color="black--text" text to="/for-business"/>
+      </v-toolbar-items>
+    </v-app-bar>
     <v-container>
-      <v-card>
         <slot />
-      </v-card>
     </v-container>
   </v-app>
 </template>

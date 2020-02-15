@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "gridsome": "^0.7.0",
+    "vue-window-size": "^0.2.5",
     "vuetify": "^2.2.12"
   },
   "devDependencies": {

@@ -1,40 +1,23 @@
 <template>
   <Layout>
+
     <!-- Learn how to use images here: https://gridsome.org/docs/images -->
-    <g-image
-      alt="Example image"
-      src="~/favicon.png"
-      width="135"
-    />
-
-    <h1>Hello, world!</h1>
-
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur excepturi labore tempore expedita, et iste tenetur suscipit explicabo! Dolores, aperiam non officia eos quod asperiores</p>
-
-    <p>
-      <a
-        href="https://gridsome.org/docs"
-        target="_blank"
-        rel="noopener"
-      >Gridsome Docs</a>
-      <a
-        href="https://github.com/gridsome/gridsome"
-        target="_blank"
-        rel="noopener"
-      >GitHub</a>
-    </p>
+    <v-img :height="windowHeight" :src="require('~/assets/images/img01.png')"/>
   </Layout>
 </template>
 
 <script>
-  export default {
-    metaInfo () {
-      return {
-        title: 'Hello, world !',
-        meta: [
-          { name: 'description', content: 'Landing page' },
-        ],
-      }
-    },
-  }
+import { vueWindowSizeMixin } from 'vue-window-size';
+
+export default {
+  mixins: [vueWindowSizeMixin],
+  metaInfo () {
+    return {
+      title: 'Artventures',
+      meta: [
+        { name: 'description', content: 'Landing page' },
+      ],
+    }
+  },
+}
 </script>
