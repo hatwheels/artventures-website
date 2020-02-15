@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-app-bar app absolute color="white">
-      <v-btn id="logo" class="mx-1" text icon to="/">
+      <v-btn color="transparent" class="mx-1" text icon to="/">
         <v-img
           class="flex-grow-0"
           :src="require('~/assets/images/artventures-logo.png')"
@@ -29,9 +29,9 @@
         </v-menu>
       </v-toolbar-items>
     </v-app-bar>
-    <v-content class="px-0 py-0">
+    <v-content>
       <v-container class="px-0 py-0" fluid>
-          <slot />
+        <slot />
       </v-container>
     </v-content>
       <v-footer
@@ -67,12 +67,6 @@ export default {
   }
 }
 </script>
-
-<style>
-#logo:active {
-  color: transparent;
-}
-</style>
 
 <static-query>
   query {

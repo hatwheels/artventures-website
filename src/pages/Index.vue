@@ -1,8 +1,6 @@
 <template>
   <Layout>
-
-    <!-- Learn how to use images here: https://gridsome.org/docs/images -->
-    <v-img :height="windowHeight" :src="require('~/assets/images/img01.png')"/>
+    <v-img :height="0.85 * windowHeight" :src="require('~/assets/images/img03.png')"/>
   </Layout>
 </template>
 
@@ -13,7 +11,7 @@ export default {
   mixins: [vueWindowSizeMixin],
   metaInfo () {
     return {
-      title: 'Artventures',
+      title: 'We Democratise Art',
       meta: [
         { name: 'description', content: 'Landing page' },
       ],
