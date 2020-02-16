@@ -1,6 +1,7 @@
 <template>
   <Layout>
     <v-img
+      
       :height="0.85 * windowHeight"
       :src="image.img ?
         require('~/assets/images/' + image.img) :
@@ -9,8 +10,9 @@
         require('~/assets/images/' + image.lazy) :
         require('~/assets/images/' + images[imageId].lazy)"
     >
-      <v-container fluid fill-height>
-        <v-row align="center" justify="center">
+      <v-container class="overlay-on-text" fluid fill-height>
+
+        <v-row :no-gutters="isXsmall" align="center" justify="center">
           <v-col style="cursor: default;" class="hidden-md-and-down" cols="8">
             <p class="font-weight-bold display-2 white--text text-center">{{ title[getLang] }}</p>
             <p class="headline white--text text-center no-cursor" v-html="subtitle[getLang]"></p>
@@ -24,18 +26,19 @@
             <p class="subtitle-1 white--text text-center no-cursor" v-html="subtitle[getLang]"></p>
           </v-col>
           <v-col style="cursor: default;" class="hidden-sm-and-up" cols="11">
-            <p class="font-weight-bold title white--text text-center no-cursor">{{ title[getLang] }}</p>
-            <p class="caption white--text text-center no-cursor" v-html="subtitle[getLang]"></p>
+            <p class="mb-2 font-weight-bold title white--text text-center no-cursor">{{ title[getLang] }}</p>
+            <p class="mb-4 caption white--text text-center no-cursor" v-html="subtitle[getLang]"></p>
           </v-col>
         </v-row>
-        <v-row align="center" justify="center">
+        
+        <v-row :no-gutters="isXsmall" align="center" justify="center">
           <v-col :cols="getNewsletterCol">
             <p style="cursor: default;" class="hidden-md-and-down font-weight-bold headline white--text text-center no-cursor">{{ newletter[getLang] }}</p>
             <p style="cursor: default;" class="hidden-lg-and-up hidden-sm-and-down font-weight-bold title white--text text-center no-cursor">{{ newletter[getLang] }}</p>
             <p style="cursor: default;" class="hidden-md-and-up hidden-xs-only font-weight-bold subtitle-1 white--text text-center no-cursor">{{ newletter[getLang] }}</p>
-            <p style="cursor: default;" class="hidden-sm-and-up  font-weight-bold subtitle-2 white--text text-center no-cursor">{{ newletter[getLang] }}</p>
+            <p style="cursor: default;" class="mb-2 hidden-sm-and-up font-weight-bold subtitle-2 white--text text-center no-cursor">{{ newletter[getLang] }}</p>
+            <div class="hidden-xs-only">
             <v-text-field
-              id="email-field"
               background-color="white"
               outlined
               single-line
@@ -46,8 +49,23 @@
                 <v-btn class="white--text subtitle-2 mx-2" x-large color="green" v-html="email[getLang]"/>
               </template>
             </v-text-field>
+            </div>
+            <div class="hidden-sm-and-up">
+              <div class="d-flex flex-column align-center">
+                <v-text-field
+                  class="align-self-stretch"
+                  background-color="white"
+                  outlined
+                  single-line
+                  :placeholder="emailPlaceholder[getLang]"
+                  color="black"
+                />
+                <v-btn class="white--text subtitle-2" color="green" v-html="email[getLang]"/>
+              </div>
+            </div>
           </v-col>
         </v-row>
+
       </v-container>
     </v-img>
     <!-- <v-card class="pt-8" flat color="grey lighten-2">
@@ -135,15 +153,19 @@ export default {
     getNewsletterCol () {
       switch (this.$vuetify.breakpoint.name) {
         case 'xs':
+          return '9'
         case 'sm':
-          return '10'
-        case 'md':
           return '8'
+        case 'md':
+          return '7'
         case 'lg':
         case 'xl':
           return '6'
       }
     },
+    isXsmall () {
+      return this.$vuetify.breakpoint.name ? true : false
+    }
   },
   metaInfo () {
     return {
@@ -159,5 +181,8 @@ export default {
 <style>
 .v-input__append-outer {
   margin:0 !important;
+}
+.overlay-on-text {
+  background-color: rgba(100, 100, 100, 0.25);
 }
 </style>
