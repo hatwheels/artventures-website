@@ -106,20 +106,20 @@ export default {
         'GR', // Greek
         'EN', // English
       ],
-      routes: {
-        home: [
-          'Αρχική',
-          'Home'
-        ],
-        forHome: [
-          '<div><span class="text-capitalize">Για</span><span class="text-lowercase"> το </span><span class="text-capitalize">Σπίτι</span></div>',// Greek, raw html
-          '<div class="text-capitalize">For Home</div>', // English, raw html
-        ],
-        forBusiness: [
-          '<div><span class="text-capitalize">Για</span><span class="text-lowercase"> την </span><span class="text-capitalize">Επιχείρηση</span></div>',// Greek, raw html
-          '<div class="text-capitalize">For Business</div>', // English, raw html
-        ]
-      }
+      // routes: {
+      //   home: [
+      //     'Αρχική',
+      //     'Home'
+      //   ],
+      //   forHome: [
+      //     '<div><span class="text-capitalize">Για</span><span class="text-lowercase"> το </span><span class="text-capitalize">Σπίτι</span></div>',// Greek, raw html
+      //     '<div class="text-capitalize">For Home</div>', // English, raw html
+      //   ],
+      //   forBusiness: [
+      //     '<div><span class="text-capitalize">Για</span><span class="text-lowercase"> την </span><span class="text-capitalize">Επιχείρηση</span></div>',// Greek, raw html
+      //     '<div class="text-capitalize">For Business</div>', // English, raw html
+      //   ]
+      // }
     }
   },
   computed: {
