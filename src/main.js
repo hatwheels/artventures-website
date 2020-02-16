@@ -4,14 +4,17 @@ import Vuetify from 'vuetify'
 import Vuex from 'vuex'
 import './assets/style/index.scss'
 import DefaultLayout from '~/layouts/Default.vue'
-require('typeface-lato')
 
 export default function (Vue, { appOptions, router, head, isClient }) {
   head.link.push({
     rel: 'stylesheet',
     href: 'https://fonts.googleapis.com/icon?family=Material+Icons',
   })
-
+  head.link.push({
+    rel: 'stylesheet',
+    href: 'https://fonts.googleapis.com/css?family=Lato:100,300,400,500,700,900',
+  })
+  
   const vuetifyOpts = { icons: {
     iconfont: 'mdi',
   } }// opts includes, vuetify themes, icons, etc.
