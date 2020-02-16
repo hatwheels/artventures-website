@@ -11,7 +11,7 @@
       </v-btn>
       <v-spacer />
       <v-toolbar-items class="hidden-sm-and-down">
-        <v-btn
+        <!-- <v-btn
           class="subtitle-1"
           text color="black"
           to="/for-home"
@@ -22,7 +22,7 @@
           text color="black"
           to="/for-business"
           v-html="routes.forBusiness[getLang]"
-        />
+        /> -->
         <v-menu bottom :offset-y="true" transition="slide-y-transition">
           <template v-slot:activator="{ on }">
             <v-btn text class="black--text" color="black--text" v-on="on" :ripple="false">
@@ -38,7 +38,7 @@
         </v-menu>
       </v-toolbar-items>
       <v-toolbar-items class="hidden-md-and-up">
-        <v-menu bottom left :offset-y="true" transition="slide-y-transition">
+        <!-- <v-menu bottom left :offset-y="true" transition="slide-y-transition">
           <template v-slot:activator="{ on }">
             <v-btn large icon v-on="on">
               <v-icon large>mdi-menu</v-icon>
@@ -52,7 +52,7 @@
               <v-list-item-title class="subtitle-1" v-html="routes.forBusiness[getLang]" />
             </v-list-item>
           </v-list>
-        </v-menu>
+        </v-menu> -->
         <v-menu bottom :offset-y="true" transition="slide-y-transition">
           <template v-slot:activator="{ on }">
             <v-btn text class="black--text" color="black--text" v-on="on" :ripple="false">
