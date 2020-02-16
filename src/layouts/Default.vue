@@ -83,8 +83,14 @@
         <div class="flex-grow-1"/>
 
         <div class="flex-grow-1"/>
-        <v-btn text icon color="blue darken-3" href="https://www.facebook.com/artventures.me">
+        <v-btn text icon color="rgb(59,89,152)" href="https://www.facebook.com/artventures.me">
           <v-icon>mdi-facebook-box</v-icon>
+        </v-btn>
+        <v-btn text icon color="rgb(29,161,242)" href="https://twitter.com/Artventures6">
+          <v-icon>mdi-twitter-box</v-icon>
+        </v-btn>
+        <v-btn text icon color="rgb(0,119,181)" href="https://www.linkedin.com/company/artventuresco">
+          <v-icon>mdi-linkedin-box</v-icon>
         </v-btn>
       </v-footer>
   </v-app>
