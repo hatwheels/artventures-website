@@ -15,7 +15,7 @@ export default {
   mixins: [vueWindowSizeMixin],
   metaInfo () {
     return {
-      title: 'We Democratise Art',
+      titleTemplate: 'Artventures',
       meta: [
         { name: 'description', content: 'Landing page' },
       ],

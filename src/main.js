@@ -10,11 +10,7 @@ export default function (Vue, { appOptions, router, head, isClient }) {
     rel: 'stylesheet',
     href: 'https://fonts.googleapis.com/icon?family=Material+Icons',
   })
-  head.link.push({
-    rel: 'stylesheet',
-    href: 'https://fonts.googleapis.com/css?family=Lato:100,300,400,500,700,900',
-  })
-  
+
   const vuetifyOpts = { icons: {
     iconfont: 'mdi',
   } }// opts includes, vuetify themes, icons, etc.
