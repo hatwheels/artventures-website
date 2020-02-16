@@ -38,17 +38,17 @@
             <p style="cursor: default;" class="hidden-md-and-up hidden-xs-only font-weight-bold subtitle-1 white--text text-center no-cursor">{{ newletter[getLang] }}</p>
             <p style="cursor: default;" class="mb-2 hidden-sm-and-up font-weight-bold subtitle-2 white--text text-center no-cursor">{{ newletter[getLang] }}</p>
             <div class="hidden-xs-only">
-            <v-text-field
-              background-color="white"
-              outlined
-              single-line
-              :placeholder="emailPlaceholder[getLang]"
-              color="black"
-            >
-              <template v-slot:append-outer>
+              <div class="d-flex">
+                <v-text-field
+                  background-color="white"
+                  outlined
+                  single-line
+                  :placeholder="emailPlaceholder[getLang]"
+                  color="black"
+                >
+                </v-text-field>
                 <v-btn class="white--text subtitle-2 mx-2" x-large color="green" v-html="email[getLang]"/>
-              </template>
-            </v-text-field>
+              </div>
             </div>
             <div class="hidden-sm-and-up">
               <div class="d-flex flex-column align-center">
