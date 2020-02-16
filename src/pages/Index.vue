@@ -1,6 +1,10 @@
 <template>
   <Layout>
-    <v-img :height="0.85 * windowHeight" :src="require('~/assets/images/img03.png')"/>
+    <v-img
+      :height="0.85 * windowHeight"
+      :src="require('~/assets/images/img03.png')"
+      :lazy-src="require('~/assets/images/lazy-img03.png')"
+    />
   </Layout>
 </template>
 

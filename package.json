@@ -9,12 +9,14 @@
   "dependencies": {
     "gridsome": "^0.7.0",
     "vue-window-size": "^0.2.5",
-    "vuetify": "^2.2.12"
+    "vuetify": "^2.2.12",
+    "vuex": "^3.1.2"
   },
   "devDependencies": {
     "@mdi/font": "^4.9.95",
     "sass": "^1.25.0",
     "sass-loader": "^8.0.2",
+    "typeface-lato": "^0.0.75",
     "webpack-node-externals": "^1.7.2"
   }
 }

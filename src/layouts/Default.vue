@@ -11,18 +11,28 @@
       </v-btn>
       <v-spacer />
       <v-toolbar-items>
-        <v-tabs optional color="black" height="100%">
-          <v-tab class="black--text" :ripple="false" to="/for-home">For Home</v-tab>
-          <v-tab class="black--text" :ripple="false" to="/for-business">For Business</v-tab>
-        </v-tabs>
-        <v-menu bottom left :offset-y="true">
+        <v-btn
+          class="text-capitalize subtitle-1"
+          text color="black"
+          to="/for-home"
+        >
+          {{ routes.forHome[getLang] }}
+        </v-btn>
+        <v-btn
+          class="text-capitalize subtitle-1"
+          text color="black"
+          to="/for-business"
+        >
+          {{ routes.forBusiness[getLang] }}
+        </v-btn>
+        <v-menu bottom :offset-y="true" transition="slide-y-transition">
           <template v-slot:activator="{ on }">
-            <v-btn text icon v-on="on" :ripple="false">
-              <v-img height="44px" contain :src="require('~/assets/svg/' + flags[flagId])" />
+            <v-btn color="transparent" text icon v-on="on" :ripple="false">
+              <v-img height="44px" contain :src="require('~/assets/svg/' + flags[getLang])" />
             </v-btn>
           </template>
           <v-list width="100px">
-            <v-list-item v-for="(flag, i) in flags" :key="i" @click="changeLang(i)">
+            <v-list-item v-for="(flag, i) in flags" :key="i" @click="setLang(i)">
               <v-img height="34px" contain :src="require('~/assets/svg/' + flag)" />
             </v-list-item>
           </v-list>
@@ -40,6 +50,20 @@
         absolute
       >
         <span class="black--text"><strong>Artventures</strong> &copy; 2020</span>
+        
+        <div class="flex-grow-1"/>
+
+        <v-btn text color="transparent" to="/">
+          <div class="text-capitalize grey--text text--darken-1 subtitle-1">{{ routes.home[getLang] }}</div>
+        </v-btn>
+        <v-divider vertical />
+        <v-btn text color="transparent" to="/for-home">
+          <div class="text-capitalize grey--text text--darken-1 subtitle-1">{{ routes.forHome[getLang] }}</div>
+        </v-btn>
+        <v-divider vertical />
+        <v-btn text color="transparent" to="/for-business">
+          <div class="text-capitalize grey--text text--darken-1 subtitle-1">{{ routes.forBusiness[getLang] }}</div>
+        </v-btn>
 
         <div class="flex-grow-1"/>
         <v-btn text icon color="blue darken-3" href="https://www.facebook.com/artventures.me">
@@ -50,23 +74,56 @@
 </template>
 
 <script>
+import { mapGetters, mapMutations } from 'vuex'
+
 export default {
   data () {
     return {
       flags: [
-        'gr-flag.svg',
-        'gb-flag.svg',
+        'gr-flag.svg', // Greek
+        'gb-flag.svg', // English
       ],
-      flagId: 0,
+      routes: {
+        home: [
+          'Αρχική',
+          'Home'
+        ],
+        forHome: [
+          'Για το Σπίτι', // Greek
+          'For Home', // English
+        ],
+        forBusiness: [
+          'Για την Επιχείρηση', // Greek
+          'For Business', // English
+        ]
+      }
     }
   },
+  computed: {
+    ...mapGetters(['getLang'])
+  },
   methods: {
-    changeLang (id) {
-      this.flagId = id
-    },
-  }
+    ...mapMutations(['setLang'])
+  },
 }
 </script>
+
+<style>
+  .v-application .subtitle-1,
+  .v-application .subtitle-2,
+  .v-application .body-1,
+  .v-application .body-2,
+  .v-application .caption,
+  .v-application .overline,
+  .v-application .title,
+  .v-application .headline,
+  .v-application .display-1,
+  .v-application .display-2,
+  .v-application .display-3,
+  .v-application .display-4 {
+    font-family: 'Lato', sans-serif !important;
+  }
+</style>
 
 <static-query>
   query {
