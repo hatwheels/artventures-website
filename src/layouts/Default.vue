@@ -32,7 +32,7 @@
           </template>
           <v-list>
             <v-list-item v-for="(flag, i) in flags" :key="i" @click="setLang(i)">
-              <v-list-item-title class="subtitle-1">{{ flag }}</v-list-item-title>
+              <v-list-item-title class="text-center subtitle-1">{{ flag }}</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -62,7 +62,7 @@
           </template>
           <v-list>
             <v-list-item v-for="(flag, i) in flags" :key="i" @click="setLang(i)">
-              <v-list-item-title class="subtitle-1">{{ flag }}</v-list-item-title>
+              <v-list-item-title class="text-center subtitle-1">{{ flag }}</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
