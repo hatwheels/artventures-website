@@ -39,14 +39,9 @@
             color="black"
           >
             <template v-slot:append-outer>
-              <v-btn
-                class="white--text"
-                color="green"
-                :height="setBtnHeight()"
-                tile block
-              >
-                {{ btnText[getLang] }} <v-icon right>mdi-send</v-icon>
-              </v-btn>
+                <v-btn class="mx-2" x-large color="green lighten-3" text icon>
+                  <v-icon x-large color="green" right>mdi-send</v-icon>
+                </v-btn>
             </template>
           </v-text-field>
         </v-col>
@@ -98,17 +93,11 @@ export default {
       btnText: [
         "ΞΕΚΙΝΑ",
         "Let's start"
-      ]
+      ],
     }
   },
   computed: {
-    ...mapGetters(['getLang'])
-  },
-  methods: {
-    setBtnHeight () {
-      let h = document.getElementsByClassName('v-text-field__slot')[0]
-      return h ? h.clientHeight : 30
-    }
+    ...mapGetters(['getLang']),
   },
   metaInfo () {
     return {
