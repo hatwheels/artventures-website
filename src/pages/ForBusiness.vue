@@ -54,7 +54,7 @@ export default {
   },
   metaInfo () {
     return {
-      title: 'For Business',
+      titleTemplate: 'Artventures',
       meta: [
         { name: 'description', content: 'Landing page' },
       ],
