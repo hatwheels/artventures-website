@@ -11,27 +11,41 @@
     >
       <v-container fluid fill-height>
         <v-row align="center" justify="center">
-          <v-col cols="6">
-            <p class="display-2 white--text text-center no-cursor">{{ title[getLang] }}</p>
+          <v-col style="cursor: default;" class="hidden-md-and-down" cols="8">
+            <p class="font-weight-bold display-2 white--text text-center">{{ title[getLang] }}</p>
             <p class="headline white--text text-center no-cursor" v-html="subtitle[getLang]"></p>
-            
+          </v-col>
+          <v-col style="cursor: default;" class="hidden-lg-and-up hidden-sm-and-down" cols="8">
+            <p class="font-weight-bold display-1 white--text text-center no-cursor">{{ title[getLang] }}</p>
+            <p class="title white--text text-center no-cursor" v-html="subtitle[getLang]"></p>
+          </v-col>
+          <v-col style="cursor: default;" class="hidden-md-and-up hidden-xs-only" cols="11">
+            <p class="font-weight-bold headline white--text text-center no-cursor">{{ title[getLang] }}</p>
+            <p class="subtitle-1 white--text text-center no-cursor" v-html="subtitle[getLang]"></p>
+          </v-col>
+          <v-col style="cursor: default;" class="hidden-sm-and-up" cols="11">
+            <p class="font-weight-bold title white--text text-center no-cursor">{{ title[getLang] }}</p>
+            <p class="caption white--text text-center no-cursor" v-html="subtitle[getLang]"></p>
           </v-col>
         </v-row>
         <v-row align="center" justify="center">
-          <v-col cols="6">
-          <p class="headline white--text text-center">{{ newletter[getLang] }}</p>
-              <v-text-field
-                id="email-field"
-                background-color="white"
-                outlined
-                single-line
-                placeholder="Email"
-                color="black"
-              >
-                <template v-slot:append-outer>
-                  <v-btn class="white--text subtitle-2 mx-2" x-large color="green" v-html="email[getLang]"/>
-                </template>
-              </v-text-field>
+          <v-col :cols="getNewsletterCol">
+            <p style="cursor: default;" class="hidden-md-and-down font-weight-bold headline white--text text-center no-cursor">{{ newletter[getLang] }}</p>
+            <p style="cursor: default;" class="hidden-lg-and-up hidden-sm-and-down font-weight-bold title white--text text-center no-cursor">{{ newletter[getLang] }}</p>
+            <p style="cursor: default;" class="hidden-md-and-up hidden-xs-only font-weight-bold subtitle-1 white--text text-center no-cursor">{{ newletter[getLang] }}</p>
+            <p style="cursor: default;" class="hidden-sm-and-up  font-weight-bold subtitle-2 white--text text-center no-cursor">{{ newletter[getLang] }}</p>
+            <v-text-field
+              id="email-field"
+              background-color="white"
+              outlined
+              single-line
+              :placeholder="emailPlaceholder[getLang]"
+              color="black"
+            >
+              <template v-slot:append-outer>
+                <v-btn class="white--text subtitle-2 mx-2" x-large color="green" v-html="email[getLang]"/>
+              </template>
+            </v-text-field>
           </v-col>
         </v-row>
       </v-container>
@@ -87,16 +101,20 @@ export default {
         "ARTVENTURES IS COMING...",
       ],
       subtitle: [
-        "Βάλε Τέχνη στη ζωή σου. Στο χώρο σου.<br> Κι άλλαξε την όποτε θες.<br> Εύκολα. Γρήγορα. Οικονομικά... Τώρα.",
-        "Put Art in your Life. In your space.<br> And change it whenever you want.<br> Easy. Quickly. Affordably... Now.",
+        "Βάλε Τέχνη στη ζωή σου. Στο χώρο σου.<br> Κι άλλαξε την όποτε θες. Εύκολα. Γρήγορα. Οικονομικά... Τώρα.",
+        "Put Art in your Life. In your space.<br> And change it whenever you want. Easy. Quickly. Affordably... Now.",
       ],
       newletter: [
-        "ΜΑΘΕ ΠΡΩΤΟΣ",
+        "ΜΑΘΕ ΚΑΙ ΔΙΑΛΕΞΕ ΠΡΩΤΟΣ",
         "BE THE FIRST TO KNOW",
       ],
       email: [
         '<span class="text-capitalize">Ζήσε</span>&nbsp;<span class="text-lowercase">την πρώτη σου</span>&nbsp;<span class="text-capitalize">Artventure</span>',
         '<span class="text-capitalize">Live</span>&nbsp;<span class="text-lowercase">your first</span>&nbsp;<span class="text-capitalize">Artventure</span>',
+      ],
+      emailPlaceholder: [
+        "Γράψε το email σου",
+        "Write your email",
       ],
       images: [
         { img: "img03.png", lazy: "lazy-img03.png" },
@@ -114,6 +132,18 @@ export default {
   },
   computed: {
     ...mapGetters(['getLang']),
+    getNewsletterCol () {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs':
+        case 'sm':
+          return '10'
+        case 'md':
+          return '8'
+        case 'lg':
+        case 'xl':
+          return '6'
+      }
+    },
   },
   metaInfo () {
     return {
