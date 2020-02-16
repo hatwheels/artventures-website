@@ -11,35 +11,34 @@
       </v-btn>
       <v-spacer />
       <v-toolbar-items class="hidden-sm-and-down">
-        <v-btn
-          class="text-capitalize subtitle-1"
+        <!-- <v-btn
+          class="subtitle-1"
           text color="black"
           to="/for-home"
-        >
-          {{ routes.forHome[getLang] }}
-        </v-btn>
+          v-html="routes.forHome[getLang]"
+        />
         <v-btn
-          class="text-capitalize subtitle-1"
+          class="subtitle-1"
           text color="black"
           to="/for-business"
-        >
-          {{ routes.forBusiness[getLang] }}
-        </v-btn>
+          v-html="routes.forBusiness[getLang]"
+        /> -->
         <v-menu bottom :offset-y="true" transition="slide-y-transition">
           <template v-slot:activator="{ on }">
-            <v-btn color="transparent" text icon v-on="on" :ripple="false">
-              <v-img height="44px" width="44px" contain :src="require('~/assets/svg/' + flags[getLang])" />
+            <v-btn text class="black--text" color="black--text" v-on="on" :ripple="false">
+              <div>{{ flags[getLang] }}</div>
+              <v-icon right>mdi-menu-down</v-icon>
             </v-btn>
           </template>
-          <v-list width="100px">
+          <v-list>
             <v-list-item v-for="(flag, i) in flags" :key="i" @click="setLang(i)">
-              <v-img height="34px" width="34px" contain :src="require('~/assets/svg/' + flag)" />
+              <v-list-item-title class="subtitle-1">{{ flag }}</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
       </v-toolbar-items>
       <v-toolbar-items class="hidden-md-and-up">
-        <v-menu bottom left :offset-y="true" transition="slide-y-transition">
+        <!-- <v-menu bottom left :offset-y="true" transition="slide-y-transition">
           <template v-slot:activator="{ on }">
             <v-btn large icon v-on="on">
               <v-icon large>mdi-menu</v-icon>
@@ -47,22 +46,23 @@
           </template>
           <v-list>
             <v-list-item to="/for-home">
-              <v-list-item-title class="subtitle-1">{{ routes.forHome[getLang] }}</v-list-item-title>
+              <v-list-item-title class="subtitle-1" v-html="routes.forHome[getLang]" />
             </v-list-item>
             <v-list-item to="/for-home">
-              <v-list-item-title class="subtitle-1">{{ routes.forBusiness[getLang] }}</v-list-item-title>
+              <v-list-item-title class="subtitle-1" v-html="routes.forBusiness[getLang]" />
             </v-list-item>
           </v-list>
-        </v-menu>
+        </v-menu> -->
         <v-menu bottom :offset-y="true" transition="slide-y-transition">
           <template v-slot:activator="{ on }">
-            <v-btn color="transparent" text icon v-on="on" :ripple="false">
-              <v-img height="34px" width="34px" contain :src="require('~/assets/svg/' + flags[getLang])" />
+            <v-btn text class="black--text" color="black--text" v-on="on" :ripple="false">
+              <div>{{ flags[getLang] }}</div>
+              <v-icon right>mdi-menu-down</v-icon>
             </v-btn>
           </template>
-          <v-list width="70px">
+          <v-list>
             <v-list-item v-for="(flag, i) in flags" :key="i" @click="setLang(i)">
-              <v-img height="24px" width="24px" contain :src="require('~/assets/svg/' + flag)" />
+              <v-list-item-title class="subtitle-1">{{ flag }}</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -82,21 +82,15 @@
         
         <div class="flex-grow-1"/>
 
-        <v-btn class="hidden-sm-and-down" text color="transparent" to="/">
-          <div class="text-capitalize grey--text text--darken-1 subtitle-1">{{ routes.home[getLang] }}</div>
-        </v-btn>
-        <v-divider class="hidden-sm-and-down" vertical />
-        <v-btn class="hidden-sm-and-down" text color="transparent" to="/for-home">
-          <div class="text-capitalize grey--text text--darken-1 subtitle-1">{{ routes.forHome[getLang] }}</div>
-        </v-btn>
-        <v-divider class="hidden-sm-and-down" vertical />
-        <v-btn class="hidden-sm-and-down" text color="transparent" to="/for-business">
-          <div class="text-capitalize grey--text text--darken-1 subtitle-1">{{ routes.forBusiness[getLang] }}</div>
-        </v-btn>
-
         <div class="flex-grow-1"/>
-        <v-btn text icon color="blue darken-3" href="https://www.facebook.com/artventures.me">
+        <v-btn text icon color="rgb(59,89,152)" href="https://www.facebook.com/artventures.me">
           <v-icon>mdi-facebook-box</v-icon>
+        </v-btn>
+        <v-btn text icon color="rgb(29,161,242)" href="https://twitter.com/Artventures6">
+          <v-icon>mdi-twitter-box</v-icon>
+        </v-btn>
+        <v-btn text icon color="rgb(0,119,181)" href="https://www.linkedin.com/company/artventuresco">
+          <v-icon>mdi-linkedin-box</v-icon>
         </v-btn>
       </v-footer>
   </v-app>
@@ -109,8 +103,8 @@ export default {
   data () {
     return {
       flags: [
-        'gr-flag.svg', // Greek
-        'gb-flag.svg', // English
+        'GR', // Greek
+        'EN', // English
       ],
       routes: {
         home: [
@@ -118,12 +112,12 @@ export default {
           'Home'
         ],
         forHome: [
-          'Για το Σπίτι', // Greek
-          'For Home', // English
+          '<div><span class="text-capitalize">Για</span><span class="text-lowercase"> το </span><span class="text-capitalize">Σπίτι</span></div>',// Greek, raw html
+          '<div class="text-capitalize">For Home</div>', // English, raw html
         ],
         forBusiness: [
-          'Για την Επιχείρηση', // Greek
-          'For Business', // English
+          '<div><span class="text-capitalize">Για</span><span class="text-lowercase"> την </span><span class="text-capitalize">Επιχείρηση</span></div>',// Greek, raw html
+          '<div class="text-capitalize">For Business</div>', // English, raw html
         ]
       }
     }
@@ -136,23 +130,6 @@ export default {
   },
 }
 </script>
-
-<style>
-  .v-application .subtitle-1,
-  .v-application .subtitle-2,
-  .v-application .body-1,
-  .v-application .body-2,
-  .v-application .caption,
-  .v-application .overline,
-  .v-application .title,
-  .v-application .headline,
-  .v-application .display-1,
-  .v-application .display-2,
-  .v-application .display-3,
-  .v-application .display-4 {
-    font-family: 'Lato', sans-serif !important;
-  }
-</style>
 
 <static-query>
   query {
