@@ -6,7 +6,7 @@
       :lazy-src="require('~/assets/images/lazy-img01.png')"
     >
       <v-row justify="space-around" align="end">
-        <v-col cols=3 justify="center" align="center">
+        <v-col :cols="getCols" justify="center" align="center">
           <v-text-field
             class="subtitle-2 black--text"
             color="blue lighten-2"
@@ -37,7 +37,20 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getLang'])
+    ...mapGetters(['getLang']),
+    getCols () {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs':
+          return '8'
+        case 'sm':
+          return '6'
+        case 'md':
+          return '5'
+        case 'lg':
+        case 'xl':
+          return '4'
+      }
+    }
   },
   metaInfo () {
     return {

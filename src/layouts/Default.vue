@@ -10,7 +10,7 @@
         />
       </v-btn>
       <v-spacer />
-      <v-toolbar-items>
+      <v-toolbar-items class="hidden-sm-and-down">
         <v-btn
           class="text-capitalize subtitle-1"
           text color="black"
@@ -28,12 +28,41 @@
         <v-menu bottom :offset-y="true" transition="slide-y-transition">
           <template v-slot:activator="{ on }">
             <v-btn color="transparent" text icon v-on="on" :ripple="false">
-              <v-img height="44px" contain :src="require('~/assets/svg/' + flags[getLang])" />
+              <v-img height="44px" width="44px" contain :src="require('~/assets/svg/' + flags[getLang])" />
             </v-btn>
           </template>
           <v-list width="100px">
             <v-list-item v-for="(flag, i) in flags" :key="i" @click="setLang(i)">
-              <v-img height="34px" contain :src="require('~/assets/svg/' + flag)" />
+              <v-img height="34px" width="34px" contain :src="require('~/assets/svg/' + flag)" />
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </v-toolbar-items>
+      <v-toolbar-items class="hidden-md-and-up">
+        <v-menu bottom left :offset-y="true" transition="slide-y-transition">
+          <template v-slot:activator="{ on }">
+            <v-btn large icon v-on="on">
+              <v-icon large>mdi-menu</v-icon>
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item to="/for-home">
+              <v-list-item-title class="subtitle-1">{{ routes.forHome[getLang] }}</v-list-item-title>
+            </v-list-item>
+            <v-list-item to="/for-home">
+              <v-list-item-title class="subtitle-1">{{ routes.forBusiness[getLang] }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+        <v-menu bottom :offset-y="true" transition="slide-y-transition">
+          <template v-slot:activator="{ on }">
+            <v-btn color="transparent" text icon v-on="on" :ripple="false">
+              <v-img height="34px" width="34px" contain :src="require('~/assets/svg/' + flags[getLang])" />
+            </v-btn>
+          </template>
+          <v-list width="70px">
+            <v-list-item v-for="(flag, i) in flags" :key="i" @click="setLang(i)">
+              <v-img height="24px" width="24px" contain :src="require('~/assets/svg/' + flag)" />
             </v-list-item>
           </v-list>
         </v-menu>
@@ -53,15 +82,15 @@
         
         <div class="flex-grow-1"/>
 
-        <v-btn text color="transparent" to="/">
+        <v-btn class="hidden-sm-and-down" text color="transparent" to="/">
           <div class="text-capitalize grey--text text--darken-1 subtitle-1">{{ routes.home[getLang] }}</div>
         </v-btn>
-        <v-divider vertical />
-        <v-btn text color="transparent" to="/for-home">
+        <v-divider class="hidden-sm-and-down" vertical />
+        <v-btn class="hidden-sm-and-down" text color="transparent" to="/for-home">
           <div class="text-capitalize grey--text text--darken-1 subtitle-1">{{ routes.forHome[getLang] }}</div>
         </v-btn>
-        <v-divider vertical />
-        <v-btn text color="transparent" to="/for-business">
+        <v-divider class="hidden-sm-and-down" vertical />
+        <v-btn class="hidden-sm-and-down" text color="transparent" to="/for-business">
           <div class="text-capitalize grey--text text--darken-1 subtitle-1">{{ routes.forBusiness[getLang] }}</div>
         </v-btn>
 
