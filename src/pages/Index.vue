@@ -32,7 +32,103 @@
         </v-row>
         
         <v-row :no-gutters="isXsmall" align="center" justify="center">
-          <v-col :cols="getNewsletterCol">
+          <v-col class="hidden-md-and-down" cols="6">
+            <p style="cursor: default;" class="hidden-md-and-down font-weight-bold headline white--text text-center no-cursor">{{ newletter[getLang] }}</p>
+            <p style="cursor: default;" class="hidden-lg-and-up hidden-sm-and-down font-weight-bold title white--text text-center no-cursor">{{ newletter[getLang] }}</p>
+            <p style="cursor: default;" class="hidden-md-and-up hidden-xs-only font-weight-bold subtitle-1 white--text text-center no-cursor">{{ newletter[getLang] }}</p>
+            <p style="cursor: default;" class="mb-2 hidden-sm-and-up font-weight-bold subtitle-2 white--text text-center no-cursor">{{ newletter[getLang] }}</p>
+            <div class="hidden-xs-only">
+              <div class="d-flex">
+                <v-text-field
+                  background-color="white"
+                  outlined
+                  single-line
+                  :placeholder="emailPlaceholder[getLang]"
+                  color="black"
+                >
+                </v-text-field>
+                <v-btn class="white--text subtitle-2 mx-2" x-large color="green" v-html="email[getLang]"/>
+              </div>
+            </div>
+            <div class="hidden-sm-and-up">
+              <div class="d-flex flex-column align-center">
+                <v-text-field
+                  class="align-self-stretch"
+                  background-color="white"
+                  outlined
+                  single-line
+                  :placeholder="emailPlaceholder[getLang]"
+                  color="black"
+                />
+                <v-btn class="white--text subtitle-2" color="green" v-html="email[getLang]"/>
+              </div>
+            </div>
+          </v-col>
+          <v-col class="hidden-lg-and-up hidden-sm-and-down" cols="7">
+            <p style="cursor: default;" class="hidden-md-and-down font-weight-bold headline white--text text-center no-cursor">{{ newletter[getLang] }}</p>
+            <p style="cursor: default;" class="hidden-lg-and-up hidden-sm-and-down font-weight-bold title white--text text-center no-cursor">{{ newletter[getLang] }}</p>
+            <p style="cursor: default;" class="hidden-md-and-up hidden-xs-only font-weight-bold subtitle-1 white--text text-center no-cursor">{{ newletter[getLang] }}</p>
+            <p style="cursor: default;" class="mb-2 hidden-sm-and-up font-weight-bold subtitle-2 white--text text-center no-cursor">{{ newletter[getLang] }}</p>
+            <div class="hidden-xs-only">
+              <div class="d-flex">
+                <v-text-field
+                  background-color="white"
+                  outlined
+                  single-line
+                  :placeholder="emailPlaceholder[getLang]"
+                  color="black"
+                >
+                </v-text-field>
+                <v-btn class="white--text subtitle-2 mx-2" x-large color="green" v-html="email[getLang]"/>
+              </div>
+            </div>
+            <div class="hidden-sm-and-up">
+              <div class="d-flex flex-column align-center">
+                <v-text-field
+                  class="align-self-stretch"
+                  background-color="white"
+                  outlined
+                  single-line
+                  :placeholder="emailPlaceholder[getLang]"
+                  color="black"
+                />
+                <v-btn class="white--text subtitle-2" color="green" v-html="email[getLang]"/>
+              </div>
+            </div>
+          </v-col>
+          <v-col class="hidden-md-and-up hidden-xs-only" cols="8">
+            <p style="cursor: default;" class="hidden-md-and-down font-weight-bold headline white--text text-center no-cursor">{{ newletter[getLang] }}</p>
+            <p style="cursor: default;" class="hidden-lg-and-up hidden-sm-and-down font-weight-bold title white--text text-center no-cursor">{{ newletter[getLang] }}</p>
+            <p style="cursor: default;" class="hidden-md-and-up hidden-xs-only font-weight-bold subtitle-1 white--text text-center no-cursor">{{ newletter[getLang] }}</p>
+            <p style="cursor: default;" class="mb-2 hidden-sm-and-up font-weight-bold subtitle-2 white--text text-center no-cursor">{{ newletter[getLang] }}</p>
+            <div class="hidden-xs-only">
+              <div class="d-flex">
+                <v-text-field
+                  background-color="white"
+                  outlined
+                  single-line
+                  :placeholder="emailPlaceholder[getLang]"
+                  color="black"
+                >
+                </v-text-field>
+                <v-btn class="white--text subtitle-2 mx-2" x-large color="green" v-html="email[getLang]"/>
+              </div>
+            </div>
+            <div class="hidden-sm-and-up">
+              <div class="d-flex flex-column align-center">
+                <v-text-field
+                  class="align-self-stretch"
+                  background-color="white"
+                  outlined
+                  single-line
+                  :placeholder="emailPlaceholder[getLang]"
+                  color="black"
+                />
+                <v-btn class="white--text subtitle-2" color="green" v-html="email[getLang]"/>
+              </div>
+            </div>
+          </v-col>
+          <v-col class="hidden-sm-and-up" cols="9">
             <p style="cursor: default;" class="hidden-md-and-down font-weight-bold headline white--text text-center no-cursor">{{ newletter[getLang] }}</p>
             <p style="cursor: default;" class="hidden-lg-and-up hidden-sm-and-down font-weight-bold title white--text text-center no-cursor">{{ newletter[getLang] }}</p>
             <p style="cursor: default;" class="hidden-md-and-up hidden-xs-only font-weight-bold subtitle-1 white--text text-center no-cursor">{{ newletter[getLang] }}</p>
@@ -150,19 +246,19 @@ export default {
   },
   computed: {
     ...mapGetters(['getLang']),
-    getNewsletterCol () {
-      switch (this.$vuetify.breakpoint.name) {
-        case 'xs':
-          return '9'
-        case 'sm':
-          return '8'
-        case 'md':
-          return '7'
-        case 'lg':
-        case 'xl':
-          return '6'
-      }
-    },
+    // getNewsletterCol () {
+    //   switch (this.$vuetify.breakpoint.name) {
+    //     case 'xs':
+    //       return '9'
+    //     case 'sm':
+    //       return '8'
+    //     case 'md':
+    //       return '7'
+    //     case 'lg':
+    //     case 'xl':
+    //       return '6'
+    //   }
+    // },
     isXsmall () {
       return this.$vuetify.breakpoint.name ? true : false
     }
