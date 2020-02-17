@@ -33,164 +33,84 @@
         
         <v-row :no-gutters="isXsmall" align="center" justify="center">
           <v-col class="hidden-md-and-down" cols="6">
-            <p style="cursor: default;" class="hidden-md-and-down font-weight-bold headline white--text text-center no-cursor">{{ newletter[getLang] }}</p>
-            <p style="cursor: default;" class="hidden-lg-and-up hidden-sm-and-down font-weight-bold title white--text text-center no-cursor">{{ newletter[getLang] }}</p>
-            <p style="cursor: default;" class="hidden-md-and-up hidden-xs-only font-weight-bold subtitle-1 white--text text-center no-cursor">{{ newletter[getLang] }}</p>
-            <p style="cursor: default;" class="mb-2 hidden-sm-and-up font-weight-bold subtitle-2 white--text text-center no-cursor">{{ newletter[getLang] }}</p>
-            <div class="hidden-xs-only">
-              <div class="d-flex">
-                <v-text-field
-                  background-color="white"
-                  outlined
-                  single-line
-                  :placeholder="emailPlaceholder[getLang]"
-                  color="black"
-                >
-                </v-text-field>
-                <v-btn class="white--text subtitle-2 mx-2" x-large color="green" v-html="email[getLang]"/>
-              </div>
-            </div>
-            <div class="hidden-sm-and-up">
-              <div class="d-flex flex-column align-center">
-                <v-text-field
-                  class="align-self-stretch"
-                  background-color="white"
-                  outlined
-                  single-line
-                  :placeholder="emailPlaceholder[getLang]"
-                  color="black"
-                />
-                <v-btn class="white--text subtitle-2" color="green" v-html="email[getLang]"/>
-              </div>
+            <p
+              style="cursor: default;"
+              class="font-weight-bold headline white--text text-center no-cursor"
+            >
+              {{ newletter[getLang] }}
+            </p>
+            <div class="d-flex">
+              <v-text-field
+                background-color="white"
+                outlined
+                single-line
+                :placeholder="emailPlaceholder[getLang]"
+                color="black"
+              >
+              </v-text-field>
+              <v-btn class="white--text subtitle-2 mx-2" x-large color="green" v-html="email[getLang]"/>
             </div>
           </v-col>
-          <v-col class="hidden-lg-and-up hidden-sm-and-down" cols="7">
-            <p style="cursor: default;" class="hidden-md-and-down font-weight-bold headline white--text text-center no-cursor">{{ newletter[getLang] }}</p>
-            <p style="cursor: default;" class="hidden-lg-and-up hidden-sm-and-down font-weight-bold title white--text text-center no-cursor">{{ newletter[getLang] }}</p>
-            <p style="cursor: default;" class="hidden-md-and-up hidden-xs-only font-weight-bold subtitle-1 white--text text-center no-cursor">{{ newletter[getLang] }}</p>
-            <p style="cursor: default;" class="mb-2 hidden-sm-and-up font-weight-bold subtitle-2 white--text text-center no-cursor">{{ newletter[getLang] }}</p>
-            <div class="hidden-xs-only">
-              <div class="d-flex">
-                <v-text-field
-                  background-color="white"
-                  outlined
-                  single-line
-                  :placeholder="emailPlaceholder[getLang]"
-                  color="black"
-                >
-                </v-text-field>
-                <v-btn class="white--text subtitle-2 mx-2" x-large color="green" v-html="email[getLang]"/>
-              </div>
-            </div>
-            <div class="hidden-sm-and-up">
-              <div class="d-flex flex-column align-center">
-                <v-text-field
-                  class="align-self-stretch"
-                  background-color="white"
-                  outlined
-                  single-line
-                  :placeholder="emailPlaceholder[getLang]"
-                  color="black"
-                />
-                <v-btn class="white--text subtitle-2" color="green" v-html="email[getLang]"/>
-              </div>
+          <v-col class="hidden-lg-and-up hidden-sm-and-down" cols="8">
+            <p
+              style="cursor: default;"
+              class="font-weight-bold title white--text text-center no-cursor"
+            >
+              {{ newletter[getLang] }}
+            </p>
+            <div class="d-flex">
+              <v-text-field
+                background-color="white"
+                outlined
+                single-line
+                :placeholder="emailPlaceholder[getLang]"
+                color="black"
+              >
+              </v-text-field>
+              <v-btn class="white--text subtitle-2 mx-2" x-large color="green" v-html="email[getLang]"/>
             </div>
           </v-col>
-          <v-col class="hidden-md-and-up hidden-xs-only" cols="8">
-            <p style="cursor: default;" class="hidden-md-and-down font-weight-bold headline white--text text-center no-cursor">{{ newletter[getLang] }}</p>
-            <p style="cursor: default;" class="hidden-lg-and-up hidden-sm-and-down font-weight-bold title white--text text-center no-cursor">{{ newletter[getLang] }}</p>
-            <p style="cursor: default;" class="hidden-md-and-up hidden-xs-only font-weight-bold subtitle-1 white--text text-center no-cursor">{{ newletter[getLang] }}</p>
-            <p style="cursor: default;" class="mb-2 hidden-sm-and-up font-weight-bold subtitle-2 white--text text-center no-cursor">{{ newletter[getLang] }}</p>
-            <div class="hidden-xs-only">
-              <div class="d-flex">
-                <v-text-field
-                  background-color="white"
-                  outlined
-                  single-line
-                  :placeholder="emailPlaceholder[getLang]"
-                  color="black"
-                >
-                </v-text-field>
-                <v-btn class="white--text subtitle-2 mx-2" x-large color="green" v-html="email[getLang]"/>
-              </div>
-            </div>
-            <div class="hidden-sm-and-up">
-              <div class="d-flex flex-column align-center">
-                <v-text-field
-                  class="align-self-stretch"
-                  background-color="white"
-                  outlined
-                  single-line
-                  :placeholder="emailPlaceholder[getLang]"
-                  color="black"
-                />
-                <v-btn class="white--text subtitle-2" color="green" v-html="email[getLang]"/>
-              </div>
+          <v-col class="hidden-md-and-up hidden-xs-only" cols="9">
+            <p
+              style="cursor: default;"
+              class="font-weight-bold subtitle-1 white--text text-center no-cursor"
+            >
+              {{ newletter[getLang] }}
+            </p>
+            <div class="d-flex">
+              <v-text-field
+                background-color="white"
+                outlined
+                single-line
+                :placeholder="emailPlaceholder[getLang]"
+                color="black"
+              >
+              </v-text-field>
+              <v-btn class="white--text subtitle-2 mx-2" x-large color="green" v-html="email[getLang]"/>
             </div>
           </v-col>
-          <v-col class="hidden-sm-and-up" cols="9">
-            <p style="cursor: default;" class="hidden-md-and-down font-weight-bold headline white--text text-center no-cursor">{{ newletter[getLang] }}</p>
-            <p style="cursor: default;" class="hidden-lg-and-up hidden-sm-and-down font-weight-bold title white--text text-center no-cursor">{{ newletter[getLang] }}</p>
-            <p style="cursor: default;" class="hidden-md-and-up hidden-xs-only font-weight-bold subtitle-1 white--text text-center no-cursor">{{ newletter[getLang] }}</p>
-            <p style="cursor: default;" class="mb-2 hidden-sm-and-up font-weight-bold subtitle-2 white--text text-center no-cursor">{{ newletter[getLang] }}</p>
-            <div class="hidden-xs-only">
-              <div class="d-flex">
-                <v-text-field
-                  background-color="white"
-                  outlined
-                  single-line
-                  :placeholder="emailPlaceholder[getLang]"
-                  color="black"
-                >
-                </v-text-field>
-                <v-btn class="white--text subtitle-2 mx-2" x-large color="green" v-html="email[getLang]"/>
-              </div>
-            </div>
-            <div class="hidden-sm-and-up">
-              <div class="d-flex flex-column align-center">
-                <v-text-field
-                  class="align-self-stretch"
-                  background-color="white"
-                  outlined
-                  single-line
-                  :placeholder="emailPlaceholder[getLang]"
-                  color="black"
-                />
-                <v-btn class="white--text subtitle-2" color="green" v-html="email[getLang]"/>
-              </div>
+          <v-col class="hidden-sm-and-up" cols="10">
+            <p
+              style="cursor: default;"
+              class="mb-2 font-weight-bold subtitle-2 white--text text-center no-cursor"
+            >
+              {{ newletter[getLang] }}
+            </p>
+            <div class="d-flex flex-column align-center">
+              <v-text-field
+                background-color="white"
+                outlined
+                single-line
+                :placeholder="emailPlaceholder[getLang]"
+                color="black"
+              />
+              <v-btn class="white--text subtitle-2" color="green" v-html="email[getLang]"/>
             </div>
           </v-col>
         </v-row>
 
       </v-container>
     </v-img>
-    <!-- <v-card class="pt-8" flat color="grey lighten-2">
-      <div class="d-flex justify-center align-end">
-        <v-img
-          class="flex-grow-0"
-          :src="require('~/favicon.png')"
-          height="54px" width="54px"
-          contain
-        />
-        <p class="pl-1 black--text text-center">{{ newletter[getLang] }}</p>
-      </div>
-      <v-row class="pt-2" align="center" justify="center">
-        <v-col cols=5>
-          <v-text-field
-            id="email-field"
-            background-color="white"
-            outlined
-            single-line
-            placeholder="Email"
-            color="black"
-          >
-            <template v-slot:append-outer>
-              <v-btn class="white--text subtitle-2 mx-2" x-large color="green" v-html="email[getLang]"/>
-            </template>
-          </v-text-field>
-        </v-col>
-      </v-row>
-    </v-card> -->
   </Layout>
 </template>
 
