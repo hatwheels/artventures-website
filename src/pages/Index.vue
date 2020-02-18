@@ -77,7 +77,7 @@
             >
               {{ newletter[getLang] }}
             </p>
-            <div class="d-flex">
+            <v-form ref="form1" class="d-flex">
               <v-text-field
                 background-color="white"
                 outlined
@@ -87,7 +87,7 @@
               >
               </v-text-field>
               <v-btn class="white--text subtitle-2 mx-2" x-large color="green" v-html="email[getLang]"/>
-            </div>
+            </v-form>
           </v-col>
           <v-col class="hidden-sm-and-up" cols="10">
             <p
@@ -117,6 +117,7 @@
 <script>
 import { vueWindowSizeMixin } from 'vue-window-size';
 import { mapGetters } from 'vuex'
+import axios from 'axios';
 
 export default {
   mixins: [vueWindowSizeMixin],
@@ -181,7 +182,37 @@ export default {
     // },
     isXsmall () {
       return this.$vuetify.breakpoint.name ? true : false
-    }
+    },
+    regionName () {
+      return 'us4'
+    },
+    apiKey () {
+      return '5f222c41b31bda43c4f9e27afb2680c7-us4'
+    },
+    listId () {
+      return '1fd92341c5'
+    },
+    url () {
+      return 'https://' + this.regionName + '.api.mailchimp.com/3.0/lists/' + this.listId + '/members/'
+    },
+  },
+  methods: {
+    submit (email) {
+      axios.post(
+        this.url,
+        {
+          status: 'subscribed',
+          email_address: email,
+          tags: []
+        },
+        {
+          headers: {
+            Authorization: `apikey ${this.apiKey}`
+          }
+        },
+      )
+    },
+
   },
   metaInfo () {
     return {

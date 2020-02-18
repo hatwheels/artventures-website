@@ -83,25 +83,37 @@
         <div class="flex-grow-1"/>
 
         <div class="flex-grow-1"/>
-        <v-btn class="hidden-xs-only" text icon color="rgb(59,89,152)" href="https://www.facebook.com/artventures.me">
+        <v-btn class="hidden-lg-and-down" large text icon color="rgb(59,89,152)" href="https://www.facebook.com/artventures.me">
+          <v-icon>mdi-facebook-box</v-icon>
+        </v-btn>
+        <v-btn class="hidden-xl-only hidden-xs-only" text icon color="rgb(59,89,152)" href="https://www.facebook.com/artventures.me">
           <v-icon>mdi-facebook-box</v-icon>
         </v-btn>
         <v-btn class="hidden-sm-and-up" small text icon color="rgb(59,89,152)" href="https://www.facebook.com/artventures.me">
           <v-icon>mdi-facebook-box</v-icon>
         </v-btn>
-        <v-btn class="hidden-xs-only" text icon color="rgb(193,53,132)" href="https://www.instagram.com/artventures.me/">
+        <v-btn class="hidden-lg-and-down" large text icon color="rgb(193,53,132)" href="https://www.instagram.com/artventures.me/">
+          <v-icon>mdi-instagram</v-icon>
+        </v-btn>
+        <v-btn class="hidden-xl-only hidden-xs-only" text icon color="rgb(193,53,132)" href="https://www.instagram.com/artventures.me/">
           <v-icon>mdi-instagram</v-icon>
         </v-btn>
         <v-btn class="hidden-sm-and-up" small text icon color="rgb(193,53,132)" href="https://www.instagram.com/artventures.me/">
           <v-icon>mdi-instagram</v-icon>
         </v-btn>
-        <v-btn class="hidden-xs-only" text icon color="rgb(29,161,242)" href="https://twitter.com/Artventures6">
+        <v-btn class="hidden-lg-and-down" large text icon color="rgb(29,161,242)" href="https://twitter.com/Artventures6">
+          <v-icon>mdi-twitter-box</v-icon>
+        </v-btn>
+        <v-btn class="hidden-xl-only hidden-xs-only" text icon color="rgb(29,161,242)" href="https://twitter.com/Artventures6">
           <v-icon>mdi-twitter-box</v-icon>
         </v-btn>
         <v-btn class="hidden-sm-and-up" small text icon color="rgb(29,161,242)" href="https://twitter.com/Artventures6">
           <v-icon>mdi-twitter-box</v-icon>
         </v-btn>
-        <v-btn class="hidden-xs-only" text icon color="rgb(0,119,181)" href="https://www.linkedin.com/company/artventuresco">
+        <v-btn class="hidden-lg-and-down" large text icon color="rgb(0,119,181)" href="https://www.linkedin.com/company/artventuresco">
+          <v-icon>mdi-linkedin-box</v-icon>
+        </v-btn>
+        <v-btn class="hidden-xl-only hidden-xs-only" text icon color="rgb(0,119,181)" href="https://www.linkedin.com/company/artventuresco">
           <v-icon>mdi-linkedin-box</v-icon>
         </v-btn>
         <v-btn class="hidden-sm-and-up" small text icon color="rgb(0,119,181)" href="https://www.linkedin.com/company/artventuresco">
