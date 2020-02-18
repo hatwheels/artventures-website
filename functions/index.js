@@ -8,7 +8,7 @@ const headers = {
 exports.handler = async (event, context) => {
   try {
     const data = JSON.parse(event.body)
-
+    console.log(event.body)
     if (!data.email) {
       console.log('no email')
       return {

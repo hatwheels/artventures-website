@@ -215,7 +215,6 @@ export default {
           en: 'E-mail is required',
         }
       },
-      mailchimp : null
     }
   },
   computed: {
