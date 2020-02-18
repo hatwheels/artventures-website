@@ -39,8 +39,13 @@
             >
               {{ newletter[getLang] }}
             </p>
-            <div class="d-flex">
+            <form class="d-flex">
               <v-text-field
+                v-model="email"
+                :error-messages="emailErrors"
+                required
+                @input="$v.email.$touch()"
+                @blur="$v.email.$touch()"
                 background-color="white"
                 outlined
                 single-line
@@ -48,8 +53,13 @@
                 color="black"
               >
               </v-text-field>
-              <v-btn class="white--text subtitle-2 mx-2" x-large color="green" v-html="email[getLang]"/>
-            </div>
+              <v-btn
+                class="white--text subtitle-2 mx-2"
+                x-large color="green"
+                v-html="emailText[getLang]"
+                @click="submit"
+              />
+            </form>
           </v-col>
           <v-col class="hidden-lg-and-up hidden-sm-and-down" cols="8">
             <p
@@ -58,8 +68,13 @@
             >
               {{ newletter[getLang] }}
             </p>
-            <div class="d-flex">
+            <form class="d-flex">
               <v-text-field
+                v-model="email"
+                :error-messages="emailErrors"
+                required
+                @input="$v.email.$touch()"
+                @blur="$v.email.$touch()"
                 background-color="white"
                 outlined
                 single-line
@@ -67,8 +82,13 @@
                 color="black"
               >
               </v-text-field>
-              <v-btn class="white--text subtitle-2 mx-2" x-large color="green" v-html="email[getLang]"/>
-            </div>
+              <v-btn
+                class="white--text subtitle-2 mx-2"
+                x-large color="green"
+                v-html="emailText[getLang]"
+                @click="submit"
+              />
+            </form>
           </v-col>
           <v-col class="hidden-md-and-up hidden-xs-only" cols="9">
             <p
@@ -77,8 +97,13 @@
             >
               {{ newletter[getLang] }}
             </p>
-            <v-form ref="form1" class="d-flex">
+            <form class="d-flex">
               <v-text-field
+                v-model="email"
+                :error-messages="emailErrors"
+                required
+                @input="$v.email.$touch()"
+                @blur="$v.email.$touch()"
                 background-color="white"
                 outlined
                 single-line
@@ -86,8 +111,13 @@
                 color="black"
               >
               </v-text-field>
-              <v-btn class="white--text subtitle-2 mx-2" x-large color="green" v-html="email[getLang]"/>
-            </v-form>
+              <v-btn
+                class="white--text subtitle-2 mx-2"
+                x-large color="green"
+                v-html="emailText[getLang]"
+                @click="submit"
+              />
+            </form>
           </v-col>
           <v-col class="hidden-sm-and-up" cols="10">
             <p
@@ -96,16 +126,26 @@
             >
               {{ newletter[getLang] }}
             </p>
-            <div class="d-flex flex-column align-center">
+            <form class="d-flex flex-column align-center">
               <v-text-field
+                v-model="email"
+                :error-messages="emailErrors"
+                required
+                @input="$v.email.$touch()"
+                @blur="$v.email.$touch()"
                 background-color="white"
                 outlined
                 single-line
                 :placeholder="emailPlaceholder[getLang]"
                 color="black"
               />
-              <v-btn class="white--text subtitle-2" color="green" v-html="email[getLang]"/>
-            </div>
+              <v-btn
+                class="white--text subtitle-2"
+                color="green"
+                v-html="emailText[getLang]"
+                @click="submit"
+              />
+            </form>
           </v-col>
         </v-row>
 
@@ -118,9 +158,13 @@
 import { vueWindowSizeMixin } from 'vue-window-size';
 import { mapGetters } from 'vuex'
 import axios from 'axios';
+import { required, email } from 'vuelidate/lib/validators'
 
 export default {
   mixins: [vueWindowSizeMixin],
+  validations: {
+    email: { required, email },
+  },
   created () {
     let self = this
     setInterval(() => {
@@ -131,6 +175,7 @@ export default {
   },
   data () {
     return {
+      // Texts
       title: {
         gr: "H ΑRTVENTURES ΕΡΧΕΤΑΙ....",
         en: "ARTVENTURES IS COMING...",
@@ -143,7 +188,7 @@ export default {
         { gr: "ΜΑΘΕ ΚΑΙ ΔΙΑΛΕΞΕ ΠΡΩΤΟΣ" },
         { en: "BE THE FIRST TO KNOW" },
       ],
-      email: {
+      emailText: {
         gr: '<span class="text-capitalize">Ζήσε</span>&nbsp;<span class="text-lowercase">την πρώτη σου</span>&nbsp;<span class="text-capitalize">Artventure</span>' ,
         en:'<span class="text-capitalize">Live</span>&nbsp;<span class="text-lowercase">your first</span>&nbsp;<span class="text-capitalize">Artventure</span>',
       },
@@ -151,6 +196,7 @@ export default {
         gr: "Γράψε το email σου",
         en: "Write your email",
       },
+      // Images
       images: [
         { img: "img03.png", lazy: "lazy-img03.png" },
         { img: "img01.png", lazy: "lazy-img01.png" },
@@ -158,11 +204,19 @@ export default {
       ],
       imageId: 0,
       image: { img: null, lazy: null },
-      btnSz: 30,
-      btnText: [
-        "ΞΕΚΙΝΑ",
-        "Let's start"
-      ],
+      // Form
+      email: '',
+      errMsg: {
+        invalid: {
+          gr: 'Το email δεν είναι έγκυρο',
+          en: 'Must be valid e-mail',
+        },
+        empty: {
+          gr: 'Το email είναι υποχρεωτικό ',
+          en: 'E-mail is required',
+        }
+      },
+      mailchimp : null
     }
   },
   computed: {
@@ -183,34 +237,53 @@ export default {
     isXsmall () {
       return this.$vuetify.breakpoint.name ? true : false
     },
-    regionName () {
+    // Mailchimp API 3.0
+    mcRegionName () {
       return 'us4'
     },
-    apiKey () {
+    mcApiKey () {
       return '5f222c41b31bda43c4f9e27afb2680c7-us4'
     },
-    listId () {
+    mcListId () {
       return '1fd92341c5'
     },
-    url () {
-      return 'https://' + this.regionName + '.api.mailchimp.com/3.0/lists/' + this.listId + '/members/'
+    mcUrl () {
+      return 'https://' + this.mcRegionName + '.api.mailchimp.com/3.0/lists/' + this.mcListId + '/members/'
+    },
+    // Form
+    emailErrors () {
+      const errors = []
+      if (!this.$v.email.$dirty) return errors
+      !this.$v.email.email && errors.push(this.errMsg.invalid[this.getLang])
+      !this.$v.email.required && errors.push(this.errMsg.empty[this.getLang])
+      return errors
     },
   },
   methods: {
-    submit (email, tag) {
-      axios.post(
-        this.url,
-        {
-          status: 'subscribed',
-          email_address: email,
-          tags: []
-        },
-        {
-          headers: {
-            Authorization: `apikey ${this.apiKey}`
-          }
-        },
-      )
+    submit () {
+      this.$v.$touch()
+      if (!this.$v.$invalid) { // no errors
+        console.log('OK')
+        axios.post(
+          this.mcUrl,
+          {
+            status: 'subscribed',
+            email_address: this.email,
+            tags: [this.getLang]
+          },
+          // { username: 'petrosArt', password: this.mcApiKey, headers: { 'Content-Type': 'application/json', } },
+          {
+            headers: {
+              Authorization: `apikey ${this.mcApiKey}`,
+              'content-type': ''
+            }
+          },
+        ).catch(error => {
+          console.log(error.response)
+        })
+        this.$v.$reset()
+        this.email = ''
+      } else console.log('NOK')
     },
 
   },

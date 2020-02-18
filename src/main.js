@@ -2,6 +2,7 @@
 // The Client API can be used here. Learn more: gridsome.org/docs/client-api
 import Vuetify from 'vuetify'
 import Vuex from 'vuex'
+import Vuelidate from 'vuelidate'
 import './assets/style/index.scss'
 import DefaultLayout from '~/layouts/Default.vue'
 
@@ -34,6 +35,8 @@ export default function (Vue, { appOptions, router, head, isClient }) {
   }
   Vue.use(Vuex)
   appOptions.store = new Vuex.Store(vuexOpts)
+
+  Vue.use(Vuelidate)
 
   Vue.mixin({
     data() {
