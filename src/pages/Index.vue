@@ -131,26 +131,26 @@ export default {
   },
   data () {
     return {
-      title: [
-        "H ΑRTVENTURES ΕΡΧΕΤΑΙ....",
-        "ARTVENTURES IS COMING...",
-      ],
-      subtitle: [
-        "Βάλε Τέχνη στη ζωή σου. Στο χώρο σου.<br> Κι άλλαξε την όποτε θες. Εύκολα. Γρήγορα. Οικονομικά... Τώρα.",
-        "Put Art in your Life. In your space.<br> And change it whenever you want. Easy. Quickly. Affordably... Now.",
-      ],
+      title: {
+        gr: "H ΑRTVENTURES ΕΡΧΕΤΑΙ....",
+        en: "ARTVENTURES IS COMING...",
+      },
+      subtitle: {
+        gr: "Βάλε Τέχνη στη ζωή σου. Στο χώρο σου.<br> Κι άλλαξε την όποτε θες. Εύκολα. Γρήγορα. Οικονομικά... Τώρα.",
+        en: "Put Art in your Life. In your space.<br> And change it whenever you want. Easy. Quickly. Affordably... Now.",
+      },
       newletter: [
-        "ΜΑΘΕ ΚΑΙ ΔΙΑΛΕΞΕ ΠΡΩΤΟΣ",
-        "BE THE FIRST TO KNOW",
+        { gr: "ΜΑΘΕ ΚΑΙ ΔΙΑΛΕΞΕ ΠΡΩΤΟΣ" },
+        { en: "BE THE FIRST TO KNOW" },
       ],
-      email: [
-        '<span class="text-capitalize">Ζήσε</span>&nbsp;<span class="text-lowercase">την πρώτη σου</span>&nbsp;<span class="text-capitalize">Artventure</span>',
-        '<span class="text-capitalize">Live</span>&nbsp;<span class="text-lowercase">your first</span>&nbsp;<span class="text-capitalize">Artventure</span>',
-      ],
-      emailPlaceholder: [
-        "Γράψε το email σου",
-        "Write your email",
-      ],
+      email: {
+        gr: '<span class="text-capitalize">Ζήσε</span>&nbsp;<span class="text-lowercase">την πρώτη σου</span>&nbsp;<span class="text-capitalize">Artventure</span>' ,
+        en:'<span class="text-capitalize">Live</span>&nbsp;<span class="text-lowercase">your first</span>&nbsp;<span class="text-capitalize">Artventure</span>',
+      },
+      emailPlaceholder: {
+        gr: "Γράψε το email σου",
+        en: "Write your email",
+      },
       images: [
         { img: "img03.png", lazy: "lazy-img03.png" },
         { img: "img01.png", lazy: "lazy-img01.png" },
@@ -197,7 +197,7 @@ export default {
     },
   },
   methods: {
-    submit (email) {
+    submit (email, tag) {
       axios.post(
         this.url,
         {

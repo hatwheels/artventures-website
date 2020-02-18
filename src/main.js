@@ -19,7 +19,7 @@ export default function (Vue, { appOptions, router, head, isClient }) {
 
   const vuexOpts = {
     state: {
-      lang: 0
+      lang: 'en'
     },
     getters: {
       getLang: state => {
@@ -34,6 +34,16 @@ export default function (Vue, { appOptions, router, head, isClient }) {
   }
   Vue.use(Vuex)
   appOptions.store = new Vuex.Store(vuexOpts)
+
+  Vue.mixin({
+    data() {
+      return {
+        get languages() {
+          return ['en', 'gr'];
+        }
+      }
+    }
+  })
 
   // Set default layout as a global component
   Vue.component('Layout', DefaultLayout)
