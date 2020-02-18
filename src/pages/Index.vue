@@ -248,7 +248,7 @@ export default {
     submit () {
       this.$v.$touch()
       if (!this.$v.$invalid) { // no errors
-        this.$store.dispatch('mcSubscribe', { email: this.email, tag: this.tag })
+        this.$store.dispatch('mcSubscribe', { email: this.email, tag: this.getLang })
         this.$v.$reset()
         this.email = ''
       }
