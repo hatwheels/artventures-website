@@ -26,13 +26,13 @@
         <v-menu bottom :offset-y="true" transition="slide-y-transition">
           <template v-slot:activator="{ on }">
             <v-btn text class="black--text" color="black--text" v-on="on" :ripple="false">
-              <div>{{ flags[getLang] }}</div>
+              <div>{{ getLang }}</div>
               <v-icon right>mdi-menu-down</v-icon>
             </v-btn>
           </template>
           <v-list>
-            <v-list-item v-for="(flag, i) in flags" :key="i" @click="setLang(i)">
-              <v-list-item-title class="text-center subtitle-1">{{ flag }}</v-list-item-title>
+            <v-list-item v-for="(language, i) in languages" :key="i" @click="setLang(language)">
+              <v-list-item-title class="text-center subtitle-1 text-uppercase">{{ language }}</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -56,13 +56,13 @@
         <v-menu bottom :offset-y="true" transition="slide-y-transition">
           <template v-slot:activator="{ on }">
             <v-btn text class="black--text" color="black--text" v-on="on" :ripple="false">
-              <div>{{ flags[getLang] }}</div>
+              <div>{{ getLang }}</div>
               <v-icon right>mdi-menu-down</v-icon>
             </v-btn>
           </template>
           <v-list>
-            <v-list-item v-for="(flag, i) in flags" :key="i" @click="setLang(i)">
-              <v-list-item-title class="text-center subtitle-1">{{ flag }}</v-list-item-title>
+            <v-list-item v-for="(language, i) in languages" :key="i" @click="setLang(language)">
+              <v-list-item-title class="text-center subtitle-1 text-uppercase">{{ language }}</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -83,25 +83,37 @@
         <div class="flex-grow-1"/>
 
         <div class="flex-grow-1"/>
-        <v-btn class="hidden-xs-only" text icon color="rgb(59,89,152)" href="https://www.facebook.com/artventures.me">
+        <v-btn class="hidden-lg-and-down" large text icon color="rgb(59,89,152)" href="https://www.facebook.com/artventures.me">
+          <v-icon>mdi-facebook-box</v-icon>
+        </v-btn>
+        <v-btn class="hidden-xl-only hidden-xs-only" text icon color="rgb(59,89,152)" href="https://www.facebook.com/artventures.me">
           <v-icon>mdi-facebook-box</v-icon>
         </v-btn>
         <v-btn class="hidden-sm-and-up" small text icon color="rgb(59,89,152)" href="https://www.facebook.com/artventures.me">
           <v-icon>mdi-facebook-box</v-icon>
         </v-btn>
-        <v-btn class="hidden-xs-only" text icon color="rgb(193,53,132)" href="https://www.instagram.com/artventures.me/">
+        <v-btn class="hidden-lg-and-down" large text icon color="rgb(193,53,132)" href="https://www.instagram.com/artventures.me/">
+          <v-icon>mdi-instagram</v-icon>
+        </v-btn>
+        <v-btn class="hidden-xl-only hidden-xs-only" text icon color="rgb(193,53,132)" href="https://www.instagram.com/artventures.me/">
           <v-icon>mdi-instagram</v-icon>
         </v-btn>
         <v-btn class="hidden-sm-and-up" small text icon color="rgb(193,53,132)" href="https://www.instagram.com/artventures.me/">
           <v-icon>mdi-instagram</v-icon>
         </v-btn>
-        <v-btn class="hidden-xs-only" text icon color="rgb(29,161,242)" href="https://twitter.com/Artventures6">
+        <v-btn class="hidden-lg-and-down" large text icon color="rgb(29,161,242)" href="https://twitter.com/Artventures6">
+          <v-icon>mdi-twitter-box</v-icon>
+        </v-btn>
+        <v-btn class="hidden-xl-only hidden-xs-only" text icon color="rgb(29,161,242)" href="https://twitter.com/Artventures6">
           <v-icon>mdi-twitter-box</v-icon>
         </v-btn>
         <v-btn class="hidden-sm-and-up" small text icon color="rgb(29,161,242)" href="https://twitter.com/Artventures6">
           <v-icon>mdi-twitter-box</v-icon>
         </v-btn>
-        <v-btn class="hidden-xs-only" text icon color="rgb(0,119,181)" href="https://www.linkedin.com/company/artventuresco">
+        <v-btn class="hidden-lg-and-down" large text icon color="rgb(0,119,181)" href="https://www.linkedin.com/company/artventuresco">
+          <v-icon>mdi-linkedin-box</v-icon>
+        </v-btn>
+        <v-btn class="hidden-xl-only hidden-xs-only" text icon color="rgb(0,119,181)" href="https://www.linkedin.com/company/artventuresco">
           <v-icon>mdi-linkedin-box</v-icon>
         </v-btn>
         <v-btn class="hidden-sm-and-up" small text icon color="rgb(0,119,181)" href="https://www.linkedin.com/company/artventuresco">
@@ -117,10 +129,6 @@ import { mapGetters, mapMutations } from 'vuex'
 export default {
   data () {
     return {
-      flags: [
-        'GR', // Greek
-        'EN', // English
-      ],
       // routes: {
       //   home: [
       //     'Αρχική',
@@ -138,7 +146,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getLang'])
+    ...mapGetters(['getLang']),
   },
   methods: {
     ...mapMutations(['setLang'])
