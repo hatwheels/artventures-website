@@ -8,9 +8,7 @@ const headers = {
 exports.handler = async (event, context) => {
   try {
     const data = JSON.parse(event.body)
-    console.log(event.body)
     if (!data.email) {
-      console.log('no email')
       return {
         statusCode: 500,
         headers,
@@ -19,7 +17,6 @@ exports.handler = async (event, context) => {
     }
 
     if (!data.tag) {
-        console.log('no tag')
         return {
           statusCode: 500,
           headers,
@@ -28,7 +25,7 @@ exports.handler = async (event, context) => {
       }
 
     return axios({
-      method: 'put',
+      method: 'post',
       url: apiRoot,
       data:{
         email_address:data.email,
@@ -46,7 +43,6 @@ exports.handler = async (event, context) => {
       }
     })
     .catch(err => {
-      console.log('error1')
       console.log('returning from here', err.response.data.detail);
       return { statusCode: 500, body: JSON.stringify(err.response.data) };
     })
