@@ -157,7 +157,6 @@
 <script>
 import { vueWindowSizeMixin } from 'vue-window-size';
 import { mapGetters } from 'vuex'
-import axios from 'axios';
 import { required, email } from 'vuelidate/lib/validators'
 
 export default {
@@ -237,19 +236,6 @@ export default {
     isXsmall () {
       return this.$vuetify.breakpoint.name ? true : false
     },
-    // Mailchimp API 3.0
-    mcRegionName () {
-      return 'us4'
-    },
-    mcApiKey () {
-      return '5f222c41b31bda43c4f9e27afb2680c7-us4'
-    },
-    mcListId () {
-      return '1fd92341c5'
-    },
-    mcUrl () {
-      return 'https://' + this.mcRegionName + '.api.mailchimp.com/3.0/lists/' + this.mcListId + '/members/'
-    },
     // Form
     emailErrors () {
       const errors = []
@@ -263,27 +249,10 @@ export default {
     submit () {
       this.$v.$touch()
       if (!this.$v.$invalid) { // no errors
-        console.log('OK')
-        axios.post(
-          this.mcUrl,
-          {
-            status: 'subscribed',
-            email_address: this.email,
-            tags: [this.getLang]
-          },
-          // { username: 'petrosArt', password: this.mcApiKey, headers: { 'Content-Type': 'application/json', } },
-          {
-            headers: {
-              Authorization: `apikey ${this.mcApiKey}`,
-              'content-type': ''
-            }
-          },
-        ).catch(error => {
-          console.log(error.response)
-        })
+        this.$store.dispatch('mcSubscribe', { email: this.email, tag: this.tag })
         this.$v.$reset()
         this.email = ''
-      } else console.log('NOK')
+      }
     },
 
   },

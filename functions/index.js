@@ -1,21 +1,26 @@
 const axios = require('axios')
 const apiRoot = 'https://us4.api.mailchimp.com/3.0/lists/1fd92341c5/members/'
-
+const headers = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Headers": "Content-Type"
+}
 
 exports.handler = async (event, context) => {
   try {
-    const email = event.queryStringParameters.email
-    const tag = event.queryStringParameters.tag
-    if(!email) {
+    const data = JSON.parse(event.body)
+
+    if(!data.email) {
       return {
         statusCode: 500,
+        headers,
         body: 'email query paramater required'
       };
     }
 
-    if(!tag) {
-        return { 
-          statusCode: 500, 
+    if(!data.tag) {
+        return {
+          statusCode: 500,
+          headers,
           body: 'tag query paramater required'
         };
       }
@@ -24,9 +29,9 @@ exports.handler = async (event, context) => {
       method: 'put',
       url: apiRoot,
       data:{
-        email_address:email,
+        email_address:data.email,
         status:'subscribed',
-        tags: [tag]
+        tags: [data.tag]
       },
       auth: {
         'username': 'petrosArt',

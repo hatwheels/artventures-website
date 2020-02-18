@@ -5,6 +5,7 @@ import Vuex from 'vuex'
 import Vuelidate from 'vuelidate'
 import './assets/style/index.scss'
 import DefaultLayout from '~/layouts/Default.vue'
+import axios from 'axios'
 
 export default function (Vue, { appOptions, router, head, isClient }) {
   head.link.push({
@@ -19,6 +20,21 @@ export default function (Vue, { appOptions, router, head, isClient }) {
   appOptions.vuetify = new Vuetify(vuetifyOpts)
 
   const vuexOpts = {
+    actions: {
+      async mcSubscribe(params) {
+        await axios.post('https://www.artventures.me/.netlify/functions/index',
+          {
+            email: params.email,
+            tag: params.tag,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json"
+            }
+          }
+        )
+      }
+    },
     state: {
       lang: 'en'
     },
