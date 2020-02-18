@@ -9,7 +9,8 @@ exports.handler = async (event, context) => {
   try {
     const data = JSON.parse(event.body)
 
-    if(!data.email) {
+    if (!data.email) {
+      console.log('no email')
       return {
         statusCode: 500,
         headers,
@@ -17,7 +18,8 @@ exports.handler = async (event, context) => {
       };
     }
 
-    if(!data.tag) {
+    if (!data.tag) {
+        console.log('no tag')
         return {
           statusCode: 500,
           headers,
@@ -44,11 +46,13 @@ exports.handler = async (event, context) => {
       }
     })
     .catch(err => {
+      console.log('error1')
       console.log('returning from here', err.response.data.detail);
       return { statusCode: 500, body: JSON.stringify(err.response.data) };
-    });
+    })
 
   } catch (err) {
+    console.log('error')
     return { statusCode: 500, body: err.toString() };
   }
 }
