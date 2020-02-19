@@ -297,13 +297,14 @@ export default {
           })
           .catch(err => {
             // server-side error
-            if ("Member Exists" == err.data.title) {
-              this.dialogText.en = "You're already subscribed!"
-              this.dialogText.gr = 'Είστε ήδη εγγεγραμμένοι!'
-            } else {
-              this.dialogText.en = 'An internal error has occured!'
-              this.dialogText.gr = 'Κάποιο σφάλμα προέκυψε!'
-            }
+            console.log(err)
+            // if ("Member Exists" == err.data.title) {
+            //   this.dialogText.en = "You're already subscribed!"
+            //   this.dialogText.gr = 'Είστε ήδη εγγεγραμμένοι!'
+            // } else {
+            this.dialogText.en = 'An internal error has occured!'
+            this.dialogText.gr = 'Κάποιο σφάλμα προέκυψε!'
+            //}
             this.btnLoading = false
             this.dialog = true
           })
