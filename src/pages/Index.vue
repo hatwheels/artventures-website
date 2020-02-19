@@ -297,7 +297,7 @@ export default {
           })
           .catch(err => {
             // server-side error
-            console.log(err)
+            console.log('err: ' + err)
             // if ("Member Exists" == err.data.title) {
             //   this.dialogText.en = "You're already subscribed!"
             //   this.dialogText.gr = 'Είστε ήδη εγγεγραμμένοι!'
