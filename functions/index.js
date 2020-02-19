@@ -50,7 +50,7 @@ exports.handler = async (event, context) => {
       console.log(err.response.data)
       console.log('########   END  ERROR   ##########')
       return {
-        statusCode: 500,
+        statusCode: err.response.data.status,
         body: JSON.stringify(err.response.data)
       }
     })
