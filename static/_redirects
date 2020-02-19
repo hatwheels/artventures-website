@@ -1,2 +1,0 @@
-# Redirect domain aliases to primary domain
-https://www.artventures.es/* https://www.artventures.me/:splat 301!
