@@ -287,7 +287,6 @@ export default {
         this.btnLoading = true
         this.$store.dispatch('mcSubscribe', { email: this.email, tag: this.getLang })
           .then(res => {
-            const data = JSON.parse(res)
             if (res.status == 200) {
               // success
               this.dialogText.en = "You've subscribed to our newsletter!"
