@@ -294,8 +294,8 @@ export default {
             }
             if (res.status == 500) {
               // error
-              this.dialogText.en = data
-              this.dialogText.gr = data
+              this.dialogText.en = 'An internal error has occured!'
+              this.dialogText.gr = 'Κάποιο σφάλμα προέκυψε!'
             }
             this.btnLoading = false
             this.dialog = true
