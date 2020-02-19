@@ -287,23 +287,27 @@ export default {
         this.btnLoading = true
         this.$store.dispatch('mcSubscribe', { email: this.email, tag: this.getLang })
           .then(res => {
-            console.log(res)
-            if (res.status == 200) {
+            if (200 == res.status) {
               // success
               this.dialogText.en = "You've subscribed to our newsletter!"
               this.dialogText.gr = "Εγγραφήκατε στο newsletter μας!"
             }
-            if (res.status == 500) {
+            if (500 == res.status) {
               // error
-              this.dialogText.en = 'An internal error has occured!'
-              this.dialogText.gr = 'Κάποιο σφάλμα προέκυψε!'
+              console.log('err')
+              if ("Member Exists" == res.data.title) {
+                this.dialogText.en = "You're already subscribed!"
+                this.dialogText.gr = 'Είστε ήδη εγγεγραμμένοι!'
+              } else {
+                this.dialogText.en = 'An internal error has occured!'
+                this.dialogText.gr = 'Κάποιο σφάλμα προέκυψε!'
+              }
             }
             this.btnLoading = false
             this.dialog = true
           })
           .catch(err => {
             // server-side error
-            console.log(err)
             this.dialogText.en = 'An internal error has occured!'
             this.dialogText.gr = 'Κάποιο σφάλμα προέκυψε!'
             this.btnLoading = false
