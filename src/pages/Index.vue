@@ -301,7 +301,7 @@ export default {
           })
           .catch(err => {
             // server-side error
-            console.log('err: ' + err)
+            console.log('err: ' + err.response)
             this.dialogText.en = 'An internal error has occured!'
             this.dialogText.gr = 'Κάποιο σφάλμα προέκυψε!'
             this.btnLoading = false
