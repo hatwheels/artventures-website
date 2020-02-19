@@ -287,12 +287,12 @@ export default {
         this.btnLoading = true
         this.$store.dispatch('mcSubscribe', { email: this.email, tag: this.getLang })
           .then(res => {
+            console.log('then')
             const data = JSON.parse(res.body)
             if (res.statusCode == 200) {
               // success
               this.dialogText.en = "You've subscribed to our newsletter!"
               this.dialogText.gr = "Εγγραφήκατε στο newsletter μας!"
-              console.log('then')
             }
             if (res.statusCode == 500) {
               // error

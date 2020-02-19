@@ -37,16 +37,18 @@ exports.handler = async (event, context) => {
         'password': process.env.MC_API
       }
     }).then(res => {
+      console.log('######## START RESPONSE ##########')
       console.log(res.data)
-      console.log('then')
+      console.log('########  END RESPONSE  ##########')
       return {
         statusCode: 200, 
         body: JSON.stringify(res.data)
       }
     })
     .catch(err => {
+      console.log('########  START  ERROR  ##########')
       console.log(err.response.data)
-      console.log('catch')
+      console.log('########   END  ERROR   ##########')
       return {
         statusCode: 500,
         body: JSON.stringify(err.response.data)
