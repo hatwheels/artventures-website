@@ -168,7 +168,7 @@
                 <v-btn
                   class="white--text"
                   color="blue"
-                  @click="unsetDialog"
+                  @click="() => unsetDialog()"
                 >
                   OK
                 </v-btn>
@@ -279,13 +279,6 @@ export default {
       !this.$v.email.required && errors.push(this.errMsg.empty[this.getLang])
       return errors
     },
-    // Dialog
-    unsetDialog () {
-      this.dialog = false
-      this.dialogText.en = ""
-      this.dialogText.gr = ""
-
-    }
   },
   methods: {
     submit () {
@@ -305,20 +298,27 @@ export default {
               this.dialogText.en = data
               this.dialogText.gr = data
             }
+            this.btnLoading = false
+            this.dialog = true
           })
           .catch(err => {
             // server-side error
             console.log(err.body)
             this.dialogText.en = 'An internal error has occured!'
             this.dialogText.gr = 'Κάποιο σφάλμα προέκυψε!'
+            this.btnLoading = false
+            this.dialog = true
           })
         this.$v.$reset()
         this.email = ''
-        this.btnLoading = false
-        this.dialog = true
       }
     },
-
+    // Dialog
+    unsetDialog () {
+      this.dialog = false
+      this.dialogText.en = ""
+      this.dialogText.gr = ""
+    }
   },
   metaInfo () {
     return {
