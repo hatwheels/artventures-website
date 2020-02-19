@@ -57,6 +57,8 @@
                 class="white--text subtitle-2 mx-2"
                 x-large color="green"
                 v-html="emailText[getLang]"
+                :disabled="btnLoading"
+                :loading="btnLoading"
                 @click="submit"
               />
             </form>
@@ -86,6 +88,8 @@
                 class="white--text subtitle-2 mx-2"
                 x-large color="green"
                 v-html="emailText[getLang]"
+                :disabled="btnLoading"
+                :loading="btnLoading"
                 @click="submit"
               />
             </form>
@@ -115,6 +119,8 @@
                 class="white--text subtitle-2 mx-2"
                 x-large color="green"
                 v-html="emailText[getLang]"
+                :disabled="btnLoading"
+                :loading="btnLoading"
                 @click="submit"
               />
             </form>
@@ -143,10 +149,33 @@
                 class="white--text subtitle-2"
                 color="green"
                 v-html="emailText[getLang]"
+                :disabled="btnLoading"
+                :loading="btnLoading"
                 @click="submit"
               />
             </form>
           </v-col>
+
+          <v-dialog
+            v-model="dialog"
+            max-width="290"
+            overlay-color="transparent"
+          >
+            <v-card>
+              <div class="px-3 pt-2 pb-4 subtitle-2">{{ dialogText[getLang] }}</div>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                  class="white--text"
+                  color="blue"
+                  @click="unsetDialog"
+                >
+                  OK
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+
         </v-row>
 
       </v-container>
@@ -215,6 +244,13 @@ export default {
           en: 'E-mail is required',
         }
       },
+      // Dialog
+      dialog: false,
+      dialogText: {
+        gr: "",
+        en: ""
+      },
+      btnLoading: false,
     }
   },
   computed: {
@@ -243,14 +279,43 @@ export default {
       !this.$v.email.required && errors.push(this.errMsg.empty[this.getLang])
       return errors
     },
+    // Dialog
+    unsetDialog () {
+      this.dialog = false
+      this.dialogText.en = ""
+      this.dialogText.gr = ""
+
+    }
   },
   methods: {
     submit () {
       this.$v.$touch()
       if (!this.$v.$invalid) { // no errors
+        this.btnLoading = true;
         this.$store.dispatch('mcSubscribe', { email: this.email, tag: this.getLang })
+          .then(res => {
+            const data = JSON.parse(res.body)
+            if (res.statusCode == 200) {
+              // success
+              this.dialogText.en = "You've subscribed to our newsletter!"
+              this.dialogText.gr = "Εγγραφήκατε στο newsletter μας!"
+            }
+            if (res.statusCode == 500) {
+              // error
+              this.dialogText.en = data
+              this.dialogText.gr = data
+            }
+          })
+          .catch(err => {
+            // server-side error
+            console.log(err.body)
+            this.dialogText.en = 'An internal error has occured!'
+            this.dialogText.gr = 'Κάποιο σφάλμα προέκυψε!'
+          })
         this.$v.$reset()
         this.email = ''
+        this.btnLoading = false
+        this.dialog = true
       }
     },
 
