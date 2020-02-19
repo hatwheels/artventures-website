@@ -44,8 +44,7 @@
                 v-model="email"
                 :error-messages="emailErrors"
                 required
-                @input="$v.email.$touch()"
-                @blur="$v.email.$touch()"
+                @blur="$v.email.$reset()"
                 background-color="white"
                 outlined
                 single-line
@@ -75,8 +74,7 @@
                 v-model="email"
                 :error-messages="emailErrors"
                 required
-                @input="$v.email.$touch()"
-                @blur="$v.email.$touch()"
+                @blur="$v.email.$reset()"
                 background-color="white"
                 outlined
                 single-line
@@ -106,8 +104,7 @@
                 v-model="email"
                 :error-messages="emailErrors"
                 required
-                @input="$v.email.$touch()"
-                @blur="$v.email.$touch()"
+                @blur="$v.email.$reset()"
                 background-color="white"
                 outlined
                 single-line
@@ -137,8 +134,7 @@
                 v-model="email"
                 :error-messages="emailErrors"
                 required
-                @input="$v.email.$touch()"
-                @blur="$v.email.$touch()"
+                @blur="$v.email.$reset()"
                 background-color="white"
                 outlined
                 single-line
