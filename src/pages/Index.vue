@@ -287,8 +287,8 @@ export default {
         this.btnLoading = true
         this.$store.dispatch('mcSubscribe', { email: this.email, tag: this.getLang })
           .then(res => {
-            console.log(res.body)
-            const data = JSON.parse(res.body)
+            console.log(res)
+            const data = JSON.parse(res)
             console.log(data)
             if (res.statusCode == 200) {
               // success
