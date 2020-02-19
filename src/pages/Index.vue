@@ -291,6 +291,14 @@ export default {
               // success
               this.dialogText.en = "You've subscribed to our newsletter!"
               this.dialogText.gr = "Εγγραφήκατε στο newsletter μας!"
+            } else {
+              if ("Member Exists" == err.data.title) {
+                this.dialogText.en = "You're already subscribed!"
+                this.dialogText.gr = 'Είστε ήδη εγγεγραμμένοι!'
+              } else {
+                this.dialogText.en = 'An internal error has occured!'
+                this.dialogText.gr = 'Κάποιο σφάλμα προέκυψε!'
+              }
             }
             this.btnLoading = false
             this.dialog = true
@@ -298,13 +306,13 @@ export default {
           .catch(err => {
             // server-side error
             console.log('err: ' + err)
-            // if ("Member Exists" == err.data.title) {
-            //   this.dialogText.en = "You're already subscribed!"
-            //   this.dialogText.gr = 'Είστε ήδη εγγεγραμμένοι!'
-            // } else {
+            if ("Member Exists" == err.data.title) {
+              this.dialogText.en = "You're already subscribed!"
+              this.dialogText.gr = 'Είστε ήδη εγγεγραμμένοι!'
+            } else {
             this.dialogText.en = 'An internal error has occured!'
             this.dialogText.gr = 'Κάποιο σφάλμα προέκυψε!'
-            //}
+            }
             this.btnLoading = false
             this.dialog = true
           })
