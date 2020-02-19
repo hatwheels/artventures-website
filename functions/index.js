@@ -56,7 +56,7 @@ exports.handler = async (event, context) => {
     })
 
   } catch (err) {
-    console.log(err)
+    console.log('try ... catch ... error :' + err)
     return {
         statusCode: 500,
         body: err.toString()
