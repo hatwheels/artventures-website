@@ -284,7 +284,7 @@ export default {
     submit () {
       this.$v.$touch()
       if (!this.$v.$invalid) { // no errors
-        this.btnLoading = true;
+        this.btnLoading = true
         this.$store.dispatch('mcSubscribe', { email: this.email, tag: this.getLang })
           .then(res => {
             const data = JSON.parse(res.body)
@@ -292,11 +292,13 @@ export default {
               // success
               this.dialogText.en = "You've subscribed to our newsletter!"
               this.dialogText.gr = "Εγγραφήκατε στο newsletter μας!"
+              console.log('then')
             }
             if (res.statusCode == 500) {
               // error
               this.dialogText.en = data
               this.dialogText.gr = data
+              console.log('then2')
             }
             this.btnLoading = false
             this.dialog = true
@@ -305,6 +307,7 @@ export default {
             // server-side error
             this.dialogText.en = 'An internal error has occured!'
             this.dialogText.gr = 'Κάποιο σφάλμα προέκυψε!'
+            console.log('err')
             this.btnLoading = false
             this.dialog = true
           })
