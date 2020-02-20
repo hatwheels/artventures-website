@@ -1,8 +1,8 @@
 <template>
   <Layout>
     <v-img
-      
       :height="0.85 * windowHeight"
+      gradient="to top right, rgba(100,100,100,.25), rgba(100,100,100,.25)"
       :src="image.img ?
         require('~/assets/images/' + image.img) :
         require('~/assets/images/' + images[imageId].img)"
@@ -10,7 +10,7 @@
         require('~/assets/images/' + image.lazy) :
         require('~/assets/images/' + images[imageId].lazy)"
     >
-      <v-container class="overlay-on-text" fluid fill-height>
+      <v-container fluid fill-height>
 
         <v-row :no-gutters="isXsmall" align="center" justify="center">
           <v-col style="cursor: default;" class="hidden-md-and-down" cols="8">
@@ -39,7 +39,8 @@
             >
               {{ newletter[getLang] }}
             </p>
-            <form class="d-flex">
+            <form class="d-flex" name="newsletter-desktop" data-netlify="true" data-netlify-honeypot="bot-field">
+              <input type="hidden" name="form-name" value="newsletter-desktop" />
               <v-text-field
                 v-model="email"
                 :error-messages="emailErrors"
@@ -69,7 +70,8 @@
             >
               {{ newletter[getLang] }}
             </p>
-            <form class="d-flex">
+            <form class="d-flex" name="newsletter-tablet" data-netlify="true" data-netlify-honeypot="bot-field">
+              <input type="hidden" name="form-name" value="newsletter-tablet" />
               <v-text-field
                 v-model="email"
                 :error-messages="emailErrors"
@@ -99,7 +101,8 @@
             >
               {{ newletter[getLang] }}
             </p>
-            <form class="d-flex">
+            <form class="d-flex" name="newsletter-smartphone" data-netlify="true" data-netlify-honeypot="bot-field">
+              <input type="hidden" name="form-name" value="newsletter-smartphone" />
               <v-text-field
                 v-model="email"
                 :error-messages="emailErrors"
@@ -129,7 +132,8 @@
             >
               {{ newletter[getLang] }}
             </p>
-            <form class="d-flex flex-column align-center">
+            <form class="d-flex flex-column align-center" name="newsletter-oldphone" data-netlify="true" data-netlify-honeypot="bot-field">
+              <input type="hidden" name="form-name" value="newsletter-oldphone" />
               <v-text-field
                 v-model="email"
                 :error-messages="emailErrors"
@@ -328,8 +332,5 @@ export default {
 <style>
 .v-input__append-outer {
   margin:0 !important;
-}
-.overlay-on-text {
-  background-color: rgba(100, 100, 100, 0.25);
 }
 </style>
