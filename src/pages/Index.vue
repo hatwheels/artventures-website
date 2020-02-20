@@ -1,14 +1,11 @@
 <template>
   <Layout>
     <v-img
-      
+      :key="images[imageId].img"
       :height="0.85 * windowHeight"
-      :src="image.img ?
-        require('~/assets/images/' + image.img) :
-        require('~/assets/images/' + images[imageId].img)"
-      :lazy-src="image.lazy ?
-        require('~/assets/images/' + image.lazy) :
-        require('~/assets/images/' + images[imageId].lazy)"
+      :src="images[imageId].img"
+      :lazy-src="images[imageId].lazy"
+      eager
     >
       <v-container class="overlay-on-text" fluid fill-height>
 
@@ -192,8 +189,6 @@ export default {
   created () {
     let self = this
     setInterval(() => {
-      self.image.lazy = self.images[self.imageId].lazy
-      self.image.img = self.images[self.imageId].img
       self.imageId = (self.imageId + 1) % self.images.length
     }, 10000)
   },
@@ -222,12 +217,20 @@ export default {
       },
       // Images
       images: [
-        { img: "img03.png", lazy: "lazy-img03.png" },
-        { img: "img01.png", lazy: "lazy-img01.png" },
-        { img: "img02.png", lazy: "lazy-img02.png" },
+        {
+          img: "https://res.cloudinary.com/de1jgt6c5/image/upload/v1582236536/artventures/img01.png",
+          lazy: "https://res.cloudinary.com/de1jgt6c5/image/upload/w_400,e_blur:1200/v1582236536/artventures/img01.png"
+        },
+        {
+          img: "https://res.cloudinary.com/de1jgt6c5/image/upload/v1582236536/artventures/img02.png",
+          lazy: "https://res.cloudinary.com/de1jgt6c5/image/upload/w_400,e_blur:1200/v1582236536/artventures/img02.png"
+        },
+        {
+          img: "https://res.cloudinary.com/de1jgt6c5/image/upload/v1582236536/artventures/img03.png",
+          lazy: "https://res.cloudinary.com/de1jgt6c5/image/upload/w_400,e_blur:1200/v1582236536/artventures/img03.png"
+        },
       ],
-      imageId: 0,
-      image: { img: null, lazy: null },
+      imageId: Math.floor(Math.random() * 3),
       // Form
       email: '',
       errMsg: {
