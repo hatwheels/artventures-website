@@ -39,7 +39,13 @@
             >
               {{ newletter[getLang] }}
             </p>
-            <form class="d-flex" name="newsletter-desktop" data-netlify="true" data-netlify-honeypot="bot-field">
+            <form
+              class="d-flex"
+              name="newsletter-desktop"
+              data-netlify="true"
+              data-netlify-honeypot="bot-field"
+              data-netlify-recaptcha="true"
+            >
               <input type="hidden" name="form-name" value="newsletter-desktop" />
               <v-text-field
                 v-model="email"
@@ -53,6 +59,7 @@
                 color="black"
               >
               </v-text-field>
+              <div data-netlify-recaptcha="true"></div>
               <v-btn
                 class="white--text subtitle-2 mx-2"
                 x-large color="green"
@@ -70,7 +77,13 @@
             >
               {{ newletter[getLang] }}
             </p>
-            <form class="d-flex" name="newsletter-tablet" data-netlify="true" data-netlify-honeypot="bot-field">
+            <form
+              class="d-flex"
+              name="newsletter-tablet"
+              data-netlify="true"
+              data-netlify-honeypot="bot-field"
+              data-netlify-recaptcha="true"
+            >
               <input type="hidden" name="form-name" value="newsletter-tablet" />
               <v-text-field
                 v-model="email"
@@ -84,6 +97,7 @@
                 color="black"
               >
               </v-text-field>
+              <div data-netlify-recaptcha="true"></div>
               <v-btn
                 class="white--text subtitle-2 mx-2"
                 x-large color="green"
@@ -101,7 +115,13 @@
             >
               {{ newletter[getLang] }}
             </p>
-            <form class="d-flex" name="newsletter-smartphone" data-netlify="true" data-netlify-honeypot="bot-field">
+            <form
+              class="d-flex"
+              name="newsletter-smartphone"
+              data-netlify="true"
+              data-netlify-honeypot="bot-field"
+              data-netlify-recaptcha="true"
+            >
               <input type="hidden" name="form-name" value="newsletter-smartphone" />
               <v-text-field
                 v-model="email"
@@ -115,6 +135,7 @@
                 color="black"
               >
               </v-text-field>
+              <div data-netlify-recaptcha="true"></div>
               <v-btn
                 class="white--text subtitle-2 mx-2"
                 x-large color="green"
@@ -132,7 +153,13 @@
             >
               {{ newletter[getLang] }}
             </p>
-            <form class="d-flex flex-column align-center" name="newsletter-oldphone" data-netlify="true" data-netlify-honeypot="bot-field">
+            <form
+              class="d-flex flex-column align-center"
+              name="newsletter-oldphone"
+              data-netlify="true"
+              data-netlify-honeypot="bot-field"
+              data-netlify-recaptcha="true"
+            >
               <input type="hidden" name="form-name" value="newsletter-oldphone" />
               <v-text-field
                 v-model="email"
@@ -145,6 +172,7 @@
                 :placeholder="emailPlaceholder[getLang]"
                 color="black"
               />
+              <div data-netlify-recaptcha="true"></div>
               <v-btn
                 class="white--text subtitle-2"
                 color="green"
@@ -287,16 +315,14 @@ export default {
         this.btnLoading = true
         this.$store.dispatch('mcSubscribe', { email: this.email, tag: this.getLang })
           .then(res => {
-            if (200 == res.status) {
-              // success
+            if (200 == res.status) { // success
               this.dialogText.en = "You've subscribed to our newsletter!"
               this.dialogText.gr = "Εγγραφήκατε στο newsletter μας!"
             }
             this.btnLoading = false
             this.dialog = true
           })
-          .catch(err => {
-            // server-side error
+          .catch(err => { // server-side error
             if ("Member Exists" == err.response.data.title) {
               this.dialogText.en = "You're already subscribed!"
               this.dialogText.gr = 'Είστε ήδη εγγεγραμμένοι!'
