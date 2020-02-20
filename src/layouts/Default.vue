@@ -149,7 +149,12 @@ export default {
     ...mapGetters(['getLang']),
   },
   methods: {
-    ...mapMutations(['setLang'])
+    ...mapMutations(['setLang']),
+    track () {
+      this.$gtag.pageview({
+        page_path: '/',
+      })
+    }
   },
 }
 </script>
