@@ -1,8 +1,9 @@
 <template>
   <Layout>
     <v-img
+      height="100%"
+      style="height:87vh;"
       :key="images[imageId].img"
-      :height="0.85 * windowHeight"
       :src="images[imageId].img"
       :lazy-src="images[imageId].lazy"
       eager
@@ -177,12 +178,10 @@
 </template>
 
 <script>
-import { vueWindowSizeMixin } from 'vue-window-size';
 import { mapGetters } from 'vuex'
 import { required, email } from 'vuelidate/lib/validators'
 
 export default {
-  mixins: [vueWindowSizeMixin],
   validations: {
     email: { required, email },
   },
@@ -254,19 +253,6 @@ export default {
   },
   computed: {
     ...mapGetters(['getLang']),
-    // getNewsletterCol () {
-    //   switch (this.$vuetify.breakpoint.name) {
-    //     case 'xs':
-    //       return '9'
-    //     case 'sm':
-    //       return '8'
-    //     case 'md':
-    //       return '7'
-    //     case 'lg':
-    //     case 'xl':
-    //       return '6'
-    //   }
-    // },
     isXsmall () {
       return this.$vuetify.breakpoint.name ? true : false
     },
@@ -296,9 +282,14 @@ export default {
           })
           .catch(err => {
             // server-side error
-            if ("Member Exists" == err.response.data.title) {
-              this.dialogText.en = "You're already subscribed!"
-              this.dialogText.gr = 'Είστε ήδη εγγεγραμμένοι!'
+            if (err) {
+              if ("Member Exists" == err.response.data.title) {
+                this.dialogText.en = "You're already subscribed!"
+                this.dialogText.gr = 'Είστε ήδη εγγεγραμμένοι!'
+              } else {
+                this.dialogText.en = 'An internal error has occured!'
+                this.dialogText.gr = 'Κάποιο σφάλμα προέκυψε!'
+              }
             } else {
               this.dialogText.en = 'An internal error has occured!'
               this.dialogText.gr = 'Κάποιο σφάλμα προέκυψε!'
