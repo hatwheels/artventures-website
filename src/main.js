@@ -56,7 +56,7 @@ export default function (Vue, { appOptions, router, head, isClient }) {
   Vue.use(Vuelidate)
 
   Vue.use(VueGtag, {
-    config: { id: "GTM-WL6JHK3" }
+    config: { id: "UA-158832476-1" }
   })
 
   Vue.mixin({
