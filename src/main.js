@@ -3,7 +3,6 @@
 import Vuetify from 'vuetify'
 import Vuex from 'vuex'
 import Vuelidate from 'vuelidate'
-import VueGtag from "vue-gtag"
 import './assets/style/index.scss'
 import DefaultLayout from '~/layouts/Default.vue'
 import axios from 'axios'
@@ -54,10 +53,6 @@ export default function (Vue, { appOptions, router, head, isClient }) {
   appOptions.store = new Vuex.Store(vuexOpts)
 
   Vue.use(Vuelidate)
-
-  Vue.use(VueGtag, {
-    config: { id: "UA-158832476-1" }
-  })
 
   Vue.mixin({
     data() {
