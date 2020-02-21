@@ -1,14 +1,12 @@
 <template>
   <Layout>
     <v-img
-      :height="0.85 * windowHeight"
-      gradient="to top right, rgba(100,100,100,.25), rgba(100,100,100,.25)"
-      :src="image.img ?
-        require('~/assets/images/' + image.img) :
-        require('~/assets/images/' + images[imageId].img)"
-      :lazy-src="image.lazy ?
-        require('~/assets/images/' + image.lazy) :
-        require('~/assets/images/' + images[imageId].lazy)"
+      height="100%"
+      style="height:87vh;"
+      :key="images[imageId].img"
+      :src="images[imageId].img"
+      :lazy-src="images[imageId].lazy"
+      eager
     >
       <v-container fluid fill-height>
 
@@ -30,7 +28,7 @@
             <p class="mb-4 caption white--text text-center no-cursor" v-html="subtitle[getLang]"></p>
           </v-col>
         </v-row>
-        
+        <VueRecaptcha :sitekey="sitekey" :loadRecaptchaScript="true" size="invisible" @verify="validate" />
         <v-row :no-gutters="isXsmall" align="center" justify="center">
           <v-col class="hidden-md-and-down" cols="6">
             <p
@@ -212,20 +210,20 @@
 </template>
 
 <script>
-import { vueWindowSizeMixin } from 'vue-window-size';
 import { mapGetters } from 'vuex'
 import { required, email } from 'vuelidate/lib/validators'
+import VueRecaptcha from 'vue-recaptcha'
 
 export default {
-  mixins: [vueWindowSizeMixin],
+  components: {
+    VueRecaptcha
+  },
   validations: {
     email: { required, email },
   },
   created () {
     let self = this
     setInterval(() => {
-      self.image.lazy = self.images[self.imageId].lazy
-      self.image.img = self.images[self.imageId].img
       self.imageId = (self.imageId + 1) % self.images.length
     }, 10000)
   },
@@ -254,12 +252,20 @@ export default {
       },
       // Images
       images: [
-        { img: "img03.png", lazy: "lazy-img03.png" },
-        { img: "img01.png", lazy: "lazy-img01.png" },
-        { img: "img02.png", lazy: "lazy-img02.png" },
+        {
+          img: "https://res.cloudinary.com/de1jgt6c5/image/upload/v1582236536/artventures/img01.png",
+          lazy: "https://res.cloudinary.com/de1jgt6c5/image/upload/w_400,e_blur:1200/v1582236536/artventures/img01.png"
+        },
+        {
+          img: "https://res.cloudinary.com/de1jgt6c5/image/upload/v1582236536/artventures/img02.png",
+          lazy: "https://res.cloudinary.com/de1jgt6c5/image/upload/w_400,e_blur:1200/v1582236536/artventures/img02.png"
+        },
+        {
+          img: "https://res.cloudinary.com/de1jgt6c5/image/upload/v1582236536/artventures/img03.png",
+          lazy: "https://res.cloudinary.com/de1jgt6c5/image/upload/w_400,e_blur:1200/v1582236536/artventures/img03.png"
+        },
       ],
-      imageId: 0,
-      image: { img: null, lazy: null },
+      imageId: Math.floor(Math.random() * 3),
       // Form
       email: '',
       errMsg: {
@@ -279,23 +285,12 @@ export default {
         en: ""
       },
       btnLoading: false,
+      // Recaptcha
+      sitekey: "6LdI3NoUAAAAAKjAi-LI4GUFkcPuZOaP5v0sU1b9"//process.env.GRIDSOME_RECAPTCHA_PUBLIC_KEY,
     }
   },
   computed: {
     ...mapGetters(['getLang']),
-    // getNewsletterCol () {
-    //   switch (this.$vuetify.breakpoint.name) {
-    //     case 'xs':
-    //       return '9'
-    //     case 'sm':
-    //       return '8'
-    //     case 'md':
-    //       return '7'
-    //     case 'lg':
-    //     case 'xl':
-    //       return '6'
-    //   }
-    // },
     isXsmall () {
       return this.$vuetify.breakpoint.name ? true : false
     },
@@ -309,6 +304,13 @@ export default {
     },
   },
   methods: {
+    validate (response) {
+      this.$store.dispatch('recaptchaVerify', {  })
+        .then(res => {
+
+        })
+        .catch()
+    },
     submit () {
       this.$v.$touch()
       if (!this.$v.$invalid) { // no errors
@@ -322,10 +324,16 @@ export default {
             this.btnLoading = false
             this.dialog = true
           })
-          .catch(err => { // server-side error
-            if ("Member Exists" == err.response.data.title) {
-              this.dialogText.en = "You're already subscribed!"
-              this.dialogText.gr = 'Είστε ήδη εγγεγραμμένοι!'
+          .catch(err => {
+            // server-side error
+            if (err) {
+              if ("Member Exists" == err.response.data.title) {
+                this.dialogText.en = "You're already subscribed!"
+                this.dialogText.gr = 'Είστε ήδη εγγεγραμμένοι!'
+              } else {
+                this.dialogText.en = 'An internal error has occured!'
+                this.dialogText.gr = 'Κάποιο σφάλμα προέκυψε!'
+              }
             } else {
               this.dialogText.en = 'An internal error has occured!'
               this.dialogText.gr = 'Κάποιο σφάλμα προέκυψε!'

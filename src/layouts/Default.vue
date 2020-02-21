@@ -4,7 +4,7 @@
       <v-btn color="transparent" class="mx-1" text icon to="/">
         <v-img
           class="flex-grow-0"
-          :src="require('~/assets/images/artventures-logo.png')"
+          src="https://res.cloudinary.com/de1jgt6c5/image/upload/v1582236469/artventures/artventures-logo.png"
           height="54px" width="84px"
           contain
         />
@@ -149,7 +149,12 @@ export default {
     ...mapGetters(['getLang']),
   },
   methods: {
-    ...mapMutations(['setLang'])
+    ...mapMutations(['setLang']),
+    track () {
+      this.$gtag.pageview({
+        page_path: '/',
+      })
+    }
   },
 }
 </script>
