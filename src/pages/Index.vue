@@ -28,7 +28,7 @@
             <p class="mb-4 caption white--text text-center no-cursor" v-html="subtitle[getLang]"></p>
           </v-col>
         </v-row>
-        
+        <VueRecaptcha :sitekey="sitekey" :loadRecaptchaScript="true" size="invisible" @verify="validate" />
         <v-row :no-gutters="isXsmall" align="center" justify="center">
           <v-col class="hidden-md-and-down" cols="6">
             <p
@@ -180,8 +180,12 @@
 <script>
 import { mapGetters } from 'vuex'
 import { required, email } from 'vuelidate/lib/validators'
+import VueRecaptcha from 'vue-recaptcha'
 
 export default {
+  components: {
+    VueRecaptcha
+  },
   validations: {
     email: { required, email },
   },
@@ -249,6 +253,8 @@ export default {
         en: ""
       },
       btnLoading: false,
+      // Recaptcha
+      sitekey: "6LdI3NoUAAAAAKjAi-LI4GUFkcPuZOaP5v0sU1b9"//process.env.GRIDSOME_RECAPTCHA_PUBLIC_KEY,
     }
   },
   computed: {
@@ -266,6 +272,13 @@ export default {
     },
   },
   methods: {
+    validate (response) {
+      this.$store.dispatch('recaptchaVerify', {  })
+        .then(res => {
+
+        })
+        .catch()
+    },
     submit () {
       this.$v.$touch()
       if (!this.$v.$invalid) { // no errors

@@ -33,7 +33,13 @@ export default function (Vue, { appOptions, router, head, isClient }) {
             }
           }
         )
-      }
+      },
+      async recaptchaVerify({commit}, params) {
+        return await axios.post('https://www.artventures.me/.netlify/functions/recaptcha',
+          {
+            
+          })
+      },
     },
     state: {
       lang: 'en'
