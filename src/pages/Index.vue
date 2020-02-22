@@ -1,34 +1,31 @@
 <template>
   <Layout>
+    <v-content :style="$vuetify.breakpoint.name == 'xs' ? 'height:115vh;' : 'height:100vh;'">
     <v-img
       height="100%"
-      style="height:87vh;"
       :key="images[imageId].img"
       :src="images[imageId].img"
       :lazy-src="images[imageId].lazy"
+      :gradient="this.getAvGradient"
       eager
     >
-      <v-container class="overlay-on-text" fluid fill-height>
+      <v-container fluid fill-height>
 
         <v-row :no-gutters="isXsmall" align="center" justify="center">
-          <v-col style="cursor: default;" class="hidden-md-and-down" cols="8">
-            <p class="font-weight-bold display-2 white--text text-center">{{ title[getLang] }}</p>
-            <p class="headline white--text text-center no-cursor" v-html="subtitle[getLang]"></p>
-          </v-col>
-          <v-col style="cursor: default;" class="hidden-lg-and-up hidden-sm-and-down" cols="8">
-            <p class="font-weight-bold display-1 white--text text-center no-cursor">{{ title[getLang] }}</p>
-            <p class="title white--text text-center no-cursor" v-html="subtitle[getLang]"></p>
+          <v-col style="cursor: default;" class="hidden-sm-and-down" cols="10">
+            <p class="font-weight-bold display-3 white--text text-center">{{ title[getLang] }}</p>
+            <p class="display-1 white--text text-center no-cursor" v-html="subtitle[getLang]"></p>
           </v-col>
           <v-col style="cursor: default;" class="hidden-md-and-up hidden-xs-only" cols="11">
-            <p class="font-weight-bold headline white--text text-center no-cursor">{{ title[getLang] }}</p>
-            <p class="subtitle-1 white--text text-center no-cursor" v-html="subtitle[getLang]"></p>
+            <p class="mb-2 font-weight-bold display-1 white--text text-center no-cursor">{{ title[getLang] }}</p>
+            <p class="mb-4 title white--text text-center no-cursor" v-html="subtitle[getLang]"></p>
           </v-col>
           <v-col style="cursor: default;" class="hidden-sm-and-up" cols="11">
-            <p class="mb-2 font-weight-bold title white--text text-center no-cursor">{{ title[getLang] }}</p>
-            <p class="mb-4 caption white--text text-center no-cursor" v-html="subtitle[getLang]"></p>
+            <p class="mb-2 font-weight-bold headline white--text text-center no-cursor">{{ title[getLang] }}</p>
+            <p class="mb-4 subtitle-1 white--text text-center no-cursor" v-html="subtitle[getLang]"></p>
           </v-col>
         </v-row>
-        
+
         <v-row :no-gutters="isXsmall" align="center" justify="center">
           <v-col class="hidden-md-and-down" cols="6">
             <p
@@ -48,10 +45,9 @@
                 single-line
                 :placeholder="emailPlaceholder[getLang]"
                 color="black"
-              >
-              </v-text-field>
+              />
               <v-btn
-                class="white--text subtitle-2 mx-2"
+                class="white--text subtitle-1 mx-2 text-center"
                 x-large color="green"
                 v-html="emailText[getLang]"
                 :disabled="btnLoading"
@@ -81,7 +77,7 @@
               >
               </v-text-field>
               <v-btn
-                class="white--text subtitle-2 mx-2"
+                class="white--text subtitle-1 mx-2 text-center"
                 x-large color="green"
                 v-html="emailText[getLang]"
                 :disabled="btnLoading"
@@ -111,7 +107,7 @@
               >
               </v-text-field>
               <v-btn
-                class="white--text subtitle-2 mx-2"
+                class="white--text subtitle-2 mx-2 text-center"
                 x-large color="green"
                 v-html="emailText[getLang]"
                 :disabled="btnLoading"
@@ -140,7 +136,7 @@
                 color="black"
               />
               <v-btn
-                class="white--text subtitle-2"
+                class="white--text subtitle-2 text-center"
                 color="green"
                 v-html="emailText[getLang]"
                 :disabled="btnLoading"
@@ -174,6 +170,7 @@
 
       </v-container>
     </v-img>
+    </v-content>
   </Layout>
 </template>
 
@@ -252,7 +249,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getLang']),
+    ...mapGetters(['getLang', 'getAvGradient']),
     isXsmall () {
       return this.$vuetify.breakpoint.name ? true : false
     },
@@ -266,14 +263,14 @@ export default {
     },
   },
   methods: {
+    // Forms
     submit () {
       this.$v.$touch()
       if (!this.$v.$invalid) { // no errors
         this.btnLoading = true
         this.$store.dispatch('mcSubscribe', { email: this.email, tag: this.getLang })
           .then(res => {
-            if (200 == res.status) {
-              // success
+            if (200 == res.status) { // success
               this.dialogText.en = "You've subscribed to our newsletter!"
               this.dialogText.gr = "Εγγραφήκατε στο newsletter μας!"
             }
@@ -322,8 +319,5 @@ export default {
 <style>
 .v-input__append-outer {
   margin:0 !important;
-}
-.overlay-on-text {
-  background-color: rgba(100, 100, 100, 0.25);
 }
 </style>

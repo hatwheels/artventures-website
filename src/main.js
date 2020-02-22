@@ -33,14 +33,18 @@ export default function (Vue, { appOptions, router, head, isClient }) {
             }
           }
         )
-      }
+      },
     },
     state: {
-      lang: 'en'
+      lang: 'en',
+      avGradient: 'to left, rgba(0,0,0,.40), rgba(100,100,100,.40)'
     },
     getters: {
       getLang: state => {
         return state.lang
+      },
+      getAvGradient: state => {
+        return state.avGradient
       }
     },
     mutations: {

@@ -12,6 +12,6 @@ module.exports = {
       options: {
         id: 'UA-158832476-1'
       }
-    }
+    },
   ]
 }

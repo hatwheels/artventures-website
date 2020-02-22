@@ -68,58 +68,54 @@
         </v-menu>
       </v-toolbar-items>
     </v-app-bar>
-    <v-content>
-      <v-container class="px-0 py-0" fluid>
-        <slot />
-      </v-container>
-    </v-content>
-      <v-footer
-        app
-        color="white"
-        absolute
-      >
-        <span class="black--text"><strong>Artventures</strong> &copy; 2020</span>
-        
-        <div class="flex-grow-1"/>
+    <slot />
+    <v-footer
+      app
+      color="white"
+      absolute
+    >
+      <span class="black--text"><strong>Artventures</strong> &copy; 2020</span>
+      
+      <div class="flex-grow-1" />
 
-        <div class="flex-grow-1"/>
-        <v-btn class="hidden-lg-and-down" large text icon color="rgb(59,89,152)" href="https://www.facebook.com/artventures.me">
-          <v-icon>mdi-facebook-box</v-icon>
-        </v-btn>
-        <v-btn class="hidden-xl-only hidden-xs-only" text icon color="rgb(59,89,152)" href="https://www.facebook.com/artventures.me">
-          <v-icon>mdi-facebook-box</v-icon>
-        </v-btn>
-        <v-btn class="hidden-sm-and-up" small text icon color="rgb(59,89,152)" href="https://www.facebook.com/artventures.me">
-          <v-icon>mdi-facebook-box</v-icon>
-        </v-btn>
-        <v-btn class="hidden-lg-and-down" large text icon color="rgb(193,53,132)" href="https://www.instagram.com/artventures.me/">
-          <v-icon>mdi-instagram</v-icon>
-        </v-btn>
-        <v-btn class="hidden-xl-only hidden-xs-only" text icon color="rgb(193,53,132)" href="https://www.instagram.com/artventures.me/">
-          <v-icon>mdi-instagram</v-icon>
-        </v-btn>
-        <v-btn class="hidden-sm-and-up" small text icon color="rgb(193,53,132)" href="https://www.instagram.com/artventures.me/">
-          <v-icon>mdi-instagram</v-icon>
-        </v-btn>
-        <v-btn class="hidden-lg-and-down" large text icon color="rgb(29,161,242)" href="https://twitter.com/Artventures6">
-          <v-icon>mdi-twitter-box</v-icon>
-        </v-btn>
-        <v-btn class="hidden-xl-only hidden-xs-only" text icon color="rgb(29,161,242)" href="https://twitter.com/Artventures6">
-          <v-icon>mdi-twitter-box</v-icon>
-        </v-btn>
-        <v-btn class="hidden-sm-and-up" small text icon color="rgb(29,161,242)" href="https://twitter.com/Artventures6">
-          <v-icon>mdi-twitter-box</v-icon>
-        </v-btn>
-        <v-btn class="hidden-lg-and-down" large text icon color="rgb(0,119,181)" href="https://www.linkedin.com/company/artventuresco">
-          <v-icon>mdi-linkedin-box</v-icon>
-        </v-btn>
-        <v-btn class="hidden-xl-only hidden-xs-only" text icon color="rgb(0,119,181)" href="https://www.linkedin.com/company/artventuresco">
-          <v-icon>mdi-linkedin-box</v-icon>
-        </v-btn>
-        <v-btn class="hidden-sm-and-up" small text icon color="rgb(0,119,181)" href="https://www.linkedin.com/company/artventuresco">
-          <v-icon>mdi-linkedin-box</v-icon>
-        </v-btn>
-      </v-footer>
+      <div class="flex-grow-1" />
+      <v-btn class="hidden-lg-and-down" large text icon color="rgb(59,89,152)" href="https://www.facebook.com/artventures.me">
+        <v-icon>mdi-facebook-box</v-icon>
+      </v-btn>
+      <v-btn class="hidden-xl-only hidden-xs-only" text icon color="rgb(59,89,152)" href="https://www.facebook.com/artventures.me">
+        <v-icon>mdi-facebook-box</v-icon>
+      </v-btn>
+      <v-btn class="hidden-sm-and-up" small text icon color="rgb(59,89,152)" href="https://www.facebook.com/artventures.me">
+        <v-icon>mdi-facebook-box</v-icon>
+      </v-btn>
+      <v-btn class="hidden-lg-and-down" large text icon color="rgb(193,53,132)" href="https://www.instagram.com/artventures.me/">
+        <v-icon>mdi-instagram</v-icon>
+      </v-btn>
+      <v-btn class="hidden-xl-only hidden-xs-only" text icon color="rgb(193,53,132)" href="https://www.instagram.com/artventures.me/">
+        <v-icon>mdi-instagram</v-icon>
+      </v-btn>
+      <v-btn class="hidden-sm-and-up" small text icon color="rgb(193,53,132)" href="https://www.instagram.com/artventures.me/">
+        <v-icon>mdi-instagram</v-icon>
+      </v-btn>
+      <v-btn class="hidden-lg-and-down" large text icon color="rgb(29,161,242)" href="https://twitter.com/Artventures6">
+        <v-icon>mdi-twitter-box</v-icon>
+      </v-btn>
+      <v-btn class="hidden-xl-only hidden-xs-only" text icon color="rgb(29,161,242)" href="https://twitter.com/Artventures6">
+        <v-icon>mdi-twitter-box</v-icon>
+      </v-btn>
+      <v-btn class="hidden-sm-and-up" small text icon color="rgb(29,161,242)" href="https://twitter.com/Artventures6">
+        <v-icon>mdi-twitter-box</v-icon>
+      </v-btn>
+      <v-btn class="hidden-lg-and-down" large text icon color="rgb(0,119,181)" href="https://www.linkedin.com/company/artventuresco">
+        <v-icon>mdi-linkedin-box</v-icon>
+      </v-btn>
+      <v-btn class="hidden-xl-only hidden-xs-only" text icon color="rgb(0,119,181)" href="https://www.linkedin.com/company/artventuresco">
+        <v-icon>mdi-linkedin-box</v-icon>
+      </v-btn>
+      <v-btn class="hidden-sm-and-up" small text icon color="rgb(0,119,181)" href="https://www.linkedin.com/company/artventuresco">
+        <v-icon>mdi-linkedin-box</v-icon>
+      </v-btn>
+    </v-footer>
   </v-app>
 </template>
 
@@ -147,6 +143,14 @@ export default {
   },
   computed: {
     ...mapGetters(['getLang']),
+    setVContentHeight () {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs':
+          return true
+        default:
+          return false
+      }
+    }
   },
   methods: {
     ...mapMutations(['setLang']),
@@ -154,7 +158,7 @@ export default {
       this.$gtag.pageview({
         page_path: '/',
       })
-    }
+    },
   },
 }
 </script>

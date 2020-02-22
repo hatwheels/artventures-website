@@ -1,5 +1,5 @@
 const axios = require('axios')
-const apiRoot = 'https://us4.api.mailchimp.com/3.0/lists/1fd92341c5/members/'
+const apiRoot = process.env.MC_API_ROOT + '/members'
 const headers = {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Headers": "Content-Type"
