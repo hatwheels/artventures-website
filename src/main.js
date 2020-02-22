@@ -3,7 +3,6 @@
 import Vuetify from 'vuetify'
 import Vuex from 'vuex'
 import Vuelidate from 'vuelidate'
-import VueGtag from "vue-gtag"
 import './assets/style/index.scss'
 import DefaultLayout from '~/layouts/Default.vue'
 import axios from 'axios'
@@ -36,18 +35,19 @@ export default function (Vue, { appOptions, router, head, isClient }) {
         )
       },
       async recaptchaVerify({commit}, params) {
-        return await axios.post('https://www.artventures.me/.netlify/functions/recaptcha',
-          {
-            
-          })
+        return await axios.post('https://www.artventures.me/.netlify/functions/recaptcha', params)
       },
     },
     state: {
-      lang: 'en'
+      lang: 'en',
+      avGradient: 'to left, rgba(0,0,0,.40), rgba(100,100,100,.40)'
     },
     getters: {
       getLang: state => {
         return state.lang
+      },
+      getAvGradient: state => {
+        return state.avGradient
       }
     },
     mutations: {
@@ -60,10 +60,6 @@ export default function (Vue, { appOptions, router, head, isClient }) {
   appOptions.store = new Vuex.Store(vuexOpts)
 
   Vue.use(Vuelidate)
-
-  Vue.use(VueGtag, {
-    config: { id: "GTM-WL6JHK3" }
-  })
 
   Vue.mixin({
     data() {

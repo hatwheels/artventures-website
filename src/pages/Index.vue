@@ -1,34 +1,31 @@
 <template>
   <Layout>
+    <v-content :style="$vuetify.breakpoint.name == 'xs' ? 'height:115vh;' : 'height:100vh;'">
     <v-img
       height="100%"
-      style="height:87vh;"
       :key="images[imageId].img"
       :src="images[imageId].img"
       :lazy-src="images[imageId].lazy"
+      :gradient="this.getAvGradient"
       eager
     >
       <v-container fluid fill-height>
 
         <v-row :no-gutters="isXsmall" align="center" justify="center">
-          <v-col style="cursor: default;" class="hidden-md-and-down" cols="8">
-            <p class="font-weight-bold display-2 white--text text-center">{{ title[getLang] }}</p>
-            <p class="headline white--text text-center no-cursor" v-html="subtitle[getLang]"></p>
-          </v-col>
-          <v-col style="cursor: default;" class="hidden-lg-and-up hidden-sm-and-down" cols="8">
-            <p class="font-weight-bold display-1 white--text text-center no-cursor">{{ title[getLang] }}</p>
-            <p class="title white--text text-center no-cursor" v-html="subtitle[getLang]"></p>
+          <v-col style="cursor: default;" class="hidden-sm-and-down" cols="10">
+            <p class="font-weight-bold display-3 white--text text-center">{{ title[getLang] }}</p>
+            <p class="display-1 white--text text-center no-cursor" v-html="subtitle[getLang]"></p>
           </v-col>
           <v-col style="cursor: default;" class="hidden-md-and-up hidden-xs-only" cols="11">
-            <p class="font-weight-bold headline white--text text-center no-cursor">{{ title[getLang] }}</p>
-            <p class="subtitle-1 white--text text-center no-cursor" v-html="subtitle[getLang]"></p>
+            <p class="mb-2 font-weight-bold display-1 white--text text-center no-cursor">{{ title[getLang] }}</p>
+            <p class="mb-4 title white--text text-center no-cursor" v-html="subtitle[getLang]"></p>
           </v-col>
           <v-col style="cursor: default;" class="hidden-sm-and-up" cols="11">
-            <p class="mb-2 font-weight-bold title white--text text-center no-cursor">{{ title[getLang] }}</p>
-            <p class="mb-4 caption white--text text-center no-cursor" v-html="subtitle[getLang]"></p>
+            <p class="mb-2 font-weight-bold headline white--text text-center no-cursor">{{ title[getLang] }}</p>
+            <p class="mb-4 subtitle-1 white--text text-center no-cursor" v-html="subtitle[getLang]"></p>
           </v-col>
         </v-row>
-        <VueRecaptcha :sitekey="sitekey" :loadRecaptchaScript="true" size="invisible" @verify="validate" />
+
         <v-row :no-gutters="isXsmall" align="center" justify="center">
           <v-col class="hidden-md-and-down" cols="6">
             <p
@@ -37,14 +34,7 @@
             >
               {{ newletter[getLang] }}
             </p>
-            <form
-              class="d-flex"
-              name="newsletter-desktop"
-              data-netlify="true"
-              data-netlify-honeypot="bot-field"
-              data-netlify-recaptcha="true"
-            >
-              <input type="hidden" name="form-name" value="newsletter-desktop" />
+            <form class="d-flex">
               <v-text-field
                 v-model="email"
                 :error-messages="emailErrors"
@@ -55,16 +45,24 @@
                 single-line
                 :placeholder="emailPlaceholder[getLang]"
                 color="black"
-              >
-              </v-text-field>
-              <div data-netlify-recaptcha="true"></div>
+              />
+              <vue-recaptcha
+                hidden
+                ref="recaptcha1"
+                :sitekey="sitekey"
+                :loadRecaptchaScript="true"
+                size="invisible"
+                badge="inline"
+                @verify="validate"
+                @expired="onExpired"
+              ></vue-recaptcha>
               <v-btn
-                class="white--text subtitle-2 mx-2"
+                class="white--text subtitle-1 mx-2 text-center"
                 x-large color="green"
                 v-html="emailText[getLang]"
                 :disabled="btnLoading"
                 :loading="btnLoading"
-                @click="submit"
+                @click="submitLgXl"
               />
             </form>
           </v-col>
@@ -75,14 +73,7 @@
             >
               {{ newletter[getLang] }}
             </p>
-            <form
-              class="d-flex"
-              name="newsletter-tablet"
-              data-netlify="true"
-              data-netlify-honeypot="bot-field"
-              data-netlify-recaptcha="true"
-            >
-              <input type="hidden" name="form-name" value="newsletter-tablet" />
+            <form class="d-flex">
               <v-text-field
                 v-model="email"
                 :error-messages="emailErrors"
@@ -95,9 +86,8 @@
                 color="black"
               >
               </v-text-field>
-              <div data-netlify-recaptcha="true"></div>
               <v-btn
-                class="white--text subtitle-2 mx-2"
+                class="white--text subtitle-1 mx-2 text-center"
                 x-large color="green"
                 v-html="emailText[getLang]"
                 :disabled="btnLoading"
@@ -113,14 +103,7 @@
             >
               {{ newletter[getLang] }}
             </p>
-            <form
-              class="d-flex"
-              name="newsletter-smartphone"
-              data-netlify="true"
-              data-netlify-honeypot="bot-field"
-              data-netlify-recaptcha="true"
-            >
-              <input type="hidden" name="form-name" value="newsletter-smartphone" />
+            <form class="d-flex">
               <v-text-field
                 v-model="email"
                 :error-messages="emailErrors"
@@ -133,9 +116,8 @@
                 color="black"
               >
               </v-text-field>
-              <div data-netlify-recaptcha="true"></div>
               <v-btn
-                class="white--text subtitle-2 mx-2"
+                class="white--text subtitle-2 mx-2 text-center"
                 x-large color="green"
                 v-html="emailText[getLang]"
                 :disabled="btnLoading"
@@ -151,14 +133,7 @@
             >
               {{ newletter[getLang] }}
             </p>
-            <form
-              class="d-flex flex-column align-center"
-              name="newsletter-oldphone"
-              data-netlify="true"
-              data-netlify-honeypot="bot-field"
-              data-netlify-recaptcha="true"
-            >
-              <input type="hidden" name="form-name" value="newsletter-oldphone" />
+            <form class="d-flex flex-column align-center">
               <v-text-field
                 v-model="email"
                 :error-messages="emailErrors"
@@ -170,9 +145,8 @@
                 :placeholder="emailPlaceholder[getLang]"
                 color="black"
               />
-              <div data-netlify-recaptcha="true"></div>
               <v-btn
-                class="white--text subtitle-2"
+                class="white--text subtitle-2 text-center"
                 color="green"
                 v-html="emailText[getLang]"
                 :disabled="btnLoading"
@@ -206,6 +180,7 @@
 
       </v-container>
     </v-img>
+    </v-content>
   </Layout>
 </template>
 
@@ -290,7 +265,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getLang']),
+    ...mapGetters(['getLang', 'getAvGradient']),
     isXsmall () {
       return this.$vuetify.breakpoint.name ? true : false
     },
@@ -304,12 +279,21 @@ export default {
     },
   },
   methods: {
+    // ReCAPTCHA
     validate (response) {
-      this.$store.dispatch('recaptchaVerify', {  })
+      this.$store.dispatch('recaptchaVerify', { Response: response })
         .then(res => {
-
+          if (200 == res.status) { // success
+            this.submit()
+          }
         })
-        .catch()
+        .catch(err => console.log(err))
+    },
+    onExpired () {
+      this.$refs.recaptcha1.reset()
+    },
+    submitLgXl () {
+      this.$refs.recaptcha1.execute()
     },
     submit () {
       this.$v.$touch()
