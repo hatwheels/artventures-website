@@ -46,23 +46,13 @@
                 :placeholder="emailPlaceholder[getLang]"
                 color="black"
               />
-              <vue-recaptcha
-                hidden
-                ref="recaptcha1"
-                :sitekey="sitekey"
-                :loadRecaptchaScript="true"
-                size="invisible"
-                badge="inline"
-                @verify="validate"
-                @expired="onExpired"
-              ></vue-recaptcha>
               <v-btn
                 class="white--text subtitle-1 mx-2 text-center"
                 x-large color="green"
                 v-html="emailText[getLang]"
                 :disabled="btnLoading"
                 :loading="btnLoading"
-                @click="submitLgXl"
+                @click="submit"
               />
             </form>
           </v-col>
@@ -187,12 +177,8 @@
 <script>
 import { mapGetters } from 'vuex'
 import { required, email } from 'vuelidate/lib/validators'
-import VueRecaptcha from 'vue-recaptcha'
 
 export default {
-  components: {
-    VueRecaptcha
-  },
   validations: {
     email: { required, email },
   },
@@ -260,8 +246,6 @@ export default {
         en: ""
       },
       btnLoading: false,
-      // Recaptcha
-      sitekey: "6LdI3NoUAAAAAKjAi-LI4GUFkcPuZOaP5v0sU1b9"//process.env.GRIDSOME_RECAPTCHA_PUBLIC_KEY,
     }
   },
   computed: {
@@ -279,22 +263,7 @@ export default {
     },
   },
   methods: {
-    // ReCAPTCHA
-    validate (response) {
-      this.$store.dispatch('recaptchaVerify', { Response: response })
-        .then(res => {
-          if (200 == res.status) { // success
-            this.submit()
-          }
-        })
-        .catch(err => console.log(err))
-    },
-    onExpired () {
-      this.$refs.recaptcha1.reset()
-    },
-    submitLgXl () {
-      this.$refs.recaptcha1.execute()
-    },
+    // Forms
     submit () {
       this.$v.$touch()
       if (!this.$v.$invalid) { // no errors
