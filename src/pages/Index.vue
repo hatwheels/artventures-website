@@ -1,6 +1,6 @@
 <template>
   <Layout>
-    <v-content :style="$vuetify.breakpoint.name == 'xs' ? 'height:115vh;' : 'height:100vh;'">
+    <v-content :style="'height:' + setVContentHeight">
     <v-img
       height="100%"
       :key="images[imageId].img"
@@ -32,7 +32,7 @@
               style="cursor: default;"
               class="font-weight-bold headline white--text text-center no-cursor"
             >
-              {{ newletter[getLang] }}
+              {{ newsletter[getLang] }}
             </p>
             <form class="d-flex">
               <v-text-field
@@ -61,7 +61,7 @@
               style="cursor: default;"
               class="font-weight-bold title white--text text-center no-cursor"
             >
-              {{ newletter[getLang] }}
+              {{ newsletter[getLang] }}
             </p>
             <form class="d-flex">
               <v-text-field
@@ -91,7 +91,7 @@
               style="cursor: default;"
               class="font-weight-bold subtitle-1 white--text text-center no-cursor"
             >
-              {{ newletter[getLang] }}
+              {{ newsletter[getLang] }}
             </p>
             <form class="d-flex">
               <v-text-field
@@ -121,7 +121,7 @@
               style="cursor: default;"
               class="mb-2 font-weight-bold subtitle-2 white--text text-center no-cursor"
             >
-              {{ newletter[getLang] }}
+              {{ newsletter[getLang] }}
             </p>
             <form class="d-flex flex-column align-center">
               <v-text-field
@@ -199,10 +199,10 @@ export default {
         gr: "Βάλε Τέχνη στη ζωή σου. Στο χώρο σου.<br> Κι άλλαξε την όποτε θες. Εύκολα. Γρήγορα. Οικονομικά... Τώρα.",
         en: "Put Art in your Life. In your space.<br> And change it whenever you want. Easy. Quickly. Affordably... Now.",
       },
-      newletter: [
-        { gr: "ΜΑΘΕ ΚΑΙ ΔΙΑΛΕΞΕ ΠΡΩΤΟΣ" },
-        { en: "BE THE FIRST TO KNOW" },
-      ],
+      newsletter: {
+        gr: "ΜΑΘΕ ΚΑΙ ΔΙΑΛΕΞΕ ΠΡΩΤΟΣ" ,
+        en: "BE THE FIRST TO KNOW"
+      },
       emailText: {
         gr: '<span class="text-capitalize">Ζήσε</span>&nbsp;<span class="text-lowercase">την πρώτη σου</span>&nbsp;<span class="text-capitalize">Artventure</span>' ,
         en:'<span class="text-capitalize">Live</span>&nbsp;<span class="text-lowercase">your first</span>&nbsp;<span class="text-capitalize">Artventure</span>',
@@ -261,6 +261,15 @@ export default {
       !this.$v.email.required && errors.push(this.errMsg.empty[this.getLang])
       return errors
     },
+    setVContentHeight () {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs':
+          return '130vh'
+        case 'sm':
+          return '115vh';
+        default: return '100vh';
+      }
+    }
   },
   methods: {
     // Forms
