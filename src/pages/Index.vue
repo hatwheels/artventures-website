@@ -214,15 +214,15 @@ export default {
       // Images
       images: [
         {
-          img: "https://res.cloudinary.com/de1jgt6c5/image/upload/v1582236536/artventures/img01.png",
+          img: "https://res.cloudinary.com/de1jgt6c5/image/upload/c_scale,w_800/v1582236536/artventures/img01.png",
           lazy: "https://res.cloudinary.com/de1jgt6c5/image/upload/w_400,e_blur:1200/v1582236536/artventures/img01.png"
         },
         {
-          img: "https://res.cloudinary.com/de1jgt6c5/image/upload/v1582236536/artventures/img02.png",
+          img: "https://res.cloudinary.com/de1jgt6c5/image/upload/c_scale,w_800/v1582236610/artventures/img02.png",
           lazy: "https://res.cloudinary.com/de1jgt6c5/image/upload/w_400,e_blur:1200/v1582236536/artventures/img02.png"
         },
         {
-          img: "https://res.cloudinary.com/de1jgt6c5/image/upload/v1582236536/artventures/img03.png",
+          img: "https://res.cloudinary.com/de1jgt6c5/image/upload/c_scale,w_800/v1582236610/artventures/img03.png",
           lazy: "https://res.cloudinary.com/de1jgt6c5/image/upload/w_400,e_blur:1200/v1582236536/artventures/img03.png"
         },
       ],
