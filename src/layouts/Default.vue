@@ -1,12 +1,9 @@
 <template>
   <v-app>
     <v-app-bar app absolute color="white">
-      <v-btn color="transparent" class="mx-1" text icon to="/">
+      <v-btn width="130px" color="transparent" text icon to="/">/
         <v-img
-          class="flex-grow-0"
-          src="https://res.cloudinary.com/de1jgt6c5/image/upload/v1582236469/artventures/artventures-logo.png"
-          height="54px" width="84px"
-          contain
+          src="https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto,h_64,w_auto/v1583838043/artventures/artventures_logo.svg"
         />
       </v-btn>
       <v-spacer />
