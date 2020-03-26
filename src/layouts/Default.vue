@@ -121,7 +121,7 @@
                       <v-list-item-icon class="mx-0">
                         <v-icon small color="#757575">mdi-chevron-double-left</v-icon>
                       </v-list-item-icon>
-                      <v-list-item-title style="color: #333333" class="subtitle-2">Back</v-list-item-title>
+                      <v-list-item-title style="color: #333333" class="body-2">Back</v-list-item-title>
                     </v-list-item>
                     <v-list-item class="pb-5 px-0" v-for="(route, i) in routes.explore.routes" :key="'modal-route-' + i" :to="route.route">
                       <v-list-item-title class="display-1" v-html="route[getLang]" />
@@ -142,48 +142,49 @@
 
     <v-footer
       app
-      color="white"
+      color="#dddddd"
       absolute
+      class="px-12 py-9"
     >
-      <span class="black--text"><strong>Artventures</strong> &copy; 2020</span>
+      <div style="color: #757575" class="subtitle-2"><span style="color: #000000; font-weight: 600;">Artventures</span> &copy; 2020</div>
       
       <div class="flex-grow-1" />
 
       <div class="flex-grow-1" />
-      <v-btn class="hidden-lg-and-down" large text icon color="rgb(59,89,152)" href="https://www.facebook.com/artventures.me">
+      <v-btn class="hidden-lg-and-down" large text icon color="black" href="https://www.facebook.com/artventures.me">
         <v-icon>mdi-facebook-box</v-icon>
       </v-btn>
-      <v-btn class="hidden-xl-only hidden-xs-only" text icon color="rgb(59,89,152)" href="https://www.facebook.com/artventures.me">
+      <v-btn class="hidden-xl-only hidden-xs-only" text icon color="black" href="https://www.facebook.com/artventures.me">
         <v-icon>mdi-facebook-box</v-icon>
       </v-btn>
-      <v-btn class="hidden-sm-and-up" small text icon color="rgb(59,89,152)" href="https://www.facebook.com/artventures.me">
+      <v-btn class="hidden-sm-and-up" small text icon color="black" href="https://www.facebook.com/artventures.me">
         <v-icon>mdi-facebook-box</v-icon>
       </v-btn>
-      <v-btn class="hidden-lg-and-down" large text icon color="rgb(193,53,132)" href="https://www.instagram.com/artventures.me/">
+      <v-btn class="hidden-lg-and-down" large text icon color="black" href="https://www.instagram.com/artventures.me/">
         <v-icon>mdi-instagram</v-icon>
       </v-btn>
-      <v-btn class="hidden-xl-only hidden-xs-only" text icon color="rgb(193,53,132)" href="https://www.instagram.com/artventures.me/">
+      <v-btn class="hidden-xl-only hidden-xs-only" text icon color="black" href="https://www.instagram.com/artventures.me/">
         <v-icon>mdi-instagram</v-icon>
       </v-btn>
-      <v-btn class="hidden-sm-and-up" small text icon color="rgb(193,53,132)" href="https://www.instagram.com/artventures.me/">
+      <v-btn class="hidden-sm-and-up" small text icon color="black" href="https://www.instagram.com/artventures.me/">
         <v-icon>mdi-instagram</v-icon>
       </v-btn>
-      <v-btn class="hidden-lg-and-down" large text icon color="rgb(29,161,242)" href="https://twitter.com/Artventures6">
+      <v-btn class="hidden-lg-and-down" large text icon color="black" href="https://twitter.com/Artventures6">
         <v-icon>mdi-twitter-box</v-icon>
       </v-btn>
-      <v-btn class="hidden-xl-only hidden-xs-only" text icon color="rgb(29,161,242)" href="https://twitter.com/Artventures6">
+      <v-btn class="hidden-xl-only hidden-xs-only" text icon color="black" href="https://twitter.com/Artventures6">
         <v-icon>mdi-twitter-box</v-icon>
       </v-btn>
-      <v-btn class="hidden-sm-and-up" small text icon color="rgb(29,161,242)" href="https://twitter.com/Artventures6">
+      <v-btn class="hidden-sm-and-up" small text icon color="black" href="https://twitter.com/Artventures6">
         <v-icon>mdi-twitter-box</v-icon>
       </v-btn>
-      <v-btn class="hidden-lg-and-down" large text icon color="rgb(0,119,181)" href="https://www.linkedin.com/company/artventuresco">
+      <v-btn class="hidden-lg-and-down" large text icon color="black" href="https://www.linkedin.com/company/artventuresco">
         <v-icon>mdi-linkedin-box</v-icon>
       </v-btn>
-      <v-btn class="hidden-xl-only hidden-xs-only" text icon color="rgb(0,119,181)" href="https://www.linkedin.com/company/artventuresco">
+      <v-btn class="hidden-xl-only hidden-xs-only" text icon color="black" href="https://www.linkedin.com/company/artventuresco">
         <v-icon>mdi-linkedin-box</v-icon>
       </v-btn>
-      <v-btn class="hidden-sm-and-up" small text icon color="rgb(0,119,181)" href="https://www.linkedin.com/company/artventuresco">
+      <v-btn class="hidden-sm-and-up" small text icon color="black" href="https://www.linkedin.com/company/artventuresco">
         <v-icon>mdi-linkedin-box</v-icon>
       </v-btn>
     </v-footer>
@@ -262,19 +263,26 @@ export default {
     padding-left: 0px;
     padding-right: 0px;
   }
+
   .v-application .body-1 {
     font-family: 'Nunito', sans-serif !important;
     font-size: 18px !important;
     font-weight: 600;
   }
+  .v-application .body-2 {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 15px !important;
+  }
+
   .v-application .subtitle-1 {
     font-family: 'Raleway', sans-serif !important;
     font-size: 18px !important;
   }
   .v-application .subtitle-2 {
-    font-family: 'Nunito', sans-serif !important;
-    font-size: 15px !important;
+    font-family: 'Raleway', sans-serif !important;
+    font-size: 16px !important;
   }
+
   .v-application .headline {
     font-family: 'Raleway', sans-serif !important;
     font-size: 25px !important;
