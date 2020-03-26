@@ -1,15 +1,15 @@
 <template>
   <v-app>
-    <v-app-bar app absolute color="#dddddd" height="74px">
-      <v-btn width="180px" color="transparent" text icon to="/">/
+    <v-app-bar class="hidden-sm-and-down px-11" app absolute color="#dddddd" height="76px">
+      <v-btn width="185" color="transparent" text icon to="/">/
         <v-img
-          src="https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto,h_74,w_auto/v1583838043/artventures/artventures_logo.svg"
+          src="https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto,h_76,w_auto/v1583838043/artventures/artventures_logo.svg"
         />
       </v-btn>
 
       <v-spacer />
 
-      <v-toolbar-items  class="hidden-sm-and-up">
+      <v-toolbar-items class="pa-0">
         <v-btn
           class="body-1 px-2"
           text color="transparent"
@@ -57,7 +57,7 @@
             </v-btn>
           </template>
           <v-list>
-            <v-list-item v-for="(language, i) in languages" :key="i" @click="setLang(language)">
+            <v-list-item v-for="(language, i) in languages" :key="'lang-' + i" @click="setLang(language)">
               <v-list-item-title style='color: #333333' class="text-center body-1 text-uppercase">
                 {{ language }}
               </v-list-item-title>
@@ -65,39 +65,81 @@
           </v-list>
         </v-menu>
       </v-toolbar-items>
+    </v-app-bar>
 
-      <v-toolbar-items class="hidden-md-and-up">
-        <!-- <v-menu bottom left :offset-y="true" transition="slide-y-transition">
+    <v-app-bar class="hidden-md-and-up px-3" app absolute color="#F7F7F7" height="50px">
+      <v-btn width="122px" color="transparent" text icon to="/">/
+        <v-img
+          src="https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto,h_50,w_auto/v1583838043/artventures/artventures_logo.svg"
+        />
+      </v-btn>
+
+      <v-spacer />
+
+      <v-toolbar-items class="px-0 py-0">
+        <v-dialog v-model="modalMenu" fullscreen hide-overlay>
           <template v-slot:activator="{ on }">
-            <v-btn large icon v-on="on">
-              <v-icon large>mdi-menu</v-icon>
+            <v-btn color="#333333" icon v-on="on" :ripple="false">
+              <v-icon size="28">mdi-menu</v-icon>
             </v-btn>
           </template>
-          <v-list>
-            <v-list-item to="/for-home">
-              <v-list-item-title class="subtitle-1" v-html="routes.forHome[getLang]" />
-            </v-list-item>
-            <v-list-item to="/for-home">
-              <v-list-item-title class="subtitle-1" v-html="routes.forBusiness[getLang]" />
-            </v-list-item>
-          </v-list>
-        </v-menu> -->
-        <v-menu bottom :offset-y="true" transition="slide-y-transition">
-          <template v-slot:activator="{ on }">
-            <v-btn text class="black--text" color="black--text" v-on="on" :ripple="false">
-              <div>{{ getLang }}</div>
-              <v-icon right>mdi-menu-down</v-icon>
-            </v-btn>
-          </template>
-          <v-list>
-            <v-list-item v-for="(language, i) in languages" :key="i" @click="setLang(language)">
-              <v-list-item-title class="text-center subtitle-1 text-uppercase">{{ language }}</v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
+          <v-card flat>
+            <div class="d-flex justify-space-between">
+              <v-carousel ref="menucarousel" hide-delimiter-background hide-delimiters :show-arrows="false">
+                <v-carousel-item>
+                  <v-list color="#ffffff" class="px-9 py-9">
+                    <v-list-item class="pb-5 px-0" to="/about">
+                      <v-list-item-title class="display-1" v-html="routes.about[getLang]" />
+                    </v-list-item>
+                    <v-list-item class="pb-5 px-0" @click="$refs.menucarousel.next();">
+                      <v-list-item-title class="display-1" v-html="routes.explore[getLang]" />
+                      <v-list-item-icon>
+                        <v-icon large color="#757575">mdi-chevron-double-right</v-icon>
+                      </v-list-item-icon>
+                    </v-list-item>
+                    <v-list-item class="pb-5 px-0" to="/artists">
+                      <v-list-item-title class="display-1" v-html="routes.forArtists[getLang]" />
+                    </v-list-item>
+                    <v-list-item class="pb-5 px-0" to="/faq">
+                      <v-list-item-title class="display-1" v-html="routes.faq[getLang]" />
+                    </v-list-item>
+                    <v-list-item class="pb-5 px-0">
+                      <v-btn
+                        class="headline py-4"
+                        x-large
+                        depressed
+                        color="#333333"
+                        to="#contact"
+                        v-html="routes.contact[getLang]"
+                      />
+                    </v-list-item>
+                  </v-list>
+                </v-carousel-item>
+                <v-carousel-item>
+                  <v-list color="#ffffff" class="px-9 py-9">
+                    <v-list-item class="pb-5 px-0" @click="$refs.menucarousel.prev();">
+                      <v-list-item-icon class="mx-0">
+                        <v-icon small color="#757575">mdi-chevron-double-left</v-icon>
+                      </v-list-item-icon>
+                      <v-list-item-title style="color: #333333" class="subtitle-2">Back</v-list-item-title>
+                    </v-list-item>
+                    <v-list-item class="pb-5 px-0" v-for="(route, i) in routes.explore.routes" :key="'modal-route-' + i" :to="route.route">
+                      <v-list-item-title class="display-1" v-html="route[getLang]" />
+                    </v-list-item>
+                  </v-list>
+                </v-carousel-item>
+              </v-carousel>
+              <v-btn class="mx-4 my-4" color="#333333" icon @click="modalMenu = false; modalMenuExplore = false;">
+                <v-icon color="1a1a1a">mdi-close</v-icon>
+              </v-btn>
+            </div>
+          </v-card>
+        </v-dialog>
       </v-toolbar-items>
     </v-app-bar>
+
     <slot />
+
     <v-footer
       app
       color="white"
@@ -192,7 +234,8 @@ export default {
           'gr': '<div style="color: #FFFFFF" class="text-capitalize">Επικοινωνία</div>', // Greek, raw html
           'en': '<div style="color: #FFFFFF" class="text-capitalize">Contact</div>', // English, raw html
         }
-      }
+      },
+      modalMenu: false,
     }
   },
   computed: {
@@ -214,10 +257,10 @@ export default {
 
 <style>
   .v-toolbar__content {
-    padding-bottom: 10px;
-    padding-top: 10px;
-    padding-left: 43px;
-    padding-right: 43px;
+    padding-bottom: 0px;
+    padding-top: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
   }
   .v-application .body-1 {
     font-family: 'Nunito', sans-serif !important;
@@ -227,6 +270,18 @@ export default {
   .v-application .subtitle-1 {
     font-family: 'Raleway', sans-serif !important;
     font-size: 18px !important;
+  }
+  .v-application .subtitle-2 {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 15px !important;
+  }
+  .v-application .headline {
+    font-family: 'Raleway', sans-serif !important;
+    font-size: 25px !important;
+  }
+  .v-application .display-1 {
+    font-family: 'Raleway', sans-serif !important;
+    font-size: 35px !important;
   }
 
   .v-application .caption,
@@ -240,8 +295,6 @@ export default {
   .v-application .caption,
   .v-application .overline,
   .v-application .title,
-  .v-application .headline,
-  .v-application .display-1,
   .v-application .display-2,
   .v-application .display-3,
   .v-application .display-4 {
