@@ -12,6 +12,10 @@ export default function (Vue, { appOptions, router, head, isClient }) {
     rel: 'stylesheet',
     href: 'https://fonts.googleapis.com/icon?family=Material+Icons',
   })
+  head.link.push({
+    rel: 'stylesheet',
+    href: 'https://fonts.googleapis.com/css?family=Nunito:400,600|Playfair+Display|Raleway&display=swap'
+  })
 
   const vuetifyOpts = { icons: {
     iconfont: 'mdi',
