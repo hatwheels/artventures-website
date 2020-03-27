@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar class="hidden-sm-and-down px-11" app absolute color="#dddddd" height="76px">
+    <v-app-bar flat class="hidden-sm-and-down px-11" app absolute color="#e8e8e8" height="76px">
       <v-btn width="185" color="transparent" text icon to="/">/
         <v-img
           src="https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto,h_76,w_auto/v1583838043/artventures/artventures_logo.svg"
@@ -241,14 +241,6 @@ export default {
   },
   computed: {
     ...mapGetters(['getLang']),
-    setVContentHeight () {
-      switch (this.$vuetify.breakpoint.name) {
-        case 'xs':
-          return true
-        default:
-          return false
-      }
-    }
   },
   methods: {
     ...mapMutations(['setLang']),
@@ -267,7 +259,7 @@ export default {
   .v-application .body-1 {
     font-family: 'Nunito', sans-serif !important;
     font-size: 18px !important;
-    font-weight: 600;
+    font-weight: 600 !important;
   }
   .v-application .body-2 {
     font-family: 'Nunito', sans-serif !important;
@@ -292,17 +284,9 @@ export default {
     font-size: 35px !important;
   }
 
+
   .v-application .caption,
   .v-application .overline,
-
-  .v-application .body-2,
-
-  .v-application .subtitle-2,
-  .v-application .body-1,
-  .v-application .body-2,
-  .v-application .caption,
-  .v-application .overline,
-  .v-application .title,
   .v-application .display-2,
   .v-application .display-3,
   .v-application .display-4 {
