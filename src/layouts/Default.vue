@@ -3,7 +3,7 @@
     <v-app-bar flat class="hidden-sm-and-down px-11" app absolute color="#e8e8e8" height="76px">
       <v-btn width="185" color="transparent" text icon to="/">/
         <v-img
-          src="https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto,h_76,w_auto/v1583838043/artventures/artventures_logo.svg"
+          :src="logo[0]"
         />
       </v-btn>
 
@@ -70,7 +70,7 @@
     <v-app-bar class="hidden-md-and-up px-3" app absolute color="#F7F7F7" height="50px">
       <v-btn width="122px" color="transparent" text icon to="/">/
         <v-img
-          src="https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto,h_50,w_auto/v1583838043/artventures/artventures_logo.svg"
+          :src="logo[1]"
         />
       </v-btn>
 
@@ -197,6 +197,10 @@ import { mapGetters, mapMutations } from 'vuex'
 export default {
   data () {
     return {
+      logo: [
+        'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto,h_76,w_auto/v1583838043/artventures/artventures_logo.svg',
+        'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto,h_50,w_auto/v1583838043/artventures/artventures_logo.svg',
+      ],
       routes: {
         about: {
           'gr': '<div style="color: #333333" class="text-capitalize">Αρχική</div>', // Greek, raw html
