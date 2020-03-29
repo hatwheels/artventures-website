@@ -13,7 +13,7 @@
         <v-btn
           class="body-1 px-2"
           text color="transparent"
-          to="/about"
+          to="/"
           v-html="routes.about[getLang]"
         />
         <v-menu open-on-hover bottom :offset-y="true" transition="slide-y-transition">
@@ -88,7 +88,7 @@
               <v-carousel ref="menucarousel" hide-delimiter-background hide-delimiters :show-arrows="false">
                 <v-carousel-item>
                   <v-list color="#ffffff" class="px-9 py-9">
-                    <v-list-item class="pb-5 px-0" to="/about">
+                    <v-list-item class="pb-5 px-0" to="/">
                       <v-list-item-title class="display-1" v-html="routes.about[getLang]" />
                     </v-list-item>
                     <v-list-item class="pb-5 px-0" @click="$refs.menucarousel.next();">
@@ -287,7 +287,6 @@ export default {
 
   .v-application .caption,
   .v-application .overline,
-  .v-application .display-2,
   .v-application .display-3,
   .v-application .display-4 {
     
