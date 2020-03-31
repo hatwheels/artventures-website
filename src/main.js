@@ -14,7 +14,7 @@ export default function (Vue, { appOptions, router, head, isClient }) {
   })
   head.link.push({
     rel: 'stylesheet',
-    href: 'https://fonts.googleapis.com/css?family=Nunito:400,600,700,800,900|Playfair+Display:400,600,700|Raleway:400,600,700,800,900&display=swap'
+    href: 'https://fonts.googleapis.com/css?family=Nunito:400,600,700,800,900|Playfair+Display:400,600,700|Raleway:400,600,700|Montserrat:400,600,700&display=swap'
   })
 
   const vuetifyOpts = { icons: {

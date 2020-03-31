@@ -289,7 +289,6 @@ export default {
   }
 
 
-  .v-application .caption,
   .v-application .overline,
   .v-application .display-3,
   .v-application .display-4 {
