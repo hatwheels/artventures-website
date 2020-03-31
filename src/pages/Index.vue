@@ -17,9 +17,9 @@
               </v-col>
               <v-col class="pl-2 pr-12" cols="6">
                 <div class="pr-8">
-                  <p style="color: #333333" class="title pb-7 pr-12" v-html="about.title[getLang]" />
+                  <p style="color: #333333" class="playfair-30-700 pb-7 pr-12" v-html="about.title[getLang]" />
                   <p v-for="(p, i) in about.body" :key="'aboutTextBody-' + i"
-                    style="color: #333333" class="subtitle-2 pb-4 pr-12" v-html="p[getLang]"
+                    style="color: #333333" class="raleway-16-400 pb-4 pr-12" v-html="p[getLang]"
                   />
                 </div>
               </v-col>
@@ -30,7 +30,7 @@
         <div class="py-8" />
 
         <div id="explore" class="px-12">
-          <p class="pb-10 my-0 text-center display-2" v-html="explore.title[getLang]" />
+          <p class="pb-10 my-0 text-center playfair-38-700" v-html="explore.title[getLang]" />
           <v-lazy
             v-model="explore.isActive"
             :options="{
@@ -42,9 +42,9 @@
               <v-col class="px-4" cols="4" v-for="(image, i) in explore.images" :key="'exploreImages-' + i">
                   <v-img gradient="to top right, rgba(0,0,0,.15), rgba(0,0,0,.15)" :src="image.img">
                     <div style="height: 100%" class="d-flex flex-column justify-center align-center">
-                      <p class="display-3 white--text" v-html="image.p[getLang]" />
+                      <p class="raleway-44-700 white--text" v-html="image.p[getLang]" />
                       <v-btn
-                        class="subtitle-1 white--text px-10"
+                        class="montserrat-11p5-600 white--text px-10"
                         depressed
                         x-large
                         color="#525252"
@@ -74,10 +74,10 @@
               </v-col>
               <v-col class="pl-0 pr-5 col-artists-width">
                   <div style="color: #333333">
-                    <p class="title pb-9" v-html="artists.title[getLang]" />
-                    <p class="subtitle-2 pb-8" v-html="artists.body[getLang]"/>
+                    <p class="playfair-30-700 pb-9" v-html="artists.title[getLang]" />
+                    <p class="raleway-16-400 pb-8" v-html="artists.body[getLang]"/>
                     <v-btn
-                      class="caption white--text px-10"
+                      class="montserrat-10p5-600 white--text px-10"
                       depressed
                       x-large
                       color="#525252"
@@ -93,8 +93,8 @@
                 v-for="(testimonial, i) in artists.testimonials"
                 :key="'artists-testimonials-' + i"
               >
-                <div class="body-2 text-center" v-html="testimonial.quote[getLang]" />
-                <div class="body-1 text-center pt-2" v-html="testimonial.author[getLang]" />
+                <div class="playfair-18-400 text-center" v-html="testimonial.quote[getLang]" />
+                <div class="raleway-13-600 text-center pt-2" v-html="testimonial.author[getLang]" />
               </v-col>
             </v-row>
           </v-container>
@@ -102,37 +102,63 @@
         </div>
 
         <div id="benefits" class="pt-6" style="background-color: #FAFAFA">
-          <v-row class="px-12 py-12" justify="space-between">
-            <v-col class="px-4" cols="4" v-for="(benefit, i) in benefits" :key="'benefit-' + i">
-              <v-row justify="space-between">
-                <v-col class="px-5" cols="6">
-                  <v-img contain :src="benefit.img" :lazy-src="benefit.lazy" />
-                </v-col>
-                <v-col class="px-5" style="color: #333333" cols="6">
-                  <p class="title" v-html="benefit.title[getLang]" />
-                  <p class="headline" v-html="benefit.description[getLang]" />
-                </v-col>
-              </v-row>
-            </v-col>
-          </v-row>
+          <v-lazy
+            v-model="artists.isActive"
+            :options="{
+              threshold: 1.0
+            }"
+            transition="slide-y-reverse-transition"
+          >
+            <v-row class="px-12 py-12" justify="space-between">
+              <v-col class="px-4" cols="4" v-for="(benefit, i) in benefits" :key="'benefit-' + i">
+                <v-row justify="space-between">
+                  <v-col class="px-5" cols="6">
+                    <v-img contain :src="benefit.img" :lazy-src="benefit.lazy" />
+                  </v-col>
+                  <v-col class="px-5" style="color: #333333" cols="6">
+                    <p class="playfair-30-700" v-html="benefit.title[getLang]" />
+                    <p class="raleway-16-400" v-html="benefit.description[getLang]" />
+                  </v-col>
+                </v-row>
+              </v-col>
+            </v-row>
+          </v-lazy>
         </div>
 
         <div id="media" class="pt-8 pb-12 white">
-          <p class="display-2 text-center pb-12 mb-0" style="color: #333333" v-html="media.title[getLang]" />
-          <div class="swiper-container">
-            <swiper class="swiper text-center pt-12" :options="swiperOption">
-              <swiper-slide v-for="(logo, i ) in media.logos" :key="'media-logos-' + i">
-                <img class="img-slide" :src="logo.img" />
-              </swiper-slide>
-              <div class="swiper-pagination swiper-pagination-black" slot="pagination" />
-            </swiper>
-            <div class="swiper-button-prev swiper-button-white" slot="button-prev" />
-            <div class="swiper-button-next swiper-button-white" slot="button-next" />
-          </div>
+          <v-lazy
+            v-model="artists.isActive"
+            :options="{
+              threshold: 1.0
+            }"
+            transition="slide-y-reverse-transition"
+          >
+            <div>
+              <p class="playfair-38-700 text-center pb-12 mb-0" style="color: #333333" v-html="media.title[getLang]" />
+              <div class="swiper-container">
+                <swiper class="swiper text-center pt-12" :options="swiperOption">
+                  <swiper-slide v-for="(logo, i ) in media.logos" :key="'media-logos-' + i">
+                    <img class="img-slide" :src="logo.img" />
+                  </swiper-slide>
+                  <div class="swiper-pagination swiper-pagination-black" slot="pagination" />
+                </swiper>
+                <div class="swiper-button-prev swiper-button-white" slot="button-prev" />
+                <div class="swiper-button-next swiper-button-white" slot="button-next" />
+              </div>
+            </div>
+          </v-lazy>
         </div>
 
         <div id="contact-us" class="pt-12" style="background-color: #dddddd">
-          <div class="display-2 text-center pt-12" v-html="contactus.title[getLang]" />
+          <v-lazy
+            v-model="artists.isActive"
+            :options="{
+              threshold: 1.0
+            }"
+            transition="slide-y-reverse-transition"
+          >
+            <div class="playfair-38-700 text-center pt-12" v-html="contactus.title[getLang]" />
+          </v-lazy>
         </div>
 
       </v-container>
@@ -396,46 +422,46 @@ export default {
 
   /* Text fonts */
   /* Montserrat */
-  .v-application .caption {
+  .montserrat-10p5-600 {
     font-family: 'Montserrat', sans-serif !important;
     font-size: 10.5px !important;
     font-weight: 600 !important;
   }
-  .v-application .subtitle-1 {
+  .montserrat-11p5-600 {
     font-family: 'Montserrat', sans-serif !important;
     font-size: 11.5px !important;
     font-weight: 600 !important;
   }
   /* Playfair Display */
-  .v-application .body-2 {
+  .playfair-18-400 {
     font-family: 'Playfair Display', serif !important;
     font-size: 18px !important;
     font-weight: 400 !important;
     line-height: 1.4em !important;
   }
-  .v-application .title {
+  .playfair-30-700 {
     font-family: 'Playfair Display', serif !important;
     font-size: 30px !important;
     font-weight: 700 !important;
   }
-  .v-application .display-2 {
+  .playfair-38-700 {
     font-family: 'Playfair Display', serif !important;
     font-size: 38px !important;
     font-weight: 700 !important;
   }
   /* Raleway */
-  .v-application .body-1 {
+  .raleway-13-600 {
     font-family: 'Raleway', sans-serif !important;
     font-size: 13px !important;
     font-weight: 600 !important;
   }
-  .v-application .headline {
+  .raleway-16-400 {
     font-family: 'Raleway', sans-serif !important;
     font-size: 16px !important;
     font-weight: 400 !important;
     line-height: 1.6em !important;
   }
-  .v-application .display-3 {
+  .raleway-44-700 {
     font-family: 'Raleway', sans-serif !important;
     font-size: 44px !important;
     font-weight: 700 !important;

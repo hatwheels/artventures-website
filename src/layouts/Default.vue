@@ -11,7 +11,7 @@
 
       <v-toolbar-items class="pa-0">
         <v-btn
-          class="body-1 px-2"
+          class="nunito-18-600 px-2"
           text color="transparent"
           to="/"
           v-html="routes.about[getLang]"
@@ -19,30 +19,30 @@
         <v-menu open-on-hover bottom :offset-y="true" transition="slide-y-transition">
           <template v-slot:activator="{ on }">
             <v-btn class="px-2" text color="transparent" v-on="on" :ripple="false">
-              <div style="color: #333333" class="body-1" v-html="routes.explore[getLang]"></div>
+              <div style="color: #333333" class="nunito-18-600" v-html="routes.explore[getLang]"></div>
             </v-btn>
           </template>
-          <v-list flat color="#dddddd">
+          <v-list flat  color="#e8e8e8">
             <v-list-item v-for="(route, i) in routes.explore.routes" :key="'route-' + i" :to="route.route">
-              <v-list-item-title class="body-1" v-html="route[getLang]" />
+              <v-list-item-title class="nunito-18-600" v-html="route[getLang]" />
             </v-list-item>
           </v-list>
         </v-menu>
         <v-btn
-          class="body-1 px-2"
+          class="nunito-18-600 px-2"
           text color="transparent"
           to="/artists"
           v-html="routes.forArtists[getLang]"
         />
         <v-btn
-          class="body-1 px-2"
+          class="nunito-18-600 px-2"
           text color="transparent"
           to="/faq"
           v-html="routes.faq[getLang]"
         />
         <div class="py-4 px-2">
         <v-btn
-          class="subtitle-1 py-5"
+          class="raleway-18-400 py-5"
           depressed
           color="#333333"
           to="#contact"
@@ -52,13 +52,13 @@
         <v-menu bottom :offset-y="true" transition="slide-y-transition">
           <template v-slot:activator="{ on }">
             <v-btn class="px-2" text color="transparent" v-on="on" :ripple="false">
-              <div style="color: #333333" class="body-1">{{ getLang }}</div>
+              <div style="color: #333333" class="nunito-18-600">{{ getLang }}</div>
               <v-icon color="#333333" right>mdi-menu-down</v-icon>
             </v-btn>
           </template>
           <v-list>
             <v-list-item v-for="(language, i) in languages" :key="'lang-' + i" @click="setLang(language)">
-              <v-list-item-title style='color: #333333' class="text-center body-1 text-uppercase">
+              <v-list-item-title style='color: #333333' class="text-center nunito-18-600 text-uppercase">
                 {{ language }}
               </v-list-item-title>
             </v-list-item>
@@ -89,23 +89,23 @@
                 <v-carousel-item>
                   <v-list color="#ffffff" class="px-9 py-9">
                     <v-list-item class="pb-5 px-0" to="/">
-                      <v-list-item-title class="display-1" v-html="routes.about[getLang]" />
+                      <v-list-item-title class="raleway-35-400" v-html="routes.about[getLang]" />
                     </v-list-item>
                     <v-list-item class="pb-5 px-0" @click="$refs.menucarousel.next();">
-                      <v-list-item-title class="display-1" v-html="routes.explore[getLang]" />
+                      <v-list-item-title class="raleway-35-400" v-html="routes.explore[getLang]" />
                       <v-list-item-icon>
                         <v-icon large color="#757575">mdi-chevron-double-right</v-icon>
                       </v-list-item-icon>
                     </v-list-item>
                     <v-list-item class="pb-5 px-0" to="/artists">
-                      <v-list-item-title class="display-1" v-html="routes.forArtists[getLang]" />
+                      <v-list-item-title class="raleway-35-400" v-html="routes.forArtists[getLang]" />
                     </v-list-item>
                     <v-list-item class="pb-5 px-0" to="/faq">
-                      <v-list-item-title class="display-1" v-html="routes.faq[getLang]" />
+                      <v-list-item-title class="raleway-35-400" v-html="routes.faq[getLang]" />
                     </v-list-item>
                     <v-list-item class="pb-5 px-0">
                       <v-btn
-                        class="headline py-4"
+                        class="raleway-25-400 py-4"
                         x-large
                         depressed
                         color="#333333"
@@ -121,10 +121,10 @@
                       <v-list-item-icon class="mx-0">
                         <v-icon small color="#757575">mdi-chevron-double-left</v-icon>
                       </v-list-item-icon>
-                      <v-list-item-title style="color: #333333" class="body-2">Back</v-list-item-title>
+                      <v-list-item-title style="color: #333333" class="nunito-15-400">Back</v-list-item-title>
                     </v-list-item>
                     <v-list-item class="pb-5 px-0" v-for="(route, i) in routes.explore.routes" :key="'modal-route-' + i" :to="route.route">
-                      <v-list-item-title class="display-1" v-html="route[getLang]" />
+                      <v-list-item-title class="raleway-35-400" v-html="route[getLang]" />
                     </v-list-item>
                   </v-list>
                 </v-carousel-item>
@@ -146,7 +146,7 @@
       absolute
       class="px-12 py-9"
     >
-      <div style="color: #757575" class="subtitle-2"><span style="color: #000000; font-weight: 600;">Artventures</span> &copy; 2020</div>
+      <div style="color: #757575" class="raleway-16-400"><span style="color: #000000; font-weight: 600;">Artventures</span> &copy; 2020</div>
       
       <div class="flex-grow-1" />
 
@@ -260,39 +260,38 @@ export default {
     padding-right: 0px;
   }
 
-  .v-application .body-1 {
+  /* Text Fonts */
+  /* Nunito */
+  .nunito-15-400 {
+    font-family: 'Nunito', sans-serif !important;
+    font-size: 15px !important;
+    font-weight: 400 !important;
+  }
+  .nunito-18-600 {
     font-family: 'Nunito', sans-serif !important;
     font-size: 18px !important;
     font-weight: 600 !important;
   }
-  .v-application .body-2 {
-    font-family: 'Nunito', sans-serif !important;
-    font-size: 15px !important;
-  }
-
-  .v-application .subtitle-1 {
-    font-family: 'Raleway', sans-serif !important;
-    font-size: 18px !important;
-  }
-  .v-application .subtitle-2 {
+  /* Raleway */
+  .raleway-16-400 {
     font-family: 'Raleway', sans-serif !important;
     font-size: 16px !important;
+    font-weight: 400 !important;
   }
-
-  .v-application .headline {
+  .raleway-18-400 {
+    font-family: 'Raleway', sans-serif !important;
+    font-size: 18px !important;
+    font-weight: 400 !important;
+  }
+  .raleway-25-400 {
     font-family: 'Raleway', sans-serif !important;
     font-size: 25px !important;
+    font-weight: 400 !important;
   }
-  .v-application .display-1 {
+  .raleway-35-400 {
     font-family: 'Raleway', sans-serif !important;
     font-size: 35px !important;
-  }
-
-
-  .v-application .overline,
-  .v-application .display-3,
-  .v-application .display-4 {
-    
+    font-weight: 400 !important;
   }
 </style>
 
