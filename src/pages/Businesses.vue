@@ -36,10 +36,10 @@
             </v-col>
           </v-row>
           <div class="text-center custom-block">
-          <a
-            class="learn-more-btn raleway-15-600 white--text text-uppercase"
-            v-html="advantages.button[getLang]"
-          />
+            <a
+              class="learn-more-btn raleway-15-600 white--text text-uppercase"
+              v-html="advantages.button[getLang]"
+            />
           </div>
         </div>
 

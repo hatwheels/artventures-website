@@ -31,7 +31,7 @@
         <v-btn
           class="nunito-18-600 px-2"
           text color="transparent"
-          to="/artists"
+          to="/#artists"
           v-html="routes.forArtists[getLang]"
         />
         <v-btn
@@ -97,7 +97,7 @@
                         <v-icon large color="#757575">mdi-chevron-double-right</v-icon>
                       </v-list-item-icon>
                     </v-list-item>
-                    <v-list-item class="pb-5 px-0" to="/artists">
+                    <v-list-item class="pb-5 px-0" to="/#artists">
                       <v-list-item-title class="raleway-35-400" v-html="routes.forArtists[getLang]" />
                     </v-list-item>
                     <v-list-item class="pb-5 px-0" to="/faq">
