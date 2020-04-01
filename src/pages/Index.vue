@@ -135,13 +135,15 @@
           >
             <div>
               <p class="playfair-38-700 text-center pb-12 mb-0" style="color: #333333" v-html="media.title[getLang]" />
-              <div class="swiper-container">
-                <swiper class="swiper text-center pt-12" :options="swiperOption">
-                  <swiper-slide v-for="(logo, i ) in media.logos" :key="'media-logos-' + i">
-                    <img class="img-slide" :src="logo.img" />
-                  </swiper-slide>
+              <div class="carousel-upper swiper-container">
+                <div class="carousel-mid text-center pt-12" v-swiper="swiperOption">
+                  <div class="carousel-lower swiper-wrapper">
+                    <div class="swiper-slide" v-for="(logo, i ) in media.logos" :key="'media-logos-' + i">
+                      <img class="img-slide" :src="logo.img" />
+                    </div>
+                  </div>
                   <div class="swiper-pagination swiper-pagination-black" slot="pagination" />
-                </swiper>
+                </div>
                 <div class="swiper-button-prev swiper-button-white" slot="button-prev" />
                 <div class="swiper-button-next swiper-button-white" slot="button-next" />
               </div>
@@ -168,13 +170,11 @@
 
 <script>
 import { mapGetters } from "vuex"
-import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
-import 'swiper/css/swiper.css'
+import { directive } from 'vue-awesome-swiper'
 
 export default {
-  components: {
-    Swiper,
-    SwiperSlide
+  directives: {
+    swiper: directive
   },
   data () {
     return {
@@ -387,12 +387,14 @@ export default {
 
 <style>
   /* Carousel */
-  .swiper-container {
+  .carousel-upper {
     width: 900px;
   }
-  .swiper {
-    padding-bottom: 40px;
+  .carousel-mid {
     width: 616px;
+  }
+  .carousel-lower {
+    padding-bottom: 40px;
   }
   .swiper-button-next,
   .swiper-button-prev {

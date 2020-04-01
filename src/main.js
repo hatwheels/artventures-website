@@ -16,6 +16,10 @@ export default function (Vue, { appOptions, router, head, isClient }) {
     rel: 'stylesheet',
     href: 'https://fonts.googleapis.com/css?family=Nunito:400,600,700,800,900|Playfair+Display:400,600,700|Raleway:400,600,700|Montserrat:400,600,700&display=swap'
   })
+  head.link.push({
+    rel: 'stylesheet',
+    href: 'https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/css/swiper.css'
+  })
 
   const vuetifyOpts = { icons: {
     iconfont: 'mdi',
