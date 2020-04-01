@@ -12,6 +12,10 @@ export default function (Vue, { appOptions, router, head, isClient }) {
     rel: 'stylesheet',
     href: 'https://fonts.googleapis.com/icon?family=Material+Icons',
   })
+  head.link.push({
+    rel: 'stylesheet',
+    href: 'https://fonts.googleapis.com/css?family=Nunito:400,600,700,800,900|Playfair+Display:400,600,700|Raleway:400,600,700|Montserrat:400,600,700&display=swap'
+  })
 
   const vuetifyOpts = { icons: {
     iconfont: 'mdi',
@@ -37,15 +41,11 @@ export default function (Vue, { appOptions, router, head, isClient }) {
     },
     state: {
       lang: 'en',
-      avGradient: 'to left, rgba(0,0,0,.40), rgba(100,100,100,.40)'
     },
     getters: {
       getLang: state => {
         return state.lang
       },
-      getAvGradient: state => {
-        return state.avGradient
-      }
     },
     mutations: {
       setLang (state, val) {

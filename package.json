@@ -11,6 +11,8 @@
     "axios": "^0.19.2",
     "gridsome": "^0.7.0",
     "netlify-cli": "^2.33.0",
+    "swiper": "^5.3.6",
+    "vue-awesome-swiper": "^4.1.0",
     "vue-window-size": "^0.2.5",
     "vuelidate": "^0.7.5",
     "vuetify": "^2.2.12",
