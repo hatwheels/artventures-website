@@ -255,8 +255,8 @@ export default {
         testimonials: [
           {
             quote: {
-              gr: '“Artventures is a wonderful idea, and a great way to get more exposure and buyers. But above all, it’s a rare team with passionate, amazing people who love art and artists and do everything to help us”',
-              en: '“Artventures is a wonderful idea, and a great way to get more exposure and buyers. But above all, it’s a rare team with passionate, amazing people who love art and artists and do everything to help us”',
+              gr: '“Artventures is a wonderful idea, and a great way to get more exposure and buyers. But above all, it’s a rare team with passionate, amazing people who love art and artists and do everything to help us.”',
+              en: '“Artventures is a wonderful idea, and a great way to get more exposure and buyers. But above all, it’s a rare team with passionate, amazing people who love art and artists and do everything to help us.”',
             },
             author: {
               gr: '— Kostas Vaviloussakis',
@@ -265,8 +265,8 @@ export default {
           },
           {
             quote: {
-              gr: '“I’m very happy to be a part of the Artventures since the beginning. They’re kind, helpful and trustworthy. And most of all they’re great guys and take care of my work”',
-              en: '“I’m very happy to be a part of the Artventures since the beginning. They’re kind, helpful and trustworthy. And most of all they’re great guys and take care of my work”',
+              gr: '“I’m very happy to be a part of the Artventures since the beginning. They’re kind, helpful and trustworthy. And most of all they’re great guys and take care of my work.”',
+              en: '“I’m very happy to be a part of the Artventures since the beginning. They’re kind, helpful and trustworthy. And most of all they’re great guys and take care of my work.”',
             },
             author: {
               gr: '— Yorgis Yerolymbos',

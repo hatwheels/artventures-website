@@ -7,7 +7,8 @@
         
         <!-- main -->
         <div class="px-12 py-12 background-color-fafafa pos-rel">
-          <div class="cross-main">
+          <v-img width="69.84%" :src="main.img" :lazy="main.lazy" />
+          <div class="ind-cross-main">
             <div class="black--text raleway-3p28vw-600-1p2em pb-6" v-html="main.title[getLang]" />
             <div class="raleway-1p312vw-400 color-rgba-0-0-0-p52 pb-12" v-html="main.description[getLang]" />
             <div class="pt-3" />
@@ -16,7 +17,6 @@
               v-html="main.button[getLang]"
             />
           </div>
-          <v-img width="65vw" :src="main.img" :lazy="main.lazy" />
         </div>
 
         <!-- spacer -->
@@ -78,8 +78,8 @@ export default {
           en: 'Experience original Art without spending a fortune',
         },
         description: {
-          gr: 'Subscribe to Artventures. Get a new Artwork in your home. Change it whenever you want.<br>Take the Art personality test. Subscribe to Artventures. With 50€ per month, you’ll get a new work of Art every 2 or 3 months delivered to your space',
-          en: 'Subscribe to Artventures. Get a new Artwork in your home. Change it whenever you want.<br>Take the Art personality test. Subscribe to Artventures. With 50€ per month, you’ll get a new work of Art every 2 or 3 months delivered to your space',
+          gr: 'Subscribe to Artventures. Get a new Artwork in your home. Change it whenever you want.<br>Take the Art personality test. Subscribe to Artventures. With 50€ per month, you’ll get a new work of Art every 2 or 3 months delivered to your space.',
+          en: 'Subscribe to Artventures. Get a new Artwork in your home. Change it whenever you want.<br>Take the Art personality test. Subscribe to Artventures. With 50€ per month, you’ll get a new work of Art every 2 or 3 months delivered to your space.',
         },
         button: {
           gr: 'Contact Us',
@@ -147,7 +147,7 @@ export default {
   },
   metaInfo () {
     return {
-      titleTemplate: 'Artventures',
+      titleTemplate: 'Individuals — Artventures',
       meta: [
         { name: 'description', content: 'Landing page' },
       ],
@@ -165,14 +165,14 @@ export default {
     display: inline-block;
     background-color: #2B2B2B;
     border-radius: 8px;
-    padding: 1.312vw 3.28vw;
+    padding: 1.1vw 3.28vw;
     cursor: pointer;
   }
 
  .personality-test-btn {
     display: inline-block;
     background-color: #4C4C4A;
-    border-radius: 8px;
+    border-radius: 4px;
     padding: 21px 34px;
     cursor: pointer;
   }
@@ -193,14 +193,14 @@ export default {
     color: #333333
   }
 
-  .cross-main {
-    background-color: #F5F5F5;
-    width: 42vw;
+  .ind-cross-main {
     position: absolute;
+    background-color: #F5F5F5;
+    width: 42.65%;
     z-index: 100;
-    right: 70px;
-    top: 225px;
-    padding: 4.65vw;
+    right: 3.3%;
+    top: 24.5%;
+    padding: 4.737%;
   }
 
   .custom-divider {
@@ -226,6 +226,7 @@ export default {
     font-family: 'Raleway', sans-serif !important;
     font-size: 1.312vw !important;
     font-weight: 700 !important;
+    letter-spacing: 1.5px !important;
   }
   .raleway-3p28vw-600-1p2em {
     font-family: 'Raleway', sans-serif !important;
