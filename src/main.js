@@ -21,9 +21,18 @@ export default function (Vue, { appOptions, router, head, isClient }) {
     href: 'https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/css/swiper.css'
   })
 
-  const vuetifyOpts = { icons: {
-    iconfont: 'mdi',
-  } }// opts includes, vuetify themes, icons, etc.
+  const vuetifyOpts = {
+    icons: {
+      iconfont: 'mdi',
+    },
+    theme: {
+      themes: {
+        light: {
+          error: '#b71c1c',
+        },
+      },
+    },
+  }// opts includes, vuetify themes, icons, etc.
   Vue.use(Vuetify)
   appOptions.vuetify = new Vuetify(vuetifyOpts)
 

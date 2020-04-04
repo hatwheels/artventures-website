@@ -1,0 +1,300 @@
+<template>
+  <!-- <v-alert :type='alertType' v-model="alert" dismissible>{{ alertMsg }}</v-alert> -->
+  <v-row justify="space-between" align="center">
+    <v-col cols="8" offset="2">
+      <div class="playfair-38-700 text-center pt-12 pb-10" v-html="form.title[getLang]" />
+
+      <form lazy-validation @submit.prevent="submit()">
+        <v-row  justify="space-between" align="center">
+          <v-col class="py-0" cols="6">
+            <label class="raleway-16-400 color-1a1a1a" v-html="form.firstname[getLang]" />
+            <v-text-field
+                v-model.trim="name"
+                background-color="#FAFAFA"
+                color="#1A1A1A"
+                :error-messages="nameErrors"
+                outlined
+                required
+                @input="delayTouch($v.name)"
+                @blur="$v.name.$touch()"
+            ></v-text-field>
+          </v-col>
+          <v-col class="py-0" cols="6">
+            <label class="raleway-16-400 color-1a1a1a" v-html="form.lastname[getLang]" />
+            <v-text-field
+                v-model.trim="lastName"
+                background-color="#FAFAFA"
+                color="#1A1A1A"
+                :error-messages="lastNameErrors"
+                outlined
+                required
+                @input="delayTouch($v.lastName)"
+                @blur="$v.lastName.$touch()"
+            ></v-text-field>
+          </v-col>
+        </v-row>
+
+        <label class="raleway-16-400 color-1a1a1a" v-html="form.email[getLang]" />
+        <v-text-field
+          v-model="email"
+          background-color="#FAFAFA"
+          color="#1A1A1A"
+          :error-messages="emailErrors"
+          outlined
+          required
+          @input="delayTouch($v.email)"
+          @blur="$v.email.$touch()"
+        ></v-text-field>
+
+        <label class="raleway-16-400 color-1a1a1a" v-html="form.subject[getLang]" />
+        <v-text-field
+          v-model.trim="subject"
+          background-color="#FAFAFA"
+          color="#1A1A1A"
+          :error-messages="subjectErrors"
+          outlined
+          required
+          @input="delayTouch($v.subject)"
+          @blur="$v.subject.$touch()"
+        ></v-text-field>
+
+        <label class="raleway-16-400 color-1a1a1a" v-html="form.message[getLang]" />
+        <v-textarea
+          v-model.trim="message"
+          background-color="#FAFAFA"
+          color="#1A1A1A"
+          :error-messages="messageErrors"
+          outlined
+          required
+          @input="delayTouch($v.message)"
+          @blur="$v.email.$touch()"
+        ></v-textarea>
+
+        <div class="d-flex justify-center">
+          <button
+            class="send-msg-btn raleway-15-700 white--text text-center text-uppercase"
+            type="submit"
+            :disabled="$v.$invalid"
+            v-html="form.button[getLang]"
+          />
+        </div>
+      </form>
+    </v-col>
+  </v-row>
+</template>
+
+<script>
+//import axios from "axios";
+import { validationMixin } from "vuelidate";
+import { required, email } from "vuelidate/lib/validators";
+import { mapGetters } from "vuex";
+
+const touchMap = new WeakMap();
+
+export default {
+  mixins: [validationMixin],
+  validations: {
+    name: { required },
+    lastName: { required },
+    email: { required, email },
+    subject: { required },
+    message: { required }
+  },
+  data() {
+    return {
+      form: {
+        title: {
+          gr: "Contact Us",
+          en: "Contact Us"
+        },
+        firstname: {
+          gr: 'Όνομα *',
+          en: 'First Name *',
+        },
+        lastname: {
+          gr: 'Επίθετο *',
+          en: 'Last Name *',
+        },
+        email: {
+          gr: 'Email *',
+          en: 'Email *',
+        },
+        subject: {
+          gr: 'Θέμα *',
+          en: 'Subject *',
+        },
+        message: {
+          gr: 'Μήνυμα *',
+          en: 'Message *',
+        },
+        button: {
+          gr: 'Send Message',
+          en: 'Send Message',
+        },
+        errors: {
+          firstname: {
+            gr: 'Το όνομα είναι υποχρεωτικό.',
+            en: 'First Name is required.',
+          },
+          lastname: {
+            gr: 'Το επίθετο είναι υποχρεωτικό.',
+            en: 'Last name is required.',
+          },
+          email: {
+            invalid: {
+              gr: 'Το email δεν είναι έγκυρο.',
+              en: 'Must be valid e-mail.'
+            },
+            missing: {
+              gr: 'Το email είναι υποχρεωτικό.',
+              en: 'Email is required.'
+            },
+          },
+          subject: {
+            gr: 'Το Θέμα είναι υποχρετικό.',
+            en: 'Subject is required.',
+          },
+          message: {
+            gr: 'Το μήνυμα είναι υποχρετικό.',
+            en: 'Message is required.',
+          },
+        }
+      },
+      name: "",
+      lastName: "",
+      email: "",
+      subject: "",
+      message: "",
+      fields: {},
+      alert: false,
+      alertMsg: "",
+      alertType: "error"
+    };
+  },
+  computed: {
+    ...mapGetters(["getLang"]),
+    nameErrors() {
+      const errors = [];
+      if (!this.$v.name.$dirty) return errors;
+      !this.$v.name.required && errors.push(this.form.errors.firstname[this.getLang]);
+      return errors;
+    },
+    lastNameErrors() {
+      const errors = [];
+      if (!this.$v.lastName.$dirty) return errors;
+      !this.$v.lastName.required && errors.push(this.form.errors.lastname[this.getLang]);
+      return errors;
+    },
+    emailErrors() {
+      const errors = [];
+      if (!this.$v.email.$dirty) return errors;
+      !this.$v.email.email && errors.push(this.form.errors.email.invalid[this.getLang]);
+      !this.$v.email.required && errors.push(this.form.errors.email.missing[this.getLang]);
+      return errors;
+    },
+    subjectErrors() {
+      const errors = [];
+      if (!this.$v.subject.$dirty) return errors;
+      !this.$v.subject.required && errors.push(this.form.errors.subject[this.getLang]);
+      return errors;
+    },
+    messageErrors() {
+      const errors = [];
+      if (!this.$v.message.$dirty) return errors;
+      !this.$v.message.required && errors.push(this.form.errors.message[this.getLang]);
+      return errors;
+    }
+  },
+  methods: {
+    setAlert(type) {
+      this.alert = true;
+      if (type == "success") {
+        this.alertMsg = "Your message has been sent";
+        this.alertType = "success";
+      } else {
+        this.alertMsg = "An error occured";
+        this.alertType = "error";
+      }
+    },
+    clearFields() {
+      this.fields = {};
+      this.name = "";
+      this.lastName = "";
+      this.email = "";
+      this.subject = "";
+      this.message = "";
+      this.$v.$reset();
+    },
+    submit() {
+      this.$v.$touch();
+      if (!this.$v.$invalid) {
+        this.fields = {
+          name: this.name,
+          lastName: this.lastName,
+          email: this.email,
+          subject: this.subject,
+          msg: this.message
+        };
+        //   axios.post('/submit', this.fields).then(response => {
+        //     this.clearFields()
+        //     this.setAlert('success')
+        //   }).catch(error => {
+        //     this.clearFields()
+        //     this.setAlert('error')
+        //   });
+      }
+    },
+    delayTouch($v) {
+      $v.$reset();
+      if (touchMap.has($v)) {
+        clearTimeout(touchMap.get($v));
+      }
+      touchMap.set($v, setTimeout($v.$touch, 1000));
+    }
+  }
+};
+</script>
+
+<style>
+.send-msg-btn {
+  display: inline-block;
+  background-color: #525252;
+  border-radius: 4px;
+  padding: 14px 35px;
+  cursor: pointer;
+}
+
+.color-1a1a1a {
+  color: #1A1A1A;
+}
+
+.v-messages__message {
+  font-family: 'Raleway', sans-serif !important;
+
+}
+
+/* Playfair Display */
+.playfair-38-700 {
+  font-family: "Playfair Display", serif !important;
+  font-size: 38px !important;
+  font-weight: 700 !important;
+}
+/* Raleway */
+.raleway-12-400 {
+  font-family: 'Raleway', sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  line-height: 1.6em !important;
+}
+.raleway-15-700 {
+  font-family: "Raleway", sans-serif !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+}
+.raleway-16-400 {
+  font-family: 'Raleway', sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 400 !important;
+  line-height: 1.6em !important;
+}
+</style>

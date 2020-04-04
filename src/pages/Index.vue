@@ -159,7 +159,7 @@
             }"
             transition="slide-y-reverse-transition"
           >
-            <div class="playfair-38-700 text-center pt-12" v-html="contactus.title[getLang]" />
+            <contact-us />
           </v-lazy>
         </div>
 
@@ -171,8 +171,12 @@
 <script>
 import { mapGetters } from "vuex"
 import { directive } from 'vue-awesome-swiper'
+import ContactUs from '~/components/ContactUs.vue'
 
 export default {
+  components: {
+    ContactUs,
+  },
   directives: {
     swiper: directive
   },
@@ -301,8 +305,8 @@ export default {
             en: 'Support local artists.',
           },
           description: {
-            gr: 'Exhibit artwork that represents your community and support the artistswho share it with you. Whether you are renting or buying artwork, a percentage of every Euro you spend with Artventures is paid directly to the artists whose work you enjoy.',
-            en: 'Exhibit artwork that represents your community and support the artistswho share it with you. Whether you are renting or buying artwork, a percentage of every Euro you spend with Artventures is paid directly to the artists whose work you enjoy.',
+            gr: 'Exhibit artwork that represents your community and support the artists who share it with you. Whether you are renting or buying artwork, a percentage of every Euro you spend with Artventures is paid directly to the artists whose work you enjoy.',
+            en: 'Exhibit artwork that represents your community and support the artists who share it with you. Whether you are renting or buying artwork, a percentage of every Euro you spend with Artventures is paid directly to the artists whose work you enjoy.',
           },
           img: 'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto/v1585320144/artventures/img26.jpg',
           lazy: 'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto,h_100/v1582416241/artventures/img26.jpg',
@@ -344,13 +348,6 @@ export default {
           },
         ]
       },
-      // Contact Us
-      contactus: {
-        title: {
-          gr: 'Επικοινωνία',
-          en: 'Contact Us'
-        },
-      },
       /* Carousel */
       swiperOption: {
         slidesPerView: 3,
@@ -386,86 +383,86 @@ export default {
 </script>
 
 <style>
-  /* Carousel */
-  .carousel-upper {
-    width: 900px;
-  }
-  .carousel-mid {
-    width: 616px;
-  }
-  .carousel-lower {
-    padding-bottom: 40px;
-  }
-  .swiper-button-next,
-  .swiper-button-prev {
-    background-color: rgba(0, 0, 0, 0.12);
-    padding: 40px;
-    /* Remove Chrome focurs border */
-    outline-style: none;
-    box-shadow: none;
-    border-color: transparent;
-  }
-  .img-slide {
-    background-position: 50%;
-    background-size: cover;
-  }
+/* Carousel */
+.carousel-upper {
+  width: 900px;
+}
+.carousel-mid {
+  width: 616px;
+}
+.carousel-lower {
+  padding-bottom: 40px;
+}
+.swiper-button-next,
+.swiper-button-prev {
+  background-color: rgba(0, 0, 0, 0.12);
+  padding: 40px;
+  /* Remove Chrome focurs border */
+  outline-style: none;
+  box-shadow: none;
+  border-color: transparent;
+}
+.img-slide {
+  background-position: 50%;
+  background-size: cover;
+}
 
-  /* Custom column width */
-  .col.col-artists-width {
-    width: 45%;
-    max-width: 45%;
-    flex-basis: 45%;
-  }
-  .col.col-testimonials-width {
-    width: 31%;
-    max-width: 31%;
-    flex-basis: 31%;
-  }
+/* Custom column width */
+.col.col-artists-width {
+  width: 45%;
+  max-width: 45%;
+  flex-basis: 45%;
+}
+.col.col-testimonials-width {
+  width: 31%;
+  max-width: 31%;
+  flex-basis: 31%;
+}
 
-  /* Text fonts */
-  /* Montserrat */
-  .montserrat-10p5-600 {
-    font-family: 'Montserrat', sans-serif !important;
-    font-size: 10.5px !important;
-    font-weight: 600 !important;
-  }
-  .montserrat-11p5-600 {
-    font-family: 'Montserrat', sans-serif !important;
-    font-size: 11.5px !important;
-    font-weight: 600 !important;
-  }
-  /* Playfair Display */
-  .playfair-18-400 {
-    font-family: 'Playfair Display', serif !important;
-    font-size: 18px !important;
-    font-weight: 400 !important;
-    line-height: 1.4em !important;
-  }
-  .playfair-30-700 {
-    font-family: 'Playfair Display', serif !important;
-    font-size: 30px !important;
-    font-weight: 700 !important;
-  }
-  .playfair-38-700 {
-    font-family: 'Playfair Display', serif !important;
-    font-size: 38px !important;
-    font-weight: 700 !important;
-  }
-  /* Raleway */
-  .raleway-13-600 {
-    font-family: 'Raleway', sans-serif !important;
-    font-size: 13px !important;
-    font-weight: 600 !important;
-  }
-  .raleway-16-400 {
-    font-family: 'Raleway', sans-serif !important;
-    font-size: 16px !important;
-    font-weight: 400 !important;
-    line-height: 1.6em !important;
-  }
-  .raleway-44-700 {
-    font-family: 'Raleway', sans-serif !important;
-    font-size: 44px !important;
-    font-weight: 700 !important;
-  }
+/* Text fonts */
+/* Montserrat */
+.montserrat-10p5-600 {
+  font-family: 'Montserrat', sans-serif !important;
+  font-size: 10.5px !important;
+  font-weight: 600 !important;
+}
+.montserrat-11p5-600 {
+  font-family: 'Montserrat', sans-serif !important;
+  font-size: 11.5px !important;
+  font-weight: 600 !important;
+}
+/* Playfair Display */
+.playfair-18-400 {
+  font-family: 'Playfair Display', serif !important;
+  font-size: 18px !important;
+  font-weight: 400 !important;
+  line-height: 1.4em !important;
+}
+.playfair-30-700 {
+  font-family: 'Playfair Display', serif !important;
+  font-size: 30px !important;
+  font-weight: 700 !important;
+}
+.playfair-38-700 {
+  font-family: 'Playfair Display', serif !important;
+  font-size: 38px !important;
+  font-weight: 700 !important;
+}
+/* Raleway */
+.raleway-13-600 {
+  font-family: 'Raleway', sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+}
+.raleway-16-400 {
+  font-family: 'Raleway', sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 400 !important;
+  line-height: 1.6em !important;
+}
+.raleway-44-700 {
+  font-family: 'Raleway', sans-serif !important;
+  font-size: 44px !important;
+  font-weight: 700 !important;
+}
 </style>
