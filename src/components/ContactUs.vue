@@ -5,7 +5,7 @@
       <div class="playfair-38-700 text-center pt-12 pb-10" v-html="form.title[getLang]" />
 
       <form lazy-validation @submit.prevent="submit()">
-        <v-row  justify="space-between" align="center">
+        <v-row justify="space-between" align="center">
           <v-col class="py-0" cols="6">
             <label class="raleway-16-400 color-1a1a1a" v-html="form.firstname[getLang]" />
             <v-text-field

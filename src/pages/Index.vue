@@ -1,5 +1,36 @@
 <template>
   <Layout>
+    <v-navigation-drawer
+      class="ml-4 mr-2"
+      mini-variant-width="26px"
+      style="margin-top: 40vh; margin-bottom: 40vh;"
+      fixed
+      permanent
+      right
+      hide-overlay
+      mini-variant
+      color="transparent"
+    >
+      <v-btn active-class="" id="nav-1" :ripple="false" x-small icon to="#about">
+        <v-icon small>mdi-checkbox-blank-circle-outline</v-icon>
+      </v-btn>
+      <v-btn active-class="" id="nav-2" :ripple="false" x-small icon to="#explore">
+        <v-icon small>mdi-checkbox-blank-circle-outline</v-icon>
+      </v-btn>
+      <v-btn active-class="" id="nav-3" :ripple="false" x-small icon color="black" to="#artists">
+        <v-icon size="22">mdi-record-circle-outline</v-icon>
+      </v-btn>
+      <v-btn active-class="" id="nav-4" :ripple="false" x-small icon to="#benefits">
+        <v-icon small>mdi-checkbox-blank-circle-outline</v-icon>
+      </v-btn>
+      <v-btn active-class="" id="nav-5" :ripple="false" x-small icon to="#media">
+        <v-icon small>mdi-checkbox-blank-circle-outline</v-icon>
+      </v-btn>
+      <v-btn active-class="" id="nav-6" :ripple="false" x-small icon to="#contact-us">
+        <v-icon small>mdi-checkbox-blank-circle-outline</v-icon>
+      </v-btn>
+    </v-navigation-drawer>
+
     <v-content>
       <v-container class="pt-12 px-0 pb-0" fluid>
 
@@ -383,6 +414,29 @@ export default {
 </script>
 
 <style>
+  #nav-1.v-btn:hover:before,
+  #nav-1.v-btn:focus:before,
+  #nav-2.v-btn:hover:before,
+  #nav-2.v-btn:focus:before,
+  #nav-3.v-btn:hover:before,
+  #nav-3.v-btn:focus:before,
+  #nav-4.v-btn:hover:before,
+  #nav-4.v-btn:focus:before,
+  #nav-5.v-btn:hover:before,
+  #nav-5.v-btn:focus:before,
+  #nav-6.v-btn:hover:before,
+  #nav-6.v-btn:focus:before {
+    display: none;
+  }
+  #nav-1.v-btn--active:before,
+  #nav-2.v-btn--active:before,
+  #nav-3.v-btn--active:before,
+  #nav-4.v-btn--active:before,
+  #nav-5.v-btn--active:before,
+  #nav-6.v-btn--active:before {
+    opacity: 0;
+  }
+
 /* Carousel */
 .carousel-upper {
   width: 900px;
