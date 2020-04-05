@@ -1,9 +1,40 @@
 <template>
   <Layout>
+    <v-navigation-drawer
+      class="ml-4 mr-4"
+      mini-variant-width="100px"
+      style="margin-top: 43vh;"
+      fixed
+      permanent
+      right
+      hide-overlay
+      mini-variant
+      color="transparent"
+    >
+      <div class="d-flex flex-column align-end">
+        <div class="pb-1" v-for="(navItem, i) in sideNav" :key="'nav-item-' + i">
+          <v-hover v-slot:default="{ hover }">
+            <div class="d-flex align-center justify-center">
+              <div v-if="hover" class="montserrat-9p5-700 pr-2 text-uppercase" v-html="navItem[getLang]" />
+              <v-btn :id="'nav-' + i" :ripple="false" x-small icon @click="$vuetify.goTo(navItem.tag)">
+                <v-icon v-if="!navItem.active" :color="hover ? 'black' : ''" small>mdi-checkbox-blank-circle-outline</v-icon>
+                <v-icon v-else size="23" color="black">mdi-record-circle-outline</v-icon>
+              </v-btn>
+            </div>
+          </v-hover>
+        </div>
+      </div>
+    </v-navigation-drawer>
+
     <v-content>
       <v-container class="pt-12 px-0 pb-0" fluid>
 
-        <div id="about" class="px-12">
+        <div id="about" class="px-12" v-intersect="{
+          handler: onAbout,
+          options: {
+            threshold: 0.5
+          }
+        }">
           <v-lazy
             v-model="about.isActive"
             :options="{
@@ -29,7 +60,12 @@
 
         <div class="py-8" />
 
-        <div id="explore" class="px-12">
+        <div id="explore" class="px-12" v-intersect="{
+          handler: onExplore,
+          options: {
+            threshold: 0.7
+          }
+        }">
           <p class="pb-10 my-0 text-center playfair-38-700" v-html="explore.title[getLang]" />
           <v-lazy
             v-model="explore.isActive"
@@ -59,7 +95,12 @@
 
         <div class="py-12" />
 
-        <div id="artists" class="pt-12 pb-10" style="background-color: #DEDEDE">
+        <div id="artists" class="pt-12 pb-10" style="background-color: #DEDEDE" v-intersect="{
+          handler: onArtists,
+          options: {
+            threshold: 0.5
+          }
+        }">
           <v-lazy
             v-model="artists.isActive"
             :options="{
@@ -101,7 +142,12 @@
           </v-lazy>
         </div>
 
-        <div id="benefits" class="pt-6" style="background-color: #FAFAFA">
+        <div id="benefits" class="pt-6" style="background-color: #FAFAFA" v-intersect="{
+          handler: onBenefits,
+          options: {
+            threshold: 0.7
+          }
+        }">
           <v-lazy
             v-model="artists.isActive"
             :options="{
@@ -125,7 +171,12 @@
           </v-lazy>
         </div>
 
-        <div id="media" class="pt-8 pb-12 white">
+        <div id="media" class="pt-8 pb-12 white" v-intersect="{
+          handler: onMedia,
+          options: {
+            threshold: 0.7
+          }
+        }">
           <v-lazy
             v-model="artists.isActive"
             :options="{
@@ -151,7 +202,12 @@
           </v-lazy>
         </div>
 
-        <div id="contact-us" class="pt-12" style="background-color: #dddddd">
+        <div id="contact-us" class="pt-12" style="background-color: #dddddd" v-intersect="{
+          handler: onContact,
+          options: {
+            threshold: 0.7
+          }
+        }">
           <v-lazy
             v-model="artists.isActive"
             :options="{
@@ -159,7 +215,7 @@
             }"
             transition="slide-y-reverse-transition"
           >
-            <div class="playfair-38-700 text-center pt-12" v-html="contactus.title[getLang]" />
+            <contact-us />
           </v-lazy>
         </div>
 
@@ -171,13 +227,72 @@
 <script>
 import { mapGetters } from "vuex"
 import { directive } from 'vue-awesome-swiper'
+import ContactUs from '~/components/ContactUs.vue'
 
 export default {
+  components: {
+    ContactUs,
+  },
   directives: {
     swiper: directive
   },
+  mounted() {
+    document.onreadystatechange = () => {
+      if (document.readyState == "complete") {
+        this.isSideNavReady = true;
+      }
+    }
+  },
+  updated() {
+    this.$nextTick(() => {
+      if (this.$route.hash) {
+        const el = document.querySelector(this.$route.hash);
+        el && el.scrollIntoView();
+      }
+    })
+  },
   data () {
     return {
+      isSideNavReady: false,
+      /* Side Navigation */
+      sideNav: [
+        {
+          gr: 'Εμεις',
+          en: 'About',
+          tag: '#about',
+          active: true,
+        },
+        {
+          gr: 'Ανακαλυψε',
+          en: 'Explore',
+          tag: '#explore',
+          active: false,
+        },
+        {
+          gr: 'Καλλιτεχνες',
+          en: 'Artists',
+          tag: '#artists',
+          active: false,
+        },
+        {
+          gr: 'Πλεονεκτηματα',
+          en: 'Benefits',
+          tag: '#benefits',
+          active: false,
+        },
+        {
+          gr: 'Media',
+          en: 'Media',
+          tag: '#media',
+          active: false,
+        },
+        {
+          gr: 'Επικοινωνια',
+          en: 'Contact',
+          tag: '#contact-us',
+          active: false,
+        },
+      ],
       /* Sections */
       // About
       about: {
@@ -301,8 +416,8 @@ export default {
             en: 'Support local artists.',
           },
           description: {
-            gr: 'Exhibit artwork that represents your community and support the artistswho share it with you. Whether you are renting or buying artwork, a percentage of every Euro you spend with Artventures is paid directly to the artists whose work you enjoy.',
-            en: 'Exhibit artwork that represents your community and support the artistswho share it with you. Whether you are renting or buying artwork, a percentage of every Euro you spend with Artventures is paid directly to the artists whose work you enjoy.',
+            gr: 'Exhibit artwork that represents your community and support the artists who share it with you. Whether you are renting or buying artwork, a percentage of every Euro you spend with Artventures is paid directly to the artists whose work you enjoy.',
+            en: 'Exhibit artwork that represents your community and support the artists who share it with you. Whether you are renting or buying artwork, a percentage of every Euro you spend with Artventures is paid directly to the artists whose work you enjoy.',
           },
           img: 'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto/v1585320144/artventures/img26.jpg',
           lazy: 'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto,h_100/v1582416241/artventures/img26.jpg',
@@ -344,13 +459,6 @@ export default {
           },
         ]
       },
-      // Contact Us
-      contactus: {
-        title: {
-          gr: 'Επικοινωνία',
-          en: 'Contact Us'
-        },
-      },
       /* Carousel */
       swiperOption: {
         slidesPerView: 3,
@@ -373,6 +481,69 @@ export default {
   },
   computed: {
     ...mapGetters(['getLang']),
+
+  },
+  methods: {
+    onAbout (entries, observer) {
+      if (this.isSideNavReady && entries[0].intersectionRatio >= 0.5) {
+        this.sideNav[0].active = true;
+        this.sideNav[1].active =
+        this.sideNav[2].active =
+        this.sideNav[3].active = 
+        this.sideNav[4].active = 
+        this.sideNav[5].active = false;
+      }
+    },
+    onExplore (entries, observer) {
+      if (this.isSideNavReady && entries[0].intersectionRatio >= 0.7) {
+        this.sideNav[1].active = true;
+        this.sideNav[0].active =
+        this.sideNav[2].active =
+        this.sideNav[3].active = 
+        this.sideNav[4].active = 
+        this.sideNav[5].active = false;
+      }
+    },
+    onArtists (entries, observer) {
+      if (this.isSideNavReady && entries[0].intersectionRatio >= 0.5) {
+        this.sideNav[2].active = true;
+        this.sideNav[1].active =
+        this.sideNav[0].active =
+        this.sideNav[3].active = 
+        this.sideNav[4].active = 
+        this.sideNav[5].active = false;
+      }
+    },
+    onBenefits (entries, observer) {
+      if (this.isSideNavReady && entries[0].intersectionRatio >= 0.7) {
+        this.sideNav[3].active = true;
+        this.sideNav[1].active =
+        this.sideNav[2].active =
+        this.sideNav[0].active = 
+        this.sideNav[4].active = 
+        this.sideNav[5].active = false;
+      }
+    },
+    onMedia (entries, observer) {
+      if (this.isSideNavReady && entries[0].intersectionRatio >= 0.7) {
+        this.sideNav[4].active = true;
+        this.sideNav[1].active =
+        this.sideNav[2].active =
+        this.sideNav[3].active = 
+        this.sideNav[0].active = 
+        this.sideNav[5].active = false;
+      }
+    },
+    onContact (entries, observer) {
+      if (this.isSideNavReady && entries[0].intersectionRatio >= 0.7) {
+        this.sideNav[5].active = true;
+        this.sideNav[1].active =
+        this.sideNav[2].active =
+        this.sideNav[3].active = 
+        this.sideNav[4].active = 
+        this.sideNav[0].active = false;
+      }
+    },
   },
   metaInfo () {
     return {
@@ -386,86 +557,114 @@ export default {
 </script>
 
 <style>
-  /* Carousel */
-  .carousel-upper {
-    width: 900px;
+  #nav-0.v-btn:hover:before,
+  #nav-0.v-btn:focus:before,
+  #nav-1.v-btn:hover:before,
+  #nav-1.v-btn:focus:before,
+  #nav-2.v-btn:hover:before,
+  #nav-2.v-btn:focus:before,
+  #nav-3.v-btn:hover:before,
+  #nav-3.v-btn:focus:before,
+  #nav-4.v-btn:hover:before,
+  #nav-4.v-btn:focus:before,
+  #nav-5.v-btn:hover:before,
+  #nav-5.v-btn:focus:before {
+    display: none;
   }
-  .carousel-mid {
-    width: 616px;
-  }
-  .carousel-lower {
-    padding-bottom: 40px;
-  }
-  .swiper-button-next,
-  .swiper-button-prev {
-    background-color: rgba(0, 0, 0, 0.12);
-    padding: 40px;
-    /* Remove Chrome focurs border */
-    outline-style: none;
-    box-shadow: none;
-    border-color: transparent;
-  }
-  .img-slide {
-    background-position: 50%;
-    background-size: cover;
-  }
-
-  /* Custom column width */
-  .col.col-artists-width {
-    width: 45%;
-    max-width: 45%;
-    flex-basis: 45%;
-  }
-  .col.col-testimonials-width {
-    width: 31%;
-    max-width: 31%;
-    flex-basis: 31%;
+  #nav-0.v-btn--active:before,
+  #nav-1.v-btn--active:before,
+  #nav-2.v-btn--active:before,
+  #nav-3.v-btn--active:before,
+  #nav-4.v-btn--active:before,
+  #nav-5.v-btn--active:before {
+    opacity: 0;
   }
 
-  /* Text fonts */
-  /* Montserrat */
-  .montserrat-10p5-600 {
-    font-family: 'Montserrat', sans-serif !important;
-    font-size: 10.5px !important;
-    font-weight: 600 !important;
-  }
-  .montserrat-11p5-600 {
-    font-family: 'Montserrat', sans-serif !important;
-    font-size: 11.5px !important;
-    font-weight: 600 !important;
-  }
-  /* Playfair Display */
-  .playfair-18-400 {
-    font-family: 'Playfair Display', serif !important;
-    font-size: 18px !important;
-    font-weight: 400 !important;
-    line-height: 1.4em !important;
-  }
-  .playfair-30-700 {
-    font-family: 'Playfair Display', serif !important;
-    font-size: 30px !important;
-    font-weight: 700 !important;
-  }
-  .playfair-38-700 {
-    font-family: 'Playfair Display', serif !important;
-    font-size: 38px !important;
-    font-weight: 700 !important;
-  }
-  /* Raleway */
-  .raleway-13-600 {
-    font-family: 'Raleway', sans-serif !important;
-    font-size: 13px !important;
-    font-weight: 600 !important;
-  }
-  .raleway-16-400 {
-    font-family: 'Raleway', sans-serif !important;
-    font-size: 16px !important;
-    font-weight: 400 !important;
-    line-height: 1.6em !important;
-  }
-  .raleway-44-700 {
-    font-family: 'Raleway', sans-serif !important;
-    font-size: 44px !important;
-    font-weight: 700 !important;
-  }
+/* Carousel */
+.carousel-upper {
+  width: 900px;
+}
+.carousel-mid {
+  width: 616px;
+}
+.carousel-lower {
+  padding-bottom: 40px;
+}
+.swiper-button-next,
+.swiper-button-prev {
+  background-color: rgba(0, 0, 0, 0.12);
+  padding: 40px;
+  /* Remove Chrome focurs border */
+  outline-style: none;
+  box-shadow: none;
+  border-color: transparent;
+}
+.img-slide {
+  background-position: 50%;
+  background-size: cover;
+}
+
+/* Custom column width */
+.col.col-artists-width {
+  width: 45%;
+  max-width: 45%;
+  flex-basis: 45%;
+}
+.col.col-testimonials-width {
+  width: 31%;
+  max-width: 31%;
+  flex-basis: 31%;
+}
+
+/* Text fonts */
+/* Montserrat */
+.montserrat-9p5-700 {
+  font-family: 'Montserrat', sans-serif !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+}
+.montserrat-10p5-600 {
+  font-family: 'Montserrat', sans-serif !important;
+  font-size: 10.5px !important;
+  font-weight: 600 !important;
+}
+.montserrat-11p5-600 {
+  font-family: 'Montserrat', sans-serif !important;
+  font-size: 11.5px !important;
+  font-weight: 600 !important;
+}
+/* Playfair Display */
+.playfair-18-400 {
+  font-family: 'Playfair Display', serif !important;
+  font-size: 18px !important;
+  font-weight: 400 !important;
+  line-height: 1.4em !important;
+}
+.playfair-30-700 {
+  font-family: 'Playfair Display', serif !important;
+  font-size: 30px !important;
+  font-weight: 700 !important;
+}
+.playfair-38-700 {
+  font-family: 'Playfair Display', serif !important;
+  font-size: 38px !important;
+  font-weight: 700 !important;
+}
+/* Raleway */
+.raleway-13-600 {
+  font-family: 'Raleway', sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+}
+.raleway-16-400 {
+  font-family: 'Raleway', sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 400 !important;
+  line-height: 1.6em !important;
+}
+.raleway-44-700 {
+  font-family: 'Raleway', sans-serif !important;
+  font-size: 44px !important;
+  font-weight: 700 !important;
+}
 </style>

@@ -1,6 +1,7 @@
 <template>
   <v-app>
     <v-app-bar flat class="hidden-sm-and-down px-11" app absolute color="#e8e8e8" height="76px">
+
       <v-btn width="185" color="transparent" text icon to="/">/
         <v-img
           :src="logo[0]"
@@ -22,16 +23,24 @@
               <div style="color: #333333" class="nunito-18-600" v-html="routes.explore[getLang]"></div>
             </v-btn>
           </template>
-          <v-list flat  color="#e8e8e8">
+          <v-list flat color="#e8e8e8">
             <v-list-item v-for="(route, i) in routes.explore.routes" :key="'route-' + i" :to="route.route">
               <v-list-item-title class="nunito-18-600" v-html="route[getLang]" />
             </v-list-item>
           </v-list>
         </v-menu>
         <v-btn
+          v-if="$route.path == '/'"
           class="nunito-18-600 px-2"
           text color="transparent"
-          to="/#artists"
+          @click="$vuetify.goTo('#artists')"
+          v-html="routes.forArtists[getLang]"
+        />
+        <v-btn
+          v-else
+          class="nunito-18-600 px-2"
+          text color="transparent"
+          :to="{ path: '/', hash:'#artists' }"
           v-html="routes.forArtists[getLang]"
         />
         <v-btn
@@ -253,6 +262,10 @@ export default {
 </script>
 
 <style>
+  .v-navigation-drawer__border {
+    background-color: transparent !important;
+  }
+
   .v-toolbar__content {
     padding-bottom: 0px;
     padding-top: 0px;
