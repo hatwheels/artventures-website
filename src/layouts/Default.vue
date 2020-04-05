@@ -30,9 +30,17 @@
           </v-list>
         </v-menu>
         <v-btn
+          v-if="$route.path == '/'"
           class="nunito-18-600 px-2"
           text color="transparent"
-          to="/#artists"
+          @click="$vuetify.goTo('#artists')"
+          v-html="routes.forArtists[getLang]"
+        />
+        <v-btn
+          v-else
+          class="nunito-18-600 px-2"
+          text color="transparent"
+          :to="{ path: '/', hash:'#artists' }"
           v-html="routes.forArtists[getLang]"
         />
         <v-btn
