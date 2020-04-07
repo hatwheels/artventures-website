@@ -85,6 +85,7 @@
                         x-large
                         color="#525252"
                         v-html="explore.button[getLang]"
+                        :to="image.route"
                       />
                     </div>
                   </v-img>
@@ -333,6 +334,7 @@ export default {
               gr: 'Individuals',
               en: 'Individuals',
             },
+            route: '/individuals',
           },
           {
             img: 'https://res.cloudinary.com/de1jgt6c5/image/upload/g_center,ar_1:1,c_fill/v1585320139/artventures/img23.jpg',
@@ -340,7 +342,8 @@ export default {
             p: {
               gr: 'Businesses',
               en: 'Businesses',
-            }
+            },
+            route: '/businesses',
           },
           {
             img: 'https://res.cloudinary.com/de1jgt6c5/image/upload/g_center,ar_1:1,c_fill/v1585320144/artventures/img24.jpg',
@@ -348,7 +351,8 @@ export default {
             p: {
               gr: 'Hotels',
               en: 'Hotels',
-            }
+            },
+            route: '/hotels',
           },
         ],
         button: {

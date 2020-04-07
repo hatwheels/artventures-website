@@ -3,9 +3,7 @@
     <v-app-bar flat class="hidden-sm-and-down px-11" app absolute color="#e8e8e8" height="76px">
 
       <v-btn width="185" color="transparent" text icon to="/">/
-        <v-img
-          :src="logo[0]"
-        />
+        <v-img :src="logo[0]" />
       </v-btn>
 
       <v-spacer />
@@ -51,10 +49,19 @@
         />
         <div class="py-4 px-2">
         <v-btn
-          class="raleway-18-400 py-5"
+          v-if="$route.path == '/'"
+          class="raleway-18-400"
           depressed
           color="#333333"
-          to="#contact"
+          @click="$vuetify.goTo('#contact-us')"
+          v-html="routes.contact[getLang]"
+        />
+        <v-btn
+          v-else
+          class="raleway-18-400"
+          depressed
+          color="#333333"
+          :to="{ path: '/', hash:'#contact-us' }"
           v-html="routes.contact[getLang]"
         />
         </div>
@@ -78,9 +85,7 @@
 
     <v-app-bar class="hidden-md-and-up px-3" app absolute color="#F7F7F7" height="50px">
       <v-btn width="122px" color="transparent" text icon to="/">/
-        <v-img
-          :src="logo[1]"
-        />
+        <v-img :src="logo[1]" />
       </v-btn>
 
       <v-spacer />
@@ -262,50 +267,50 @@ export default {
 </script>
 
 <style>
-  .v-navigation-drawer__border {
-    background-color: transparent !important;
-  }
+.v-navigation-drawer__border {
+  background-color: transparent !important;
+}
 
-  .v-toolbar__content {
-    padding-bottom: 0px;
-    padding-top: 0px;
-    padding-left: 0px;
-    padding-right: 0px;
-  }
+.v-toolbar__content {
+  padding-bottom: 0px;
+  padding-top: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+}
 
-  /* Text Fonts */
-  /* Nunito */
-  .nunito-15-400 {
-    font-family: 'Nunito', sans-serif !important;
-    font-size: 15px !important;
-    font-weight: 400 !important;
-  }
-  .nunito-18-600 {
-    font-family: 'Nunito', sans-serif !important;
-    font-size: 18px !important;
-    font-weight: 600 !important;
-  }
-  /* Raleway */
-  .raleway-16-400 {
-    font-family: 'Raleway', sans-serif !important;
-    font-size: 16px !important;
-    font-weight: 400 !important;
-  }
-  .raleway-18-400 {
-    font-family: 'Raleway', sans-serif !important;
-    font-size: 18px !important;
-    font-weight: 400 !important;
-  }
-  .raleway-25-400 {
-    font-family: 'Raleway', sans-serif !important;
-    font-size: 25px !important;
-    font-weight: 400 !important;
-  }
-  .raleway-35-400 {
-    font-family: 'Raleway', sans-serif !important;
-    font-size: 35px !important;
-    font-weight: 400 !important;
-  }
+/* Text Fonts */
+/* Nunito */
+.nunito-15-400 {
+  font-family: 'Nunito', sans-serif !important;
+  font-size: 15px !important;
+  font-weight: 400 !important;
+}
+.nunito-18-600 {
+  font-family: 'Nunito', sans-serif !important;
+  font-size: 18px !important;
+  font-weight: 600 !important;
+}
+/* Raleway */
+.raleway-16-400 {
+  font-family: 'Raleway', sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 400 !important;
+}
+.raleway-18-400 {
+  font-family: 'Raleway', sans-serif !important;
+  font-size: 18px !important;
+  font-weight: 400 !important;
+}
+.raleway-25-400 {
+  font-family: 'Raleway', sans-serif !important;
+  font-size: 25px !important;
+  font-weight: 400 !important;
+}
+.raleway-35-400 {
+  font-family: 'Raleway', sans-serif !important;
+  font-size: 35px !important;
+  font-weight: 400 !important;
+}
 </style>
 
 <static-query>
