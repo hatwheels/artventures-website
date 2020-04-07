@@ -28,13 +28,7 @@
 
     <v-content>
       <v-container class="pt-12 px-0 pb-0" fluid>
-
-        <div id="about" class="px-12" v-intersect="{
-          handler: onAbout,
-          options: {
-            threshold: 0.5
-          }
-        }">
+        <div id="about" class="px-12" v-waypoint="{ active: true, callback: onAbout, options: intersectOptions}">
           <v-lazy
             v-model="about.isActive"
             :options="{
@@ -60,12 +54,7 @@
 
         <div class="py-8" />
 
-        <div id="explore" class="px-12" v-intersect="{
-          handler: onExplore,
-          options: {
-            threshold: 0.7
-          }
-        }">
+        <div id="explore" class="px-12" v-waypoint="{ active: true, callback: onExplore, options: intersectOptions}">
           <p class="pb-10 my-0 text-center playfair-38-700" v-html="explore.title[getLang]" />
           <v-lazy
             v-model="explore.isActive"
@@ -96,12 +85,7 @@
 
         <div class="py-12" />
 
-        <div id="artists" class="pt-12 pb-10" style="background-color: #DEDEDE" v-intersect="{
-          handler: onArtists,
-          options: {
-            threshold: 0.5
-          }
-        }">
+        <div id="artists" class="pt-12 pb-10" style="background-color: #DEDEDE" v-waypoint="{ active: true, callback: onArtists, options: intersectOptions}">
           <v-lazy
             v-model="artists.isActive"
             :options="{
@@ -143,12 +127,7 @@
           </v-lazy>
         </div>
 
-        <div id="benefits" class="pt-6" style="background-color: #FAFAFA" v-intersect="{
-          handler: onBenefits,
-          options: {
-            threshold: 0.7
-          }
-        }">
+        <div id="benefits" class="pt-6" style="background-color: #FAFAFA" v-waypoint="{ active: true, callback: onBenefits, options: intersectOptions2}">
           <v-lazy
             v-model="artists.isActive"
             :options="{
@@ -172,12 +151,7 @@
           </v-lazy>
         </div>
 
-        <div id="media" class="pt-8 pb-12 white" v-intersect="{
-          handler: onMedia,
-          options: {
-            threshold: 0.7
-          }
-        }">
+        <div id="media" class="pt-8 pb-12 white" v-waypoint="{ active: true, callback: onMedia, options: intersectOptions2}">
           <v-lazy
             v-model="artists.isActive"
             :options="{
@@ -203,12 +177,8 @@
           </v-lazy>
         </div>
 
-        <div id="contact-us" class="pt-12" style="background-color: #dddddd" v-intersect="{
-          handler: onContact,
-          options: {
-            threshold: 0.7
-          }
-        }">
+        <div id="contact-us" class="pt-12" style="background-color: #dddddd">
+          <div v-waypoint="{ active: true, callback: onContact, options: intersectOptions3}" />
           <v-lazy
             v-model="artists.isActive"
             :options="{
@@ -237,13 +207,6 @@ export default {
   directives: {
     swiper: directive
   },
-  mounted() {
-    document.onreadystatechange = () => {
-      if (document.readyState == "complete") {
-        this.isSideNavReady = true;
-      }
-    }
-  },
   updated() {
     this.$nextTick(() => {
       if (this.$route.hash) {
@@ -254,14 +217,28 @@ export default {
   },
   data () {
     return {
-      isSideNavReady: false,
+      intersectOptions: {
+        rootMargin: '0px 0px -50% 0px',
+        threshold: [0.2],
+        root: null
+      },
+      intersectOptions2: {
+        rootMargin: '0px 0px -50% 0px',
+        threshold: [0.55],
+        root: null
+      },
+      intersectOptions3: {
+        rootMargin: '0px 0px -70% 0px',
+        threshold: [1],
+        root: null
+      },
       /* Side Navigation */
       sideNav: [
         {
           gr: 'Εμεις',
           en: 'About',
           tag: '#about',
-          active: true,
+          active: false,
         },
         {
           gr: 'Ανακαλυψε',
@@ -485,67 +462,55 @@ export default {
   },
   computed: {
     ...mapGetters(['getLang']),
-
   },
   methods: {
-    onAbout (entries, observer) {
-      if (this.isSideNavReady && entries[0].intersectionRatio >= 0.5) {
+    onAbout ({ el, going, direction, _entry }) {
+      console.log(_entry)
+      if (going === this.$waypointMap.GOING_IN) {
         this.sideNav[0].active = true;
-        this.sideNav[1].active =
-        this.sideNav[2].active =
-        this.sideNav[3].active = 
-        this.sideNav[4].active = 
-        this.sideNav[5].active = false;
       }
-    },
-    onExplore (entries, observer) {
-      if (this.isSideNavReady && entries[0].intersectionRatio >= 0.7) {
-        this.sideNav[1].active = true;
-        this.sideNav[0].active =
-        this.sideNav[2].active =
-        this.sideNav[3].active = 
-        this.sideNav[4].active = 
-        this.sideNav[5].active = false;
-      }
-    },
-    onArtists (entries, observer) {
-      if (this.isSideNavReady && entries[0].intersectionRatio >= 0.5) {
-        this.sideNav[2].active = true;
-        this.sideNav[1].active =
-        this.sideNav[0].active =
-        this.sideNav[3].active = 
-        this.sideNav[4].active = 
-        this.sideNav[5].active = false;
-      }
-    },
-    onBenefits (entries, observer) {
-      if (this.isSideNavReady && entries[0].intersectionRatio >= 0.7) {
-        this.sideNav[3].active = true;
-        this.sideNav[1].active =
-        this.sideNav[2].active =
-        this.sideNav[0].active = 
-        this.sideNav[4].active = 
-        this.sideNav[5].active = false;
-      }
-    },
-    onMedia (entries, observer) {
-      if (this.isSideNavReady && entries[0].intersectionRatio >= 0.7) {
-        this.sideNav[4].active = true;
-        this.sideNav[1].active =
-        this.sideNav[2].active =
-        this.sideNav[3].active = 
-        this.sideNav[0].active = 
-        this.sideNav[5].active = false;
-      }
-    },
-    onContact (entries, observer) {
-      if (this.isSideNavReady && entries[0].intersectionRatio >= 0.7) {
-        this.sideNav[5].active = true;
-        this.sideNav[1].active =
-        this.sideNav[2].active =
-        this.sideNav[3].active = 
-        this.sideNav[4].active = 
+      else if (going === this.$waypointMap.GOING_OUT) {
         this.sideNav[0].active = false;
+      }
+    },
+    onExplore ({ going, direction }) {
+      if (going === this.$waypointMap.GOING_IN) {
+        this.sideNav[1].active = true;
+      }
+      else if (going === this.$waypointMap.GOING_OUT) {
+        this.sideNav[1].active = false;
+      }
+    },
+    onArtists ({ going, direction }) {
+      if (going === this.$waypointMap.GOING_IN) {
+        this.sideNav[2].active = true;
+      }
+      else if (going === this.$waypointMap.GOING_OUT) {
+        this.sideNav[2].active = false;
+      }
+    },
+    onBenefits ({ going, direction }) {
+      if (going === this.$waypointMap.GOING_IN) {
+        this.sideNav[3].active = true;
+      }
+      else if (going === this.$waypointMap.GOING_OUT) {
+        this.sideNav[3].active = false;
+      }
+    },
+    onMedia ({ going, direction }) {
+      if (going === this.$waypointMap.GOING_IN) {
+        this.sideNav[4].active = true;
+      }
+      else if (going === this.$waypointMap.GOING_OUT) {
+        this.sideNav[4].active = false;
+      }
+    },
+    onContact ({ going, direction }) {
+      if (going === this.$waypointMap.GOING_IN) {
+        this.sideNav[5].active = true;
+      }
+      else if (going === this.$waypointMap.GOING_OUT) {
+        this.sideNav[5].active = false;
       }
     },
   },

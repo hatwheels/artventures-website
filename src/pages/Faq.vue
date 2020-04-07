@@ -128,7 +128,15 @@ export default {
   },
   computed: {
     ...mapGetters(['getLang']),
-  }
+  },
+  metaInfo () {
+    return {
+      titleTemplate: 'F.A.Q. — Artventures',
+      meta: [
+        { name: 'description', content: 'Landing page' },
+      ],
+    }
+  },
 }
 </script>
 

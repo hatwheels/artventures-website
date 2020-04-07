@@ -6,6 +6,7 @@ import Vuelidate from 'vuelidate'
 import './assets/style/index.scss'
 import DefaultLayout from '~/layouts/Default.vue'
 import axios from 'axios'
+import VueWaypoint from "vue-waypoint"
 
 export default function (Vue, { appOptions, router, head, isClient }) {
   head.link.push({
@@ -70,6 +71,8 @@ export default function (Vue, { appOptions, router, head, isClient }) {
   appOptions.store = new Vuex.Store(vuexOpts)
 
   Vue.use(Vuelidate)
+
+  Vue.use(VueWaypoint)
 
   Vue.mixin({
     data() {
