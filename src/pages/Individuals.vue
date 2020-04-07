@@ -2,6 +2,7 @@
   <Layout>
     <v-content>
       <v-container class="pa-0 background-color-fafafa" fluid>
+
         <!-- spacer -->
         <div class="py-10" />
         
@@ -12,8 +13,9 @@
             <div class="black--text raleway-3p28vw-600-1p2em pb-6" v-html="main.title[getLang]" />
             <div class="raleway-1p312vw-400 color-rgba-0-0-0-p52 pb-12" v-html="main.description[getLang]" />
             <div class="pt-3" />
-            <a
+            <router-link
               class="contact-us-btn raleway-1p312vw-600 white--text text-center text-uppercase"
+              :to="{ path: '/', hash:'#contact-us' }"
               v-html="main.button[getLang]"
             />
           </div>
@@ -164,6 +166,7 @@ export default {
   .contact-us-btn {
     display: inline-block;
     background-color: #2B2B2B;
+    text-decoration: none;
     border-radius: 8px;
     padding: 1.1vw 3.28vw;
     cursor: pointer;

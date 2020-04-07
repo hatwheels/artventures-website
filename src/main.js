@@ -6,6 +6,7 @@ import Vuelidate from 'vuelidate'
 import './assets/style/index.scss'
 import DefaultLayout from '~/layouts/Default.vue'
 import axios from 'axios'
+import VueWaypoint from "vue-waypoint"
 
 export default function (Vue, { appOptions, router, head, isClient }) {
   head.link.push({
@@ -14,7 +15,7 @@ export default function (Vue, { appOptions, router, head, isClient }) {
   })
   head.link.push({
     rel: 'stylesheet',
-    href: 'https://fonts.googleapis.com/css?family=Nunito:400,600,700,800,900|Playfair+Display:400,600,700|Raleway:400,600,700|Montserrat:400,600,700&display=swap'
+    href: 'https://fonts.googleapis.com/css?family=Nunito:400,600|Playfair+Display:400,600,700|Raleway:400,600,700|Montserrat:400,600,700&display=swap'
   })
   head.link.push({
     rel: 'stylesheet',
@@ -70,6 +71,8 @@ export default function (Vue, { appOptions, router, head, isClient }) {
   appOptions.store = new Vuex.Store(vuexOpts)
 
   Vue.use(Vuelidate)
+
+  Vue.use(VueWaypoint)
 
   Vue.mixin({
     data() {
