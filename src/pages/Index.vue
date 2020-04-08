@@ -28,112 +28,100 @@
 
     <v-content>
       <v-container class="pt-12 px-0 pb-0" fluid>
-        <div id="about" class="px-12" v-waypoint="{ active: true, callback: onAbout, options: intersectOptions}">
-          <v-lazy
-            v-model="about.isActive"
-            :options="{
-              threshold: 1.0
-            }"
-            transition="slide-y-reverse-transition"
-          >
-            <v-row justify="space-between" align="center">
-              <v-col cols="5">
-                <v-img contain width="42vw" :src="about.img" :lazy-src="about.lazy" />
-              </v-col>
-              <v-col class="pl-2 pr-12" cols="6">
-                <div class="pr-8">
-                  <p style="color: #333333" class="playfair-30-700 pb-7 pr-12" v-html="about.title[getLang]" />
-                  <p v-for="(p, i) in about.body" :key="'aboutTextBody-' + i"
-                    style="color: #333333" class="raleway-16-400 pb-4 pr-12" v-html="p[getLang]"
-                  />
-                </div>
-              </v-col>
-            </v-row>
-          </v-lazy>
+
+        <div
+          id="about"
+          class="px-12"
+          v-waypoint="{ active: true, callback: onAbout, options: intersectOptions }"
+        >
+          <v-row justify="space-between" align="center">
+            <v-col cols="5">
+              <v-img contain width="42vw" :src="about.img" :lazy-src="about.lazy" />
+            </v-col>
+            <v-col class="pl-2 pr-12" cols="6">
+              <div class="pr-8">
+                <p style="color: #333333" class="playfair-30-700 pb-7 pr-12" v-html="about.title[getLang]" />
+                <p v-for="(p, i) in about.body" :key="'aboutTextBody-' + i"
+                  style="color: #333333" class="raleway-16-400 pb-4 pr-12" v-html="p[getLang]"
+                />
+              </div>
+            </v-col>
+          </v-row>
         </div>
 
         <div class="py-8" />
 
-        <div id="explore" class="px-12" v-waypoint="{ active: true, callback: onExplore, options: intersectOptions}">
-          <p class="pb-10 my-0 text-center playfair-38-700" v-html="explore.title[getLang]" />
-          <v-lazy
-            v-model="explore.isActive"
-            :options="{
-              threshold: 1.0
-            }"
-            transition="slide-y-reverse-transition"
+          <div
+            id="explore"
+            class="px-12"
+            v-waypoint="{ active: true, callback: onExplore, options: intersectOptions }"
           >
-            <v-row class="pt-12" justify="space-between" align="center">
-              <v-col class="px-4" cols="4" v-for="(image, i) in explore.images" :key="'exploreImages-' + i">
-                  <v-img gradient="to top right, rgba(0,0,0,.15), rgba(0,0,0,.15)" :src="image.img">
-                    <div style="height: 100%" class="d-flex flex-column justify-center align-center">
-                      <p class="raleway-44-700 white--text" v-html="image.p[getLang]" />
+            <p class="pb-10 my-0 text-center playfair-38-700" v-html="explore.title[getLang]" />
+              <v-row class="pt-12" justify="space-between" align="center">
+                <v-col class="px-4" cols="4" v-for="(image, i) in explore.images" :key="'exploreImages-' + i">
+                    <v-img gradient="to top right, rgba(0,0,0,.15), rgba(0,0,0,.15)" :src="image.img">
+                      <div style="height: 100%" class="d-flex flex-column justify-center align-center">
+                        <p class="raleway-44-700 white--text" v-html="image.p[getLang]" />
+                        <v-btn
+                          class="montserrat-11p5-600 white--text px-10"
+                          depressed
+                          x-large
+                          color="#525252"
+                          v-html="explore.button[getLang]"
+                          :to="image.route"
+                        />
+                      </div>
+                    </v-img>
+                </v-col>
+              </v-row>
+          </div>
+
+          <div class="py-12" />
+
+          <div
+            id="artists"
+            class="pt-12 pb-10"
+            style="background-color: #DEDEDE"
+            v-waypoint="{ active: true, callback: onArtists, options: intersectOptions }"
+          >
+            <v-container fluid class="pa-0 ma-0">
+              <v-row class="pt-12 pl-12 pr-10 pb-5" justify="space-between" align="center">
+                <v-col class="pl-4 pr-0 col-artists-width">
+                  <v-img contain :src="artists.img" :lazy-src="artists.lazy" />
+                </v-col>
+                <v-col class="pl-0 pr-5 col-artists-width">
+                    <div style="color: #333333">
+                      <p class="playfair-30-700 pb-9" v-html="artists.title[getLang]" />
+                      <p class="raleway-16-400 pb-8" v-html="artists.body[getLang]"/>
                       <v-btn
-                        class="montserrat-11p5-600 white--text px-10"
+                        class="montserrat-10p5-600 white--text px-10"
                         depressed
                         x-large
                         color="#525252"
-                        v-html="explore.button[getLang]"
-                        :to="image.route"
+                        v-html="artists.button[getLang]"
                       />
                     </div>
-                  </v-img>
-              </v-col>
-            </v-row>
-          </v-lazy>
-        </div>
+                </v-col>
+              </v-row>
+              <v-row class="py-3" justify="space-around" align="center">
+                <v-col
+                  style="color: #1A1A1A"
+                  class="col-testimonials-width"
+                  v-for="(testimonial, i) in artists.testimonials"
+                  :key="'artists-testimonials-' + i"
+                >
+                  <div class="playfair-18-400 text-center" v-html="testimonial.quote[getLang]" />
+                  <div class="raleway-13-600 text-center pt-2" v-html="testimonial.author[getLang]" />
+                </v-col>
+              </v-row>
+            </v-container>
+          </div>
 
-        <div class="py-12" />
-
-        <div id="artists" class="pt-12 pb-10" style="background-color: #DEDEDE" v-waypoint="{ active: true, callback: onArtists, options: intersectOptions}">
-          <v-lazy
-            v-model="artists.isActive"
-            :options="{
-              threshold: 1.0
-            }"
-            transition="slide-y-reverse-transition"
-          >
-          <v-container fluid class="pa-0 ma-0">
-            <v-row class="pt-12 pl-12 pr-10 pb-5" justify="space-between" align="center">
-              <v-col class="pl-4 pr-0 col-artists-width">
-                <v-img contain :src="artists.img" :lazy-src="artists.lazy" />
-              </v-col>
-              <v-col class="pl-0 pr-5 col-artists-width">
-                  <div style="color: #333333">
-                    <p class="playfair-30-700 pb-9" v-html="artists.title[getLang]" />
-                    <p class="raleway-16-400 pb-8" v-html="artists.body[getLang]"/>
-                    <v-btn
-                      class="montserrat-10p5-600 white--text px-10"
-                      depressed
-                      x-large
-                      color="#525252"
-                      v-html="artists.button[getLang]"
-                    />
-                  </div>
-              </v-col>
-            </v-row>
-            <v-row class="py-3" justify="space-around" align="center">
-              <v-col
-                style="color: #1A1A1A"
-                class="col-testimonials-width"
-                v-for="(testimonial, i) in artists.testimonials"
-                :key="'artists-testimonials-' + i"
-              >
-                <div class="playfair-18-400 text-center" v-html="testimonial.quote[getLang]" />
-                <div class="raleway-13-600 text-center pt-2" v-html="testimonial.author[getLang]" />
-              </v-col>
-            </v-row>
-          </v-container>
-          </v-lazy>
-        </div>
-
-        <div id="benefits" class="pt-6" style="background-color: #FAFAFA" v-waypoint="{ active: true, callback: onBenefits, options: intersectOptions}">
-          <v-lazy
-            v-model="artists.isActive"
-            :options="{
-              threshold: 1.0
-            }"
-            transition="slide-y-reverse-transition"
+          <div
+            id="benefits"
+            class="pt-6"
+            style="background-color: #FAFAFA"
+            v-waypoint="{ active: true, callback: onBenefits, options: intersectOptions }"
           >
             <v-row class="px-12 py-12" justify="space-between">
               <v-col class="px-4" cols="4" v-for="(benefit, i) in benefits" :key="'benefit-' + i">
@@ -148,16 +136,12 @@
                 </v-row>
               </v-col>
             </v-row>
-          </v-lazy>
-        </div>
+          </div>
 
-        <div id="media" class="pt-8 pb-12 white" v-waypoint="{ active: true, callback: onMedia, options: intersectOptions}">
-          <v-lazy
-            v-model="artists.isActive"
-            :options="{
-              threshold: 1.0
-            }"
-            transition="slide-y-reverse-transition"
+          <div 
+            id="media"
+            class="pt-8 pb-12 white"
+            v-waypoint="{ active: true, callback: onMedia, options: intersectOptions}"
           >
             <div>
               <p class="playfair-38-700 text-center pb-12 mb-0" style="color: #333333" v-html="media.title[getLang]" />
@@ -174,20 +158,15 @@
                 <div class="swiper-button-next swiper-button-white" slot="button-next" />
               </div>
             </div>
-          </v-lazy>
         </div>
 
-        <div id="contact-us" class="pt-12" style="background-color: #dddddd">
-          <div v-waypoint="{ active: true, callback: onContact, options: intersectOptions}" />
-          <v-lazy
-            v-model="artists.isActive"
-            :options="{
-              threshold: 1.0
-            }"
-            transition="slide-y-reverse-transition"
-          >
-            <contact-us />
-          </v-lazy>
+        <div
+          id="contact-us"
+          class="pt-12"
+          style="background-color: #dddddd"
+          v-waypoint="{ active: true, callback: onContact, options: intersectOptions}"
+        >
+          <contact-us />
         </div>
 
       </v-container>
