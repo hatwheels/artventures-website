@@ -31,7 +31,7 @@
                 </v-col>
                 <v-col class="pl-5 pr-6 color-333333" cols="6">
                   <p class="playfair-30-700-1p2" v-html="advantage.title[getLang]" />
-                  <p class="raleway-16-400" v-html="advantage.description[getLang]" />
+                  <p class="raleway-16-400-1p6em" v-html="advantage.description[getLang]" />
                 </v-col>
               </v-row>
             </v-col>
@@ -181,127 +181,49 @@ export default {
 </script>
 
 <style>
-  .pos-rel {
-    position: relative;
-  }
+.custom-divider {
+  width: 30vw;
+  height: 1px;
+  margin-right: 35vw;
+  margin-left: 35vw;
+}
 
-  .background-color-fafafa {
-    background-color: #FAFAFA;
-  }
+.custom-block {
+  width: 50vw;
+  margin-right: 25vw;
+  margin-left: 25vw;
+}
 
-  .background-color-dddddd {
-    background-color: #DDDDDD;
-  }
+.hot-cross-main {
+  position: absolute;
+  background-color: #F5F5F5;
+  width: 42.65%;
+  z-index: 100;
+  right: 2.7%;
+  top: 17%;
+  padding: 4.737%;
+}
 
-  .color-333333 {
-    color: #333333;
-  }
+.contact-us-btn {
+  display: inline-block;
+  background-color: #2B2B2B;
+  text-decoration: none;
+  border-radius: 8px;
+  padding: 1.1vw 3.28vw;
+  cursor: pointer;
+}
 
-  .color-1a1a1a {
-    color: #1A1A1A;
-  }
+.form-btn {
+  display: inline-block;
+  background-color: #4C4C4A;
+  border-radius: 4px;
+  padding: 21px 34px;
+  cursor: pointer;
+}
 
-  .color-rgba-0-0-0-p52 {
-    color: rgba(0, 0, 0, 0.52);
-  }
-
-  .custom-divider {
-    width: 30vw;
-    height: 1px;
-    margin-right: 35vw;
-    margin-left: 35vw;
-  }
-
- .custom-block {
-    width: 50vw;
-    margin-right: 25vw;
-    margin-left: 25vw;
- }
-
-  .hot-cross-main {
-    position: absolute;
-    background-color: #F5F5F5;
-    width: 42.65%;
-    z-index: 100;
-    right: 2.7%;
-    top: 17%;
-    padding: 4.737%;
-  }
-
-  .contact-us-btn {
-    display: inline-block;
-    background-color: #2B2B2B;
-    text-decoration: none;
-    border-radius: 8px;
-    padding: 1.1vw 3.28vw;
-    cursor: pointer;
-  }
-
- .form-btn {
-    display: inline-block;
-    background-color: #4C4C4A;
-    border-radius: 4px;
-    padding: 21px 34px;
-    cursor: pointer;
-  }
-
-  .col.col-hot-testimonials-width {
-    width: 30%;
-    max-width: 30%;
-    flex-basis: 30%;
-  }
-
-  /* Raleway */
-  .raleway-1p312vw-400 {
-    font-family: 'Raleway', sans-serif !important;
-    font-size: 1.312vw !important;
-    font-weight: 400 !important;
-  }
-  .raleway-1p312vw-600 {
-    font-family: 'Raleway', sans-serif !important;
-    font-size: 1.312vw !important;
-    font-weight: 700 !important;
-    letter-spacing: 1.5px !important;
-  }
-  .raleway-3p28vw-600-1p2em {
-    font-family: 'Raleway', sans-serif !important;
-    font-size: 3.28vw !important;
-    font-weight: 600 !important;
-    line-height: 1.2em !important;
-  }
-  .raleway-13-600 {
-    font-family: 'Raleway', sans-serif !important;
-    font-size: 13px !important;
-    font-weight: 600 !important;
-  }
-  .raleway-15-600 {
-    font-family: 'Raleway', sans-serif !important;
-    font-size: 15px !important;
-    font-weight: 600 !important;
-    letter-spacing: 1.5px !important;
-  }
-  .raleway-16-400 {
-    font-family: 'Raleway', sans-serif !important;
-    font-size: 16px !important;
-    font-weight: 400 !important;
-    line-height: 1.6em !important;
-  }
-  /* Playfair Display */
-  .playfair-18-400 {
-    font-family: 'Playfair Display', serif !important;
-    font-size: 18px !important;
-    font-weight: 400 !important;
-    line-height: 1.4em !important;
-  }
-  .playfair-30-700-1p2 {
-    font-family: 'Playfair Display', serif !important;
-    font-size: 30px !important;
-    font-weight: 700 !important;
-    line-height: 1.2em !important;
-  }
-  .playfair-38-700 {
-    font-family: 'Playfair Display', serif !important;
-    font-size: 38px !important;
-    font-weight: 700 !important;
-  }
+.col.col-hot-testimonials-width {
+  width: 30%;
+  max-width: 30%;
+  flex-basis: 30%;
+}
 </style>

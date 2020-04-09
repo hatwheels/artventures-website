@@ -139,22 +139,3 @@ export default {
   },
 }
 </script>
-
-<style>
-.background-color-fafafa {
-  background-color: #FAFAFA;
-}
-
-/* Text fonts */
-/* Raleway */
-.raleway-16-400 {
-  font-family: 'Raleway', sans-serif !important;
-  font-size: 16px !important;
-  font-weight: 400 !important;
-}
-.raleway-18-600 {
-  font-family: 'Raleway', sans-serif !important;
-  font-size: 18px !important;
-  font-weight: 600 !important;
-}
-</style>

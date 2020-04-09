@@ -65,14 +65,14 @@
           v-html="routes.contact[getLang]"
         />
         </div>
-        <v-menu bottom :offset-y="true" transition="slide-y-transition">
+        <v-menu open-on-hover bottom :offset-y="true" transition="slide-y-transition">
           <template v-slot:activator="{ on }">
             <v-btn class="px-2" text color="transparent" v-on="on" :ripple="false">
               <div style="color: #333333" class="nunito-18-600">{{ getLang }}</div>
               <v-icon color="#333333" right>mdi-menu-down</v-icon>
             </v-btn>
           </template>
-          <v-list>
+          <v-list flat color="#e8e8e8">
             <v-list-item v-for="(language, i) in languages" :key="'lang-' + i" @click="setLang(language)">
               <v-list-item-title style='color: #333333' class="text-center nunito-18-600 text-uppercase">
                 {{ language }}
@@ -84,7 +84,7 @@
     </v-app-bar>
 
     <v-app-bar class="hidden-md-and-up px-3" app absolute color="#F7F7F7" height="50px">
-      <v-btn width="122px" color="transparent" text icon to="/">/
+      <v-btn width="122px" color="transparent" text icon to="/">
         <v-img :src="logo[1]" />
       </v-btn>
 
@@ -278,6 +278,30 @@ export default {
   padding-right: 0px;
 }
 
+.pos-rel {
+  position: relative;
+}
+
+.color-333333 {
+  color: #333333
+}
+
+.color-1a1a1a {
+  color: #1A1A1A;
+}
+
+.color-rgba-0-0-0-p52 {
+  color: rgba(0, 0, 0, 0.52);
+}
+
+.background-color-fafafa {
+  background-color: #FAFAFA;
+}
+
+.background-color-dddddd {
+  background-color: #DDDDDD;
+}
+
 /* Text Fonts */
 /* Nunito */
 .nunito-15-400 {
@@ -291,15 +315,48 @@ export default {
   font-weight: 600 !important;
 }
 /* Raleway */
+.raleway-12-400 {
+  font-family: 'Raleway', sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  line-height: 1.6em !important;
+}
+.raleway-13-600 {
+  font-family: 'Raleway', sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+}
+.raleway-15-600 {
+  font-family: 'Raleway', sans-serif !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  letter-spacing: 1.5px !important;
+}
+.raleway-15-700 {
+  font-family: "Raleway", sans-serif !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+}
 .raleway-16-400 {
   font-family: 'Raleway', sans-serif !important;
   font-size: 16px !important;
   font-weight: 400 !important;
 }
+.raleway-16-400-1p6em {
+  font-family: 'Raleway', sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 400 !important;
+  line-height: 1.6em !important;
+}
 .raleway-18-400 {
   font-family: 'Raleway', sans-serif !important;
   font-size: 18px !important;
   font-weight: 400 !important;
+}
+.raleway-18-600 {
+  font-family: 'Raleway', sans-serif !important;
+  font-size: 18px !important;
+  font-weight: 600 !important;
 }
 .raleway-25-400 {
   font-family: 'Raleway', sans-serif !important;
@@ -310,6 +367,51 @@ export default {
   font-family: 'Raleway', sans-serif !important;
   font-size: 35px !important;
   font-weight: 400 !important;
+}
+.raleway-44-700 {
+  font-family: 'Raleway', sans-serif !important;
+  font-size: 44px !important;
+  font-weight: 700 !important;
+}
+.raleway-1p312vw-400 {
+  font-family: 'Raleway', sans-serif !important;
+  font-size: 1.312vw !important;
+  font-weight: 400 !important;
+}
+.raleway-1p312vw-600 {
+  font-family: 'Raleway', sans-serif !important;
+  font-size: 1.312vw !important;
+  font-weight: 700 !important;
+  letter-spacing: 1.5px !important;
+}
+.raleway-3p28vw-600-1p2em {
+  font-family: 'Raleway', sans-serif !important;
+  font-size: 3.28vw !important;
+  font-weight: 600 !important;
+  line-height: 1.2em !important;
+}
+/* Playfair Display */
+.playfair-18-400 {
+  font-family: 'Playfair Display', serif !important;
+  font-size: 18px !important;
+  font-weight: 400 !important;
+  line-height: 1.4em !important;
+}
+.playfair-30-700 {
+  font-family: 'Playfair Display', serif !important;
+  font-size: 30px !important;
+  font-weight: 700 !important;
+}
+.playfair-30-700-1p2 {
+  font-family: 'Playfair Display', serif !important;
+  font-size: 30px !important;
+  font-weight: 700 !important;
+  line-height: 1.2em !important;
+}
+.playfair-38-700 {
+  font-family: 'Playfair Display', serif !important;
+  font-size: 38px !important;
+  font-weight: 700 !important;
 }
 </style>
 

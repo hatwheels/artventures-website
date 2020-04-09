@@ -42,7 +42,7 @@
               <div class="pr-8">
                 <p style="color: #333333" class="playfair-30-700 pb-7 pr-12" v-html="about.title[getLang]" />
                 <p v-for="(p, i) in about.body" :key="'aboutTextBody-' + i"
-                  style="color: #333333" class="raleway-16-400 pb-4 pr-12" v-html="p[getLang]"
+                  style="color: #333333" class="raleway-16-400-1p6em pb-4 pr-12" v-html="p[getLang]"
                 />
               </div>
             </v-col>
@@ -92,7 +92,7 @@
                 <v-col class="pl-0 pr-5 col-artists-width">
                     <div style="color: #333333">
                       <p class="playfair-30-700 pb-9" v-html="artists.title[getLang]" />
-                      <p class="raleway-16-400 pb-8" v-html="artists.body[getLang]"/>
+                      <p class="raleway-16-400-1p6em pb-8" v-html="artists.body[getLang]"/>
                       <v-btn
                         class="montserrat-10p5-600 white--text px-10"
                         depressed
@@ -131,7 +131,7 @@
                   </v-col>
                   <v-col class="px-5" style="color: #333333" cols="6">
                     <p class="playfair-30-700" v-html="benefit.title[getLang]" />
-                    <p class="raleway-16-400" v-html="benefit.description[getLang]" />
+                    <p class="raleway-16-400-1p6em" v-html="benefit.description[getLang]" />
                   </v-col>
                 </v-row>
               </v-col>
@@ -613,39 +613,5 @@ export default {
   font-family: 'Montserrat', sans-serif !important;
   font-size: 11.5px !important;
   font-weight: 600 !important;
-}
-/* Playfair Display */
-.playfair-18-400 {
-  font-family: 'Playfair Display', serif !important;
-  font-size: 18px !important;
-  font-weight: 400 !important;
-  line-height: 1.4em !important;
-}
-.playfair-30-700 {
-  font-family: 'Playfair Display', serif !important;
-  font-size: 30px !important;
-  font-weight: 700 !important;
-}
-.playfair-38-700 {
-  font-family: 'Playfair Display', serif !important;
-  font-size: 38px !important;
-  font-weight: 700 !important;
-}
-/* Raleway */
-.raleway-13-600 {
-  font-family: 'Raleway', sans-serif !important;
-  font-size: 13px !important;
-  font-weight: 600 !important;
-}
-.raleway-16-400 {
-  font-family: 'Raleway', sans-serif !important;
-  font-size: 16px !important;
-  font-weight: 400 !important;
-  line-height: 1.6em !important;
-}
-.raleway-44-700 {
-  font-family: 'Raleway', sans-serif !important;
-  font-size: 44px !important;
-  font-weight: 700 !important;
 }
 </style>
