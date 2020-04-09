@@ -217,41 +217,41 @@ export default {
       ],
       routes: {
         about: {
-          'gr': '<div style="color: #333333" class="text-capitalize">Αρχική</div>', // Greek, raw html
-          'en': '<div style="color: #333333" class="text-capitalize">About</div>', // English, raw html
+          gr: '<div style="color: #333333" class="text-capitalize">Αρχική</div>', // Greek, raw html
+          en: '<div style="color: #333333" class="text-capitalize">About</div>', // English, raw html
         },
         explore: {
-          'gr': '<div style="color: #333333" class="text-capitalize">Εξερεύνησε</div>', // Greek, raw html
-          'en': '<div style="color: #333333" class="text-capitalize">Explore</div>', // English, raw html
-          'routes': [
+          gr: '<div style="color: #333333" class="text-capitalize">Εξερεύνησε</div>', // Greek, raw html
+          en: '<div style="color: #333333" class="text-capitalize">Explore</div>', // English, raw html
+          routes: [
             {
-              'gr': '<div style="color: #333333" class="text-capitalize">Ιδιώτες</div>',
-              'en': '<div style="color: #333333" class="text-capitalize">Individuals</div>',
-              'route': '/individuals',
+              gr: '<div style="color: #333333" class="text-capitalize">Ιδιώτες</div>',
+              en: '<div style="color: #333333" class="text-capitalize">Individuals</div>',
+              route: '/individuals',
             },
             {
-              'gr': '<div style="color: #333333" class="text-capitalize">Εταιρείες</div>',
-              'en': '<div style="color: #333333" class="text-capitalize">Businesses</div>',
-              'route': '/businesses',
+              gr: '<div style="color: #333333" class="text-capitalize">Εταιρείες</div>',
+              en: '<div style="color: #333333" class="text-capitalize">Businesses</div>',
+              route: '/businesses',
             },
             {
-              'gr': '<div style="color: #333333" class="text-capitalize">Ξενοδοχεία</div>',
-              'en': '<div style="color: #333333" class="text-capitalize">Hotels</div>',
-              'route': '/hotels',
+              gr: '<div style="color: #333333" class="text-capitalize">Ξενοδοχεία</div>',
+              en: '<div style="color: #333333" class="text-capitalize">Hotels</div>',
+              route: '/hotels',
             }
           ]
         },
         forArtists: {
-          'gr': '<div style="color: #333333" class="text-capitalize">Για Καλλιτέχνες</div>', // Greek, raw html
-          'en': '<div style="color: #333333" class="text-capitalize">For Artists</div>', // English, raw html
+          gr: '<div style="color: #333333" class="text-capitalize">Για Καλλιτέχνες</div>', // Greek, raw html
+          en: '<div style="color: #333333" class="text-capitalize">For Artists</div>', // English, raw html
         },
         faq: {
-          'gr': '<div style="color: #333333" class="text-capitalize">Ερωτήσεις</div>', // Greek, raw html
-          'en': '<div style="color: #333333">F.A.Q.</div>', // English, raw html
+          gr: '<div style="color: #333333" class="text-capitalize">Ερωτήσεις</div>', // Greek, raw html
+          en: '<div style="color: #333333">F.A.Q.</div>', // English, raw html
         },
         contact: {
-          'gr': '<div style="color: #FFFFFF" class="text-capitalize">Επικοινωνία</div>', // Greek, raw html
-          'en': '<div style="color: #FFFFFF" class="text-capitalize">Contact</div>', // English, raw html
+          gr: '<div style="color: #FFFFFF" class="text-capitalize">Επικοινωνία</div>', // Greek, raw html
+          en: '<div style="color: #FFFFFF" class="text-capitalize">Contact</div>', // English, raw html
         }
       },
       modalMenu: false,

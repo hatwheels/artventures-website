@@ -104,7 +104,7 @@ export default {
     return {
       form: {
         title: {
-          gr: "Contact Us",
+          gr: "Επικοινωνία",
           en: "Contact Us"
         },
         firstname: {
@@ -128,7 +128,7 @@ export default {
           en: 'Message *',
         },
         button: {
-          gr: 'Send Message',
+          gr: 'Στειλτε Μηνυμα',
           en: 'Send Message',
         },
         errors: {
@@ -209,10 +209,10 @@ export default {
     setAlert(type) {
       this.alert = true;
       if (type == "success") {
-        this.alertMsg = "Your message has been sent";
+        this.alertMsg = this.getLang === 'gr' ? "Το μήνυμα σας εστάλη" : "Your message has been sent";
         this.alertType = "success";
       } else {
-        this.alertMsg = "An error occured";
+        this.alertMsg = this.getLang === 'gr' ? "Κάποιο λάθος συνέβη" : "An error occured";
         this.alertType = "error";
       }
     },
@@ -270,7 +270,6 @@ export default {
 
 .v-messages__message {
   font-family: 'Raleway', sans-serif !important;
-
 }
 
 /* Playfair Display */

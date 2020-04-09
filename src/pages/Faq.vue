@@ -131,7 +131,7 @@ export default {
   },
   metaInfo () {
     return {
-      titleTemplate: 'F.A.Q. — Artventures',
+      titleTemplate: this.getLang === 'gr' ?  "Ερωτηματολόγιο — Artventures" : 'F.A.Q. — Artventures' ,
       meta: [
         { name: 'description', content: 'Landing page' },
       ],

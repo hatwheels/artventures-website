@@ -2,7 +2,7 @@
   <Layout>
     <v-navigation-drawer
       class="ml-4 mr-4"
-      mini-variant-width="100px"
+      mini-variant-width="120px"
       style="margin-top: 43vh;"
       fixed
       permanent
@@ -260,7 +260,7 @@ export default {
           active: false,
         },
         {
-          gr: 'Media',
+          gr: 'ΜΜΕ',
           en: 'Media',
           tag: '#media',
           active: false,
@@ -277,21 +277,21 @@ export default {
       about: {
         isActive: false,
         title: {
-          'gr': 'A new Artwork in your space, anytime you want',
-          'en': 'A new Artwork in your space, anytime you want',
+          gr: 'Ένα νέο Έργο στο χώρο σας, όποτε το θελήσετε',
+          en: 'A new Artwork in your space, anytime you want',
         },
         body: [
           {
-            'gr': 'We are here to change the way you think and experience Art. So give us your hand and let us take you to your first... Artventure. Get original Art in your home, office, workspace or even your hotel, without spending a fortune.',
-            'en': 'We are here to change the way you think and experience Art. So give us your hand and let us take you to your first... Artventure. Get original Art in your home, office, workspace or even your hotel, without spending a fortune.',
+            gr: 'Είμαστε εδώ για να αλλάξουμε τον τρόπο που σκέφτεστε και βιώνετε την Τέχνη. Γι’ αυτό δώστε μας το χέρι και αφήστε μας να σας πάρουμε μαζί στην πρώτη σας... Artventure. Διαλέξτε πρωτότυπα Έργα για το σπίτι, το γραφείο ή ακόμα και για το ξενοδοχείο χωρίς να ξοδέψετε μια περιουσία.',
+            en: 'We are here to change the way you think and experience Art. So give us your hand and let us take you to your first... Artventure. Get original Art in your home, office, workspace or even your hotel, without spending a fortune.',
           },
           {
-            'gr': 'Explore new, upcoming or well established artists from all over Greece, and experience Art as a Service.',
-            'en': 'Explore new, upcoming or well established artists from all over Greece, and experience Art as a Service.',
+            gr: "Εξερευνήστε νέους, πολλά υποσχόμενους ή καταξιωμένους καλλιτέχνες απ' όλη την Ελλάδα, και βιώστε την Τέχνη ως Υπηρεσία.",
+            en: 'Explore new, upcoming or well established artists from all over Greece, and experience Art as a Service.',
           },
           {
-            'gr': 'Explore, rent and enjoy Art.',
-            'en': 'Explore, rent and enjoy Art.',
+            gr: 'Εξερευνήστε, νοικιάστε και απολαύστε Τέχνη.',
+            en: 'Explore, rent and enjoy Art.',
           }
         ],
         img: "https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto/v1582236536/artventures/img21.png",
@@ -301,15 +301,15 @@ export default {
       explore: {
         isActive: false,
         title: {
-          'gr': 'Explore your options',
-          'en': 'Explore your options',
+          gr: 'Ανακαλύψτε τις επιλογές σας',
+          en: 'Explore your options',
         },
         images: [
           {
             img: 'https://res.cloudinary.com/de1jgt6c5/image/upload/g_center,ar_1:1,c_fill/v1585320134/artventures/img22.jpg',
             lazy: 'https://res.cloudinary.com/de1jgt6c5/image/upload/g_center,ar_1:1,c_fill,w_100,h_100/v1585320134/artventures/img22.jpg',
             p: {
-              gr: 'Individuals',
+              gr: 'Ιδιώτες',
               en: 'Individuals',
             },
             route: '/individuals',
@@ -318,7 +318,7 @@ export default {
             img: 'https://res.cloudinary.com/de1jgt6c5/image/upload/g_center,ar_1:1,c_fill/v1585320139/artventures/img23.jpg',
             lazy: 'https://res.cloudinary.com/de1jgt6c5/image/upload/g_center,ar_1:1,c_fill,w_100,h_100/v1585320139/artventures/img23.jpg',
             p: {
-              gr: 'Businesses',
+              gr: 'Επιχειρήσεις',
               en: 'Businesses',
             },
             route: '/businesses',
@@ -327,14 +327,14 @@ export default {
             img: 'https://res.cloudinary.com/de1jgt6c5/image/upload/g_center,ar_1:1,c_fill/v1585320144/artventures/img24.jpg',
             lazy: 'https://res.cloudinary.com/de1jgt6c5/image/upload/g_center,ar_1:1,c_fill,w_100,h_100/v1585320139/artventures/img24.jpg',
             p: {
-              gr: 'Hotels',
+              gr: 'Ξενοδοχεία',
               en: 'Hotels',
             },
             route: '/hotels',
           },
         ],
         button: {
-          gr: 'Find out more',
+          gr: 'Δειτε περισσότερα',
           en: 'Find out more',
         }
       },
@@ -342,31 +342,31 @@ export default {
       artists: {
         isActive: false,
         title: {
-          gr: 'Artists, Sell with us!',
+          gr: 'Καλλιτέχνες, πουλήστε με μας!',
           en: 'Artists, Sell with us!',
         },
         body: {
-          gr: 'Join Artventures’ team of Artists and get exposure, income and recognition. We don’t care if you’re young and upcoming or experienced and well established, we only care about your Art. Through our experts and partners we provide everything our sellers need, so you can focus on what you love to do – create exquisite Art!',
+          gr: 'Γίνετε μέλος της ομάδας καλλιτεχνών της Artventures και αποκτήστε προβολή, έσοδα και αναγνώριση. Δε μας ενδιαφέρει αν είστε νέοι και ανερχόμενοι ή έμπειροι και καταξιωμένοι, αλλά η Τέχνη σας. Αναλαμβάνουμε όλες τις λεπτομέρειες του μάρκετινγκ, των πωλήσεων και των λογιστικών ώστε εσύ να έχεις όλο τον χρόνο να αφοσιωθείς στην Δημιουργία!',
           en: 'Join Artventures’ team of Artists and get exposure, income and recognition. We don’t care if you’re young and upcoming or experienced and well established, we only care about your Art. Through our experts and partners we provide everything our sellers need, so you can focus on what you love to do – create exquisite Art!',
         },
         testimonials: [
           {
             quote: {
-              gr: '“Artventures is a wonderful idea, and a great way to get more exposure and buyers. But above all, it’s a rare team with passionate, amazing people who love art and artists and do everything to help us.”',
+              gr: "“Η Artventures είναι μια καταπληκτική ιδέα, και ένας εξαιρετικός τρόπος μεγαλύτερης προβολής και περισσότερων αγοαστών. Πάνω απ' όλα όμως είναι μια σπάνια ομάδα με φανταστικούς, ενθουσιώδεις ανθρώπους που αγαπάνε την Τέχνη και τους καλλιτέχνες και κάνουν τα πάντα για να μας βοηθήσουν.”",
               en: '“Artventures is a wonderful idea, and a great way to get more exposure and buyers. But above all, it’s a rare team with passionate, amazing people who love art and artists and do everything to help us.”',
             },
             author: {
-              gr: '— Kostas Vaviloussakis',
+              gr: '— Κώστας Βαβιλουσσάκης',
               en: '— Kostas Vaviloussakis',
             }
           },
           {
             quote: {
-              gr: '“I’m very happy to be a part of the Artventures since the beginning. They’re kind, helpful and trustworthy. And most of all they’re great guys and take care of my work.”',
+              gr: "“Είμαι πολύ χαρούμενος που είμαι μέλος της Artventures από την αρχή. Είναι ευγενικοί, εξυπηρετικοί και αξιόπιστοι. Και πάνω απ' όλα είναι απίθανοι τύποι και φροντίζουν για την δουλεία μου.”",
               en: '“I’m very happy to be a part of the Artventures since the beginning. They’re kind, helpful and trustworthy. And most of all they’re great guys and take care of my work.”',
             },
             author: {
-              gr: '— Yorgis Yerolymbos',
+              gr: '— Γιώργης Γερόλυμπος',
               en: '— Yorgis Yerolymbos',
             }
           }
@@ -374,7 +374,7 @@ export default {
         img: 'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto/v1582416241/artventures/img17.jpg',
         lazy: 'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto,h_100/v1582416241/artventures/img17.jpg',
         button: {
-          gr: 'Apply to Artventures',
+          gr: 'Καντε αίτηση στην Artventures',
           en: 'Apply to Artventures',
         },
       },
@@ -382,11 +382,11 @@ export default {
       benefits: [
         {
           title: {
-            gr: 'Your Art speaks for you.',
+            gr: 'Η Τέχνη μιλάει για εσάς.',
             en: 'Your Art speaks for you.',
           },
           description: {
-            gr: 'Whether you’re looking to inspire, ask questions, start a conversation, make an impression, or challenge an assumption, the art you show can make the statement over and over in unique, dynamic ways.',
+            gr: 'Είτε ψάχνετε κάτι που θα σας εμπνεύσει, είτε κάτι που θα εγείρει μεγάλα ερωτήματα, ή θα γίνει αφετηρία για έναν διάλογο, είτε θέλετε να προκαλέσετε, ή απλά να κάνετε εντύπωση ή μια δήλωση στον χώρο σας, η Τέχνη που επιλέγετε λέει πολλά για εσάς και το περιβάλλον σας, με διαφορετικούς, πολυεπίπεδους, δυναμικούς τρόπους.',
             en: 'Whether you’re looking to inspire, ask questions, start a conversation, make an impression, or challenge an assumption, the art you show can make the statement over and over in unique, dynamic ways.',
           },
           img: 'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto/v1585320144/artventures/img25.jpg',
@@ -394,11 +394,11 @@ export default {
         },
         {
           title: {
-            gr: 'Support local artists.',
+            gr: 'Υποστηρίξτε τοπικούς καλλιτέχνες.',
             en: 'Support local artists.',
           },
           description: {
-            gr: 'Exhibit artwork that represents your community and support the artists who share it with you. Whether you are renting or buying artwork, a percentage of every Euro you spend with Artventures is paid directly to the artists whose work you enjoy.',
+            gr: 'Εκθέστε Τέχνη που αντιπροσωπεύει την κοινότητα σας και υποστηρίξτε τους καλλιτέχνες που το μοιράζονται μαζί σας. Είτε νοικιάζετε, είτε αγοράζετε τέχνη, ένα σημαντικό ποσοστό από κάθε ευρώ που επενδύετε μέσω της Artventures πάει απευθείας στους καλλιτέχνες των οποίων την δουλειά απολαμβάνετε.',
             en: 'Exhibit artwork that represents your community and support the artists who share it with you. Whether you are renting or buying artwork, a percentage of every Euro you spend with Artventures is paid directly to the artists whose work you enjoy.',
           },
           img: 'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto/v1585320144/artventures/img26.jpg',
@@ -406,11 +406,11 @@ export default {
         },
         {
           title: {
-            gr: 'Invest smart.',
+            gr: 'Επενδύστε έξυπνα.',
             en: 'Invest smart.',
           },
           description: {
-            gr: 'Get to know young and talented artists before they even gain much publicity, help those you value by trying out and / or purchasing their artworks, promote those you believe are worth more, by giving them the exposure they need. Start or increase your collection and give it good value by supporting and discovering new, promising artists at the same time.',
+            gr: 'Γνωρίστε νέους και ταλαντούχους καλλιτέχνες πριν ακόμα αποκτήσουν μεγάλη δημοσιότητα, βοηθήστε όσους εκτιμάτε δοκιμάζοντας ή και αγοράζοντας τα έργα τους, προωθήστε όσους πιστεύουν πως αξίζουν προσφέροντας τους την έκθεση που χρειάζονται. Ξεκινήστε ή αυξήστε την συλλογή σας και δώστε της υπεραξία, στηρίζοντας και ανακαλύπτοντας ταυτόχρονα νέους, υποσχόμενους καλλιτέχνες.',
             en: 'Get to know young and talented artists before they even gain much publicity, help those you value by trying out and / or purchasing their artworks, promote those you believe are worth more, by giving them the exposure they need. Start or increase your collection and give it good value by supporting and discovering new, promising artists at the same time.',
           },
           img: 'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto/v1585320144/artventures/img27.jpg',
@@ -420,7 +420,7 @@ export default {
       // Media
       media: {
         title: {
-          gr: 'They say about us',
+          gr: 'Λένε για εμάς',
           en: 'They say about us',
         },
         logos: [
