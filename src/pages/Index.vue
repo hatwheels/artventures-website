@@ -15,7 +15,11 @@
         <div class="pb-1" v-for="(navItem, i) in sideNav" :key="'nav-item-' + i">
           <v-hover v-slot:default="{ hover }">
             <div class="d-flex align-center justify-center">
-              <div v-if="hover" class="montserrat-9p5-700 pr-2 text-uppercase" v-html="navItem[getLang]" />
+              <div v-if="hover"
+                class='pr-2 text-uppercase'
+                :class="[getLang === 'gr' ? 'noto-10-700' : 'montserrat-10-700']"
+                v-html="navItem[getLang]"
+              />
               <v-btn :id="'nav-' + i" :ripple="false" x-small icon @click="$vuetify.goTo(navItem.tag)">
                 <v-icon v-if="!navItem.active" :color="hover ? 'black' : ''" small>mdi-checkbox-blank-circle-outline</v-icon>
                 <v-icon v-else size="23" color="black">mdi-record-circle-outline</v-icon>
@@ -63,7 +67,8 @@
                       <div style="height: 100%" class="d-flex flex-column justify-center align-center">
                         <p class="raleway-44-700 white--text" v-html="image.p[getLang]" />
                         <v-btn
-                          class="montserrat-11p5-600 white--text px-10"
+                          class="white--text px-10"
+                          :class="getLang === 'gr' ? 'noto-11p5-600' :'montserrat-11p5-600'"
                           depressed
                           x-large
                           color="#525252"
@@ -94,7 +99,8 @@
                       <p class="playfair-30-700 pb-9" v-html="artists.title[getLang]" />
                       <p class="raleway-16-400-1p6em pb-8" v-html="artists.body[getLang]"/>
                       <v-btn
-                        class="montserrat-10p5-600 white--text px-10"
+                        class="white--text px-10"
+                        :class="getLang === 'gr' ? 'noto-10p5-600' :'montserrat-10p5-600'"
                         depressed
                         x-large
                         color="#525252"
@@ -110,7 +116,7 @@
                   v-for="(testimonial, i) in artists.testimonials"
                   :key="'artists-testimonials-' + i"
                 >
-                  <div class="playfair-18-400 text-center" v-html="testimonial.quote[getLang]" />
+                  <div class="playfair-18-400-1p4em text-center" v-html="testimonial.quote[getLang]" />
                   <div class="raleway-13-600 text-center pt-2" v-html="testimonial.author[getLang]" />
                 </v-col>
               </v-row>
@@ -334,7 +340,7 @@ export default {
           },
         ],
         button: {
-          gr: 'Δειτε περισσότερα',
+          gr: 'Δειτε περισσοτερα',
           en: 'Find out more',
         }
       },
@@ -374,7 +380,7 @@ export default {
         img: 'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto/v1582416241/artventures/img17.jpg',
         lazy: 'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto,h_100/v1582416241/artventures/img17.jpg',
         button: {
-          gr: 'Καντε αίτηση στην Artventures',
+          gr: 'Καντε αιτηση στην Artventures',
           en: 'Apply to Artventures',
         },
       },
@@ -598,8 +604,24 @@ export default {
 }
 
 /* Text fonts */
+/* For Greek */
+.noto-10-700 {
+  font-family: 'Noto Sans', sans-serif !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+}
+.noto-10p5-600 {
+  font-family: 'Noto Sans', sans-serif !important;
+  font-size: 10.5px !important;
+  font-weight: 600 !important;
+}
+.noto-11p5-600 {
+  font-family: 'Noto Sans', sans-serif !important;
+  font-size: 11.5px !important;
+  font-weight: 600 !important;
+}
 /* Montserrat */
-.montserrat-9p5-700 {
+.montserrat-10-700 {
   font-family: 'Montserrat', sans-serif !important;
   font-size: 10px !important;
   font-weight: 700 !important;

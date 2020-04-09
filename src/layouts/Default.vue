@@ -303,6 +303,103 @@ export default {
 }
 
 /* Text Fonts */
+/* For Greek */
+.noto-13-600 {
+  font-family: 'Noto Sans', sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+}
+.noto-15-400 {
+  font-family: 'Noto Sans', sans-serif !important;
+  font-size: 15px !important;
+  font-weight: 400 !important;
+}
+.noto-15-600 {
+  font-family: 'Noto Sans', sans-serif !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  letter-spacing: 1.5px !important;
+}
+.noto-15-700 {
+  font-family: "Noto Sans", sans-serif !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+}
+.noto-16-400 {
+  font-family: 'Noto Sans', sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 400 !important;
+}
+.noto-16-400-1p6em {
+  font-family: 'Noto Sans', sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 400 !important;
+  line-height: 1.6em !important;
+}
+.noto-18-400 {
+  font-family: 'Noto Sans', sans-serif !important;
+  font-size: 18px !important;
+  font-weight: 400 !important;
+}
+.noto-18-400-1p4em {
+  font-family: 'Noto Sans', sans-serif !important;
+  font-size: 18px !important;
+  font-weight: 400 !important;
+  line-height: 1.4em !important;
+}
+.noto-18-600 {
+  font-family: 'Noto Sans', sans-serif !important;
+  font-size: 18px !important;
+  font-weight: 600 !important;
+}
+.noto-25-400 {
+  font-family: 'Noto Sans', sans-serif !important;
+  font-size: 25px !important;
+  font-weight: 400 !important;
+}
+.noto-30-700 {
+  font-family: 'Noto Sans', sans-serif !important;
+  font-size: 30px !important;
+  font-weight: 700 !important;
+}
+.noto-30-700-1p2 {
+  font-family: 'Noto Sans', sans-serif !important;
+  font-size: 30px !important;
+  font-weight: 700 !important;
+  line-height: 1.2em !important;
+}
+.noto-35-400 {
+  font-family: 'Noto Sans', sans-serif !important;
+  font-size: 35px !important;
+  font-weight: 400 !important;
+}
+.noto-38-700 {
+  font-family: 'Noto Sans', sans-serif !important;
+  font-size: 38px !important;
+  font-weight: 700 !important;
+}
+.noto-44-700 {
+  font-family: 'Noto Sans', sans-serif !important;
+  font-size: 44px !important;
+  font-weight: 700 !important;
+}
+.noto-1p312vw-400 {
+  font-family: 'Noto Sans', sans-serif !important;
+  font-size: 1.312vw !important;
+  font-weight: 400 !important;
+}
+.noto-1p312vw-600 {
+  font-family: 'Noto Sans', sans-serif !important;
+  font-size: 1.312vw !important;
+  font-weight: 700 !important;
+  letter-spacing: 1.5px !important;
+}
+.noto-3p28vw-600-1p2em {
+  font-family: 'Noto Sans', sans-serif !important;
+  font-size: 3.28vw !important;
+  font-weight: 600 !important;
+  line-height: 1.2em !important;
+}
 /* Nunito */
 .nunito-15-400 {
   font-family: 'Nunito', sans-serif !important;
@@ -315,12 +412,6 @@ export default {
   font-weight: 600 !important;
 }
 /* Raleway */
-.raleway-12-400 {
-  font-family: 'Raleway', sans-serif !important;
-  font-size: 12px !important;
-  font-weight: 400 !important;
-  line-height: 1.6em !important;
-}
 .raleway-13-600 {
   font-family: 'Raleway', sans-serif !important;
   font-size: 13px !important;
@@ -391,7 +482,7 @@ export default {
   line-height: 1.2em !important;
 }
 /* Playfair Display */
-.playfair-18-400 {
+.playfair-18-400-1p4em {
   font-family: 'Playfair Display', serif !important;
   font-size: 18px !important;
   font-weight: 400 !important;

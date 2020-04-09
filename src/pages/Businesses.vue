@@ -56,7 +56,7 @@
             v-for="(testimonial, i) in testimonials"
             :key="'biz-testimonials-' + i"
           >
-            <div class="playfair-18-400 text-center" v-html="testimonial.quote[getLang]" />
+            <div class="playfair-18-400-1p4em text-center" v-html="testimonial.quote[getLang]" />
             <div class="raleway-13-600 text-center pt-2" v-html="testimonial.author[getLang]" />
           </v-col>
         </v-row>
