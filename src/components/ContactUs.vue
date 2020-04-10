@@ -2,12 +2,20 @@
   <!-- <v-alert :type='alertType' v-model="alert" dismissible>{{ alertMsg }}</v-alert> -->
   <v-row justify="space-between" align="center">
     <v-col cols="8" offset="2">
-      <div class="playfair-38-700 text-center pt-12 pb-10" v-html="form.title[getLang]" />
+      <div
+        :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
+        class="text-center pt-12 pb-10"
+        v-html="form.title[getLang]"
+      />
 
       <form lazy-validation @submit.prevent="submit()">
         <v-row justify="space-between" align="center">
           <v-col class="py-0" cols="6">
-            <label class="raleway-16-400-1p6em color-1a1a1a" v-html="form.firstname[getLang]" />
+            <label
+              :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+              class="color-1a1a1a"
+              v-html="form.firstname[getLang]"
+            />
             <v-text-field
                 v-model.trim="name"
                 background-color="#FAFAFA"
@@ -20,7 +28,11 @@
             ></v-text-field>
           </v-col>
           <v-col class="py-0" cols="6">
-            <label class="raleway-16-400-1p6em color-1a1a1a" v-html="form.lastname[getLang]" />
+            <label
+              :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+              class="color-1a1a1a"
+              v-html="form.lastname[getLang]"
+            />
             <v-text-field
                 v-model.trim="lastName"
                 background-color="#FAFAFA"
@@ -34,7 +46,11 @@
           </v-col>
         </v-row>
 
-        <label class="raleway-16-400-1p6em color-1a1a1a" v-html="form.email[getLang]" />
+        <label
+          :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+          class="color-1a1a1a"
+          v-html="form.email[getLang]"
+        />
         <v-text-field
           v-model="email"
           background-color="#FAFAFA"
@@ -46,7 +62,11 @@
           @blur="$v.email.$touch()"
         ></v-text-field>
 
-        <label class="raleway-16-400-1p6em color-1a1a1a" v-html="form.subject[getLang]" />
+        <label
+          :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+          class="color-1a1a1a"
+          v-html="form.subject[getLang]"
+        />
         <v-text-field
           v-model.trim="subject"
           background-color="#FAFAFA"
@@ -58,7 +78,11 @@
           @blur="$v.subject.$touch()"
         ></v-text-field>
 
-        <label class="raleway-16-400-1p6em color-1a1a1a" v-html="form.message[getLang]" />
+        <label
+          :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+          class="color-1a1a1a"
+          v-html="form.message[getLang]"
+        />
         <v-textarea
           v-model.trim="message"
           background-color="#FAFAFA"
@@ -72,7 +96,8 @@
 
         <div class="d-flex justify-center">
           <button
-            class="send-msg-btn raleway-15-700 white--text text-center text-uppercase"
+            :class="getLang === 'gr' ? 'noto-15-700' : 'raleway-15-700'"
+            class="send-msg-btn white--text text-center text-uppercase"
             type="submit"
             :disabled="$v.$invalid"
             v-html="form.button[getLang]"

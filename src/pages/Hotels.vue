@@ -10,11 +10,20 @@
         <div class="px-12 pt-12 pb-10 background-color-fafafa pos-rel">
           <v-img width="69.84%" :src="main.img" :lazy="main.lazy" />
           <div class="hot-cross-main">
-            <div class="black--text raleway-3p28vw-600-1p2em pb-6" v-html="main.title[getLang]" />
-            <div class="raleway-1p312vw-400 color-rgba-0-0-0-p52 pb-12" v-html="main.description[getLang]" />
+            <div
+              :class="getLang === 'gr' ? 'noto-3p28vw-600-1p2em' : 'raleway-3p28vw-600-1p2em'"
+              class="black--text pb-6"
+              v-html="main.title[getLang]"
+            />
+            <div
+              :class="getLang === 'gr' ? 'noto-1p312vw-400' : 'raleway-1p312vw-400'"
+              class="color-rgba-0-0-0-p52 pb-12"
+              v-html="main.description[getLang]"
+            />
             <div class="pt-3" />
             <router-link
-              class="contact-us-btn raleway-1p312vw-600 white--text text-center text-uppercase"
+              :class="getLang === 'gr' ? 'noto-1p312vw-600' : 'raleway-1p312vw-600'"
+              class="contact-us-btn white--text text-center text-uppercase"
               :to="{ path: '/', hash:'#contact-us' }"
               v-html="main.button[getLang]"
             />
@@ -30,8 +39,14 @@
                   <v-img contain :src="advantage.img" :lazy-src="advantage.lazy" />
                 </v-col>
                 <v-col class="pl-5 pr-6 color-333333" cols="6">
-                  <p class="playfair-30-700-1p2" v-html="advantage.title[getLang]" />
-                  <p class="raleway-16-400-1p6em" v-html="advantage.description[getLang]" />
+                  <p
+                    :class="getLang === 'gr' ? 'noto-30-700-1p2' : 'playfair-30-700-1p2'"
+                    v-html="advantage.title[getLang]"
+                  />
+                  <p
+                    :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                    v-html="advantage.description[getLang]"
+                  />
                 </v-col>
               </v-row>
             </v-col>
@@ -50,8 +65,16 @@
             v-for="(testimonial, i) in testimonials"
             :key="'hot-testimonials-' + i"
           >
-            <div class="playfair-18-400-1p4em text-center" v-html="testimonial.quote[getLang]" />
-            <div class="raleway-13-600 text-center pt-2" v-html="testimonial.author[getLang]" />
+            <div
+              :class="getLang === 'gr' ? 'noto-18-400-1p4em' : 'playfair-18-400-1p4em'"
+              class="text-center"
+              v-html="testimonial.quote[getLang]"
+            />
+            <div
+              :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-600'"
+              class="text-center pt-2"
+              v-html="testimonial.author[getLang]"
+            />
           </v-col>
         </v-row>
 
@@ -62,10 +85,15 @@
 
         <!-- form -->
         <div class="text-center pt-12">
-          <div class="playfair-38-700 pb-6" v-html="form.title[getLang]" />
+          <div
+            :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
+            class="pb-6"
+            v-html="form.title[getLang]"
+          />
           <div class="custom-block">
             <a
-              class="form-btn raleway-15-600 white--text text-uppercase"
+              :class="getLang === 'gr' ? 'noto-15-600' : 'raleway-15-600'"
+              class="form-btn white--text text-uppercase"
               v-html="form.button[getLang]"
             />
           </div>

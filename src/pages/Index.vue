@@ -44,9 +44,16 @@
             </v-col>
             <v-col class="pl-2 pr-12" cols="6">
               <div class="pr-8">
-                <p style="color: #333333" class="playfair-30-700 pb-7 pr-12" v-html="about.title[getLang]" />
-                <p v-for="(p, i) in about.body" :key="'aboutTextBody-' + i"
-                  style="color: #333333" class="raleway-16-400-1p6em pb-4 pr-12" v-html="p[getLang]"
+                <p
+                  :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+                  class="color-333333 pb-7 pr-12"
+                  v-html="about.title[getLang]"
+                />
+                <p
+                  v-for="(p, i) in about.body" :key="'aboutTextBody-' + i"
+                  :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                  class="color-333333 pb-4 pr-12"
+                  v-html="p[getLang]"
                 />
               </div>
             </v-col>
@@ -60,33 +67,40 @@
             class="px-12"
             v-waypoint="{ active: true, callback: onExplore, options: intersectOptions }"
           >
-            <p class="pb-10 my-0 text-center playfair-38-700" v-html="explore.title[getLang]" />
-              <v-row class="pt-12" justify="space-between" align="center">
-                <v-col class="px-4" cols="4" v-for="(image, i) in explore.images" :key="'exploreImages-' + i">
-                    <v-img gradient="to top right, rgba(0,0,0,.15), rgba(0,0,0,.15)" :src="image.img">
-                      <div style="height: 100%" class="d-flex flex-column justify-center align-center">
-                        <p class="raleway-44-700 white--text" v-html="image.p[getLang]" />
-                        <v-btn
-                          class="white--text px-10"
-                          :class="getLang === 'gr' ? 'noto-11p5-600' :'montserrat-11p5-600'"
-                          depressed
-                          x-large
-                          color="#525252"
-                          v-html="explore.button[getLang]"
-                          :to="image.route"
-                        />
-                      </div>
-                    </v-img>
-                </v-col>
-              </v-row>
+            <p
+              :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
+              class="pb-10 my-0 text-center"
+              v-html="explore.title[getLang]"
+            />
+            <v-row class="pt-12" justify="space-between" align="center">
+              <v-col class="px-4" cols="4" v-for="(image, i) in explore.images" :key="'exploreImages-' + i">
+                  <v-img gradient="to top right, rgba(0,0,0,.15), rgba(0,0,0,.15)" :src="image.img">
+                    <div style="height: 100%" class="d-flex flex-column justify-center align-center">
+                      <p
+                        :class="getLang === 'gr' ? 'noto-44-700' : 'raleway-44-700'"
+                        class="white--text"
+                        v-html="image.p[getLang]"
+                      />
+                      <v-btn
+                        class="white--text px-10"
+                        :class="getLang === 'gr' ? 'noto-11p5-600' :'montserrat-11p5-600'"
+                        depressed
+                        x-large
+                        color="#525252"
+                        v-html="explore.button[getLang]"
+                        :to="image.route"
+                      />
+                    </div>
+                  </v-img>
+              </v-col>
+            </v-row>
           </div>
 
           <div class="py-12" />
 
           <div
             id="artists"
-            class="pt-12 pb-10"
-            style="background-color: #DEDEDE"
+            class="background-color-dedede pt-12 pb-10"
             v-waypoint="{ active: true, callback: onArtists, options: intersectOptions }"
           >
             <v-container fluid class="pa-0 ma-0">
@@ -95,9 +109,17 @@
                   <v-img contain :src="artists.img" :lazy-src="artists.lazy" />
                 </v-col>
                 <v-col class="pl-0 pr-5 col-artists-width">
-                    <div style="color: #333333">
-                      <p class="playfair-30-700 pb-9" v-html="artists.title[getLang]" />
-                      <p class="raleway-16-400-1p6em pb-8" v-html="artists.body[getLang]"/>
+                    <div class="color-333333">
+                      <p
+                        :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+                        class="pb-9"
+                        v-html="artists.title[getLang]"
+                      />
+                      <p
+                        :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                        class="pb-8"
+                        v-html="artists.body[getLang]"
+                      />
                       <v-btn
                         class="white--text px-10"
                         :class="getLang === 'gr' ? 'noto-10p5-600' :'montserrat-10p5-600'"
@@ -111,13 +133,20 @@
               </v-row>
               <v-row class="py-3" justify="space-around" align="center">
                 <v-col
-                  style="color: #1A1A1A"
-                  class="col-testimonials-width"
+                  class="color-1a1a1a col-testimonials-width"
                   v-for="(testimonial, i) in artists.testimonials"
                   :key="'artists-testimonials-' + i"
                 >
-                  <div class="playfair-18-400-1p4em text-center" v-html="testimonial.quote[getLang]" />
-                  <div class="raleway-13-600 text-center pt-2" v-html="testimonial.author[getLang]" />
+                  <div
+                    :class="getLang === 'gr' ? 'noto-18-400-1p4em' : 'playfair-18-400-1p4em'"
+                    class="text-center"
+                    v-html="testimonial.quote[getLang]"
+                  />
+                  <div
+                    :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-600'"
+                    class="text-center pt-2"
+                    v-html="testimonial.author[getLang]"
+                  />
                 </v-col>
               </v-row>
             </v-container>
@@ -125,8 +154,7 @@
 
           <div
             id="benefits"
-            class="pt-6"
-            style="background-color: #FAFAFA"
+            class="background-color-fafafa pt-6"
             v-waypoint="{ active: true, callback: onBenefits, options: intersectOptions }"
           >
             <v-row class="px-12 py-12" justify="space-between">
@@ -135,9 +163,15 @@
                   <v-col class="px-5" cols="6">
                     <v-img contain :src="benefit.img" :lazy-src="benefit.lazy" />
                   </v-col>
-                  <v-col class="px-5" style="color: #333333" cols="6">
-                    <p class="playfair-30-700" v-html="benefit.title[getLang]" />
-                    <p class="raleway-16-400-1p6em" v-html="benefit.description[getLang]" />
+                  <v-col class="px-5 color-333333" cols="6">
+                    <p
+                      :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+                      v-html="benefit.title[getLang]"
+                    />
+                    <p
+                      :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                      v-html="benefit.description[getLang]"
+                    />
                   </v-col>
                 </v-row>
               </v-col>
@@ -150,7 +184,11 @@
             v-waypoint="{ active: true, callback: onMedia, options: intersectOptions}"
           >
             <div>
-              <p class="playfair-38-700 text-center pb-12 mb-0" style="color: #333333" v-html="media.title[getLang]" />
+              <p
+                :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
+                class="text-center color-333333 pb-12 mb-0"
+                v-html="media.title[getLang]"
+              />
               <div class="carousel-upper swiper-container">
                 <div class="carousel-mid text-center pt-12" v-swiper="swiperOption">
                   <div class="carousel-lower swiper-wrapper">
@@ -168,8 +206,7 @@
 
         <div
           id="contact-us"
-          class="pt-12"
-          style="background-color: #dddddd"
+          class="background-color-dddddd pt-12"
           v-waypoint="{ active: true, callback: onContact, options: intersectOptions}"
         >
           <contact-us />
