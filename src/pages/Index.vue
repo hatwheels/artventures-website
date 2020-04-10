@@ -206,7 +206,7 @@
 
         <div
           id="contact-us"
-          class="background-color-dddddd pt-12"
+          class="background-color-dddddd py-12"
           v-waypoint="{ active: true, callback: onContact, options: intersectOptions}"
         >
           <contact-us />

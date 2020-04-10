@@ -195,61 +195,77 @@
       app
       color="#dddddd"
       absolute
-      class="px-12 py-9"
+      class="d-flex justify-space-around align-center px-12 py-9"
     >
-      <div
-        class="color-757575"
-        :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
-      ><span style="color: #000000; font-weight: 600;">Artventures</span> &copy; 2020
+      <div class="d-flex flex-column align-start">
+        <div class="pb-1">
+          <v-btn class="hidden-lg-and-down" large text icon color="black" href="https://www.facebook.com/artventures.me">
+            <v-icon>mdi-facebook-box</v-icon>
+          </v-btn>
+          <v-btn class="hidden-xl-only hidden-xs-only" text icon color="black" href="https://www.facebook.com/artventures.me">
+            <v-icon>mdi-facebook-box</v-icon>
+          </v-btn>
+          <v-btn class="hidden-sm-and-up" small text icon color="black" href="https://www.facebook.com/artventures.me">
+            <v-icon>mdi-facebook-box</v-icon>
+          </v-btn>
+          <v-btn class="hidden-lg-and-down" large text icon color="black" href="https://www.instagram.com/artventures.me/">
+            <v-icon>mdi-instagram</v-icon>
+          </v-btn>
+          <v-btn class="hidden-xl-only hidden-xs-only" text icon color="black" href="https://www.instagram.com/artventures.me/">
+            <v-icon>mdi-instagram</v-icon>
+          </v-btn>
+          <v-btn class="hidden-sm-and-up" small text icon color="black" href="https://www.instagram.com/artventures.me/">
+            <v-icon>mdi-instagram</v-icon>
+          </v-btn>
+          <v-btn class="hidden-lg-and-down" large text icon color="black" href="https://twitter.com/Artventures6">
+            <v-icon>mdi-twitter-box</v-icon>
+          </v-btn>
+          <v-btn class="hidden-xl-only hidden-xs-only" text icon color="black" href="https://twitter.com/Artventures6">
+            <v-icon>mdi-twitter-box</v-icon>
+          </v-btn>
+          <v-btn class="hidden-sm-and-up" small text icon color="black" href="https://twitter.com/Artventures6">
+            <v-icon>mdi-twitter-box</v-icon>
+          </v-btn>
+          <v-btn class="hidden-lg-and-down" large text icon color="black" href="https://www.linkedin.com/company/artventuresco">
+            <v-icon>mdi-linkedin-box</v-icon>
+          </v-btn>
+          <v-btn class="hidden-xl-only hidden-xs-only" text icon color="black" href="https://www.linkedin.com/company/artventuresco">
+            <v-icon>mdi-linkedin-box</v-icon>
+          </v-btn>
+          <v-btn class="hidden-sm-and-up" small text icon color="black" href="https://www.linkedin.com/company/artventuresco">
+            <v-icon>mdi-linkedin-box</v-icon>
+          </v-btn>
+        </div>
+        <div class="pt-1">
+          <div
+            :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
+            class="black-text"
+          >
+          Artventures
+          <span
+            :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
+            class="color-757575"
+          >
+          &copy; 2020
+          </span>
+          </div>
+        </div>
       </div>
-      
-      <div class="flex-grow-1" />
 
-      <div class="flex-grow-1" />
-      <v-btn class="hidden-lg-and-down" large text icon color="black" href="https://www.facebook.com/artventures.me">
-        <v-icon>mdi-facebook-box</v-icon>
-      </v-btn>
-      <v-btn class="hidden-xl-only hidden-xs-only" text icon color="black" href="https://www.facebook.com/artventures.me">
-        <v-icon>mdi-facebook-box</v-icon>
-      </v-btn>
-      <v-btn class="hidden-sm-and-up" small text icon color="black" href="https://www.facebook.com/artventures.me">
-        <v-icon>mdi-facebook-box</v-icon>
-      </v-btn>
-      <v-btn class="hidden-lg-and-down" large text icon color="black" href="https://www.instagram.com/artventures.me/">
-        <v-icon>mdi-instagram</v-icon>
-      </v-btn>
-      <v-btn class="hidden-xl-only hidden-xs-only" text icon color="black" href="https://www.instagram.com/artventures.me/">
-        <v-icon>mdi-instagram</v-icon>
-      </v-btn>
-      <v-btn class="hidden-sm-and-up" small text icon color="black" href="https://www.instagram.com/artventures.me/">
-        <v-icon>mdi-instagram</v-icon>
-      </v-btn>
-      <v-btn class="hidden-lg-and-down" large text icon color="black" href="https://twitter.com/Artventures6">
-        <v-icon>mdi-twitter-box</v-icon>
-      </v-btn>
-      <v-btn class="hidden-xl-only hidden-xs-only" text icon color="black" href="https://twitter.com/Artventures6">
-        <v-icon>mdi-twitter-box</v-icon>
-      </v-btn>
-      <v-btn class="hidden-sm-and-up" small text icon color="black" href="https://twitter.com/Artventures6">
-        <v-icon>mdi-twitter-box</v-icon>
-      </v-btn>
-      <v-btn class="hidden-lg-and-down" large text icon color="black" href="https://www.linkedin.com/company/artventuresco">
-        <v-icon>mdi-linkedin-box</v-icon>
-      </v-btn>
-      <v-btn class="hidden-xl-only hidden-xs-only" text icon color="black" href="https://www.linkedin.com/company/artventuresco">
-        <v-icon>mdi-linkedin-box</v-icon>
-      </v-btn>
-      <v-btn class="hidden-sm-and-up" small text icon color="black" href="https://www.linkedin.com/company/artventuresco">
-        <v-icon>mdi-linkedin-box</v-icon>
-      </v-btn>
+      <newsletter />
+
     </v-footer>
   </v-app>
 </template>
 
 <script>
 import { mapGetters, mapMutations } from 'vuex'
+import Newsletter from '~/components/Newsletter.vue'
 
 export default {
+  components: {
+    Newsletter,
+  },
   data () {
     return {
       logo: [
@@ -406,6 +422,11 @@ export default {
   font-size: 25px !important;
   font-weight: 400 !important;
 }
+.noto-25-600 {
+  font-family: 'Noto Sans', serif !important;
+  font-size: 25px !important;
+  font-weight: 600 !important;
+}
 .noto-30-700 {
   font-family: 'Noto Sans', sans-serif !important;
   font-size: 30px !important;
@@ -482,6 +503,11 @@ export default {
   font-size: 16px !important;
   font-weight: 400 !important;
 }
+.raleway-16-600 {
+  font-family: 'Raleway', sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+}
 .raleway-16-400-1p6em {
   font-family: 'Raleway', sans-serif !important;
   font-size: 16px !important;
@@ -536,6 +562,11 @@ export default {
   font-size: 18px !important;
   font-weight: 400 !important;
   line-height: 1.4em !important;
+}
+.playfair-25-600 {
+  font-family: 'Playfair Display', serif !important;
+  font-size: 25px !important;
+  font-weight: 600 !important;
 }
 .playfair-30-700 {
   font-family: 'Playfair Display', serif !important;
