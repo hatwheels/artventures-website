@@ -10,9 +10,16 @@
           <v-row justify="space-around" align="center">
             <v-col class="pb-0" cols="10">
               <div v-for="(question, i) in questions" :key="'faq-' + i">
-                <div class="raleway-18-600">{{ question[getLang] }}</div>
-                
-                <p v-if="answers[i].hasOwnProperty('link')" class="raleway-16-400 text-justify">
+                <div
+                  :class="getLang === 'gr' ? 'noto-18-600' : 'raleway-18-600'"
+                >
+                {{ question[getLang] }}
+                </div>
+                <p
+                  v-if="answers[i].hasOwnProperty('link')"
+                  :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
+                  class="text-justify"
+                >
                   {{ answers[i][getLang] }}
                   <span>
                     <router-link
@@ -21,7 +28,12 @@
                     />
                   </span>.
                 </p>
-                <p v-else class="raleway-16-400 text-justify" v-html="answers[i][getLang]" />
+                <p
+                  v-else
+                  :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
+                  class="text-justify"
+                  v-html="answers[i][getLang]"
+                />
               </div>
             </v-col>
           </v-row>
@@ -131,7 +143,7 @@ export default {
   },
   metaInfo () {
     return {
-      titleTemplate: 'F.A.Q. — Artventures',
+      titleTemplate: this.getLang === 'gr' ?  "Ερωτηματολόγιο — Artventures" : 'F.A.Q. — Artventures' ,
       meta: [
         { name: 'description', content: 'Landing page' },
       ],
@@ -139,22 +151,3 @@ export default {
   },
 }
 </script>
-
-<style>
-.background-color-fafafa {
-  background-color: #FAFAFA;
-}
-
-/* Text fonts */
-/* Raleway */
-.raleway-16-400 {
-  font-family: 'Raleway', sans-serif !important;
-  font-size: 16px !important;
-  font-weight: 400 !important;
-}
-.raleway-18-600 {
-  font-family: 'Raleway', sans-serif !important;
-  font-size: 18px !important;
-  font-weight: 600 !important;
-}
-</style>
