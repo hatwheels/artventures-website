@@ -291,8 +291,8 @@ export default {
           en: '<div class="color-333333">F.A.Q.</div>', // English, raw html
         },
         contact: {
-          gr: '<div class="white text-capitalize">Επικοινωνία</div>', // Greek, raw html
-          en: '<div class="white text-capitalize">Contact</div>', // English, raw html
+          gr: '<div class="white--text text-capitalize">Επικοινωνία</div>', // Greek, raw html
+          en: '<div class="white--text text-capitalize">Contact</div>', // English, raw html
         }
       },
       modalMenu: false,
