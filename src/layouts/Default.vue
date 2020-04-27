@@ -195,10 +195,15 @@
       app
       color="#dddddd"
       absolute
-      class="d-flex justify-space-around align-center px-12 py-9"
+      class="d-flex flex-xs-row flex-sm-row flex-column justify-space-around align-center px-12 py-9"
     >
-      <div class="d-flex flex-column align-start">
-        <div class="pb-1">
+
+      <newsletter></newsletter>
+
+      <div class="hidden-md-and-up pb-6"></div>
+
+      <div class="d-flex flex-column align-center">
+        <div class="pb-1" >
           <v-btn class="hidden-lg-and-down" large text icon color="black" href="https://www.facebook.com/artventures.me">
             <v-icon>mdi-facebook-box</v-icon>
           </v-btn>
@@ -251,8 +256,6 @@
           </div>
         </div>
       </div>
-
-      <newsletter />
 
     </v-footer>
   </v-app>
@@ -369,6 +372,10 @@ export default {
 
 .background-color-f5f5f5 {
   background-color: #F5F5F5;
+}
+
+.background-color-white {
+  background-color: white;
 }
 
 /* Text Fonts */
@@ -586,6 +593,11 @@ export default {
   font-size: 18px !important;
   font-weight: 400 !important;
   line-height: 1.4em !important;
+}
+.playfair-18-600 {
+  font-family: 'Playfair Display', serif !important;
+  font-size: 18px !important;
+  font-weight: 600 !important;
 }
 .playfair-25-600 {
   font-family: 'Playfair Display', serif !important;

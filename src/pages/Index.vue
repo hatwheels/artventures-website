@@ -31,13 +31,13 @@
         </div>
       </v-navigation-drawer>
 
-      <v-content>
-        <v-container class="pt-12 px-0 pb-0" fluid>
+      <v-content class="background-color-dddddd">
+        <v-container class="px-0 pt-0" fluid>
 
           <!-- About -->
           <div
             id="about"
-            class="px-12"
+            class="px-12 pt-12 background-color-white"
             v-waypoint="{ active: true, callback: onAbout, options: intersectOptions }"
           >
             <v-row justify="space-between" align="center">
@@ -62,12 +62,12 @@
             </v-row>
           </div>
 
-          <div class="py-8" />
+          <div class="py-8 background-color-white" />
 
           <!-- Explore -->
           <div
             id="explore"
-            class="px-12"
+            class="px-12 background-color-white"
             v-waypoint="{ active: true, callback: onExplore, options: intersectOptions }"
           >
             <p
@@ -99,7 +99,7 @@
             </v-row>
           </div>
 
-          <div class="py-12" />
+          <div class="py-12 background-color-white" />
 
           <!-- Artists -->
           <div
@@ -226,11 +226,11 @@
   </div>
 
   <div class="hidden-md-and-up">
-    <v-content>
-      <v-container class="pt-6 px-0 pb-0" fluid>
+    <v-content class="background-color-dddddd">
+      <v-container class="py-0 px-0 background-color-white">
 
         <!-- About -->
-        <div id="about">
+        <div id="about" class="pt-6">
           <v-row justify="center" align="center">
             <v-col cols=11>
               <v-img :src="about.img" :lazy-src="about.lazy" />
@@ -398,7 +398,7 @@
       </div>
 
       <div id="contact-us" class="background-color-dddddd pt-4 pb-12">
-        <contact-us :isSmall="true" colWidth="11" />
+        <contact-us class="pb-12" :isSmall="true" colWidth="11" />
       </div>
 
       </v-container>
