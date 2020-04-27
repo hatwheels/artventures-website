@@ -448,6 +448,11 @@ export default {
   font-size: 38px !important;
   font-weight: 700 !important;
 }
+.noto-32-700 {
+  font-family: 'Noto Sans', sans-serif !important;
+  font-size: 32px !important;
+  font-weight: 700 !important;
+}
 .noto-44-700 {
   font-family: 'Noto Sans', sans-serif !important;
   font-size: 44px !important;
@@ -578,6 +583,11 @@ export default {
   font-size: 30px !important;
   font-weight: 700 !important;
   line-height: 1.2em !important;
+}
+.playfair-32-700 {
+  font-family: 'Playfair Display', serif !important;
+  font-size: 32px !important;
+  font-weight: 700 !important;
 }
 .playfair-38-700 {
   font-family: 'Playfair Display', serif !important;
