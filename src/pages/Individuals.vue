@@ -35,23 +35,21 @@
 
         <!-- advantages -->
         <div class="py-12">
-          <v-row class="px-12 py-12" justify="space-between">
-            <v-col class="px-4" cols="4" v-for="(advantage, i) in advantages" :key="'advantage-' + i">
-              <v-row justify="space-between">
-                <v-col class="px-5" cols="6">
-                  <v-img contain :src="advantage.img" :lazy-src="advantage.lazy" />
-                </v-col>
-                <v-col class="px-5 color-333333" cols="6">
-                  <p
-                    :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
-                    v-html="advantage.title[getLang]"
-                  />
-                  <p
-                    :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                    v-html="advantage.description[getLang]"
-                  />
-                </v-col>
-              </v-row>
+          <v-row class="px-12 pb-3" justify="space-around">
+            <v-col cols="4" v-for="(advantage, i) in advantages" :key="'advantage-' + i">
+              <v-img contain :src="advantage.img" :lazy-src="advantage.lazy" />
+            </v-col>
+          </v-row>
+          <v-row class="px-12 pt-3" justify="space-around">
+            <v-col class="color-333333" cols="4" v-for="(advantage, i) in advantages" :key="'advantage-' + i">
+              <p
+                :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+                v-html="advantage.title[getLang]"
+              />
+              <p
+                :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                v-html="advantage.description[getLang]"
+              />
             </v-col>
           </v-row>
         </div>
@@ -102,7 +100,7 @@
             />
             <div
               :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
-              class="color-rgba-0-0-0-p52 pb-4"
+              class="color-rgba-0-0-0-p52 pb-7"
               v-html="main.description[getLang]"
             />
             <router-link
