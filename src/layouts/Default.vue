@@ -367,8 +367,17 @@ export default {
   background-color: #DEDEDE;
 }
 
+.background-color-f5f5f5 {
+  background-color: #F5F5F5;
+}
+
 /* Text Fonts */
 /* For Greek */
+.noto-13-400 {
+  font-family: 'Noto Sans', sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 400 !important;
+}
 .noto-13-600 {
   font-family: 'Noto Sans', sans-serif !important;
   font-size: 13px !important;
@@ -487,6 +496,11 @@ export default {
   font-weight: 600 !important;
 }
 /* Raleway */
+.raleway-13-400 {
+  font-family: 'Raleway', sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 400 !important;
+}
 .raleway-13-600 {
   font-family: 'Raleway', sans-serif !important;
   font-size: 13px !important;
@@ -533,6 +547,11 @@ export default {
   font-family: 'Raleway', sans-serif !important;
   font-size: 25px !important;
   font-weight: 400 !important;
+}
+.raleway-30-700 {
+  font-family: 'Raleway', sans-serif !important;
+  font-size: 30px !important;
+  font-weight: 700 !important;
 }
 .raleway-35-400 {
   font-family: 'Raleway', sans-serif !important;

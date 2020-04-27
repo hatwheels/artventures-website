@@ -163,25 +163,25 @@
             v-waypoint="{ active: true, callback: onBenefits, options: intersectOptions }"
           >
             <div class="pb-12">
-            <v-row class="px-12 pb-3" justify="space-between">
-              <v-col cols="4" v-for="(benefit, i) in benefits" :key="'benefit-img-' + i">
-                <v-img contain :src="benefit.img" :lazy-src="benefit.lazy" />
-              </v-col>
-            </v-row>
-            <v-row class="px-12 pt-3" justify="space-between">
-              <v-col class="color-333333" cols="4" v-for="(benefit, i) in benefits" :key="'benefit-text-' + i">
-                <div>
-                  <p
-                    :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
-                    v-html="benefit.title[getLang]"
-                  />
-                  <p
-                    :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                    v-html="benefit.description[getLang]"
-                  />
-                </div>
-              </v-col>
-            </v-row>
+              <v-row class="px-12 pb-3" justify="space-between">
+                <v-col cols="4" v-for="(benefit, i) in benefits" :key="'benefit-img-' + i">
+                  <v-img contain :src="benefit.img" :lazy-src="benefit.lazy" />
+                </v-col>
+              </v-row>
+              <v-row class="px-12 pt-3" justify="space-between">
+                <v-col class="color-333333" cols="4" v-for="(benefit, i) in benefits" :key="'benefit-text-' + i">
+                  <div>
+                    <p
+                      :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+                      v-html="benefit.title[getLang]"
+                    />
+                    <p
+                      :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                      v-html="benefit.description[getLang]"
+                    />
+                  </div>
+                </v-col>
+              </v-row>
             </div>
           </div>
 
