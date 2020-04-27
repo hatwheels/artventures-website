@@ -21,9 +21,15 @@
                   class="text-justify"
                 >
                   {{ answers[i][getLang] }}
-                  <span>
+                  <span class="hidden-sm-and-down">
                     <router-link
                       :to="{ path: '/', hash:'#contact-us' }"
+                      v-html="answers[i].link[getLang]"
+                    />
+                  </span>
+                  <span class="hidden-md-and-up">
+                    <router-link
+                      :to="{ path: '/', hash:'#contact-us-small' }"
                       v-html="answers[i].link[getLang]"
                     />
                   </span>.

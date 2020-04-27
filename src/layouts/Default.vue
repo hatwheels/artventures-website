@@ -133,7 +133,13 @@
                         <v-icon large color="#757575">mdi-chevron-double-right</v-icon>
                       </v-list-item-icon>
                     </v-list-item>
-                    <v-list-item class="pb-5 px-0" to="/#artists">
+                    <v-list-item v-if="$route.path == '/'" class="pb-5 px-0" @click="modalMenu = false; $vuetify.goTo('#artists-small');">
+                      <v-list-item-title
+                        :class="getLang === 'gr' ? 'noto-35-400' : 'raleway-35-400'"
+                        v-html="routes.forArtists[getLang]"
+                      />
+                    </v-list-item>
+                    <v-list-item v-else class="pb-5 px-0" :to="{ path: '/', hash:'#artists-small' }">
                       <v-list-item-title
                         :class="getLang === 'gr' ? 'noto-35-400' : 'raleway-35-400'"
                         v-html="routes.forArtists[getLang]"
@@ -145,14 +151,24 @@
                         v-html="routes.faq[getLang]"
                       />
                     </v-list-item>
-                    <v-list-item class="pb-5 px-0">
+                    <v-list-item v-if="$route.path == '/'" class="pb-5 px-0">
+                      <v-btn
+                        :class="getLang === 'gr' ? 'noto-25-400' : 'raleway-25-400'"
+                        x-large
+                        depressed
+                        color="#333333"
+                        @click="modalMenu = false; $vuetify.goTo('#contact-us-small');"
+                        v-html="routes.contact[getLang]"
+                      />
+                    </v-list-item>
+                    <v-list-item v-else class="pb-5 px-0">
                       <v-btn
                         :class="getLang === 'gr' ? 'noto-25-400' : 'raleway-25-400'"
                         class="py-4"
                         x-large
                         depressed
                         color="#333333"
-                        to="#contact"
+                        :to="{ path: '/', hash:'#contact-us-small' }"
                         v-html="routes.contact[getLang]"
                       />
                     </v-list-item>
@@ -180,7 +196,7 @@
                   </v-list>
                 </v-carousel-item>
               </v-carousel>
-              <v-btn class="mx-4 my-4" color="#333333" icon @click="modalMenu = false; modalMenuExplore = false;">
+              <v-btn class="mx-4 my-4" color="#333333" icon @click="modalMenu = false;">
                 <v-icon color="1a1a1a">mdi-close</v-icon>
               </v-btn>
             </div>

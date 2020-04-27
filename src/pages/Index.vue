@@ -297,7 +297,7 @@
 
         <!-- Artists -->
         <div
-          id="artists"
+          id="artists-small"
           class="background-color-dedede pt-12 pb-10"
         >
           <v-container fluid class="pa-0 ma-0">
@@ -397,7 +397,7 @@
           </div>
       </div>
 
-      <div id="contact-us" class="background-color-dddddd pt-4 pb-12">
+      <div id="contact-us-small" class="background-color-dddddd pt-4 pb-12">
         <contact-us class="pb-12" :isSmall="true" colWidth="11" />
       </div>
 
