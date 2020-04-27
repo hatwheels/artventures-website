@@ -1,6 +1,6 @@
 <template>
   <Layout>
-    <v-content>
+    <v-content class="hidden-sm-and-down">
       <v-container class="pa-0 background-color-fafafa" fluid>
 
         <!-- spacer -->
@@ -30,25 +30,26 @@
           </div>
         </div>
 
+        <!-- spacer -->
+        <div class="py-12" />
+
         <!-- advantages -->
-        <div class="pb-7">
-          <v-row class="px-12 pt-12 pb-4" justify="space-between">
-            <v-col class="px-4" cols="4" v-for="(advantage, i) in advantages" :key="'advantage-' + i">
-              <v-row justify="space-between">
-                <v-col class="px-5" cols="6">
-                  <v-img contain :src="advantage.img" :lazy-src="advantage.lazy" />
-                </v-col>
-                <v-col class="pl-5 pr-6 color-333333" cols="6">
-                  <p
-                    :class="getLang === 'gr' ? 'noto-30-700-1p2' : 'playfair-30-700-1p2'"
-                    v-html="advantage.title[getLang]"
-                  />
-                  <p
-                    :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                    v-html="advantage.description[getLang]"
-                  />
-                </v-col>
-              </v-row>
+        <div class="py-12">
+          <v-row class="px-12 pb-3" justify="space-around">
+            <v-col cols="4" v-for="(advantage, i) in advantages" :key="'advantage-' + i">
+              <v-img contain :src="advantage.img" :lazy-src="advantage.lazy" />
+            </v-col>
+          </v-row>
+          <v-row class="px-12 pt-3" justify="space-around">
+            <v-col class="color-333333" cols="4" v-for="(advantage, i) in advantages" :key="'advantage-' + i">
+              <p
+                :class="getLang === 'gr' ? 'noto-30-700-1p2' : 'playfair-30-700-1p2'"
+                v-html="advantage.title[getLang]"
+              />
+              <p
+                :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                v-html="advantage.description[getLang]"
+              />
             </v-col>
           </v-row>
         </div>
@@ -102,6 +103,104 @@
 
       </v-container>
     </v-content>
+
+    <v-content class="hidden-md-and-up">
+      <v-container class="pa-0 background-color-fafafa" fluid>
+
+        <!-- main -->
+        <v-row justify="center">
+          <v-col cols=11>
+            <v-img :src="main.img" :lazy="main.lazy" />
+          </v-col>
+          <v-col class="background-color-f5f5f5" cols=11>
+            <div
+              :class="getLang === 'gr' ? 'noto-30-700' : 'raleway-30-700'"
+              class="black--text pb-4"
+              v-html="main.title[getLang]"
+            />
+            <div
+              :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
+              class="color-rgba-0-0-0-p52 pb-7"
+              v-html="main.description[getLang]"
+            />
+            <router-link
+              :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
+              class="contact-us-btn-small white--text text-center"
+              :to="{ path: '/', hash:'#contact-us' }"
+              v-html="main.button[getLang]"
+            />
+          </v-col>
+        </v-row>
+
+        <!-- advantages -->
+        <div class="pt-6">
+          <v-row justify="center" v-for="(advantage, i) in advantages" :key="'advantage-small-' + i">
+            <v-col cols="11">
+              <v-img class="mb-4" :src="advantage.img" :lazy-src="advantage.lazy" />
+              <div class="color-333333">
+                <p
+                  :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+                  v-html="advantage.title[getLang]"
+                />
+                <p
+                  :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                  v-html="advantage.description[getLang]"
+                />
+              </div>
+            </v-col>
+          </v-row>
+        </div>
+
+        <!-- spacer with divider -->
+        <div class="pt-2 pb-5">
+          <div class="background-color-dddddd custom-divider-small" />
+        </div>
+
+        <!-- testimonials -->
+        <v-row
+          justify="center" align="center"
+          v-for="(testimonial, i) in testimonials"
+          :key="'hot-testimonials-small-' + i"
+        >
+          <v-col class="pt-0 pb-4 color-1a1a1a" cols=11>
+            <div
+              :class="getLang === 'gr' ? 'noto-18-400-1p4em' : 'playfair-18-400-1p4em'"
+              class="text-center"
+              v-html="testimonial.quote[getLang]"
+            />
+            <div
+              :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-600'"
+              class="text-center pt-2"
+              v-html="testimonial.author[getLang]"
+            />
+          </v-col>
+        </v-row>
+
+        <!-- spacer with divider -->
+        <div class="pt-5 pb-12">
+          <div class="background-color-dddddd custom-divider-small" />
+        </div>
+
+        <!-- form -->
+        <div class="text-center">
+          <div
+            :class="getLang === 'gr' ? 'noto-32-700' : 'playfair-32-700'"
+            class="pb-6"
+            v-html="form.title[getLang]"
+          />
+          <div class="custom-block">
+            <a
+              :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-600'"
+              class="form-btn-small white--text text-uppercase"
+              v-html="form.button[getLang]"
+            />
+          </div>
+          <div class="py-12" />
+        </div>
+
+      </v-container>
+    </v-content>
+
   </Layout>
 </template>
 
@@ -216,6 +315,13 @@ export default {
   margin-left: 35vw;
 }
 
+.custom-divider-small {
+  width: 80vw;
+  height: 1px;
+  margin-right: 10vw;
+  margin-left: 10vw;
+}
+
 .custom-block {
   width: 50vw;
   margin-right: 25vw;
@@ -241,11 +347,28 @@ export default {
   cursor: pointer;
 }
 
+.contact-us-btn-small {
+  display: inline-block;
+  background-color: #2B2B2B;
+  text-decoration: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  cursor: pointer;
+}
+
 .form-btn {
   display: inline-block;
   background-color: #4C4C4A;
   border-radius: 4px;
   padding: 21px 34px;
+  cursor: pointer;
+}
+
+.form-btn-small {
+  display: inline-block;
+  background-color: #4C4C4A;
+  border-radius: 4px;
+  padding: 10.5px 17px;
   cursor: pointer;
 }
 
