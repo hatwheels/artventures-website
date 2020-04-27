@@ -133,7 +133,13 @@
                         <v-icon large color="#757575">mdi-chevron-double-right</v-icon>
                       </v-list-item-icon>
                     </v-list-item>
-                    <v-list-item class="pb-5 px-0" to="/#artists">
+                    <v-list-item v-if="$route.path == '/'" class="pb-5 px-0" @click="modalMenu = false; $vuetify.goTo('#artists-small');">
+                      <v-list-item-title
+                        :class="getLang === 'gr' ? 'noto-35-400' : 'raleway-35-400'"
+                        v-html="routes.forArtists[getLang]"
+                      />
+                    </v-list-item>
+                    <v-list-item v-else class="pb-5 px-0" :to="{ path: '/', hash:'#artists-small' }">
                       <v-list-item-title
                         :class="getLang === 'gr' ? 'noto-35-400' : 'raleway-35-400'"
                         v-html="routes.forArtists[getLang]"
@@ -145,14 +151,24 @@
                         v-html="routes.faq[getLang]"
                       />
                     </v-list-item>
-                    <v-list-item class="pb-5 px-0">
+                    <v-list-item v-if="$route.path == '/'" class="pb-5 px-0">
+                      <v-btn
+                        :class="getLang === 'gr' ? 'noto-25-400' : 'raleway-25-400'"
+                        x-large
+                        depressed
+                        color="#333333"
+                        @click="modalMenu = false; $vuetify.goTo('#contact-us-small');"
+                        v-html="routes.contact[getLang]"
+                      />
+                    </v-list-item>
+                    <v-list-item v-else class="pb-5 px-0">
                       <v-btn
                         :class="getLang === 'gr' ? 'noto-25-400' : 'raleway-25-400'"
                         class="py-4"
                         x-large
                         depressed
                         color="#333333"
-                        to="#contact"
+                        :to="{ path: '/', hash:'#contact-us-small' }"
                         v-html="routes.contact[getLang]"
                       />
                     </v-list-item>
@@ -180,7 +196,7 @@
                   </v-list>
                 </v-carousel-item>
               </v-carousel>
-              <v-btn class="mx-4 my-4" color="#333333" icon @click="modalMenu = false; modalMenuExplore = false;">
+              <v-btn class="mx-4 my-4" color="#333333" icon @click="modalMenu = false;">
                 <v-icon color="1a1a1a">mdi-close</v-icon>
               </v-btn>
             </div>
@@ -195,10 +211,15 @@
       app
       color="#dddddd"
       absolute
-      class="d-flex justify-space-around align-center px-12 py-9"
+      class="d-flex flex-xs-row flex-sm-row flex-column justify-space-around align-center px-12 py-9"
     >
-      <div class="d-flex flex-column align-start">
-        <div class="pb-1">
+
+      <newsletter></newsletter>
+
+      <div class="hidden-md-and-up pb-6"></div>
+
+      <div class="d-flex flex-column align-center">
+        <div class="pb-1" >
           <v-btn class="hidden-lg-and-down" large text icon color="black" href="https://www.facebook.com/artventures.me">
             <v-icon>mdi-facebook-box</v-icon>
           </v-btn>
@@ -251,8 +272,6 @@
           </div>
         </div>
       </div>
-
-      <newsletter />
 
     </v-footer>
   </v-app>
@@ -367,8 +386,21 @@ export default {
   background-color: #DEDEDE;
 }
 
+.background-color-f5f5f5 {
+  background-color: #F5F5F5;
+}
+
+.background-color-white {
+  background-color: white;
+}
+
 /* Text Fonts */
 /* For Greek */
+.noto-13-400 {
+  font-family: 'Noto Sans', sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 400 !important;
+}
 .noto-13-600 {
   font-family: 'Noto Sans', sans-serif !important;
   font-size: 13px !important;
@@ -448,6 +480,11 @@ export default {
   font-size: 38px !important;
   font-weight: 700 !important;
 }
+.noto-32-700 {
+  font-family: 'Noto Sans', sans-serif !important;
+  font-size: 32px !important;
+  font-weight: 700 !important;
+}
 .noto-44-700 {
   font-family: 'Noto Sans', sans-serif !important;
   font-size: 44px !important;
@@ -482,6 +519,11 @@ export default {
   font-weight: 600 !important;
 }
 /* Raleway */
+.raleway-13-400 {
+  font-family: 'Raleway', sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 400 !important;
+}
 .raleway-13-600 {
   font-family: 'Raleway', sans-serif !important;
   font-size: 13px !important;
@@ -529,6 +571,11 @@ export default {
   font-size: 25px !important;
   font-weight: 400 !important;
 }
+.raleway-30-700 {
+  font-family: 'Raleway', sans-serif !important;
+  font-size: 30px !important;
+  font-weight: 700 !important;
+}
 .raleway-35-400 {
   font-family: 'Raleway', sans-serif !important;
   font-size: 35px !important;
@@ -563,6 +610,11 @@ export default {
   font-weight: 400 !important;
   line-height: 1.4em !important;
 }
+.playfair-18-600 {
+  font-family: 'Playfair Display', serif !important;
+  font-size: 18px !important;
+  font-weight: 600 !important;
+}
 .playfair-25-600 {
   font-family: 'Playfair Display', serif !important;
   font-size: 25px !important;
@@ -578,6 +630,11 @@ export default {
   font-size: 30px !important;
   font-weight: 700 !important;
   line-height: 1.2em !important;
+}
+.playfair-32-700 {
+  font-family: 'Playfair Display', serif !important;
+  font-size: 32px !important;
+  font-weight: 700 !important;
 }
 .playfair-38-700 {
   font-family: 'Playfair Display', serif !important;

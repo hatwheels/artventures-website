@@ -1,9 +1,9 @@
 <template>
   <!-- <v-alert :type='alertType' v-model="alert" dismissible>{{ alertMsg }}</v-alert> -->
-  <v-row justify="space-between" align="center">
-    <v-col cols="8" offset="2">
+  <v-row justify="center" align="center">
+    <v-col :cols="colWidth">
       <div
-        :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
+        :class="getTitleFont"
         class="text-center pt-12 pb-10"
         v-html="form.title[getLang]"
       />
@@ -125,6 +125,16 @@ export default {
     subject: { required },
     message: { required }
   },
+  props: {
+    colWidth: {
+      type: String,
+      default: "8",
+    },
+    isSmall: {
+      type: Boolean,
+      default: false,
+    }
+  },
   data() {
     return {
       form: {
@@ -228,6 +238,13 @@ export default {
       if (!this.$v.message.$dirty) return errors;
       !this.$v.message.required && errors.push(this.form.errors.message[this.getLang]);
       return errors;
+    },
+    getTitleFont() {
+      if (this.isSmall) {
+        return this.getLang === 'gr' ? 'noto-32-700' : 'playfair-32-700'
+      } else {
+        return this.getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'
+      }
     }
   },
   methods: {

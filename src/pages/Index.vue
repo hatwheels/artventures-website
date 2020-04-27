@@ -1,70 +1,73 @@
 <template>
   <Layout>
-    <v-navigation-drawer
-      class="ml-4 mr-4"
-      mini-variant-width="120px"
-      style="margin-top: 43vh;"
-      fixed
-      permanent
-      right
-      hide-overlay
-      mini-variant
-      color="transparent"
-    >
-      <div class="d-flex flex-column align-end">
-        <div class="pb-1" v-for="(navItem, i) in sideNav" :key="'nav-item-' + i">
-          <v-hover v-slot:default="{ hover }">
-            <div class="d-flex align-center justify-center">
-              <div v-if="hover"
-                class='pr-2 text-uppercase'
-                :class="[getLang === 'gr' ? 'noto-10-700' : 'montserrat-10-700']"
-                v-html="navItem[getLang]"
-              />
-              <v-btn :id="'nav-' + i" :ripple="false" x-small icon @click="$vuetify.goTo(navItem.tag)">
-                <v-icon v-if="!navItem.active" :color="hover ? 'black' : ''" small>mdi-checkbox-blank-circle-outline</v-icon>
-                <v-icon v-else size="23" color="black">mdi-record-circle-outline</v-icon>
-              </v-btn>
-            </div>
-          </v-hover>
-        </div>
-      </div>
-    </v-navigation-drawer>
-
-    <v-content>
-      <v-container class="pt-12 px-0 pb-0" fluid>
-
-        <div
-          id="about"
-          class="px-12"
-          v-waypoint="{ active: true, callback: onAbout, options: intersectOptions }"
-        >
-          <v-row justify="space-between" align="center">
-            <v-col cols="5">
-              <v-img contain width="42vw" :src="about.img" :lazy-src="about.lazy" />
-            </v-col>
-            <v-col class="pl-2 pr-12" cols="6">
-              <div class="pr-8">
-                <p
-                  :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
-                  class="color-333333 pb-7 pr-12"
-                  v-html="about.title[getLang]"
+    <div class="hidden-sm-and-down">
+      <v-navigation-drawer
+        class="ml-4 mr-4"
+        mini-variant-width="120px"
+        style="margin-top: 43vh;"
+        fixed
+        permanent
+        right
+        hide-overlay
+        mini-variant
+        color="transparent"
+      >
+        <div class="d-flex flex-column align-end">
+          <div class="pb-1" v-for="(navItem, i) in sideNav" :key="'nav-item-' + i">
+            <v-hover v-slot:default="{ hover }">
+              <div class="d-flex align-center justify-center">
+                <div v-if="hover"
+                  class='pr-2 text-uppercase'
+                  :class="[getLang === 'gr' ? 'noto-10-700' : 'montserrat-10-700']"
+                  v-html="navItem[getLang]"
                 />
-                <p
-                  v-for="(p, i) in about.body" :key="'aboutTextBody-' + i"
-                  :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                  class="color-333333 pb-4 pr-12"
-                  v-html="p[getLang]"
-                />
+                <v-btn :id="'nav-' + i" :ripple="false" x-small icon @click="$vuetify.goTo(navItem.tag)">
+                  <v-icon v-if="!navItem.active" :color="hover ? 'black' : ''" small>mdi-checkbox-blank-circle-outline</v-icon>
+                  <v-icon v-else size="23" color="black">mdi-record-circle-outline</v-icon>
+                </v-btn>
               </div>
-            </v-col>
-          </v-row>
+            </v-hover>
+          </div>
         </div>
+      </v-navigation-drawer>
 
-        <div class="py-8" />
+      <v-content class="background-color-dddddd">
+        <v-container class="px-0 pt-0" fluid>
 
+          <!-- About -->
+          <div
+            id="about"
+            class="px-12 pt-12 background-color-white"
+            v-waypoint="{ active: true, callback: onAbout, options: intersectOptions }"
+          >
+            <v-row justify="space-between" align="center">
+              <v-col cols="5">
+                <v-img contain width="42vw" :src="about.img" :lazy-src="about.lazy" />
+              </v-col>
+              <v-col class="pl-2 pr-12" cols="6">
+                <div class="pr-8">
+                  <p
+                    :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+                    class="color-333333 pb-7 pr-12"
+                    v-html="about.title[getLang]"
+                  />
+                  <p
+                    v-for="(p, i) in about.body" :key="'aboutTextBody-' + i"
+                    :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                    class="color-333333 pb-4 pr-12"
+                    v-html="p[getLang]"
+                  />
+                </div>
+              </v-col>
+            </v-row>
+          </div>
+
+          <div class="py-8 background-color-white" />
+
+          <!-- Explore -->
           <div
             id="explore"
-            class="px-12"
+            class="px-12 background-color-white"
             v-waypoint="{ active: true, callback: onExplore, options: intersectOptions }"
           >
             <p
@@ -96,8 +99,9 @@
             </v-row>
           </div>
 
-          <div class="py-12" />
+          <div class="py-12 background-color-white" />
 
+          <!-- Artists -->
           <div
             id="artists"
             class="background-color-dedede pt-12 pb-10"
@@ -152,18 +156,21 @@
             </v-container>
           </div>
 
+          <!-- Benefits -->
           <div
             id="benefits"
-            class="background-color-fafafa pt-6"
+            class="background-color-fafafa pt-12 pb-12"
             v-waypoint="{ active: true, callback: onBenefits, options: intersectOptions }"
           >
-            <v-row class="px-12 py-12" justify="space-between">
-              <v-col class="px-4" cols="4" v-for="(benefit, i) in benefits" :key="'benefit-' + i">
-                <v-row justify="space-between">
-                  <v-col class="px-5" cols="6">
-                    <v-img contain :src="benefit.img" :lazy-src="benefit.lazy" />
-                  </v-col>
-                  <v-col class="px-5 color-333333" cols="6">
+            <div class="pb-12">
+              <v-row class="px-12 pb-3" justify="space-between">
+                <v-col cols="4" v-for="(benefit, i) in benefits" :key="'benefit-img-' + i">
+                  <v-img contain :src="benefit.img" :lazy-src="benefit.lazy" />
+                </v-col>
+              </v-row>
+              <v-row class="px-12 pt-3" justify="space-between">
+                <v-col class="color-333333" cols="4" v-for="(benefit, i) in benefits" :key="'benefit-text-' + i">
+                  <div>
                     <p
                       :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
                       v-html="benefit.title[getLang]"
@@ -172,12 +179,13 @@
                       :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
                       v-html="benefit.description[getLang]"
                     />
-                  </v-col>
-                </v-row>
-              </v-col>
-            </v-row>
+                  </div>
+                </v-col>
+              </v-row>
+            </div>
           </div>
 
+          <!-- Media -->
           <div 
             id="media"
             class="pt-8 pb-12 white"
@@ -190,7 +198,7 @@
                 v-html="media.title[getLang]"
               />
               <div class="carousel-upper swiper-container">
-                <div class="carousel-mid text-center pt-12" v-swiper="swiperOption">
+                <div class="carousel-mid text-center pt-12" v-swiper:swiperNormal="swiperOption">
                   <div class="carousel-lower swiper-wrapper">
                     <div class="swiper-slide" v-for="(logo, i ) in media.logos" :key="'media-logos-' + i">
                       <img class="img-slide" :src="logo.img" />
@@ -204,6 +212,7 @@
             </div>
         </div>
 
+        <!-- Contact -->
         <div
           id="contact-us"
           class="background-color-dddddd py-12"
@@ -214,6 +223,188 @@
 
       </v-container>
     </v-content>
+  </div>
+
+  <div class="hidden-md-and-up">
+    <v-content class="background-color-dddddd">
+      <v-container class="py-0 px-0 background-color-white">
+
+        <!-- About -->
+        <div id="about" class="pt-6">
+          <v-row justify="center" align="center">
+            <v-col cols=11>
+              <v-img :src="about.img" :lazy-src="about.lazy" />
+            </v-col>
+          </v-row>
+          <v-row justify="center" align="center">
+            <v-col cols="11">
+              <div>
+                <p
+                  :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+                  class="color-333333 pb-2"
+                  v-html="about.title[getLang]"
+                />
+                <p
+                  v-for="(p, i) in about.body" :key="'aboutTextBody-' + i"
+                  :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                  class="color-333333 pb-2"
+                  v-html="p[getLang]"
+                />
+              </div>
+            </v-col>
+          </v-row>
+        </div>
+
+        <div class="py-8" />
+
+        <!-- Explore -->
+        <div id="explore">
+          <p
+            :class="getLang === 'gr' ? 'noto-32-700' : 'playfair-32-700'"
+            class="pb-4 my-0 text-center"
+            v-html="explore.title[getLang]"
+          />
+          <v-row
+            class="pt-2"
+            justify="center"
+            align="center"
+            v-for="(image, i) in explore.images" :key="'exploreImages-small-' + i"
+          >
+            <v-col cols="11">
+              <v-img gradient="to top right, rgba(0,0,0,.15), rgba(0,0,0,.15)" :src="image.img">
+                <div style="height: 100%" class="d-flex flex-column justify-center align-center">
+                  <p
+                    :class="getLang === 'gr' ? 'noto-44-700' : 'raleway-44-700'"
+                    class="white--text"
+                    v-html="image.p[getLang]"
+                  />
+                  <v-btn
+                    class="white--text px-10"
+                    :class="getLang === 'gr' ? 'noto-11p5-600' :'montserrat-11p5-600'"
+                    depressed
+                    x-large
+                    color="#525252"
+                    v-html="explore.button[getLang]"
+                    :to="image.route"
+                  />
+                </div>
+              </v-img>
+            </v-col>
+          </v-row>
+        </div>
+
+        <div class="py-8" />
+
+        <!-- Artists -->
+        <div
+          id="artists-small"
+          class="background-color-dedede pt-12 pb-10"
+        >
+          <v-container fluid class="pa-0 ma-0">
+            <v-row justify="center" align="center">
+              <v-col cols=11>
+                <v-img :src="artists.img" :lazy-src="artists.lazy" />
+              </v-col>
+            </v-row>
+            <v-row justify="center" align="center">
+              <v-col cols=11>
+                  <div class="color-333333">
+                    <p
+                      :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+                      class="pb-2"
+                      v-html="artists.title[getLang]"
+                    />
+                    <p
+                      :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                      class="pb-2"
+                      v-html="artists.body[getLang]"
+                    />
+                    <v-btn
+                      class="white--text px-10"
+                      :class="getLang === 'gr' ? 'noto-10p5-600' :'montserrat-10p5-600'"
+                      depressed
+                      x-large
+                      color="#525252"
+                      v-html="artists.button[getLang]"
+                    />
+                  </div>
+              </v-col>
+            </v-row>
+            <v-row
+              class="py-3" justify="space-around" align="center"
+              v-for="(testimonial, i) in artists.testimonials"
+              :key="'artists-testimonials-small-' + i"
+            >
+              <v-col class="color-1a1a1a" cols=11>
+                <div
+                  :class="getLang === 'gr' ? 'noto-18-400-1p4em' : 'playfair-18-400-1p4em'"
+                  class="text-center"
+                  v-html="testimonial.quote[getLang]"
+                />
+                <div
+                  :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-600'"
+                  class="text-center pt-2"
+                  v-html="testimonial.author[getLang]"
+                />
+              </v-col>
+            </v-row>
+          </v-container>
+        </div>
+
+        <!-- Benefits -->
+        <div
+          id="benefits"
+          class="background-color-fafafa pt-6"
+        >
+          <v-row justify="center" v-for="(benefit, i) in benefits" :key="'benefit-small-' + i">
+            <v-col cols=11>
+              <v-img class="mb-4" :src="benefit.img" :lazy-src="benefit.lazy" />
+              <div class="color-333333 pb-6">
+                <p
+                  :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+                  v-html="benefit.title[getLang]"
+                />
+                <p
+                  :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                  v-html="benefit.description[getLang]"
+                />
+              </div>
+            </v-col>
+          </v-row>
+        </div>
+
+        <!-- Media -->
+        <div 
+          id="media"
+          class="pt-8 pb-10 white"
+        >
+          <div>
+            <p
+              :class="getLang === 'gr' ? 'noto-32-700' : 'playfair-32-700'"
+              class="text-center color-333333 pb-2 mb-0"
+              v-html="media.title[getLang]"
+            />
+            <div class="carousel-upper-small swiper-container">
+              <div class="carousel-mid-small text-center pt-12" v-swiper:swiperSmall="swiperOption">
+                <div class="carousel-lower-small swiper-wrapper">
+                  <div class="swiper-slide" v-for="(logo, i ) in media.logos" :key="'media-logos-small-' + i">
+                    <img class="img-slide" :src="logo.imgSmall" />
+                  </div>
+                </div>
+                <div class="swiper-pagination swiper-pagination-black" slot="pagination" />
+              </div>
+            </div>
+          </div>
+      </div>
+
+      <div id="contact-us-small" class="background-color-dddddd pt-4 pb-12">
+        <contact-us class="pb-12" :isSmall="true" colWidth="11" />
+      </div>
+
+      </v-container>
+    </v-content>
+  </div>
+
   </Layout>
 </template>
 
@@ -468,19 +659,24 @@ export default {
         },
         logos: [
           {
-            img: 'https://res.cloudinary.com/de1jgt6c5/image/upload/c_thumb,h_176/v1585653768/artventures/logo-om.jpg'
+            img: 'https://res.cloudinary.com/de1jgt6c5/image/upload/c_thumb,h_176/v1585653768/artventures/logo-om.jpg',
+            imgSmall: 'https://res.cloudinary.com/de1jgt6c5/image/upload/c_thumb,h_60/v1585653768/artventures/logo-om.jpg',
           },
           {
-            img: 'https://res.cloudinary.com/de1jgt6c5/image/upload/c_thumb,h_176/v1585653768/artventures/logo-popaganda.jpg'
+            img: 'https://res.cloudinary.com/de1jgt6c5/image/upload/c_thumb,h_176/v1585653768/artventures/logo-popaganda.jpg',
+            imgSmall: 'https://res.cloudinary.com/de1jgt6c5/image/upload/c_thumb,h_60/v1585653768/artventures/logo-popaganda.jpg'
           },
           {
-            img: 'https://res.cloudinary.com/de1jgt6c5/image/upload/c_thumb,h_176/v1585653768/artventures/logo-fortunegreece.jpg'
+            img: 'https://res.cloudinary.com/de1jgt6c5/image/upload/c_thumb,h_176/v1585653768/artventures/logo-fortunegreece.jpg',
+            imgSmall: 'https://res.cloudinary.com/de1jgt6c5/image/upload/c_thumb,h_60/v1585653768/artventures/logo-fortunegreece.jpg',
           },
           {
-            img: 'https://res.cloudinary.com/de1jgt6c5/image/upload/c_thumb,h_176/v1585653768/artventures/logo-kathimerini.jpg'
+            img: 'https://res.cloudinary.com/de1jgt6c5/image/upload/c_thumb,h_176/v1585653768/artventures/logo-kathimerini.jpg',
+            imgSmall: 'https://res.cloudinary.com/de1jgt6c5/image/upload/c_thumb,h_60/v1585653768/artventures/logo-kathimerini.jpg',
           },
           {
-            img: 'https://res.cloudinary.com/de1jgt6c5/image/upload/c_thumb,h_176/v1585653768/artventures/logo-liberal.jpg'
+            img: 'https://res.cloudinary.com/de1jgt6c5/image/upload/c_thumb,h_176/v1585653768/artventures/logo-liberal.jpg',
+            imgSmall: 'https://res.cloudinary.com/de1jgt6c5/image/upload/c_thumb,h_60/v1585653768/artventures/logo-liberal.jpg',
           },
         ]
       },
@@ -496,6 +692,19 @@ export default {
         navigation: {
           nextEl: '.swiper-button-next',
           prevEl: '.swiper-button-prev'
+        },
+        autoplay: {
+          delay: 3000,
+          disableOnInteraction: false,
+        },
+      },
+      swiperSmallOption: {
+        slidesPerView: 3,
+        spaceBetween: 0,
+        setWrapperSize: true,
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true
         },
         autoplay: {
           delay: 3000,
@@ -612,6 +821,15 @@ export default {
   width: 616px;
 }
 .carousel-lower {
+  padding-bottom: 40px;
+}
+.carousel-upper-small {
+  width: 300px;
+}
+.carousel-mid-small {
+  width: 210px;
+}
+.carousel-lower-small {
   padding-bottom: 40px;
 }
 .swiper-button-next,
