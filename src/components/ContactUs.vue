@@ -1,6 +1,5 @@
 <template>
   <div>
-  <v-alert :type='alertType' v-model="alert" dismissible>{{ alertMsg }}</v-alert>
   <v-row justify="center" align="center">
     <v-col :cols="colWidth">
       <div
@@ -107,6 +106,7 @@
       </form>
     </v-col>
   </v-row>
+  <v-alert class="contact-block" :type='alertType' v-model="alert" dismissible>{{ alertMsg }}</v-alert>
   </div>
 </template>
 
@@ -329,5 +329,11 @@ export default {
 
 .v-messages__message {
   font-family: 'Raleway', sans-serif !important;
+}
+
+.contact-block {
+  width: 50vw;
+  margin-right: 25vw;
+  margin-left: 25vw;
 }
 </style>
