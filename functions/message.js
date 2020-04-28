@@ -84,7 +84,7 @@ exports.handler = async (event, context) => {
       }
     })
 
-    console.log(response)
+    console.log('res: ' + response)
     return response
 
     // if (response.statusCode != 200 && ) {
