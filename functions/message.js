@@ -48,7 +48,7 @@ exports.handler = async (event, context) => {
         };
     }
 
-    return axios({
+    let response = axios({
       method: 'post',
       url: apiRoot,
       data:{
@@ -83,6 +83,15 @@ exports.handler = async (event, context) => {
         body: JSON.stringify(err.response.data)
       }
     })
+
+    console.log(response)
+    return response
+
+    // if (response.statusCode != 200 && ) {
+
+    // } else {
+    //   return response
+    // }
 
   } catch (err) {
     console.log('try ... catch ... error :' + err)
