@@ -52,6 +52,22 @@ export default function (Vue, { appOptions, router, head, isClient }) {
           }
         )
       },
+      async mcMessage({commit}, params) {
+        return await axios.post('https://www.artventures.me/.netlify/functions/message',
+          {
+            email: params.email,
+            firstname: params.firstname,
+            lastname: params.lastname,
+            subject: params.subject,
+            message: params.message,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json"
+            }
+          }
+        )
+      }
     },
     state: {
       lang: 'en',
