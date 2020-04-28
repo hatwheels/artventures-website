@@ -93,7 +93,7 @@
           />
           <div class="custom-block">
             <a
-              :class="getLang === 'gr' ? 'noto-15-600' : 'raleway-15-600'"
+              :class="getLang === 'gr' ? 'noto-15-600-1p5' : 'raleway-15-600-1p5'"
               class="form-btn white--text text-uppercase"
               v-html="form.button[getLang]"
             />

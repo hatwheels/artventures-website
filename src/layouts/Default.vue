@@ -55,29 +55,31 @@
           to="/faq"
           v-html="routes.faq[getLang]"
         />
-        <div class="py-4 px-2">
-        <v-btn
-          v-if="$route.path == '/'"
-          :class="getLang === 'gr' ? 'noto-18-400' : 'raleway-18-400'"
-          depressed
-          color="#333333"
-          @click="$vuetify.goTo('#contact-us')"
-          v-html="routes.contact[getLang]"
-        />
-        <v-btn
-          v-else
-          :class="getLang === 'gr' ? 'noto-18-400' : 'raleway-18-400'"
-          depressed
-          color="#333333"
-          :to="{ path: '/', hash:'#contact-us' }"
-          v-html="routes.contact[getLang]"
-        />
+        <div class="my-5 mx-2">
+          <v-btn
+            v-if="$route.path == '/'"
+            :class="getLang === 'gr' ? 'noto-18-400' : 'raleway-18-400'"
+            style="border-radius: 8px;"
+            depressed
+            color="#333333"
+            @click="$vuetify.goTo('#contact-us')"
+            v-html="routes.contact[getLang]"
+          />
+          <v-btn
+            v-else
+            :class="getLang === 'gr' ? 'noto-18-400' : 'raleway-18-400'"
+            style="border-radius: 8px;"
+            depressed
+            color="#333333"
+            :to="{ path: '/', hash:'#contact-us' }"
+            v-html="routes.contact[getLang]"
+          />
         </div>
         <v-menu open-on-hover bottom :offset-y="true" transition="slide-y-transition">
           <template v-slot:activator="{ on }">
             <v-btn class="px-2" text color="transparent" v-on="on" :ripple="false">
               <div
-                :class="getLang === 'gr' ? 'noto-18-600' : 'nunito-18-600'"
+                :class="getLang === 'gr' ? 'noto-15-600' : 'nunito-15-600'"
                 class="color-333333"
               >
               {{ getLang }}
@@ -88,7 +90,7 @@
           <v-list flat color="#e8e8e8">
             <v-list-item v-for="(language, i) in languages" :key="'lang-' + i" @click="setLang(language)">
               <v-list-item-title
-                :class="getLang === 'gr' ? 'noto-18-600' : 'nunito-18-600'"
+                :class="getLang === 'gr' ? 'noto-15-600' : 'nunito-15-600'"
                 class="color-333333 text-center text-uppercase"
               >
               {{ language }}
@@ -124,7 +126,7 @@
                         v-html="routes.about[getLang]"
                       />
                     </v-list-item>
-                    <v-list-item class="pb-5 px-0" @click="$refs.menucarousel.next();">
+                    <v-list-item class="pb-5 px-0" @click="modalSlide = 'explore'; $refs.menucarousel.next();">
                       <v-list-item-title
                         :class="getLang === 'gr' ? 'noto-35-400' : 'raleway-35-400'"
                         v-html="routes.explore[getLang]"
@@ -172,10 +174,19 @@
                         v-html="routes.contact[getLang]"
                       />
                     </v-list-item>
+                    <v-list-item class="pb-5 px-0" @click="modalSlide = 'language'; $refs.menucarousel.next();">
+                      <v-list-item-title
+                        :class="getLang === 'gr' ? 'noto-35-400' : 'raleway-35-400'"
+                        v-html="langTitle[getLang]"
+                      />
+                      <v-list-item-icon>
+                        <v-icon large color="#757575">mdi-chevron-double-right</v-icon>
+                      </v-list-item-icon>
+                    </v-list-item>
                   </v-list>
                 </v-carousel-item>
                 <v-carousel-item>
-                  <v-list color="#ffffff" class="px-9 py-9">
+                  <v-list v-if="modalSlide === 'explore'" color="#ffffff" class="px-9 py-9">
                     <v-list-item class="pb-5 px-0" @click="$refs.menucarousel.prev();">
                       <v-list-item-icon class="mx-0">
                         <v-icon small color="#757575">mdi-chevron-double-left</v-icon>
@@ -192,6 +203,29 @@
                         :class="getLang === 'gr' ? 'noto-35-400' : 'raleway-35-400'"
                         v-html="route[getLang]"
                       />
+                    </v-list-item>
+                  </v-list>
+                  <v-list v-else color="#ffffff" class="px-9 py-9">
+                    <v-list-item class="pb-5 px-0" @click="$refs.menucarousel.prev();">
+                      <v-list-item-icon class="mx-0">
+                        <v-icon small color="#757575">mdi-chevron-double-left</v-icon>
+                      </v-list-item-icon>
+                      <v-list-item-title
+                        class="color-333333"
+                        :class="getLang === 'gr' ? 'noto-15-400' : 'nunito-15-400'"
+                      >
+                      Back
+                      </v-list-item-title>
+                    </v-list-item>
+                    <v-list-item
+                      class="pb-5 px-0" v-for="(language, i) in languages" :key="'lang-small-' + i"
+                      @click="modalMenu = false; setLang(language)"
+                    >
+                      <v-list-item-title :class="getLang === 'gr' ? 'noto-35-400' : 'raleway-35-400'">
+                        <div class="color-333333 text-capitalize">
+                          {{ langChoices[language][getLang] }}
+                        </div>
+                      </v-list-item-title>
                     </v-list-item>
                   </v-list>
                 </v-carousel-item>
@@ -331,6 +365,21 @@ export default {
         }
       },
       modalMenu: false,
+      modalSlide: 'explore',
+      langTitle: {
+        gr: '<div class="color-333333 text-capitalize">Γλωσσα</div>', // Greek, raw html
+        en: '<div class="color-333333 text-capitalize">Language</div>', // English, raw html
+      },
+      langChoices: {
+        gr: {
+          gr: 'Ελληνικα',
+          en: 'Greek'
+        },
+        en: {
+          gr: 'Αγγλικα',
+          en: 'English'
+        }
+      }
     }
   },
   computed: {
@@ -412,6 +461,11 @@ export default {
   font-weight: 400 !important;
 }
 .noto-15-600 {
+  font-family: 'Noto Sans', sans-serif !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+}
+.noto-15-600-1p5 {
   font-family: 'Noto Sans', sans-serif !important;
   font-size: 15px !important;
   font-weight: 600 !important;
@@ -513,6 +567,11 @@ export default {
   font-size: 15px !important;
   font-weight: 400 !important;
 }
+.nunito-15-600 {
+  font-family: 'Nunito', sans-serif !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+}
 .nunito-18-600 {
   font-family: 'Nunito', sans-serif !important;
   font-size: 18px !important;
@@ -529,7 +588,7 @@ export default {
   font-size: 13px !important;
   font-weight: 600 !important;
 }
-.raleway-15-600 {
+.raleway-15-600-1p5 {
   font-family: 'Raleway', sans-serif !important;
   font-size: 15px !important;
   font-weight: 600 !important;
