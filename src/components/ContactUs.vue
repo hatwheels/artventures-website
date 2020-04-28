@@ -1,5 +1,6 @@
 <template>
-  <!-- <v-alert :type='alertType' v-model="alert" dismissible>{{ alertMsg }}</v-alert> -->
+  <div>
+  <v-alert :type='alertType' v-model="alert" dismissible>{{ alertMsg }}</v-alert>
   <v-row justify="center" align="center">
     <v-col :cols="colWidth">
       <div
@@ -106,6 +107,7 @@
       </form>
     </v-col>
   </v-row>
+  </div>
 </template>
 
 <script>
@@ -277,13 +279,32 @@ export default {
           subject: this.subject,
           msg: this.message
         };
-        //   axios.post('/submit', this.fields).then(response => {
-        //     this.clearFields()
-        //     this.setAlert('success')
-        //   }).catch(error => {
-        //     this.clearFields()
-        //     this.setAlert('error')
-        //   });
+        this.$store
+          .dispatch("mcMessage", {
+            email: this.email,
+            firstname: this.name,
+            lastname: this.lastName,
+            subject: this.subject,
+            message: this.message
+          })
+          .then(res => {
+            // success
+            if (200 == res.status) {
+              this.clearFields()
+              this.setAlert('success')
+            } else {
+              this.clearFields()
+              this.setAlert('error')
+            }
+          })
+          .catch(err => {
+            // server-side error
+            if (err) {
+              console.log(err.response.data.title)
+            }
+            this.clearFields()
+            this.setAlert('error')
+          });
       }
     },
     delayTouch($v) {
