@@ -55,23 +55,25 @@
           to="/faq"
           v-html="routes.faq[getLang]"
         />
-        <div class="py-4 px-2">
-        <v-btn
-          v-if="$route.path == '/'"
-          :class="getLang === 'gr' ? 'noto-18-400' : 'raleway-18-400'"
-          depressed
-          color="#333333"
-          @click="$vuetify.goTo('#contact-us')"
-          v-html="routes.contact[getLang]"
-        />
-        <v-btn
-          v-else
-          :class="getLang === 'gr' ? 'noto-18-400' : 'raleway-18-400'"
-          depressed
-          color="#333333"
-          :to="{ path: '/', hash:'#contact-us' }"
-          v-html="routes.contact[getLang]"
-        />
+        <div class="my-5 mx-2">
+          <v-btn
+            v-if="$route.path == '/'"
+            :class="getLang === 'gr' ? 'noto-18-400' : 'raleway-18-400'"
+            style="border-radius: 8px;"
+            depressed
+            color="#333333"
+            @click="$vuetify.goTo('#contact-us')"
+            v-html="routes.contact[getLang]"
+          />
+          <v-btn
+            v-else
+            :class="getLang === 'gr' ? 'noto-18-400' : 'raleway-18-400'"
+            style="border-radius: 8px;"
+            depressed
+            color="#333333"
+            :to="{ path: '/', hash:'#contact-us' }"
+            v-html="routes.contact[getLang]"
+          />
         </div>
         <v-menu open-on-hover bottom :offset-y="true" transition="slide-y-transition">
           <template v-slot:activator="{ on }">
