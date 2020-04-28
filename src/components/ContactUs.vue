@@ -300,10 +300,38 @@ export default {
           .catch(err => {
             // server-side error
             if (err) {
-              console.log(err.response.data.title)
+              if ("Member Exists" == err.response.data.title) {
+                this.$store.
+                  dispatch('mcNewMessage', {
+                    email: this.email,
+                    firstname: this.name,
+                    lastname: this.lastName,
+                    subject: this.subject,
+                    message: this.message
+                  })
+                  .then(res => {
+                    // success
+                    if (200 == res.status) {
+                      this.clearFields()
+                      this.setAlert('success')
+                    } else {
+                      this.clearFields()
+                      this.setAlert('error')
+                    }
+                  })
+                  .catch(err => {
+                    // server-side error
+                    this.clearFields()
+                    this.setAlert('error')
+                  });
+              } else {
+                this.clearFields()
+                this.setAlert('error')
+              }
+            } else {
+              this.clearFields()
+              this.setAlert('error')
             }
-            this.clearFields()
-            this.setAlert('error')
           });
       }
     },

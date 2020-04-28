@@ -4,6 +4,7 @@ const headers = {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Headers": "Content-Type"
 }
+var md5 = require('md5');
 
 exports.handler = async (event, context) => {
   try {
@@ -49,11 +50,9 @@ exports.handler = async (event, context) => {
     }
 
     return axios({
-      method: 'post',
-      url: apiRoot,
+      method: 'patch',
+      url: apiRoot  + '/' + md5(data.email.toLowerCase()),
       data:{
-        email_address:data.email,
-        status:'transactional',
         merge_fields: {
             'FNAME': data.firstname,
             'LNAME': data.lastname,
@@ -78,6 +77,7 @@ exports.handler = async (event, context) => {
       console.log('########  START  ERROR  ##########')
       console.log(err.response.data)
       console.log('########   END  ERROR   ##########')
+
       return {
         statusCode: err.response.data.status,
         body: JSON.stringify(err.response.data)
