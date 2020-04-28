@@ -72,7 +72,7 @@
             v-html="rent.description[getLang]"
           />
           <a
-            :class="getLang === 'gr' ? 'noto-15-600' : 'raleway-15-600'"
+            :class="getLang === 'gr' ? 'noto-15-600-1p5' : 'raleway-15-600-1p5'"
             class="personality-test-btn white--text text-uppercase"
             v-html="rent.button[getLang]"
           />

@@ -54,7 +54,7 @@
           </v-row>
           <div class="text-center custom-block pt-8 pb-8">
             <a
-              :class="getLang === 'gr' ? 'noto-15-600' : 'raleway-15-600'"
+              :class="getLang === 'gr' ? 'noto-15-600-1p5' : 'raleway-15-600-1p5'"
               class="learn-more-btn white--text text-uppercase"
               v-html="advantages.button[getLang]"
             />
@@ -140,7 +140,7 @@
           </v-row>
           <div class="text-center custom-block">
             <a
-              :class="getLang === 'gr' ? 'noto-15-600' : 'raleway-15-600'"
+              :class="getLang === 'gr' ? 'noto-15-600-1p5' : 'raleway-15-600-1p5'"
               class="learn-more-btn-small white--text text-uppercase"
               v-html="advantages.button[getLang]"
             />
