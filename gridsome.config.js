@@ -6,12 +6,21 @@
 
 module.exports = {
   siteName: 'Artventures',
+
+
   plugins: [
     {
       use: '@gridsome/plugin-google-analytics',
       options: {
-        id: 'UA-158832476-1'
+        id: 'UA-158832476-1',
       }
+    },
+    {
+      use: `gridsome-plugin-netlify-cms`,
+      options: {
+        publicPath: `/cms-admin`,
+        htmlTitle: `Artventures CMS`,
+      },
     },
   ]
 }
