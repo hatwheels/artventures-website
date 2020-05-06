@@ -69,19 +69,19 @@ collections:
           - label: Testimonials
             name: testimonials
             widget: list
-              fields:
-                - label: quote
-                  name: quote
-                  widget: object
-                  field:
-                    - {label: english, name: en, widget: string}
-                    - {label: greek, name: gr, widget: string}
-                - label: author
-                  name: author
-                  widget: object
-                  field:
-                    - {label: english, name: en, widget: string}
-                    - {label: greek, name: gr, widget: string}
+            fields:
+              - label: quote
+                name: quote
+                widget: object
+                field:
+                  - {label: english, name: en, widget: string}
+                  - {label: greek, name: gr, widget: string}
+              - label: author
+                name: author
+                widget: object
+                field:
+                  - {label: english, name: en, widget: string}
+                  - {label: greek, name: gr, widget: string}
           - label: Text of the button
             name: button
             widget: object
