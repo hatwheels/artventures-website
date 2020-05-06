@@ -17,3 +17,6 @@ collections:
         extension: 'md'
         fields:
           - {label: Title, name: title, widget: string}
+          - {label: Τιτλος, name: titleGR, widget: string}
+          - {label: Content, name: content, widget: markdown }
+          - {label: Περιεχόμενο, name: contentGR, widget: markdown }
