@@ -16,7 +16,177 @@ collections:
         file: "content/home/about.md"
         extension: 'md'
         fields:
-          - {label: Title, name: title, widget: string}
-          - {label: Τιτλος, name: titleGR, widget: string}
-          - {label: Content, name: content, widget: markdown }
-          - {label: Περιεχόμενο, name: contentGR, widget: markdown }
+          - label: Title
+            name: title
+            widget: object
+            fields:
+              - {label: english, name: en, widget: string}
+              - {label: greek, name: gr, widget: string}
+          - label: Body
+            name: body
+            widget: object
+            fields:
+              - {label: english, name: en, widget: markdown}
+              - {label: greek, name: gr, widget: markdown}
+      - label: "Explore Section"
+        name: "explore"
+        file: "content/home/explore.md"
+        fields:
+          - label: Title
+            name: title
+            widget: object
+            fields:
+              - {label: english, name: en, widget: string}
+              - {label: greek, name: gr, widget: string}
+          - label: Text of the Images
+            name: images
+            widget: object
+            fields:
+              - label: 1st
+                name: text1
+                widget: object
+                fields:
+                  - {label: english, name: en, widget: string}
+                  - {label: greek, name: gr, widget: string}
+              - label: 2nd
+                name: text2
+                widget: object
+                fields:
+                  - {label: english, name: en, widget: string}
+                  - {label: greek, name: gr, widget: string}
+              - label: 3rd
+                name: text3
+                widget: object
+                fields:
+                  - {label: english, name: en, widget: string}
+                  - {label: greek, name: gr, widget: string}
+          - label: Text of the button
+            name: button
+            widget: object
+            fields:
+              - {label: english, name: en, widget: string}
+              - {label: greek, name: gr, widget: string}
+      - label: "Artists Section"
+        name: "artists"
+        file: "content/home/artists.md"
+        fields:
+          - label: Title
+            name: title
+            widget: object
+            fields:
+              - {label: english, name: en, widget: string}
+              - {label: greek, name: gr, widget: string}
+          - label: Body
+            name: body
+            widget: object
+            fields:
+              - {label: english, name: en, widget: markdown}
+              - {label: greek, name: gr, widget: markdown}
+          - label: Testimonials
+            name: testimonials
+            widget: object
+            fields:
+              - label: first
+                name: testimonial1
+                widget: object
+                fields:
+                  - label: quote
+                    name: quote
+                    widget: object
+                    field:
+                      - {label: english, name: en, widget: string}
+                      - {label: greek, name: gr, widget: string}
+                  - label: author
+                    name: author
+                    widget: object
+                    field:
+                      - {label: english, name: en, widget: string}
+                      - {label: greek, name: gr, widget: string}
+              - label: second
+                name: testimonial2
+                widget: object
+                fields:
+                  - label: quote
+                    name: quote
+                    widget: object
+                    field:
+                      - {label: english, name: en, widget: string}
+                      - {label: greek, name: gr, widget: string}
+                  - label: author
+                    name: author
+                    widget: object
+                    field:
+                      - {label: english, name: en, widget: string}
+                      - {label: greek, name: gr, widget: string}
+          - label: Text of the button
+            name: button
+            widget: object
+            fields:
+              - {label: english, name: en, widget: string}
+              - {label: greek, name: gr, widget: string}
+      - label: "Benefits Section"
+        name: "benefits"
+        file: "content/home/benefits.md"
+        fields:
+          - label: Benefits
+            name: benefits
+            widget: object
+            fields:
+              - label: first
+                name: benefit1
+                widget: object
+                fields:
+                  - label: Title
+                    name: title
+                    widget: object
+                    fields:
+                      - {label: english, name: en, widget: string}
+                      - {label: greek, name: gr, widget: string}
+                  - label: Body
+                    name: body
+                    widget: object
+                    fields:
+                      - {label: english, name: en, widget: markdown}
+                      - {label: greek, name: gr, widget: markdown}
+              - label: second
+                name: benefit2
+                widget: object
+                fields:
+                  - label: Title
+                    name: title
+                    widget: object
+                    fields:
+                      - {label: english, name: en, widget: string}
+                      - {label: greek, name: gr, widget: string}
+                  - label: Body
+                    name: body
+                    widget: object
+                    fields:
+                      - {label: english, name: en, widget: markdown}
+                      - {label: greek, name: gr, widget: markdown}
+              - label: third
+                name: benefit3
+                widget: object
+                fields:
+                  - label: Title
+                    name: title
+                    widget: object
+                    fields:
+                      - {label: english, name: en, widget: string}
+                      - {label: greek, name: gr, widget: string}
+                  - label: Body
+                    name: body
+                    widget: object
+                    fields:
+                      - {label: english, name: en, widget: markdown}
+                      - {label: greek, name: gr, widget: markdown}
+      - label: "Media Section"
+        name: "mdeia"
+        file: "content/home/media.md"
+        fields:
+          - label: Title
+            name: title
+            widget: object
+            fields:
+              - {label: english, name: en, widget: string}
+              - {label: greek, name: gr, widget: string}
