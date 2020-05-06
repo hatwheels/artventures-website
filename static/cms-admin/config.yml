@@ -41,7 +41,6 @@ collections:
           - label: Text of the Images
             name: images
             widget: list
-            allow_add: false
             fields:
               - {label: english, name: en, widget: string}
               - {label: greek, name: gr, widget: string}
@@ -69,40 +68,20 @@ collections:
               - {label: greek, name: gr, widget: markdown}
           - label: Testimonials
             name: testimonials
-            widget: object
-            fields:
-              - label: first
-                name: testimonial1
-                widget: object
-                fields:
-                  - label: quote
-                    name: quote
-                    widget: object
-                    field:
-                      - {label: english, name: en, widget: string}
-                      - {label: greek, name: gr, widget: string}
-                  - label: author
-                    name: author
-                    widget: object
-                    field:
-                      - {label: english, name: en, widget: string}
-                      - {label: greek, name: gr, widget: string}
-              - label: second
-                name: testimonial2
-                widget: object
-                fields:
-                  - label: quote
-                    name: quote
-                    widget: object
-                    field:
-                      - {label: english, name: en, widget: string}
-                      - {label: greek, name: gr, widget: string}
-                  - label: author
-                    name: author
-                    widget: object
-                    field:
-                      - {label: english, name: en, widget: string}
-                      - {label: greek, name: gr, widget: string}
+            widget: list
+              fields:
+                - label: quote
+                  name: quote
+                  widget: object
+                  field:
+                    - {label: english, name: en, widget: string}
+                    - {label: greek, name: gr, widget: string}
+                - label: author
+                  name: author
+                  widget: object
+                  field:
+                    - {label: english, name: en, widget: string}
+                    - {label: greek, name: gr, widget: string}
           - label: Text of the button
             name: button
             widget: object
@@ -115,42 +94,23 @@ collections:
         fields:
           - label: Benefits
             name: benefits
-            widget: object
+            widget: list
+            fields:
+              - label: Title
+                name: title
+                widget: object
+                fields:
+                  - {label: english, name: en, widget: string}
+                  - {label: greek, name: gr, widget: string}
+              - label: Body
+                name: body
+                widget: object
+                fields:
+                  - {label: english, name: en, widget: markdown}
+                  - {label: greek, name: gr, widget: markdown}
             fields:
               - label: first
                 name: benefit1
-                widget: object
-                fields:
-                  - label: Title
-                    name: title
-                    widget: object
-                    fields:
-                      - {label: english, name: en, widget: string}
-                      - {label: greek, name: gr, widget: string}
-                  - label: Body
-                    name: body
-                    widget: object
-                    fields:
-                      - {label: english, name: en, widget: markdown}
-                      - {label: greek, name: gr, widget: markdown}
-              - label: second
-                name: benefit2
-                widget: object
-                fields:
-                  - label: Title
-                    name: title
-                    widget: object
-                    fields:
-                      - {label: english, name: en, widget: string}
-                      - {label: greek, name: gr, widget: string}
-                  - label: Body
-                    name: body
-                    widget: object
-                    fields:
-                      - {label: english, name: en, widget: markdown}
-                      - {label: greek, name: gr, widget: markdown}
-              - label: third
-                name: benefit3
                 widget: object
                 fields:
                   - label: Title
