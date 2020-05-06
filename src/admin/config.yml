@@ -1,5 +1,0 @@
-backend:
-  name: github
-  repo: hatwheels/artventures-website
-  branch: prod
-
