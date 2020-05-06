@@ -1,0 +1,19 @@
+backend:
+  name: github
+  repo: hatwheels/artventures-website
+  branch: prod
+media_folder: "static/images/uploads"
+public_folder: "/images/uploads"
+publish_mode: editorial_workflow
+site_url: https://artventures.me
+display_url: https://artventures.me
+collections:
+  - name: "home"
+    label: "Homepage"
+    files:
+      - label: "About Section"
+        name: "about"
+        file: "content/home/about.md"
+        extension: 'md'
+        fields:
+          - {label: Title, name: title, widget: string}
