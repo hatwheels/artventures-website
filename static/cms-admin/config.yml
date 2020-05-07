@@ -108,23 +108,6 @@ collections:
                 fields:
                   - {label: english, name: en, widget: markdown}
                   - {label: greek, name: gr, widget: markdown}
-            fields:
-              - label: first
-                name: benefit1
-                widget: object
-                fields:
-                  - label: Title
-                    name: title
-                    widget: object
-                    fields:
-                      - {label: english, name: en, widget: string}
-                      - {label: greek, name: gr, widget: string}
-                  - label: Body
-                    name: body
-                    widget: object
-                    fields:
-                      - {label: english, name: en, widget: markdown}
-                      - {label: greek, name: gr, widget: markdown}
       - label: "Media Section"
         name: "mdeia"
         file: "content/home/media.md"
