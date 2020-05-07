@@ -1,6 +1,5 @@
 backend:
-  name: github
-  repo: hatwheels/artventures-website
+  name: git-gateway
   branch: prod
 media_folder: "static/images/uploads"
 public_folder: "/images/uploads"
