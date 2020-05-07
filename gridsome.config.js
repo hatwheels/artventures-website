@@ -44,7 +44,8 @@ module.exports = {
     {
       use: `gridsome-plugin-netlify-cms`,
       options: {
-        publicPath: `/cms-admin`,
+        publicPath: `static/cms-admin`,
+        htmlPath: `static/cms-admin/index.html`,
         configPath: `static/cms-admin/config.yml`,
         htmlTitle: `Artventures CMS`,
       },
