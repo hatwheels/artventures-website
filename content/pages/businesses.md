@@ -8,9 +8,9 @@ main:
         Whether you’re a doctor, a lawyer, a small office or a company with hundreds of employees, we’re here to help you experience Art in your spaces.
     gr: |+
         Είτε είσαστε γιατρός, δικηγόρος, μικρό γραφείο ή εταιρία με εκατοντάδες υπαλλήλους, είμαστε εδώ για να σας βοηθήσουμε να ζήσετε την Τέχνη στο χώρο σας.
-    button:
-      en: Contact Us
-      gr: Επικοινωνια
+  button:
+    en: Contact Us
+    gr: Επικοινωνια
 button:
   en: Learn more
   gr: Μαθετε περισσοτερα

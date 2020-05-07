@@ -12,9 +12,9 @@ main:
         Μεταμορφώστε τους χώρους σας σε μία “ανοιχτή γκαλερί” και επεκτείνετε το brand σας μέσω της Τέχνης.
         
         Είτε είστε μικρό boutique hotel, 5* resort ή μεσιτικό γραφείο, η Artventures σας βοηθάει με την δημιουργία μιας μοναδικής συλλογής και μεγιστοποιεί τα προτερήματα της έκθεσης Τέχνης στις εγκαταστάσεις σας.
-    button:
-      en: Contact Us
-      gr: Επικοινωνια
+  button:
+    en: Contact Us
+    gr: Επικοινωνια
 advantages:
   - title:
       en: Take an innovative approach to renovation
