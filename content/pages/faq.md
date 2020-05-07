@@ -102,7 +102,9 @@ qa:
       en: >
         As often as you want! We believe you will soon find that the art who’s
         renewed is a lot of fun.
-      gr: " \ \n"
+      gr: >
+        Αυτό ακριβώς είναι που κάνουμε, ναι. Εσείς ρυθμίζετε την συχνότητα της
+        εναλλαγής των έργων της συνδρομής σας.
   - q:
       en: "Q: Can you send me new pieces of art every two months?"
       gr: "E: Μπορείτε να μου στείλετε νέα κομμάτια τέχνη κάθε δύο μήνες;"
