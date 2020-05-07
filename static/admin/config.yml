@@ -336,7 +336,25 @@ collections:
                   - {label: english, name: en, widget: string}
                   - {label: greek, name: gr, widget: string}
       # FAQ page
-      #- label: FAQ
-      #  name: faq
-      #  file: "content/pages/faq.md"
-      #  extension: 'md'
+      - label: FAQ
+        name: faq
+        file: "content/pages/faq.md"
+        extension: 'md'
+        fields:
+          - label: Questions & Answers
+            name: qa
+            widget: list
+            fields:
+              - label: Question
+                name: q
+                widget: object
+                fields:
+                  - {label: english, name: en, widget: string}
+                  - {label: greek, name: gr, widget: string}
+              - label: Answer
+                name: a
+                widget: object
+                fields:
+                  - {label: english, name: en, widget: markdown}
+                  - {label: greek, name: gr, widget: markdown}
+

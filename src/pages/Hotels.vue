@@ -193,7 +193,7 @@
             <router-link
               :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-600'"
               class="form-btn-small white--text text-uppercase"
-              :to="{ path: '/', hash:'#contact-us' }"
+              :to="{ path: '/', hash:'#contact-us-small' }"
               v-html="form.button[getLang]"
             />
           </div>
