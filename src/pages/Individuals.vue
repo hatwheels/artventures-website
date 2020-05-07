@@ -219,7 +219,7 @@ export default {
           img: 'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto/v1585320144/artventures/individuals04.jpg',
           lazy: 'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto,h_100/v1582416241/artventures/individuals04.jpg',
           title: {
-            gr: 'Επενδύστε έξυπνα.',
+            gr: 'Επενδύστε έξυπνα',
             en: 'Invest smart',
           },
           description: {

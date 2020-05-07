@@ -29,6 +29,19 @@ module.exports = {
     },
 
     {
+      use: '@gridsome/source-filesystem',
+      options: {
+        typeName: 'Pages',
+        path: 'content/pages/*.md',
+        remark: {
+          plugins: [
+            '@gridsome/remark-prismjs'
+          ]
+        }
+      }
+    },
+
+    {
       use: `gridsome-plugin-netlify-cms`,
       options: {
         publicPath: `/cms-admin`,
