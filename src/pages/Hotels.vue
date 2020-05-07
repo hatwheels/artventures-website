@@ -92,9 +92,10 @@
             v-html="form.title[getLang]"
           />
           <div class="custom-block">
-            <a
+            <router-link
               :class="getLang === 'gr' ? 'noto-15-600-1p5' : 'raleway-15-600-1p5'"
               class="form-btn white--text text-uppercase"
+              :to="{ path: '/', hash:'#contact-us' }"
               v-html="form.button[getLang]"
             />
           </div>
@@ -189,9 +190,10 @@
             v-html="form.title[getLang]"
           />
           <div class="custom-block">
-            <a
+            <router-link
               :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-600'"
               class="form-btn-small white--text text-uppercase"
+              :to="{ path: '/', hash:'#contact-us' }"
               v-html="form.button[getLang]"
             />
           </div>
@@ -288,7 +290,7 @@ export default {
         },
         button: {
           gr: 'Συμπληρωστε την φορμα',
-          en: 'Complete the Form',
+          en: 'Complete the form',
         },
       }
     }
@@ -359,6 +361,7 @@ export default {
 .form-btn {
   display: inline-block;
   background-color: #4C4C4A;
+  text-decoration: none;
   border-radius: 4px;
   padding: 21px 34px;
   cursor: pointer;
@@ -367,6 +370,7 @@ export default {
 .form-btn-small {
   display: inline-block;
   background-color: #4C4C4A;
+  text-decoration: none;
   border-radius: 4px;
   padding: 10.5px 17px;
   cursor: pointer;

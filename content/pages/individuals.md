@@ -5,8 +5,7 @@ main:
     gr: Εξερευνήστε πρωτότυπη Τέχνη χωρίς να ξοδέψετε μια περιουσία
   body:
     en: |+
-      Subscribe to Artventures. Get a new Artwork in your home. Change it whenever you want.
-      Take the Art personality test. Subscribe to Artventures. With 50€ per month, you’ll get a new work of Art every 2 or 3 months delivered to your space.
+      Subscribe to Artventures. Get a new Artwork in your home. Change it whenever you want.<br>Take the Art personality test. Subscribe to Artventures. With 50€ per month, you’ll get a new work of Art every 2 or 3 months delivered to your space.
     gr: |+
       Εγγραφείτε στην Artventures. Αποκτήστε ένα έργο τέχνης στο σπίτι σας. Αλλάξτε το όποτε θέλετε.<br>Κάντε το τεστ Τέχνης. Εγγραφείτε στην Artventures. Με 50€ το μήνα, θα λαμβάνετε ένα νέο έργο τέχνης κάθε 2 ή 3 μήνες στο χώρο σας.
   button:
