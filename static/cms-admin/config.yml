@@ -70,16 +70,16 @@ collections:
             name: testimonials
             widget: list
             fields:
-              - label: quote
+              - label: Quote
                 name: quote
                 widget: object
-                field:
-                  - {label: english, name: en, widget: string}
-                  - {label: greek, name: gr, widget: string}
-              - label: author
+                fields:
+                  - {label: english, name: en, widget: markdown}
+                  - {label: greek, name: gr, widget: markdown}
+              - label: Author
                 name: author
                 widget: object
-                field:
+                fields:
                   - {label: english, name: en, widget: string}
                   - {label: greek, name: gr, widget: string}
           - label: Text of the button
