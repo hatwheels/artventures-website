@@ -81,14 +81,13 @@
               <div
                 :class="getLang === 'gr' ? 'noto-15-600' : 'nunito-15-600'"
                 class="color-333333"
-              >
-              {{ getLang }}
-              </div>
+                v-html="getLang"
+              />
               <v-icon color="#333333" right>mdi-menu-down</v-icon>
             </v-btn>
           </template>
           <v-list flat color="#e8e8e8">
-            <v-list-item v-for="(language, i) in languages" :key="'lang-' + i" @click="selectLang(language)">
+            <v-list-item v-for="(language, i) in languages" :key="'lang-' + i" @click.stop.prevent="selectLang(language)">
               <v-list-item-title
                 :class="getLang === 'gr' ? 'noto-15-600' : 'nunito-15-600'"
                 class="color-333333 text-center text-uppercase"
@@ -218,7 +217,7 @@
                     </v-list-item>
                     <v-list-item
                       class="pb-5 px-0" v-for="(language, i) in languages" :key="'lang-small-' + i"
-                      @click="selectLangModal(language)"
+                      @click.stop.prevent="selectLangModal(language)"
                     >
                       <v-list-item-title :class="getLang === 'gr' ? 'noto-35-400' : 'raleway-35-400'">
                         <div class="color-333333 text-capitalize" v-html="langChoices[language][getLang]" />
@@ -385,11 +384,9 @@ export default {
   methods: {
     ...mapMutations(['setLang']),
     selectLang(l) {
-      console.log(l);
       this.setLang(l);
     },
     selectLangModal(l) {
-      console.log(l);
       this.modalMenu = false;
       this.setLang(l);
     }
