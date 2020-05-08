@@ -2,14 +2,14 @@
   <v-app>
     <v-app-bar flat class="hidden-sm-and-down px-11" app absolute color="#e8e8e8" height="76px">
 
-      <v-btn width="185" color="transparent" text icon to="/">/
+      <!-- <v-btn width="185" color="transparent" text icon to="/">/
         <v-img :src="logo[0]" />
-      </v-btn>
+      </v-btn> -->
 
       <v-spacer />
 
       <v-toolbar-items class="pa-0">
-        <v-btn
+        <!-- <v-btn
           :class="getLang === 'gr' ? 'noto-18-600' : 'nunito-18-600'"
           class="px-2"
           text color="transparent"
@@ -74,7 +74,7 @@
             :to="{ path: '/', hash:'#contact-us' }"
             v-html="routes.contact[getLang]"
           />
-        </div>
+        </div> -->
         <v-menu open-on-hover bottom :offset-y="true" transition="slide-y-transition">
           <template v-slot:activator="{ on }">
             <v-btn class="px-2" text color="transparent" v-on="on" :ripple="false">
@@ -99,7 +99,7 @@
       </v-toolbar-items>
     </v-app-bar>
 
-    <v-app-bar class="hidden-md-and-up px-3" app absolute color="#F7F7F7" height="50px">
+    <!-- <v-app-bar class="hidden-md-and-up px-3" app absolute color="#F7F7F7" height="50px">
       <v-btn width="122px" color="transparent" text icon to="/">
         <v-img :src="logo[1]" />
       </v-btn>
@@ -233,11 +233,11 @@
           </v-card>
         </v-dialog>
       </v-toolbar-items>
-    </v-app-bar>
+    </v-app-bar> -->
 
     <slot />
 
-    <!-- <v-footer
+    <v-footer
       app
       color="#dddddd"
       absolute
@@ -303,7 +303,7 @@
         </div>
       </div>
 
-    </v-footer> -->
+    </v-footer>
   </v-app>
 </template>
 
