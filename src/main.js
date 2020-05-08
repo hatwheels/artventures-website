@@ -87,11 +87,15 @@ export default function (Vue, { appOptions, router, head, isClient }) {
     },
     state: {
       lang: 'en',
+      languages: ['en', 'gr'],
     },
     getters: {
       getLang: state => {
         return state.lang
       },
+      getLanguages: state => {
+        return state.languages
+      }
     },
     mutations: {
       setLang (state, val) {
@@ -106,15 +110,15 @@ export default function (Vue, { appOptions, router, head, isClient }) {
 
   Vue.use(VueWaypoint)
 
-  Vue.mixin({
-    data() {
-      return {
-        get languages() {
-          return ['en', 'gr'];
-        }
-      }
-    }
-  })
+  // Vue.mixin({
+  //   data() {
+  //     return {
+  //       get languages() {
+  //         return ['en', 'gr'];
+  //       }
+  //     }
+  //   }
+  // })
 
   // Set default layout as a global component
   Vue.component('Layout', DefaultLayout)
