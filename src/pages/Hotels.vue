@@ -13,19 +13,19 @@
             <div
               :class="getLang === 'gr' ? 'noto-3p28vw-600-1p2em' : 'raleway-3p28vw-600-1p2em'"
               class="black--text pb-6"
-              v-html="main.title[getLang]"
+              v-html="$page.hotels.edges[0].node.main.title[getLang]"
             />
             <div
               :class="getLang === 'gr' ? 'noto-1p312vw-400' : 'raleway-1p312vw-400'"
               class="color-rgba-0-0-0-p52 pb-12"
-              v-html="main.description[getLang]"
+              v-html="$page.hotels.edges[0].node.main.body[getLang]"
             />
             <div class="pt-3" />
             <router-link
               :class="getLang === 'gr' ? 'noto-1p312vw-600' : 'raleway-1p312vw-600'"
               class="contact-us-btn white--text text-center text-uppercase"
               :to="{ path: '/', hash:'#contact-us' }"
-              v-html="main.button[getLang]"
+              v-html="$page.hotels.edges[0].node.main.button[getLang]"
             />
           </div>
         </div>
@@ -41,14 +41,14 @@
             </v-col>
           </v-row>
           <v-row class="px-12 pt-3" justify="space-around">
-            <v-col class="color-333333" cols="4" v-for="(advantage, i) in advantages" :key="'advantage-' + i">
+            <v-col class="color-333333" cols="4" v-for="(advantage, i) in $page.hotels.edges[0].node.advantages" :key="'advantage-' + i">
               <p
                 :class="getLang === 'gr' ? 'noto-30-700-1p2' : 'playfair-30-700-1p2'"
                 v-html="advantage.title[getLang]"
               />
               <p
                 :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                v-html="advantage.description[getLang]"
+                v-html="advantage.body[getLang]"
               />
             </v-col>
           </v-row>
@@ -63,7 +63,7 @@
         <v-row class="py-6" justify="space-around" align="center">
           <v-col
             class="col-hot-testimonials-width color-1a1a1a"
-            v-for="(testimonial, i) in testimonials"
+            v-for="(testimonial, i) in $page.hotels.edges[0].node.testimonials"
             :key="'hot-testimonials-' + i"
           >
             <div
@@ -89,14 +89,14 @@
           <div
             :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
             class="pb-6"
-            v-html="form.title[getLang]"
+            v-html="$page.hotels.edges[0].node.button.title[getLang]"
           />
           <div class="custom-block">
             <router-link
               :class="getLang === 'gr' ? 'noto-15-600-1p5' : 'raleway-15-600-1p5'"
               class="form-btn white--text text-uppercase"
               :to="{ path: '/', hash:'#contact-us' }"
-              v-html="form.button[getLang]"
+              v-html="$page.hotels.edges[0].node.button.body[getLang]"
             />
           </div>
           <div class="py-12" />
@@ -117,27 +117,27 @@
             <div
               :class="getLang === 'gr' ? 'noto-30-700' : 'raleway-30-700'"
               class="black--text pb-4"
-              v-html="main.title[getLang]"
+              v-html="$page.hotels.edges[0].node.main.title[getLang]"
             />
             <div
               :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
               class="color-rgba-0-0-0-p52 pb-7"
-              v-html="main.description[getLang]"
+              v-html="$page.hotels.edges[0].node.main.body[getLang]"
             />
             <router-link
               :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
               class="contact-us-btn-small white--text text-center"
               :to="{ path: '/', hash:'#contact-us-small' }"
-              v-html="main.button[getLang]"
+              v-html="$page.hotels.edges[0].node.main.button[getLang]"
             />
           </v-col>
         </v-row>
 
         <!-- advantages -->
         <div class="pt-6">
-          <v-row justify="center" v-for="(advantage, i) in advantages" :key="'advantage-small-' + i">
+          <v-row justify="center" v-for="(advantage, i) in $page.hotels.edges[0].node.advantages" :key="'advantage-small-' + i">
             <v-col cols="11">
-              <v-img class="mb-4" :src="advantage.img" :lazy-src="advantage.lazy" />
+              <v-img class="mb-4" :src="advantages[i].img" :lazy-src="advantages[i].lazy" />
               <div class="color-333333">
                 <p
                   :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
@@ -145,7 +145,7 @@
                 />
                 <p
                   :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                  v-html="advantage.description[getLang]"
+                  v-html="advantage.body[getLang]"
                 />
               </div>
             </v-col>
@@ -160,7 +160,7 @@
         <!-- testimonials -->
         <v-row
           justify="center" align="center"
-          v-for="(testimonial, i) in testimonials"
+          v-for="(testimonial, i) in $page.hotels.edges[0].node.testimonials"
           :key="'hot-testimonials-small-' + i"
         >
           <v-col class="pt-0 pb-4 color-1a1a1a" cols=11>
@@ -187,14 +187,14 @@
           <div
             :class="getLang === 'gr' ? 'noto-32-700' : 'playfair-32-700'"
             class="pb-6"
-            v-html="form.title[getLang]"
+            v-html="$page.hotels.edges[0].node.button.title[getLang]"
           />
           <div class="custom-block">
             <router-link
               :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-600'"
               class="form-btn-small white--text text-uppercase"
               :to="{ path: '/', hash:'#contact-us-small' }"
-              v-html="form.button[getLang]"
+              v-html="$page.hotels.edges[0].node.button.body[getLang]"
             />
           </div>
           <div class="py-12" />
@@ -217,82 +217,22 @@ export default {
       main: {
         img: 'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto/v1585685621/artventures/hotels01.jpg',
         lazy: 'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto,h_100/v1585685621/artventures/hotels01.jpg',
-        title: {
-          gr: 'Τέχνη που κάνει τους χώρους σας να λάμπουν',
-          en: 'Art that make your spaces shine',
-        },
-        description: {
-          gr: 'Μεταμορφώστε τους χώρους σας σε μία “ανοιχτή γκαλερί” και επεκτείνετε το brand σας μέσω της Τέχνης.<br><br>Είτε είστε μικρό boutique hotel, 5* resort ή μεσιτικό γραφείο, η Artventures σας βοηθάει με την δημιουργία μιας μοναδικής συλλογής και μεγιστοποιεί τα προτερήματα της έκθεσης Τέχνης στις εγκαταστάσεις σας.',
-          en: 'Transform your spaces to an “open gallery” and expand your brand narrative through Art.<br><br>Whether you’re a small boutique hotel, a 5* resort or a real estate project, Artventures will help you create a unique collection and maximize all the advantages of exhibiting Art in your premises.',
-        },
-        button: {
-          gr: 'Επικοινωνια',
-          en: 'Contact Us',
-        },
       },
       // advantages
       advantages: [
         {
           img: 'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto/v1585320144/artventures/hotels02.jpg',
           lazy: 'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto,h_100/v1582416241/artventures/businesses02.jpg',
-          title: {
-            gr: 'Επιλέξτε μια καινοτόμα λύση για την ανακαίνιση',
-            en: 'Take an innovative approach to renovation',
-          },
-          description: {
-            gr: "Μπορούμε να αλλάζουμε τα έργα τέχνης στον χώρο σας όσο συχνά επιλέξετε, προσφέροντας σας έναν χαμηλού κόστους τρόπο, να ανανεώνετε περιοδικά την εμφάνιση και την αίσθηση στους χώρους σας, και φυσικά να εντυπωσιάζετε ενοίκους και επισκέπτες.",
-            en: 'Change the artwork in your spaces and rooms as often as you want.<br><br>Refresh the whole atmosphere and renovate without changing anything else (or spending a fortune). Choose a different narrative for your hotel every time.',
-          },
         },
         {
           img: 'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto/v1585320144/artventures/hotels03.jpg',
           lazy: 'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto,h_100/v1582416241/artventures/hotels03.jpg',
-          title: {
-            gr: 'Ανακαλύψτε την κατάλλητη τέχνη για κάθε χώρο',
-            en: 'Discover the right piece of art for every room',
-          },
-          description: {
-            gr: 'Είτε πρόκειται για installations που απλώνονται από το πάτωμα του lobby ως την οροφή μέχρι ένα τρίπτυχο χωλ, προσφέρουμε μια τεράστια γκάμα από έργα τέχνης. Θα συνεργαστείτε τετ-α-τετ με έναν εξειδικευμένο Σύμβουλο Τέχνης μας και θα ανακαλύψετε τα τελειότερα κομμάτια για κάθε χώρο που σας ενδιαφέρει.',
-            en: 'From floor-to-ceiling lobby installations to hallway triptychs, we offer a full range of artworks. You’ll work one-on-one with a dedicated Art Advisor to find the perfect piece for every space.',
-          },
         },
         {
           img: 'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto/v1585320144/artventures/hotels04.jpg',
           lazy: 'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto,h_100/v1582416241/artventures/hotels04.jpg',
-          title: {
-            gr: 'Αυξήστε την αξία και τα έσοδα σας',
-            en: 'Get more value and even more revenue',
-          },
-          description: {
-            gr: 'Αγοράστε ή ενοικιάστε. Πληρώνοντας εξ’ αρχής όλο το ποσό ή σταδιακά. Προσφέρουμε μια ολόκληρη σειρά από ευέλικτες λύσεις για να κερδίζετε όσο το δυνατόν περισσότερα κάθε φορά, όποιος κι αν είναι ο προϋπολογισμός σας.',
-            en: 'Purchase or rent. Pay up front or over time. We offer a range of flexible options to make the most of your budget, every time. And get commissions from every sale.',
-          },
         },
       ],
-      // Testimonials
-      testimonials: [
-        {
-          quote: {
-            gr: "“Ήμασταν πολύ τυχεροί να συνεργαστούμε με την ομάδα της Artventures από την αρχή. Η επικοινωνία ήταν πολύ καλή απ' την αρχή. Η εξυπηρέτηση τους είναι πραγματικά καταπληκτική. Όλη η ομάδα ήταν πολύ εξυπηρετική και επαγγελματική.”",
-            en: '“We were very lucky to work with the Artventures team from the very begining. Communication was great all along. They really provide a great service. The whole group was very helpful and professional.”',
-          },
-          author: {
-            gr: '— Μιχάλης Δ., Διευθυντής Ξενοδοχείου 5*',
-            en: '— Michael D., 5* Hotel Manager',
-          }
-        },
-      ],
-      // Form
-      form: {
-        title: {
-          gr: 'Ανακαλύψτε τι μπορούμε να κάνουμε για εσάς',
-          en: 'Find out what we can do for you',
-        },
-        button: {
-          gr: 'Συμπληρωστε την φορμα',
-          en: 'Complete the form',
-        },
-      }
     }
   },
   computed: {
@@ -308,6 +248,62 @@ export default {
   },
 }
 </script>
+
+<page-query>
+# Write your query or mutation here
+query {
+  hotels: allPages(filter: { path: { eq: "/content/pages/hotels/" }}) {
+  edges {
+    node {
+      main {
+        title {
+          en
+          gr
+        }
+        body {
+          en
+          gr
+        }
+        button {
+          en
+          gr
+        }
+      }
+      advantages {
+        title {
+          en
+          gr
+        }
+        body {
+          en
+          gr
+        }
+      }
+      testimonials {
+        quote {
+          en
+          gr
+        }
+        author {
+          en
+          gr
+        }
+      }
+      button {
+        title {
+          en
+          gr
+        }
+        body {
+          en
+          gr
+        }
+      }
+    }
+  }
+ }
+}
+</page-query>
 
 <style>
 .custom-divider {

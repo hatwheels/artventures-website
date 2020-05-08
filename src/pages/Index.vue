@@ -555,10 +555,6 @@ export default {
       ],
       // Media
       media: {
-        title: {
-          gr: 'Λένε για εμάς',
-          en: 'They say about us',
-        },
         logos: [
           {
             img: 'https://res.cloudinary.com/de1jgt6c5/image/upload/c_thumb,h_176/v1585653768/artventures/logo-om.jpg',

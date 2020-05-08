@@ -13,19 +13,19 @@
             <div
               :class="getLang === 'gr' ? 'noto-3p28vw-600-1p2em' : 'raleway-3p28vw-600-1p2em'"
               class="black--text pb-6"
-              v-html="main.title[getLang]"
+              v-html="$page.businesses.edges[0].node.main.title[getLang]"
             />
             <div
               :class="getLang === 'gr' ? 'noto-1p312vw-400' : 'raleway-1p312vw-400'"
               class="color-rgba-0-0-0-p52 pb-12"
-              v-html="main.description[getLang]"
+              v-html="$page.businesses.edges[0].node.main.body[getLang]"
             />
             <div class="pt-3" />
             <router-link
               :class="getLang === 'gr' ? 'noto-1p312vw-600' : 'raleway-1p312vw-600'"
               class="contact-us-btn white--text text-center text-uppercase"
               :to="{ path: '/', hash:'#contact-us' }"
-              v-html="main.button[getLang]"
+              v-html="$page.businesses.edges[0].node.main.button[getLang]"
             />
           </div>
         </div>
@@ -41,14 +41,14 @@
             </v-col>
           </v-row>
           <v-row class="px-12 pt-3" justify="space-around">
-            <v-col class="color-333333" cols="4" v-for="(advantage, i) in advantages.content" :key="'advantage-' + i">
+            <v-col class="color-333333" cols="4" v-for="(advantage, i) in $page.businesses.edges[0].node.advantages" :key="'advantage-' + i">
               <p
                 :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
                 v-html="advantage.title[getLang]"
               />
               <p
                 :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                v-html="advantage.description[getLang]"
+                v-html="advantage.body[getLang]"
               />
             </v-col>
           </v-row>
@@ -56,7 +56,7 @@
             <a
               :class="getLang === 'gr' ? 'noto-15-600-1p5' : 'raleway-15-600-1p5'"
               class="learn-more-btn white--text text-uppercase"
-              v-html="advantages.button[getLang]"
+              v-html="$page.businesses.edges[0].node.button[getLang]"
             />
           </div>
         </div>
@@ -71,7 +71,7 @@
         <v-row class="pb-6 pt-12" justify="space-around" align="center">
           <v-col
             class="col-biz-testimonials-width color-1a1a1a"
-            v-for="(testimonial, i) in testimonials"
+            v-for="(testimonial, i) in $page.businesses.edges[0].node.testimonials"
             :key="'biz-testimonials-' + i"
           >
             <div
@@ -105,27 +105,27 @@
             <div
               :class="getLang === 'gr' ? 'noto-30-700' : 'raleway-30-700'"
               class="black--text pb-4"
-              v-html="main.title[getLang]"
+              v-html="$page.businesses.edges[0].node.main.title[getLang]"
             />
             <div
               :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
               class="color-rgba-0-0-0-p52 pb-7"
-              v-html="main.description[getLang]"
+              v-html="$page.businesses.edges[0].node.main.body[getLang]"
             />
             <router-link
               :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
               class="contact-us-btn-small white--text text-center"
               :to="{ path: '/', hash:'#contact-us-small' }"
-              v-html="main.button[getLang]"
+              v-html="$page.businesses.edges[0].node.main.button[getLang]"
             />
           </v-col>
         </v-row>
 
         <!-- advantages -->
         <div class="pt-6">
-          <v-row justify="center" v-for="(advantage, i) in advantages.content" :key="'advantage-small-' + i">
+          <v-row justify="center" v-for="(advantage, i) in $page.businesses.edges[0].node.advantages" :key="'advantage-small-' + i">
             <v-col cols="11">
-              <v-img class="mb-4" :src="advantage.img" :lazy-src="advantage.lazy" />
+              <v-img class="mb-4" :src="advantages.content[i].img" :lazy-src="advantages.content[i].lazy" />
               <div class="color-333333">
                 <p
                   :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
@@ -133,7 +133,7 @@
                 />
                 <p
                   :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                  v-html="advantage.description[getLang]"
+                  v-html="advantage.body[getLang]"
                 />
               </div>
             </v-col>
@@ -142,7 +142,7 @@
             <a
               :class="getLang === 'gr' ? 'noto-15-600-1p5' : 'raleway-15-600-1p5'"
               class="learn-more-btn-small white--text text-uppercase"
-              v-html="advantages.button[getLang]"
+              v-html="$page.businesses.edges[0].node.button[getLang]"
             />
           </div>
         </div>
@@ -155,7 +155,7 @@
         <!-- testimonials -->
         <v-row
           justify="center" align="center"
-          v-for="(testimonial, i) in testimonials"
+          v-for="(testimonial, i) in $page.businesses.edges[0].node.testimonials"
           :key="'biz-testimonials-small-' + i"
         >
           <v-col class="pt-0 pb-4 color-1a1a1a" cols=11>
@@ -191,87 +191,24 @@ export default {
       main: {
         img: 'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto/v1585685621/artventures/businesses01.jpg',
         lazy: 'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto,h_100/v1585685621/artventures/businesses01.jpg',
-        title: {
-          gr: 'Τέχνη που δουλεύει για την επιχείρηση σας',
-          en: 'Art that works for your business',
-        },
-        description: {
-          gr: 'Είτε είσαστε γιατρός, δικηγόρος, μικρό γραφείο ή εταιρία με εκατοντάδες υπαλλήλους, είμαστε εδώ για να σας βοηθήσουμε να ζήσετε την Τέχνη στο χώρο σας.',
-          en: 'Whether you’re a doctor, a lawyer, a small office or a company with hundreds of employees, we’re here to help you experience Art in your spaces.',
-        },
-        button: {
-          gr: 'Επικοινωνια',
-          en: 'Contact Us',
-        },
       },
       // advantages
       advantages: {
-        button: {
-          gr: 'Μαθετε περισσοτερα',
-          en: 'Learn more',
-        },
         content: [
           {
             img: 'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto/v1585320144/artventures/businesses02.jpg',
             lazy: 'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto,h_100/v1582416241/artventures/businesses02.jpg',
-            title: {
-              gr: 'Χωρίς να κουνήσετε ένα δάχτυλο',
-              en: 'Don’t lift a finger',
-            },
-            description: {
-              gr: 'H ομάδα μας αναλαμβάνει κάθε λεπτομέρεια, από τον σχεδιασμό και την επιμέλεια της συλλογής που σας ταιριάζει μέχρι την μεταφορά και την εγκατάσταση, χωρίς εσείς να χρειαστεί να κουνήσετε ούτε ένα δάχτυλο.',
-              en: 'Our team takes care of every detail, from design and curation to installation and rotation, so you don’t need to lift a finger.',
-            },
           },
           {
             img: 'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto/v1585320144/artventures/businesses03.jpg',
             lazy: 'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto,h_100/v1582416241/artventures/businesses03.jpg',
-            title: {
-              gr: 'Υποστηρίξτε τοπικούς καλλιτέχνες',
-              en: 'Support local artists',
-            },
-            description: {
-              gr: 'Εκθέστε Τέχνη που αντιπροσωπεύει την κοινότητα σας και υποστηρίξτε τους καλλιτέχνες που το μοιράζονται μαζί σας. Είτε νοικιάζετε, είτε αγοράζετε τέχνη, ένα σημαντικό ποσοστό από κάθε ευρώ που επενδύετε μέσω της Artventures πάει απευθείας στους καλλιτέχνες των οποίων την δουλειά απολαμβάνετε.',
-              en: 'Exhibit artwork that represents your community and support the artists who share it with you. Whether you are renting or buying artwork, a percentage of every Euro you spend with Artventures is paid directly to the artists whose work you enjoy.',
-            },
           },
           {
             img: 'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto/v1585320144/artventures/businesses04.jpg',
             lazy: 'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto,h_100/v1582416241/artventures/businesses04.jpg',
-            title: {
-              gr: 'Κάντε το σαν ομάδα',
-              en: 'Get your team involved',
-            },
-            description: {
-              gr: 'Θα συνεργαστείτε άμεσα με έμναν από τους Επιμελητές Τέχνης μας, εξερευνώντας τον κατάλογο μας και διαλέγοντας ανάμεσα σε αρκετές χιλιάδες έργα τέχνης. Οι τελικές επιλογές μπορούν να γίνουν ακόμα και μέσω ψηφοφορίας ανάμεσα στους εργαζόμενους σας, ώστε να ενδυναμώσετε ακόμα περισσότερο το χτίσιμο της εταιρικής σας κουλτούρας.',
-              en: 'You will work directly with one of our Art Advisors to explore our constantly expanding catalog. Final selections can be made through our community voting tool to engage your employees and build company culture.',
-            },
           },
         ]
       },
-      // Testimonials
-      testimonials: [
-        {
-          quote: {
-            gr: "“Εξαιρετική εμπειρία. Η Artventures ήταν πολύ πικοινωνιακή από την πρώτη στιγμή εως την άφιξη. Η αντιμετώπιση ήταν ευχάριστη και μ χαρά θα αγοράσω ξανά απ' αυτους.”",
-            en: '“Wonderful experience. Artventures was very communicative from the first moment to arrival and everything in between. Lovely to deal with and I will happily purchase from them again.”',
-          },
-          author: {
-            gr: '— Δρ. Νικόλας P.',
-            en: '— Dr. Nickolas P.',
-          }
-        },
-        {
-          quote: {
-            gr: "“Τρομερή φροντίδα και προσοχή στην παραγγελία από την ομάδα της Artventures. Έκαναν ό,τι περνούσε από το χέρι τους για να φτάσει η παραγγελία μου νωρίτερα απ' το αναμενόμενο και έτσι έφτασε εγκαίρως για τα εγκάινια του γραφείου. Η επικοινωνία ήταν τέλεια. Δε θα μπορούσα να ζητήσω κάτι παραπάνω!”",
-            en: '“Amazing care and attention with my order from the Artventures team. Went above and beyond to make sure my order arrived sooner than estimated so was in time for our office opening. Communication was excellent. Could not have asked for more!”',
-          },
-          author: {
-            gr: '— Μαρία K., Δικηγόρος',
-            en: '— Maria K., Lawyer',
-          }
-        }
-      ]
     }
   },
   computed: {
@@ -287,6 +224,55 @@ export default {
   },
 }
 </script>
+
+<page-query>
+query {
+  businesses: allPages(filter: { path: { eq: "/content/pages/businesses/" }}) {
+  edges {
+    node {
+ 	    main {
+        title {
+          en
+          gr
+        }
+        body {
+          en
+          gr
+        }
+        button {
+          en
+          gr
+        }
+      }
+      button {
+        en
+        gr
+      }
+      advantages {
+        title {
+          en
+          gr
+        }
+        body {
+          en
+          gr
+        }
+      }
+      testimonials {
+        quote {
+          en
+          gr
+        }
+        author {
+          en
+          gr
+        }
+      }
+    }
+  }
+ }
+}
+</page-query>
 
 <style>
 .custom-divider {

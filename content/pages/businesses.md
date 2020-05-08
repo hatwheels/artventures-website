@@ -46,14 +46,14 @@ testimonials:
       gr: |+
         “Εξαιρετική εμπειρία. Η Artventures ήταν πολύ πικοινωνιακή από την πρώτη στιγμή εως την άφιξη. Η αντιμετώπιση ήταν ευχάριστη και μ χαρά θα αγοράσω ξανά απ' αυτους.”
     author:
-      en: Dr. Nickolas P.
-      gr: Δρ. Νικόλας P.
+      en: "— Dr. Nickolas P."
+      gr: "— Δρ. Νικόλας P."
   - quote:
       en: |+
         “Amazing care and attention with my order from the Artventures team. Went above and beyond to make sure my order arrived sooner than estimated so was in time for our office opening. Communication was excellent. Could not have asked for more!”
       gr: |+
         “Τρομερή φροντίδα και προσοχή στην παραγγελία από την ομάδα της Artventures. Έκαναν ό,τι περνούσε από το χέρι τους για να φτάσει η παραγγελία μου νωρίτερα απ' το αναμενόμενο και έτσι έφτασε εγκαίρως για τα εγκάινια του γραφείου. Η επικοινωνία ήταν τέλεια. Δε θα μπορούσα να ζητήσω κάτι παραπάνω!”
     author:
-      en: Maria K., Lawyer
-      gr: Μαρία K., Δικηγόρος
+      en: "— Maria K., Lawyer"
+      gr: "— Μαρία K., Δικηγόρος"
 ---
