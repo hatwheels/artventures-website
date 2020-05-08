@@ -49,13 +49,12 @@
                   <p
                     :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
                     class="color-333333 pb-7 pr-12"
-                    v-html="about.title[getLang]"
+                    v-html="$page.about.edges[0].node.title[getLang]"
                   />
                   <p
-                    v-for="(p, i) in about.body" :key="'aboutTextBody-' + i"
                     :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
                     class="color-333333 pb-4 pr-12"
-                    v-html="p[getLang]"
+                    v-html="$page.about.edges[0].node.body[getLang]"
                   />
                 </div>
               </v-col>
@@ -73,16 +72,16 @@
             <p
               :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
               class="pb-10 my-0 text-center"
-              v-html="explore.title[getLang]"
+              v-html="$page.explore.edges[0].node.title[getLang]"
             />
             <v-row class="pt-12" justify="space-between" align="center">
-              <v-col class="px-4" cols="4" v-for="(image, i) in explore.images" :key="'exploreImages-' + i">
-                  <v-img gradient="to top right, rgba(0,0,0,.15), rgba(0,0,0,.15)" :src="image.img">
+              <v-col class="px-4" cols="4" v-for="(image, i) in $page.explore.edges[0].node.images" :key="'exploreImages-' + i">
+                  <v-img gradient="to top right, rgba(0,0,0,.15), rgba(0,0,0,.15)" :src="explore.images[i].img">
                     <div style="height: 100%" class="d-flex flex-column justify-center align-center">
                       <p
                         :class="getLang === 'gr' ? 'noto-44-700' : 'raleway-44-700'"
                         class="white--text"
-                        v-html="image.p[getLang]"
+                        v-html="image[getLang]"
                       />
                       <v-btn
                         class="white--text px-10"
@@ -90,8 +89,8 @@
                         depressed
                         x-large
                         color="#525252"
-                        v-html="explore.button[getLang]"
-                        :to="image.route"
+                        v-html="$page.explore.edges[0].node.button[getLang]"
+                        :to="explore.images[i].route"
                       />
                     </div>
                   </v-img>
@@ -117,12 +116,12 @@
                       <p
                         :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
                         class="pb-9"
-                        v-html="artists.title[getLang]"
+                        v-html="$page.artists.edges[0].node.title[getLang]"
                       />
                       <p
                         :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
                         class="pb-8"
-                        v-html="artists.body[getLang]"
+                        v-html="$page.artists.edges[0].node.body[getLang]"
                       />
                       <v-btn
                         class="white--text px-10"
@@ -130,7 +129,7 @@
                         depressed
                         x-large
                         color="#525252"
-                        v-html="artists.button[getLang]"
+                        v-html="$page.artists.edges[0].node.button[getLang]"
                       />
                     </div>
                 </v-col>
@@ -138,7 +137,7 @@
               <v-row class="py-3" justify="space-around" align="center">
                 <v-col
                   class="color-1a1a1a col-testimonials-width"
-                  v-for="(testimonial, i) in artists.testimonials"
+                  v-for="(testimonial, i) in $page.artists.edges[0].node.testimonials"
                   :key="'artists-testimonials-' + i"
                 >
                   <div
@@ -169,7 +168,7 @@
                 </v-col>
               </v-row>
               <v-row class="px-12 pt-3" justify="space-between">
-                <v-col class="color-333333" cols="4" v-for="(benefit, i) in benefits" :key="'benefit-text-' + i">
+                <v-col class="color-333333" cols="4" v-for="(benefit, i) in $page.benefits.edges[0].node.benefits" :key="'benefit-text-' + i">
                   <div>
                     <p
                       :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
@@ -177,7 +176,7 @@
                     />
                     <p
                       :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                      v-html="benefit.description[getLang]"
+                      v-html="benefit.body[getLang]"
                     />
                   </div>
                 </v-col>
@@ -195,7 +194,7 @@
               <p
                 :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
                 class="text-center color-333333 pb-12 mb-0"
-                v-html="media.title[getLang]"
+                v-html="$page.media.edges[0].node.title[getLang]"
               />
               <div class="carousel-upper swiper-container">
                 <div class="carousel-mid text-center pt-12" v-swiper:swiperNormal="swiperOption">
@@ -242,13 +241,12 @@
                 <p
                   :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
                   class="color-333333 pb-2"
-                  v-html="about.title[getLang]"
+                  v-html="$page.about.edges[0].node.title[getLang]"
                 />
                 <p
-                  v-for="(p, i) in about.body" :key="'aboutTextBody-' + i"
                   :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
                   class="color-333333 pb-2"
-                  v-html="p[getLang]"
+                  v-html="$page.about.edges[0].node.body[getLang]"
                 />
               </div>
             </v-col>
@@ -262,21 +260,21 @@
           <p
             :class="getLang === 'gr' ? 'noto-32-700' : 'playfair-32-700'"
             class="pb-4 my-0 text-center"
-            v-html="explore.title[getLang]"
+            v-html="$page.explore.edges[0].node.title[getLang]"
           />
           <v-row
             class="pt-2"
             justify="center"
             align="center"
-            v-for="(image, i) in explore.images" :key="'exploreImages-small-' + i"
+            v-for="(image, i) in $page.explore.edges[0].node.images" :key="'exploreImages-small-' + i"
           >
             <v-col cols="11">
-              <v-img gradient="to top right, rgba(0,0,0,.15), rgba(0,0,0,.15)" :src="image.img">
+              <v-img gradient="to top right, rgba(0,0,0,.15), rgba(0,0,0,.15)" :src="explore.images[i].img">
                 <div style="height: 100%" class="d-flex flex-column justify-center align-center">
                   <p
                     :class="getLang === 'gr' ? 'noto-44-700' : 'raleway-44-700'"
                     class="white--text"
-                    v-html="image.p[getLang]"
+                    v-html="image[getLang]"
                   />
                   <v-btn
                     class="white--text px-10"
@@ -284,8 +282,8 @@
                     depressed
                     x-large
                     color="#525252"
-                    v-html="explore.button[getLang]"
-                    :to="image.route"
+                    v-html="$page.explore.edges[0].node.button[getLang]"
+                    :to="explore.images[i].route"
                   />
                 </div>
               </v-img>
@@ -312,12 +310,12 @@
                     <p
                       :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
                       class="pb-2"
-                      v-html="artists.title[getLang]"
+                      v-html="$page.artists.edges[0].node.title[getLang]"
                     />
                     <p
                       :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
                       class="pb-2"
-                      v-html="artists.body[getLang]"
+                      v-html="$page.artists.edges[0].node.body[getLang]"
                     />
                     <v-btn
                       class="white--text px-10"
@@ -325,14 +323,14 @@
                       depressed
                       x-large
                       color="#525252"
-                      v-html="artists.button[getLang]"
+                      v-html="$page.artists.edges[0].node.button[getLang]"
                     />
                   </div>
               </v-col>
             </v-row>
             <v-row
               class="py-3" justify="space-around" align="center"
-              v-for="(testimonial, i) in artists.testimonials"
+              v-for="(testimonial, i) in $page.artists.edges[0].node.testimonials"
               :key="'artists-testimonials-small-' + i"
             >
               <v-col class="color-1a1a1a" cols=11>
@@ -356,9 +354,9 @@
           id="benefits"
           class="background-color-fafafa pt-6"
         >
-          <v-row justify="center" v-for="(benefit, i) in benefits" :key="'benefit-small-' + i">
+          <v-row justify="center" v-for="(benefit, i) in $page.benefits.edges[0].node.benefits" :key="'benefit-small-' + i">
             <v-col cols=11>
-              <v-img class="mb-4" :src="benefit.img" :lazy-src="benefit.lazy" />
+              <v-img class="mb-4" :src="benefits[i].img" :lazy-src="benefits[i].lazy" />
               <div class="color-333333 pb-6">
                 <p
                   :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
@@ -366,7 +364,7 @@
                 />
                 <p
                   :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                  v-html="benefit.description[getLang]"
+                  v-html="benefit.body[getLang]"
                 />
               </div>
             </v-col>
@@ -382,7 +380,7 @@
             <p
               :class="getLang === 'gr' ? 'noto-32-700' : 'playfair-32-700'"
               class="text-center color-333333 pb-2 mb-0"
-              v-html="media.title[getLang]"
+              v-html="$page.media.edges[0].node.title[getLang]"
             />
             <div class="carousel-upper-small swiper-container">
               <div class="carousel-mid-small text-center pt-12" v-swiper:swiperSmall="swiperOption">
@@ -510,143 +508,47 @@ export default {
       // About
       about: {
         isActive: false,
-        title: {
-          gr: 'Ένα νέο Έργο στο χώρο σας, όποτε το θελήσετε',
-          en: 'A new Artwork in your space, anytime you want',
-        },
-        body: [
-          {
-            gr: 'Είμαστε εδώ για να αλλάξουμε τον τρόπο που σκέφτεστε και βιώνετε την Τέχνη. Γι’ αυτό δώστε μας το χέρι και αφήστε μας να σας πάρουμε μαζί στην πρώτη σας... Artventure. Διαλέξτε πρωτότυπα Έργα για το σπίτι, το γραφείο ή ακόμα και για το ξενοδοχείο χωρίς να ξοδέψετε μια περιουσία.',
-            en: 'We are here to change the way you think and experience Art. So give us your hand and let us take you to your first... Artventure. Get original Art in your home, office, workspace or even your hotel, without spending a fortune.',
-          },
-          {
-            gr: "Εξερευνήστε νέους, πολλά υποσχόμενους ή καταξιωμένους καλλιτέχνες απ' όλη την Ελλάδα, και βιώστε την Τέχνη ως Υπηρεσία.",
-            en: 'Explore new, upcoming or well established artists from all over Greece, and experience Art as a Service.',
-          },
-          {
-            gr: 'Εξερευνήστε, νοικιάστε και απολαύστε Τέχνη.',
-            en: 'Explore, rent and enjoy Art.',
-          }
-        ],
         img: "https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto/v1582236536/artventures/img21.png",
         lazy: "https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto,h_100/v1582236536/artventures/img21.png",
       },
       // Explore
       explore: {
         isActive: false,
-        title: {
-          gr: 'Ανακαλύψτε τις επιλογές σας',
-          en: 'Explore your options',
-        },
         images: [
           {
             img: 'https://res.cloudinary.com/de1jgt6c5/image/upload/g_center,ar_1:1,c_fill/v1585320134/artventures/img22.jpg',
             lazy: 'https://res.cloudinary.com/de1jgt6c5/image/upload/g_center,ar_1:1,c_fill,w_100,h_100/v1585320134/artventures/img22.jpg',
-            p: {
-              gr: 'Ιδιώτες',
-              en: 'Individuals',
-            },
             route: '/individuals',
           },
           {
             img: 'https://res.cloudinary.com/de1jgt6c5/image/upload/g_center,ar_1:1,c_fill/v1585320139/artventures/img23.jpg',
             lazy: 'https://res.cloudinary.com/de1jgt6c5/image/upload/g_center,ar_1:1,c_fill,w_100,h_100/v1585320139/artventures/img23.jpg',
-            p: {
-              gr: 'Επιχειρήσεις',
-              en: 'Businesses',
-            },
             route: '/businesses',
           },
           {
             img: 'https://res.cloudinary.com/de1jgt6c5/image/upload/g_center,ar_1:1,c_fill/v1585320144/artventures/img24.jpg',
             lazy: 'https://res.cloudinary.com/de1jgt6c5/image/upload/g_center,ar_1:1,c_fill,w_100,h_100/v1585320139/artventures/img24.jpg',
-            p: {
-              gr: 'Ξενοδοχεία',
-              en: 'Hotels',
-            },
             route: '/hotels',
           },
         ],
-        button: {
-          gr: 'Δειτε περισσοτερα',
-          en: 'Find out more',
-        }
       },
       // Artists
       artists: {
         isActive: false,
-        title: {
-          gr: 'Καλλιτέχνες, πουλήστε με μας!',
-          en: 'Artists, Sell with us!',
-        },
-        body: {
-          gr: 'Γίνετε μέλος της ομάδας καλλιτεχνών της Artventures και αποκτήστε προβολή, έσοδα και αναγνώριση. Δε μας ενδιαφέρει αν είστε νέοι και ανερχόμενοι ή έμπειροι και καταξιωμένοι, αλλά η Τέχνη σας. Αναλαμβάνουμε όλες τις λεπτομέρειες του μάρκετινγκ, των πωλήσεων και των λογιστικών ώστε εσύ να έχεις όλο τον χρόνο να αφοσιωθείς στην Δημιουργία!',
-          en: 'Join Artventures’ team of Artists and get exposure, income and recognition. We don’t care if you’re young and upcoming or experienced and well established, we only care about your Art. Through our experts and partners we provide everything our sellers need, so you can focus on what you love to do – create exquisite Art!',
-        },
-        testimonials: [
-          {
-            quote: {
-              gr: "“Η Artventures είναι μια καταπληκτική ιδέα, και ένας εξαιρετικός τρόπος μεγαλύτερης προβολής και περισσότερων αγοαστών. Πάνω απ' όλα όμως είναι μια σπάνια ομάδα με φανταστικούς, ενθουσιώδεις ανθρώπους που αγαπάνε την Τέχνη και τους καλλιτέχνες και κάνουν τα πάντα για να μας βοηθήσουν.”",
-              en: '“Artventures is a wonderful idea, and a great way to get more exposure and buyers. But above all, it’s a rare team with passionate, amazing people who love art and artists and do everything to help us.”',
-            },
-            author: {
-              gr: '— Κώστας Βαβιλουσσάκης',
-              en: '— Kostas Vaviloussakis',
-            }
-          },
-          {
-            quote: {
-              gr: "“Είμαι πολύ χαρούμενος που είμαι μέλος της Artventures από την αρχή. Είναι ευγενικοί, εξυπηρετικοί και αξιόπιστοι. Και πάνω απ' όλα είναι απίθανοι τύποι και φροντίζουν για την δουλεία μου.”",
-              en: '“I’m very happy to be a part of the Artventures since the beginning. They’re kind, helpful and trustworthy. And most of all they’re great guys and take care of my work.”',
-            },
-            author: {
-              gr: '— Γιώργης Γερόλυμπος',
-              en: '— Yorgis Yerolymbos',
-            }
-          }
-        ],
         img: 'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto/v1582416241/artventures/img17.jpg',
         lazy: 'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto,h_100/v1582416241/artventures/img17.jpg',
-        button: {
-          gr: 'Καντε αιτηση στην Artventures',
-          en: 'Apply to Artventures',
-        },
       },
       // Benefits
       benefits: [
         {
-          title: {
-            gr: 'Η Τέχνη μιλάει για εσάς.',
-            en: 'Your Art speaks for you.',
-          },
-          description: {
-            gr: 'Είτε ψάχνετε κάτι που θα σας εμπνεύσει, είτε κάτι που θα εγείρει μεγάλα ερωτήματα, ή θα γίνει αφετηρία για έναν διάλογο, είτε θέλετε να προκαλέσετε, ή απλά να κάνετε εντύπωση ή μια δήλωση στον χώρο σας, η Τέχνη που επιλέγετε λέει πολλά για εσάς και το περιβάλλον σας, με διαφορετικούς, πολυεπίπεδους, δυναμικούς τρόπους.',
-            en: 'Whether you’re looking to inspire, ask questions, start a conversation, make an impression, or challenge an assumption, the art you show can make the statement over and over in unique, dynamic ways.',
-          },
           img: 'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto/v1585320144/artventures/img25.jpg',
           lazy: 'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto,h_100/v1582416241/artventures/img25.jpg',
         },
         {
-          title: {
-            gr: 'Υποστηρίξτε τοπικούς καλλιτέχνες.',
-            en: 'Support local artists.',
-          },
-          description: {
-            gr: 'Εκθέστε Τέχνη που αντιπροσωπεύει την κοινότητα σας και υποστηρίξτε τους καλλιτέχνες που το μοιράζονται μαζί σας. Είτε νοικιάζετε, είτε αγοράζετε τέχνη, ένα σημαντικό ποσοστό από κάθε ευρώ που επενδύετε μέσω της Artventures πάει απευθείας στους καλλιτέχνες των οποίων την δουλειά απολαμβάνετε.',
-            en: 'Exhibit artwork that represents your community and support the artists who share it with you. Whether you are renting or buying artwork, a percentage of every Euro you spend with Artventures is paid directly to the artists whose work you enjoy.',
-          },
           img: 'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto/v1585320144/artventures/img26.jpg',
           lazy: 'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto,h_100/v1582416241/artventures/img26.jpg',
         },
         {
-          title: {
-            gr: 'Επενδύστε έξυπνα.',
-            en: 'Invest smart.',
-          },
-          description: {
-            gr: 'Γνωρίστε νέους και ταλαντούχους καλλιτέχνες πριν ακόμα αποκτήσουν μεγάλη δημοσιότητα, βοηθήστε όσους εκτιμάτε δοκιμάζοντας ή και αγοράζοντας τα έργα τους, προωθήστε όσους πιστεύουν πως αξίζουν προσφέροντας τους την έκθεση που χρειάζονται. Ξεκινήστε ή αυξήστε την συλλογή σας και δώστε της υπεραξία, στηρίζοντας και ανακαλύπτοντας ταυτόχρονα νέους, υποσχόμενους καλλιτέχνες.',
-            en: 'Get to know young and talented artists before they even gain much publicity, help those you value by trying out and / or purchasing their artworks, promote those you believe are worth more, by giving them the exposure they need. Start or increase your collection and give it good value by supporting and discovering new, promising artists at the same time.',
-          },
           img: 'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto/v1585320144/artventures/img27.jpg',
           lazy: 'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto,h_100/v1582416241/artventures/img27.jpg',
         },
@@ -788,6 +690,97 @@ export default {
   },
 }
 </script>
+
+<page-query>
+query {
+  about: allHome(filter: { path: { eq: "/content/home/about/" }}) {
+    edges {
+      node {
+        title {
+          en
+          gr
+        }
+        body {
+          en
+          gr
+        }
+      }
+    }
+  }
+  explore: allHome(filter: { path: { eq: "/content/home/explore/" }}) {
+    edges {
+      node {
+        title {
+          en
+          gr
+        }
+        images {
+          en
+          gr
+        }
+        button {
+          en
+          gr
+        }
+      }
+    }
+  }
+  artists: allHome(filter: { path: { eq: "/content/home/artists/" }}) {
+    edges {
+      node {
+        title {
+          en
+          gr
+        }
+        body {
+          en
+          gr
+        }
+        testimonials {
+          quote{
+            en
+            gr
+          }
+          author {
+            en
+            gr
+          }
+        }
+        button {
+          en
+          gr
+        }
+      }
+    }
+  }
+  benefits: allHome(filter: { path: { eq: "/content/home/benefits/" }}) {
+    edges {
+      node {
+        benefits {
+          title {
+            en
+            gr
+          }
+          body {
+            en
+            gr
+          }
+        }
+      }
+    }
+  }
+  media: allHome(filter: { path: { eq: "/content/home/media/" }}) {
+    edges {
+      node {
+        title {
+          en
+          gr
+        }
+      }
+    }
+  }
+}
+</page-query>
 
 <style>
   #nav-0.v-btn:hover:before,

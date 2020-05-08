@@ -9,7 +9,7 @@
           <!-- Main -->
           <v-row justify="space-around" align="center">
             <v-col class="pb-0" cols="10">
-              <div v-for="(qa, i) in this.$page.faq.edges[0].node.qa" :key="'faq-' + i">
+              <div v-for="(qa, i) in $page.faq.edges[0].node.qa" :key="'faq-' + i">
                 <div
                   :class="getLang === 'gr' ? 'noto-18-600' : 'raleway-18-600'"
                   v-html="qa.q[getLang]"
