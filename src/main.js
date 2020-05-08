@@ -95,10 +95,7 @@ export default function (Vue, { appOptions, router, head, isClient }) {
     },
     mutations: {
       setLang (state, val) {
-        console.log(state);
-        console.log(val);
         state.lang = val
-        console.log('here');
       }
     }
   }
