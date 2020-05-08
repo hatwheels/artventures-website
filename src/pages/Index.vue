@@ -451,14 +451,14 @@ export default {
       }, 200);
     })
   },
-  updated () {
-    this.$nextTick(() => {
-      if (this.$route.hash) {
-        const el = document.querySelector(this.$route.hash);
-        el && el.scrollIntoView();
-      }
-    })
-  },
+  // updated () {
+  //   this.$nextTick(() => {
+  //     if (this.$route.hash) {
+  //       const el = document.querySelector(this.$route.hash);
+  //       el && el.scrollIntoView();
+  //     }
+  //   })
+  // },
   data () {
     return {
       isSideNav: false,
