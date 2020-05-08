@@ -67,10 +67,8 @@ export default {
         }
       },
       emailText: {
-        gr:
-          'Εγγραφη',
-        en:
-          'Subscribe'
+        gr: 'Εγγραφη',
+        en: 'Subscribe'
       },
       emailPlaceholder: {
         gr: "Το email σας",

@@ -87,11 +87,12 @@
             </v-btn>
           </template>
           <v-list flat color="#e8e8e8">
-            <v-list-item v-for="(language, i) in languages" :key="'lang-' + i" @click.stop.prevent="selectLang(language)">
+            <v-list-item v-for="(language, i) in languages" :key="'lang-' + i">
               <v-list-item-title
                 :class="getLang === 'gr' ? 'noto-15-600' : 'nunito-15-600'"
                 class="color-333333 text-center text-uppercase"
                 v-html="language"
+                 @click.stop.prevent="selectLang(language)"
               />
             </v-list-item>
           </v-list>
@@ -217,9 +218,8 @@
                     </v-list-item>
                     <v-list-item
                       class="pb-5 px-0" v-for="(language, i) in languages" :key="'lang-small-' + i"
-                      @click.stop.prevent="selectLangModal(language)"
                     >
-                      <v-list-item-title :class="getLang === 'gr' ? 'noto-35-400' : 'raleway-35-400'">
+                      <v-list-item-title :class="getLang === 'gr' ? 'noto-35-400' : 'raleway-35-400'" @click.stop.prevent="selectLangModal(language)">
                         <div class="color-333333 text-capitalize" v-html="langChoices[language][getLang]" />
                       </v-list-item-title>
                     </v-list-item>
