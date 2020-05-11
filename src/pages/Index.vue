@@ -1,7 +1,7 @@
 <template>
   <Layout>
     <div v-if="getViewSize === 'desktop'">
-      <v-navigation-drawer
+      <!-- <v-navigation-drawer
         class="ml-4 mr-4"
         mini-variant-width="120px"
         style="margin-top: 43vh;"
@@ -29,7 +29,7 @@
             </v-hover>
           </div>
         </div>
-      </v-navigation-drawer>
+      </v-navigation-drawer> -->
 
       <v-content class="background-color-dddddd">
         <v-container class="px-0 pt-0" fluid>
@@ -196,7 +196,7 @@
                 class="text-center color-333333 pb-12 mb-0"
                 v-html="$page.media.edges[0].node.title[getLang]"
               />
-              <!-- <div class="carousel-upper swiper-container">
+              <div class="carousel-upper swiper-container">
                 <div class="carousel-mid text-center pt-12" v-swiper:swiperNormal="swiperOption">
                   <div class="carousel-lower swiper-wrapper">
                     <div class="swiper-slide" v-for="(logo, i ) in media.logos" :key="'media-logos-' + i">
@@ -207,7 +207,7 @@
                 </div>
                 <div class="swiper-button-prev swiper-button-white" slot="button-prev" />
                 <div class="swiper-button-next swiper-button-white" slot="button-next" />
-              </div> -->
+              </div>
             </div>
         </div>
 
@@ -382,7 +382,7 @@
               class="text-center color-333333 pb-2 mb-0"
               v-html="$page.media.edges[0].node.title[getLang]"
             />
-            <!-- <div class="carousel-upper-small swiper-container">
+            <div class="carousel-upper-small swiper-container">
               <div class="carousel-mid-small text-center pt-12" v-swiper:swiperSmall="swiperOption">
                 <div class="carousel-lower-small swiper-wrapper">
                   <div class="swiper-slide" v-for="(logo, i ) in media.logos" :key="'media-logos-small-' + i">
@@ -391,7 +391,7 @@
                 </div>
                 <div class="swiper-pagination swiper-pagination-black" slot="pagination" />
               </div>
-            </div> -->
+            </div>
           </div>
       </div>
 
