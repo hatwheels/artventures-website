@@ -46,12 +46,12 @@
               </v-col>
               <v-col class="pl-2 pr-12" cols="6">
                 <div class="pr-8">
-                  <p
+                  <div
                     :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
                     class="color-333333 pb-7 pr-12"
                     v-html="$page.about.edges[0].node.title[getLang]"
                   />
-                  <p
+                  <div
                     :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
                     class="color-333333 pb-4 pr-12"
                     v-html="$page.about.edges[0].node.body[getLang]"
@@ -69,7 +69,7 @@
             class="px-12 background-color-white"
             v-waypoint="{ active: true, callback: onExplore, options: intersectOptions }"
           >
-            <p
+            <div
               :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
               class="pb-10 my-0 text-center"
               v-html="$page.explore.edges[0].node.title[getLang]"
@@ -78,7 +78,7 @@
               <v-col class="px-4" cols="4" v-for="(image, i) in $page.explore.edges[0].node.images" :key="'exploreImages-' + i">
                   <v-img gradient="to top right, rgba(0,0,0,.15), rgba(0,0,0,.15)" :src="explore.images[i].img">
                     <div style="height: 100%" class="d-flex flex-column justify-center align-center">
-                      <p
+                      <div
                         :class="getLang === 'gr' ? 'noto-44-700' : 'raleway-44-700'"
                         class="white--text"
                         v-html="image[getLang]"
@@ -113,12 +113,12 @@
                 </v-col>
                 <v-col class="pl-0 pr-5 col-artists-width">
                     <div class="color-333333">
-                      <p
+                      <div
                         :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
                         class="pb-9"
                         v-html="$page.artists.edges[0].node.title[getLang]"
                       />
-                      <p
+                      <div
                         :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
                         class="pb-8"
                         v-html="$page.artists.edges[0].node.body[getLang]"
@@ -171,11 +171,11 @@
               <v-row class="px-12 pt-3" justify="space-between">
                 <v-col class="color-333333" cols="4" v-for="(benefit, i) in $page.benefits.edges[0].node.benefits" :key="'benefit-text-' + i">
                   <div>
-                    <p
+                    <div
                       :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
                       v-html="benefit.title[getLang]"
                     />
-                    <p
+                    <div
                       :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
                       v-html="benefit.body[getLang]"
                     />
@@ -192,7 +192,7 @@
             v-waypoint="{ active: true, callback: onMedia, options: intersectOptions}"
           >
             <div>
-              <p
+              <div
                 :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
                 class="text-center color-333333 pb-12 mb-0"
                 v-html="$page.media.edges[0].node.title[getLang]"
@@ -239,12 +239,12 @@
           <v-row justify="center" align="center">
             <v-col cols="11">
               <div>
-                <p
+                <div
                   :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
                   class="color-333333 pb-2"
                   v-html="$page.about.edges[0].node.title[getLang]"
                 />
-                <p
+                <div
                   :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
                   class="color-333333 pb-2"
                   v-html="$page.about.edges[0].node.body[getLang]"
@@ -258,7 +258,7 @@
 
         <!-- Explore -->
         <div id="explore">
-          <p
+          <div
             :class="getLang === 'gr' ? 'noto-32-700' : 'playfair-32-700'"
             class="pb-4 my-0 text-center"
             v-html="$page.explore.edges[0].node.title[getLang]"
@@ -272,7 +272,7 @@
             <v-col cols="11">
               <v-img gradient="to top right, rgba(0,0,0,.15), rgba(0,0,0,.15)" :src="explore.images[i].img">
                 <div style="height: 100%" class="d-flex flex-column justify-center align-center">
-                  <p
+                  <div
                     :class="getLang === 'gr' ? 'noto-44-700' : 'raleway-44-700'"
                     class="white--text"
                     v-html="image[getLang]"
@@ -308,12 +308,12 @@
             <v-row justify="center" align="center">
               <v-col cols=11>
                 <div class="color-333333">
-                  <p
+                  <div
                     :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
                     class="pb-2"
                     v-html="$page.artists.edges[0].node.title[getLang]"
                   />
-                  <p
+                  <div
                     :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
                     class="pb-2"
                     v-html="$page.artists.edges[0].node.body[getLang]"
@@ -359,11 +359,11 @@
             <v-col cols=11>
               <v-img class="mb-4" :src="benefits[i].img" :lazy-src="benefits[i].lazy" />
               <div class="color-333333 pb-6">
-                <p
+                <div
                   :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
                   v-html="benefit.title[getLang]"
                 />
-                <p
+                <div
                   :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
                   v-html="benefit.body[getLang]"
                 />
@@ -378,7 +378,7 @@
           class="pt-8 pb-10 white"
         >
           <div>
-            <p
+            <div
               :class="getLang === 'gr' ? 'noto-32-700' : 'playfair-32-700'"
               class="text-center color-333333 pb-2 mb-0"
               v-html="$page.media.edges[0].node.title[getLang]"

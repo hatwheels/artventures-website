@@ -15,7 +15,7 @@
                   v-html="qa.q[getLang]"
                 >
                </div>
-               <p
+               <div
                   :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
                   class="text-justify"
                   v-html="qa.a[getLang]"

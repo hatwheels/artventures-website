@@ -42,11 +42,11 @@
           </v-row>
           <v-row class="px-12 pt-3" justify="space-around">
             <v-col class="color-333333" cols="4" v-for="(advantage, i) in $page.individuals.edges[0].node.advantages" :key="'advantage-' + i">
-              <p
+              <div
                 :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
                 v-html="advantage.title[getLang]"
               />
-              <p
+              <div
                 :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
                 v-html="advantage.body[getLang]"
               />
@@ -118,11 +118,11 @@
             <v-col cols="11">
               <v-img class="mb-4" :src="advantages[i].img" :lazy-src="advantages[i].lazy" />
               <div class="color-333333">
-                <p
+                <div
                   :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
                   v-html="advantage.title[getLang]"
                 />
-                <p
+                <div
                   :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
                   v-html="advantage.body[getLang]"
                 />
