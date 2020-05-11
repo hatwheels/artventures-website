@@ -111,8 +111,8 @@
                 <v-col class="pl-4 pr-0 col-artists-width">
                   <v-img contain :src="artists.img" :lazy-src="artists.lazy" />
                 </v-col>
-                <!-- <v-col class="pl-0 pr-5 col-artists-width">
-                    <div class="color-333333">
+                <v-col class="pl-0 pr-5 col-artists-width">
+                    <!-- <div class="color-333333">
                       <p
                         :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
                         class="pb-9"
@@ -131,8 +131,8 @@
                         color="#525252"
                         v-html="$page.artists.edges[0].node.button[getLang]"
                       />
-                    </div>
-                </v-col> -->
+                    </div> -->
+                </v-col>
               </v-row>
               <v-row class="py-3" justify="space-around" align="center">
                 <v-col
