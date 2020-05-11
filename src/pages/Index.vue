@@ -84,9 +84,8 @@
                         v-html="image[getLang]"
                       />
                       <router-link
-                        class="white--text px-12 py-5 background-color-525252 text-uppercase"
+                        class="btn-grey white--text px-12 py-5 text-uppercase"
                         :class="getLang === 'gr' ? 'noto-11p5-600' :'montserrat-11p5-600'"
-                        style="border-radius: 4px; text-decoration: none;"
                         v-html="$page.explore.edges[0].node.button[getLang]"
                         :to="explore.images[i].route"
                       />
@@ -120,6 +119,12 @@
                         :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
                         class="pb-8"
                         v-html="$page.artists.edges[0].node.body[getLang]"
+                      />
+                      <a
+                        class="btn-grey white--text px-12 py-5 text-uppercase"
+                        :class="getLang === 'gr' ? 'noto-10p5-600' :'montserrat-10p5-600'"
+                        v-html="$page.artists.edges[0].node.button[getLang]"
+                        @click="$vuetify.goTo('#contact-us')"
                       />
                       <!-- <v-btn
                         class="white--text px-10"
@@ -801,8 +806,10 @@ query {
     opacity: 0;
   }
 
-.background-color-525252 {
+.btn-grey {
   background-color: #525252;
+  border-radius: 4px;
+  text-decoration: none;
 }
 
 /* Carousel */
