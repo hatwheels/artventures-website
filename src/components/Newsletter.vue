@@ -1,6 +1,17 @@
 <template>
   <div>
-    <div class="pb-4" :class="getTitle" v-html="title[getLang]" /> 
+    <div
+      v-if="getViewSize === 'desktop'"
+      class="pb-4"
+      :class="getLang === 'gr' ? 'noto-18-600 text-center' : 'playfair-18-600 text-center'"
+      v-html="title[getLang]"
+    />
+    <div
+      v-else-if="getViewSize === 'mobile'"
+      class="pb-4"
+      :class="getLang === 'gr' ? 'noto-25-600' : 'playfair-25-600'"
+      v-html="title[getLang]"
+    /> 
     <form class="d-flex justify-center align-center">
       <v-text-field
         v-model="email"
@@ -16,7 +27,19 @@
         color="black"
       />
       <v-btn
-        :class="getTextFont"
+        v-if="getViewSize === 'desktop'"
+        :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
+        class="white--text text-capitalize mx-2 text-center"
+        depressed
+        color="#333333"
+        :disabled="btnLoading"
+        :loading="btnLoading"
+        @click="submit"
+        v-html="emailText[getLang]"
+      />
+      <v-btn
+        v-else-if="getViewSize === 'mobile'"
+        :class="getLang === 'gr' ? 'noto-18-400' : 'raleway-18-400'"
         class="white--text text-capitalize mx-2 text-center"
         depressed
         color="#333333"
@@ -92,22 +115,6 @@ export default {
       !this.$v.email.email && errors.push(this.errMsg.invalid[this.getLang]);
       !this.$v.email.required && errors.push(this.errMsg.empty[this.getLang]);
       return errors;
-    },
-    getTitle() {
-      switch (this.$vuetify.breakpoint.name) {
-        case 'xs': case 'sm':
-          return this.getLang === 'gr' ? 'noto-18-600 text-center' : 'playfair-18-600 text-center'
-        case 'md': case 'lg': case 'xl':
-          return this.getLang === 'gr' ? 'noto-25-600' : 'playfair-25-600'
-      }
-    },
-    getTextFont() {
-      switch (this.$vuetify.breakpoint.name) {
-        case 'xs': case 'sm':
-          return this.getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'
-        case 'md': case 'lg': case 'xl':
-          return this.getLang === 'gr' ? 'noto-18-400' : 'raleway-18-400'
-      }
     },
   },
   methods: {

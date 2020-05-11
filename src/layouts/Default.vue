@@ -99,7 +99,7 @@
       </v-toolbar-items>
     </v-app-bar>
 
-    <v-app-bar v-else-if="getViewSize === 'mobile'" class="px-3" app absolute color="#F7F7F7" height="50px">
+    <v-app-bar v-else class="px-3" app absolute color="#F7F7F7" height="50px">
       <v-btn width="122px" color="transparent" text icon to="/">
         <v-img :src="logo[1]" />
       </v-btn>
@@ -308,6 +308,9 @@ import Newsletter from '~/components/Newsletter.vue'
 export default {
   components: {
     Newsletter,
+  },
+  mounted () {
+    console.log(this.getViewSize)
   },
   data () {
     return {
