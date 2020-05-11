@@ -118,12 +118,12 @@
                         class="pb-9"
                         v-html="$page.artists.edges[0].node.title[getLang]"
                       />
-                      <!-- <p
+                      <p
                         :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
                         class="pb-8"
                         v-html="$page.artists.edges[0].node.body[getLang]"
                       />
-                      <v-btn
+                      <!-- <v-btn
                         class="white--text px-10"
                         :class="getLang === 'gr' ? 'noto-10p5-600' :'montserrat-10p5-600'"
                         depressed
