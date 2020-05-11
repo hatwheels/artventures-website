@@ -110,6 +110,20 @@ export default function (Vue, { appOptions, router, head, isClient }) {
 
   Vue.use(VueWaypoint)
 
+  Vue.mixin({
+    computed: {
+      getViewSize() {
+        switch (this.$vuetify.breakpoint.name) {
+          case 'xs':
+          case 'sm':
+            return 'mobile'
+          default:
+            return 'desktop'
+        }
+      }
+    }
+  })
+
   // Set default layout as a global component
   Vue.component('Layout', DefaultLayout)
 }

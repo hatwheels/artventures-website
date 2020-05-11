@@ -1,5 +1,5 @@
 <template>
-  <Layout :viewSize="getViewSize">
+  <Layout>
     <v-content v-if="getViewSize === 'desktop'">
       <v-container class="pa-0 background-color-fafafa" fluid>
 
@@ -213,15 +213,6 @@ export default {
   },
   computed: {
     ...mapGetters(['getLang']),
-    getViewSize() {
-      switch (this.$vuetify.breakpoint.name) {
-        case 'xs':
-        case 'sm':
-          return 'mobile'
-        default:
-          return 'desktop'
-      }
-    }
   },
   metaInfo () {
     return {

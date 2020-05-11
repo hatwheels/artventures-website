@@ -1,5 +1,5 @@
 <template>
-  <Layout :viewSize="getViewSize">
+  <Layout>
     <div v-if="getViewSize === 'desktop'">
       <v-navigation-drawer
         class="ml-4 mr-4"
@@ -613,15 +613,6 @@ export default {
   },
   computed: {
     ...mapGetters(['getLang']),
-    getViewSize() {
-      switch (this.$vuetify.breakpoint.name) {
-        case 'xs':
-        case 'sm':
-          return 'mobile'
-        default:
-          return 'desktop'
-      }
-    }
   },
   methods: {
     onAbout ({ el, going, direction, _entry }) {
