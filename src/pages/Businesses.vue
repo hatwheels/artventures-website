@@ -1,6 +1,6 @@
 <template>
-  <Layout>
-    <v-content class="hidden-sm-and-down">
+  <Layout :viewSize="getViewSize">
+    <v-content v-if="getViewSize === 'desktop'">
       <v-container class="pa-0 background-color-fafafa" fluid>
 
         <!-- spacer -->
@@ -93,7 +93,7 @@
       </v-container>
     </v-content>
 
-    <v-content class="hidden-md-and-up">
+    <v-content v-else-if="getViewSize === 'mobile'">
       <v-container class="pa-0 background-color-fafafa" fluid>
 
         <!-- main -->
@@ -213,6 +213,15 @@ export default {
   },
   computed: {
     ...mapGetters(['getLang']),
+    getViewSize() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs':
+        case 'sm':
+          return 'mobile'
+        default:
+          return 'desktop'
+      }
+    }
   },
   metaInfo () {
     return {
