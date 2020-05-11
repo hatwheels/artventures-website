@@ -237,7 +237,7 @@
 
     <slot />
 
-    <!-- <v-footer
+    <v-footer
       app
       color="#dddddd"
       absolute
@@ -297,7 +297,7 @@
         </div>
       </div>
 
-    </v-footer> -->
+    </v-footer>
   </v-app>
 </template>
 
