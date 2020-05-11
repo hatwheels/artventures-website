@@ -1,6 +1,407 @@
 <template>
   <Layout>
+    <div v-if="getViewSize === 'desktop'">
+      <v-navigation-drawer
+        class="ml-4 mr-4"
+        mini-variant-width="120px"
+        style="margin-top: 43vh;"
+        fixed
+        permanent
+        right
+        hide-overlay
+        mini-variant
+        color="transparent"
+      >
+        <div class="d-flex flex-column align-end">
+          <div class="pb-1" v-for="(navItem, i) in sideNav" :key="'nav-item-' + i">
+            <v-hover v-slot:default="{ hover }">
+              <div class="d-flex align-center justify-center">
+                <div v-if="hover"
+                  class='pr-2 text-uppercase'
+                  :class="getLang === 'gr' ? 'noto-10-700' : 'montserrat-10-700'"
+                  v-html="navItem[getLang]"
+                />
+                <v-btn :id="'nav-' + i" :ripple="false" x-small icon @click="$vuetify.goTo(navItem.tag)">
+                  <v-icon v-if="!navItem.active" :color="hover ? 'black' : ''" small>mdi-checkbox-blank-circle-outline</v-icon>
+                  <v-icon v-else size="23" color="black">mdi-record-circle-outline</v-icon>
+                </v-btn>
+              </div>
+            </v-hover>
+          </div>
+        </div>
+      </v-navigation-drawer>
 
+      <v-content class="background-color-dddddd">
+        <v-container class="px-0 pt-0" fluid>
+
+          <!-- About -->
+          <div
+            id="about"
+            class="px-12 pt-12 background-color-white"
+            v-waypoint="{ active: true, callback: onAbout, options: intersectOptions }"
+          >
+            <v-row justify="space-between" align="center">
+              <v-col cols="5">
+                <v-img contain width="42vw" :src="about.img" :lazy-src="about.lazy" />
+              </v-col>
+              <v-col class="pl-2 pr-12" cols="6">
+                <div class="pr-8">
+                  <p
+                    :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+                    class="color-333333 pb-7 pr-12"
+                    v-html="$page.about.edges[0].node.title[getLang]"
+                  />
+                  <p
+                    :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                    class="color-333333 pb-4 pr-12"
+                    v-html="$page.about.edges[0].node.body[getLang]"
+                  />
+                </div>
+              </v-col>
+            </v-row>
+          </div>
+
+          <div class="py-8 background-color-white" />
+
+          <!-- Explore -->
+          <div
+            id="explore"
+            class="px-12 background-color-white"
+            v-waypoint="{ active: true, callback: onExplore, options: intersectOptions }"
+          >
+            <p
+              :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
+              class="pb-10 my-0 text-center"
+              v-html="$page.explore.edges[0].node.title[getLang]"
+            />
+            <v-row class="pt-12" justify="space-between" align="center">
+              <v-col class="px-4" cols="4" v-for="(image, i) in $page.explore.edges[0].node.images" :key="'exploreImages-' + i">
+                  <v-img gradient="to top right, rgba(0,0,0,.15), rgba(0,0,0,.15)" :src="explore.images[i].img">
+                    <div style="height: 100%" class="d-flex flex-column justify-center align-center">
+                      <p
+                        :class="getLang === 'gr' ? 'noto-44-700' : 'raleway-44-700'"
+                        class="white--text"
+                        v-html="image[getLang]"
+                      />
+                      <v-btn
+                        class="white--text px-10"
+                        :class="getLang === 'gr' ? 'noto-11p5-600' :'montserrat-11p5-600'"
+                        depressed
+                        x-large
+                        color="#525252"
+                        v-html="$page.explore.edges[0].node.button[getLang]"
+                        :to="explore.images[i].route"
+                      />
+                    </div>
+                  </v-img>
+              </v-col>
+            </v-row>
+          </div>
+
+          <div class="py-12 background-color-white" />
+
+          <!-- Artists -->
+          <div
+            id="artists"
+            class="background-color-dedede pt-12 pb-10"
+            v-waypoint="{ active: true, callback: onArtists, options: intersectOptions }"
+          >
+            <v-container fluid class="pa-0 ma-0">
+              <v-row class="pt-12 pl-12 pr-10 pb-5" justify="space-between" align="center">
+                <v-col class="pl-4 pr-0 col-artists-width">
+                  <v-img contain :src="artists.img" :lazy-src="artists.lazy" />
+                </v-col>
+                <v-col class="pl-0 pr-5 col-artists-width">
+                    <div class="color-333333">
+                      <p
+                        :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+                        class="pb-9"
+                        v-html="$page.artists.edges[0].node.title[getLang]"
+                      />
+                      <p
+                        :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                        class="pb-8"
+                        v-html="$page.artists.edges[0].node.body[getLang]"
+                      />
+                      <v-btn
+                        class="white--text px-10"
+                        :class="getLang === 'gr' ? 'noto-10p5-600' :'montserrat-10p5-600'"
+                        depressed
+                        x-large
+                        color="#525252"
+                        v-html="$page.artists.edges[0].node.button[getLang]"
+                      />
+                    </div>
+                </v-col>
+              </v-row>
+              <v-row class="py-3" justify="space-around" align="center">
+                <v-col
+                  class="color-1a1a1a col-testimonials-width"
+                  v-for="(testimonial, i) in $page.artists.edges[0].node.testimonials"
+                  :key="'artists-testimonials-' + i"
+                >
+                  <div
+                    :class="getLang === 'gr' ? 'noto-18-400-1p4em' : 'playfair-18-400-1p4em'"
+                    class="text-center"
+                    v-html="testimonial.quote[getLang]"
+                  />
+                  <div
+                    :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-600'"
+                    class="text-center pt-2"
+                    v-html="testimonial.author[getLang]"
+                  />
+                </v-col>
+              </v-row>
+            </v-container>
+          </div>
+
+          <!-- Benefits -->
+          <!-- <div
+            id="benefits"
+            class="background-color-fafafa pt-12 pb-12"
+            v-waypoint="{ active: true, callback: onBenefits, options: intersectOptions }"
+          >
+            <div class="pb-12">
+              <v-row class="px-12 pb-3" justify="space-between">
+                <v-col cols="4" v-for="(benefit, i) in benefits" :key="'benefit-img-' + i">
+                  <v-img contain :src="benefit.img" :lazy-src="benefit.lazy" />
+                </v-col>
+              </v-row>
+              <v-row class="px-12 pt-3" justify="space-between">
+                <v-col class="color-333333" cols="4" v-for="(benefit, i) in $page.benefits.edges[0].node.benefits" :key="'benefit-text-' + i">
+                  <div>
+                    <p
+                      :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+                      v-html="benefit.title[getLang]"
+                    />
+                    <p
+                      :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                      v-html="benefit.body[getLang]"
+                    />
+                  </div>
+                </v-col>
+              </v-row>
+            </div>
+          </div> -->
+
+          <!-- Media -->
+          <div 
+            id="media"
+            class="pt-8 pb-12 white"
+            v-waypoint="{ active: true, callback: onMedia, options: intersectOptions}"
+          >
+            <div>
+              <p
+                :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
+                class="text-center color-333333 pb-12 mb-0"
+                v-html="$page.media.edges[0].node.title[getLang]"
+              />
+              <div class="carousel-upper swiper-container">
+                <div class="carousel-mid text-center pt-12" v-swiper:swiperNormal="swiperOption">
+                  <div class="carousel-lower swiper-wrapper">
+                    <div class="swiper-slide" v-for="(logo, i ) in media.logos" :key="'media-logos-' + i">
+                      <img class="img-slide" :src="logo.img" />
+                    </div>
+                  </div>
+                  <div class="swiper-pagination swiper-pagination-black" slot="pagination" />
+                </div>
+                <div class="swiper-button-prev swiper-button-white" slot="button-prev" />
+                <div class="swiper-button-next swiper-button-white" slot="button-next" />
+              </div>
+            </div>
+        </div>
+
+        <!-- Contact -->
+        <div
+          id="contact-us"
+          class="background-color-dddddd py-12"
+          v-waypoint="{ active: true, callback: onContact, options: intersectOptions}"
+        >
+          <!-- <contact-us /> -->
+        </div>
+
+      </v-container>
+    </v-content>
+  </div>
+
+  <div v-else-if="getViewSize === 'mobile'">
+    <v-content class="background-color-dddddd">
+      <v-container class="py-0 px-0 background-color-white">
+
+        <!-- About -->
+        <div id="about" class="pt-6">
+          <v-row justify="center" align="center">
+            <v-col cols=11>
+              <v-img :src="about.img" :lazy-src="about.lazy" />
+            </v-col>
+          </v-row>
+          <v-row justify="center" align="center">
+            <v-col cols="11">
+              <div>
+                <p
+                  :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+                  class="color-333333 pb-2"
+                  v-html="$page.about.edges[0].node.title[getLang]"
+                />
+                <p
+                  :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                  class="color-333333 pb-2"
+                  v-html="$page.about.edges[0].node.body[getLang]"
+                />
+              </div>
+            </v-col>
+          </v-row>
+        </div>
+
+        <div class="py-8" />
+
+        <!-- Explore -->
+        <div id="explore">
+          <p
+            :class="getLang === 'gr' ? 'noto-32-700' : 'playfair-32-700'"
+            class="pb-4 my-0 text-center"
+            v-html="$page.explore.edges[0].node.title[getLang]"
+          />
+          <v-row
+            class="pt-2"
+            justify="center"
+            align="center"
+            v-for="(image, i) in $page.explore.edges[0].node.images" :key="'exploreImages-small-' + i"
+          >
+            <v-col cols="11">
+              <v-img gradient="to top right, rgba(0,0,0,.15), rgba(0,0,0,.15)" :src="explore.images[i].img">
+                <div style="height: 100%" class="d-flex flex-column justify-center align-center">
+                  <p
+                    :class="getLang === 'gr' ? 'noto-44-700' : 'raleway-44-700'"
+                    class="white--text"
+                    v-html="image[getLang]"
+                  />
+                  <v-btn
+                    class="white--text px-10"
+                    :class="getLang === 'gr' ? 'noto-11p5-600' :'montserrat-11p5-600'"
+                    depressed
+                    x-large
+                    color="#525252"
+                    v-html="$page.explore.edges[0].node.button[getLang]"
+                    :to="explore.images[i].route"
+                  />
+                </div>
+              </v-img>
+            </v-col>
+          </v-row>
+        </div>
+
+        <div class="py-8" />
+
+        <!-- Artists -->
+        <div
+          id="artists"
+          class="background-color-dedede pt-12 pb-10"
+        >
+          <v-container fluid class="pa-0 ma-0">
+            <v-row justify="center" align="center">
+              <v-col cols=11>
+                <v-img :src="artists.img" :lazy-src="artists.lazy" />
+              </v-col>
+            </v-row>
+            <v-row justify="center" align="center">
+              <v-col cols=11>
+                  <div class="color-333333">
+                    <p
+                      :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+                      class="pb-2"
+                      v-html="$page.artists.edges[0].node.title[getLang]"
+                    />
+                    <p
+                      :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                      class="pb-2"
+                      v-html="$page.artists.edges[0].node.body[getLang]"
+                    />
+                    <v-btn
+                      class="white--text px-10"
+                      :class="getLang === 'gr' ? 'noto-10p5-600' :'montserrat-10p5-600'"
+                      depressed
+                      x-large
+                      color="#525252"
+                      v-html="$page.artists.edges[0].node.button[getLang]"
+                    />
+                  </div>
+              </v-col>
+            </v-row>
+            <v-row
+              class="py-3" justify="space-around" align="center"
+              v-for="(testimonial, i) in $page.artists.edges[0].node.testimonials"
+              :key="'artists-testimonials-small-' + i"
+            >
+              <v-col class="color-1a1a1a" cols=11>
+                <div
+                  :class="getLang === 'gr' ? 'noto-18-400-1p4em' : 'playfair-18-400-1p4em'"
+                  class="text-center"
+                  v-html="testimonial.quote[getLang]"
+                />
+                <div
+                  :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-600'"
+                  class="text-center pt-2"
+                  v-html="testimonial.author[getLang]"
+                />
+              </v-col>
+            </v-row>
+          </v-container>
+        </div>
+
+        <!-- Benefits -->
+        <!-- <div
+          id="benefits"
+          class="background-color-fafafa pt-6"
+        >
+          <v-row justify="center" v-for="(benefit, i) in $page.benefits.edges[0].node.benefits" :key="'benefit-small-' + i">
+            <v-col cols=11>
+              <v-img class="mb-4" :src="benefits[i].img" :lazy-src="benefits[i].lazy" />
+              <div class="color-333333 pb-6">
+                <p
+                  :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+                  v-html="benefit.title[getLang]"
+                />
+                <p
+                  :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                  v-html="benefit.body[getLang]"
+                />
+              </div>
+            </v-col>
+          </v-row>
+        </div> -->
+
+        <!-- Media -->
+        <div 
+          id="media"
+          class="pt-8 pb-10 white"
+        >
+          <div>
+            <p
+              :class="getLang === 'gr' ? 'noto-32-700' : 'playfair-32-700'"
+              class="text-center color-333333 pb-2 mb-0"
+              v-html="$page.media.edges[0].node.title[getLang]"
+            />
+            <div class="carousel-upper-small swiper-container">
+              <div class="carousel-mid-small text-center pt-12" v-swiper:swiperSmall="swiperOption">
+                <div class="carousel-lower-small swiper-wrapper">
+                  <div class="swiper-slide" v-for="(logo, i ) in media.logos" :key="'media-logos-small-' + i">
+                    <img class="img-slide" :src="logo.imgSmall" />
+                  </div>
+                </div>
+                <div class="swiper-pagination swiper-pagination-black" slot="pagination" />
+              </div>
+            </div>
+          </div>
+      </div>
+
+      <div id="contact-us-small" class="background-color-dddddd pt-4 pb-12">
+        <!-- <contact-us class="pb-12" :isSmall="true" colWidth="11" /> -->
+      </div>
+
+      </v-container>
+    </v-content>
+  </div>
 
   </Layout>
 </template>
