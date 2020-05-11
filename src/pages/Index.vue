@@ -123,11 +123,11 @@
                         class="pb-8"
                         v-html="$page.artists.edges[0].node.body[getLang]"
                       />
-                      <div
+                      <v-btn
                         class="white--text px-10"
                         :class="getLang === 'gr' ? 'noto-10p5-600' :'montserrat-10p5-600'"
                         depressed
-                        x-large
+                        
                         color="#525252"
                         v-html="$page.artists.edges[0].node.button[getLang]"
                       />
