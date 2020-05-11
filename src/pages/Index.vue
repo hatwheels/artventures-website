@@ -212,7 +212,7 @@
           class="background-color-dddddd py-12"
           v-waypoint="{ active: true, callback: onContact, options: intersectOptions}"
         >
-          <!-- <contact-us /> -->
+          <contact-us />
         </div>
 
       </v-container>
@@ -390,7 +390,7 @@
       </div>
 
       <div id="contact-us-small" class="background-color-dddddd pt-4 pb-12">
-        <!-- <contact-us class="pb-12" :isSmall="true" colWidth="11" /> -->
+        <contact-us class="pb-12" :isSmall="true" colWidth="11" />
       </div>
 
       </v-container>
