@@ -224,7 +224,7 @@
     </v-content>
   </div>
 
-  <div v-else-if="viewSize === 'mobile'">
+  <div v-else-if="getViewSize === 'mobile'">
     <v-content class="background-color-dddddd">
       <v-container class="py-0 px-0 background-color-white">
 
