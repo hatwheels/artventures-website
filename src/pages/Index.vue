@@ -101,12 +101,12 @@
           <div class="py-12 background-color-white" />
 
           <!-- Artists -->
-          <!-- <div
+          <div
             id="artists"
             class="background-color-dedede pt-12 pb-10"
             v-waypoint="{ active: true, callback: onArtists, options: intersectOptions }"
           >
-            <v-container fluid class="pa-0 ma-0">
+            <div>
               <v-row class="pt-12 pl-12 pr-10 pb-5" justify="space-between" align="center">
                 <v-col class="pl-4 pr-0 col-artists-width">
                   <v-img contain :src="artists.img" :lazy-src="artists.lazy" />
@@ -152,8 +152,8 @@
                   />
                 </v-col>
               </v-row>
-            </v-container>
-          </div> -->
+            </div>
+          </div>
 
           <!-- Benefits -->
           <div
@@ -294,7 +294,7 @@
         <div class="py-8" />
 
         <!-- Artists -->
-        <div
+        <!-- <div
           id="artists"
           class="background-color-dedede pt-12 pb-10"
         >
@@ -306,26 +306,26 @@
             </v-row>
             <v-row justify="center" align="center">
               <v-col cols=11>
-                  <div class="color-333333">
-                    <p
-                      :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
-                      class="pb-2"
-                      v-html="$page.artists.edges[0].node.title[getLang]"
-                    />
-                    <p
-                      :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                      class="pb-2"
-                      v-html="$page.artists.edges[0].node.body[getLang]"
-                    />
-                    <v-btn
-                      class="white--text px-10"
-                      :class="getLang === 'gr' ? 'noto-10p5-600' :'montserrat-10p5-600'"
-                      depressed
-                      x-large
-                      color="#525252"
-                      v-html="$page.artists.edges[0].node.button[getLang]"
-                    />
-                  </div>
+                <div class="color-333333">
+                  <p
+                    :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+                    class="pb-2"
+                    v-html="$page.artists.edges[0].node.title[getLang]"
+                  />
+                  <p
+                    :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                    class="pb-2"
+                    v-html="$page.artists.edges[0].node.body[getLang]"
+                  />
+                  <v-btn
+                    class="white--text px-10"
+                    :class="getLang === 'gr' ? 'noto-10p5-600' :'montserrat-10p5-600'"
+                    depressed
+                    x-large
+                    color="#525252"
+                    v-html="$page.artists.edges[0].node.button[getLang]"
+                  />
+                </div>
               </v-col>
             </v-row>
             <v-row
@@ -347,7 +347,7 @@
               </v-col>
             </v-row>
           </div>
-        </div>
+        </div> -->
 
         <!-- Benefits -->
         <div
