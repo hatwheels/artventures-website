@@ -113,12 +113,12 @@
                 </v-col>
                 <v-col class="pl-0 pr-5 col-artists-width">
                     <div class="color-333333">
-                      <!-- <p
+                      <p
                         :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
                         class="pb-9"
                         v-html="$page.artists.edges[0].node.title[getLang]"
                       />
-                      <p
+                      <!-- <p
                         :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
                         class="pb-8"
                         v-html="$page.artists.edges[0].node.body[getLang]"
