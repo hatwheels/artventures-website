@@ -101,7 +101,7 @@
           <div class="py-12 background-color-white" />
 
           <!-- Artists -->
-          <div
+          <!-- <div
             id="artists"
             class="background-color-dedede pt-12 pb-10"
             v-waypoint="{ active: true, callback: onArtists, options: intersectOptions }"
@@ -153,7 +153,7 @@
                 </v-col>
               </v-row>
             </v-container>
-          </div>
+          </div> -->
 
           <!-- Benefits -->
           <!-- <div
@@ -294,7 +294,7 @@
         <div class="py-8" />
 
         <!-- Artists -->
-        <div
+        <!-- <div
           id="artists"
           class="background-color-dedede pt-12 pb-10"
         >
@@ -347,7 +347,7 @@
               </v-col>
             </v-row>
           </v-container>
-        </div>
+        </div> -->
 
         <!-- Benefits -->
         <!-- <div
