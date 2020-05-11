@@ -107,7 +107,7 @@
             v-waypoint="{ active: true, callback: onArtists, options: intersectOptions }"
           >
             <div>
-              <v-row class="pt-12 pl-12 pr-10 pb-5" justify="space-between" align="center">
+              <!-- <v-row class="pt-12 pl-12 pr-10 pb-5" justify="space-between" align="center">
                 <v-col class="pl-4 pr-0 col-artists-width">
                   <v-img contain :src="artists.img" :lazy-src="artists.lazy" />
                 </v-col>
@@ -133,7 +133,7 @@
                       />
                     </div>
                 </v-col>
-              </v-row>
+              </v-row> -->
               <v-row class="py-3" justify="space-around" align="center">
                 <v-col
                   class="color-1a1a1a col-testimonials-width"
