@@ -127,9 +127,10 @@
                         class="white--text px-10"
                         :class="getLang === 'gr' ? 'noto-10p5-600' :'montserrat-10p5-600'"
                         depressed
-                        
+                        x-large
                         color="#525252"
                         v-html="$page.artists.edges[0].node.button[getLang]"
+                        @click="$vuetify.goTo('#contact-us')"
                       />
                     </div>
                 </v-col>
@@ -395,7 +396,7 @@
           </div>
       </div>
 
-      <div id="contact-us-small" class="background-color-dddddd pt-4 pb-12">
+      <div id="contact-us" class="background-color-dddddd pt-4 pb-12">
         <!-- <contact-us class="pb-12" :isSmall="true" colWidth="11" /> -->
       </div>
 

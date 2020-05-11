@@ -157,7 +157,7 @@
                         x-large
                         depressed
                         color="#333333"
-                        @click="modalMenu = false; $vuetify.goTo('#contact-us-small');"
+                        @click="modalMenu = false; $vuetify.goTo('#contact-us');"
                         v-html="routes.contact[getLang]"
                       />
                     </v-list-item>
@@ -168,7 +168,7 @@
                         x-large
                         depressed
                         color="#333333"
-                        :to="{ path: '/', hash:'#contact-us-small' }"
+                        :to="{ path: '/', hash:'#contact-us' }"
                         v-html="routes.contact[getLang]"
                       />
                     </v-list-item>

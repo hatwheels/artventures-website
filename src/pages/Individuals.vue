@@ -106,7 +106,7 @@
             <router-link
               :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-400'"
               class="contact-us-btn-small white--text text-center"
-              :to="{ path: '/', hash:'#contact-us-small' }"
+              :to="{ path: '/', hash:'#contact-us' }"
               v-html="$page.individuals.edges[0].node.main.button[getLang]"
             />
           </v-col>
