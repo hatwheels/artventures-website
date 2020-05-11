@@ -83,14 +83,12 @@
                         class="white--text"
                         v-html="image[getLang]"
                       />
-                      <v-btn
-                        class="white--text px-10"
+                      <div
+                        class="white--text px-12 py-5 background-color-525252 text-uppercase"
                         :class="getLang === 'gr' ? 'noto-11p5-600' :'montserrat-11p5-600'"
-                        depressed
-                        x-large
-                        color="#525252"
+                        style="border-radius: 4px;"
                         v-html="$page.explore.edges[0].node.button[getLang]"
-                        
+                        :to="explore.images[i].route"
                       />
                     </div>
                   </v-img>
@@ -802,6 +800,10 @@ query {
   #nav-5.v-btn--active:before {
     opacity: 0;
   }
+
+.background-color-525252 {
+  background-color: #525252;
+}
 
 /* Carousel */
 .carousel-upper {
