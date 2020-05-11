@@ -83,10 +83,10 @@
                         class="white--text"
                         v-html="image[getLang]"
                       />
-                      <div
+                      <router-link
                         class="white--text px-12 py-5 background-color-525252 text-uppercase"
                         :class="getLang === 'gr' ? 'noto-11p5-600' :'montserrat-11p5-600'"
-                        style="border-radius: 4px;"
+                        style="border-radius: 4px; text-decoration: none;"
                         v-html="$page.explore.edges[0].node.button[getLang]"
                         :to="explore.images[i].route"
                       />
