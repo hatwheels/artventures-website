@@ -217,7 +217,7 @@
                     </v-list-item>
                     <v-list-item
                       class="pb-5 px-0" v-for="(language, i) in getLanguages" :key="'lang-small-' + i"
-                      @click="this.modalMenu = false; setLang(language);"
+                      @click="modalMenu = false; setLang(language);"
                     >
                       <v-list-item-title :class="getLang === 'gr' ? 'noto-35-400' : 'raleway-35-400'">
                         <div class="color-333333 text-capitalize" v-html="langChoices[language][getLang]" />
