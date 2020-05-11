@@ -79,8 +79,7 @@
           <template v-slot:activator="{ on }">
             <v-btn class="px-2" text color="transparent" v-on="on" :ripple="false">
               <div
-                :class="getLang === 'gr' ? 'noto-15-600' : 'nunito-15-600'"
-                class="color-333333"
+                class="color-333333 nunito-15-600"
                 v-html="getLang"
               />
               <v-icon color="#333333" right>mdi-menu-down</v-icon>
@@ -89,8 +88,7 @@
           <v-list flat color="#e8e8e8">
             <v-list-item v-for="(language, i) in getLanguages" :key="'lang-' + i" @click="setLang(language)">
               <v-list-item-title
-                :class="getLang === 'gr' ? 'noto-15-600' : 'nunito-15-600'"
-                class="color-333333 text-center text-uppercase"
+                class="color-333333 text-center text-uppercase nunito-15-600"
                 v-html="language"
               />
             </v-list-item>
@@ -244,7 +242,7 @@
       class="d-flex flex-xs-row flex-sm-row flex-column justify-space-around align-center px-12 py-9"
     >
 
-      <!-- <newsletter></newsletter> -->
+      <newsletter></newsletter>
 
       <div class="hidden-md-and-up pb-6"></div>
 

@@ -26,23 +26,21 @@
         :placeholder="emailPlaceholder[getLang]"
         color="black"
       />
-      <v-btn
+      <button
         v-show="getViewSize === 'desktop'"
-        :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
-        class="white--text text-capitalize mx-2 text-center"
-        depressed
-        color="#333333"
+        style="background-color: #333333;  border-radius: 4px;"
+        :class="getLang === 'gr' ? 'noto-18-400' : 'raleway-18-400'"
+        class="white--text text-capitalize mx-2 py-1 px-4 text-center"
         :disabled="btnLoading"
         :loading="btnLoading"
         @click="submit"
         v-html="emailText[getLang]"
       />
-      <v-btn
+      <button
         v-show="getViewSize === 'mobile'"
-        :class="getLang === 'gr' ? 'noto-18-400' : 'raleway-18-400'"
-        class="white--text text-capitalize mx-2 text-center"
-        depressed
-        color="#333333"
+        style="background-color: #333333; border-radius: 4px;"
+        :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
+        class="white--text text-capitalize mx-2 py-1 px-4 text-center"
         :disabled="btnLoading"
         :loading="btnLoading"
         @click="submit"
@@ -90,7 +88,7 @@ export default {
         }
       },
       emailText: {
-        gr: 'Εγγραφη',
+        gr: 'Εγγραφή',
         en: 'Subscribe'
       },
       emailPlaceholder: {
