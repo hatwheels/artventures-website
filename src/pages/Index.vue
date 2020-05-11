@@ -1,6 +1,6 @@
 <template>
-  <Layout>
-    <div class="hidden-sm-and-down">
+  <Layout :viewSize="getViewSize">
+    <div v-if="getViewSize === 'desktop'">
       <v-navigation-drawer
         class="ml-4 mr-4"
         mini-variant-width="120px"
@@ -217,14 +217,14 @@
           class="background-color-dddddd py-12"
           v-waypoint="{ active: true, callback: onContact, options: intersectOptions}"
         >
-          <contact-us />
+          <!-- <contact-us /> -->
         </div>
 
       </v-container>
     </v-content>
   </div>
 
-  <div class="hidden-md-and-up">
+  <div v-else-if="viewSize === 'mobile'">
     <v-content class="background-color-dddddd">
       <v-container class="py-0 px-0 background-color-white">
 
@@ -396,7 +396,7 @@
       </div>
 
       <div id="contact-us-small" class="background-color-dddddd pt-4 pb-12">
-        <contact-us class="pb-12" :isSmall="true" colWidth="11" />
+        <!-- <contact-us class="pb-12" :isSmall="true" colWidth="11" /> -->
       </div>
 
       </v-container>
@@ -613,6 +613,15 @@ export default {
   },
   computed: {
     ...mapGetters(['getLang']),
+    getViewSize() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs':
+        case 'sm':
+          return 'mobile'
+        default:
+          return 'desktop'
+      }
+    }
   },
   methods: {
     onAbout ({ el, going, direction, _entry }) {

@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar flat class="hidden-sm-and-down px-11" app absolute color="#e8e8e8" height="76px">
+    <v-app-bar v-if="viewSize === 'desktop'" flat class="px-11" app absolute color="#e8e8e8" height="76px">
 
       <v-btn width="185" color="transparent" text icon to="/">/
         <v-img :src="logo[0]" />
@@ -99,7 +99,7 @@
       </v-toolbar-items>
     </v-app-bar>
 
-    <v-app-bar class="hidden-md-and-up px-3" app absolute color="#F7F7F7" height="50px">
+    <v-app-bar v-else-if="viewSize === 'mobile'" class="px-3" app absolute color="#F7F7F7" height="50px">
       <v-btn width="122px" color="transparent" text icon to="/">
         <v-img :src="logo[1]" />
       </v-btn>
@@ -237,7 +237,7 @@
 
     <slot />
 
-    <v-footer
+    <!-- <v-footer
       app
       color="#dddddd"
       absolute
@@ -297,7 +297,7 @@
         </div>
       </div>
 
-    </v-footer>
+    </v-footer> -->
   </v-app>
 </template>
 
@@ -372,6 +372,7 @@ export default {
       }
     }
   },
+  props:['viewSize'],
   computed: {
     ...mapGetters(['getLang', 'getLanguages']),
   },
