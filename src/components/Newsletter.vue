@@ -3,15 +3,15 @@
     <div
       v-show="getViewSize === 'desktop'"
       class="pb-4"
-      :class="getLang === 'gr' ? 'noto-18-600 text-center' : 'playfair-18-600 text-center'"
+      :class="getLang === 'gr' ? 'noto-25-600' : 'playfair-25-600'"
       v-html="title[getLang]"
     />
     <div
       v-show="getViewSize === 'mobile'"
       class="pb-4"
-      :class="getLang === 'gr' ? 'noto-25-600' : 'playfair-25-600'"
+      :class="getLang === 'gr' ? 'noto-18-600 text-center' : 'playfair-18-600 text-center'"
       v-html="title[getLang]"
-    /> 
+    />
     <form class="d-flex justify-center align-center">
       <v-text-field
         v-model="email"

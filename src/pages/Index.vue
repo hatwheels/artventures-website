@@ -271,15 +271,12 @@
                     class="white--text"
                     v-html="image[getLang]"
                   />
-                  <!-- <v-btn
-                    class="white--text px-10"
+                  <router-link
+                    class="btn-grey white--text px-12 py-5 text-uppercase"
                     :class="getLang === 'gr' ? 'noto-11p5-600' :'montserrat-11p5-600'"
-                    depressed
-                    x-large
-                    color="#525252"
                     v-html="$page.explore.edges[0].node.button[getLang]"
                     :to="explore.images[i].route"
-                  /> -->
+                  />
                 </div>
               </v-img>
             </v-col>
@@ -312,15 +309,17 @@
                     class="pb-2"
                     v-html="$page.artists.edges[0].node.body[getLang]"
                   />
-                  <!-- <v-btn
-                    class="white--text px-10"
-                    :class="getLang === 'gr' ? 'noto-10p5-600' :'montserrat-10p5-600'"
-                    depressed
-                    x-large
-                    color="#525252"
-                    v-html="$page.artists.edges[0].node.button[getLang]"
-                  /> -->
                 </div>
+              </v-col>
+            </v-row>
+            <v-row class="my-1" justify="center" align="center">
+              <v-col class="my-1" cols=11>
+                <a
+                  class="color-333333 btn-grey white--text px-12 py-5 text-uppercase"
+                  :class="getLang === 'gr' ? 'noto-10p5-600' :'montserrat-10p5-600'"
+                  v-html="$page.artists.edges[0].node.button[getLang]"
+                  @click="$vuetify.goTo('#contact-us-small')"
+                />
               </v-col>
             </v-row>
             <v-row
