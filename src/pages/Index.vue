@@ -64,7 +64,7 @@
           <div class="py-8 background-color-white" />
 
           <!-- Explore -->
-          <div
+          <!-- <div
             id="explore"
             class="px-12 background-color-white"
             v-waypoint="{ active: true, callback: onExplore, options: intersectOptions }"
@@ -96,7 +96,7 @@
                   </v-img>
               </v-col>
             </v-row>
-          </div>
+          </div> -->
 
           <div class="py-12 background-color-white" />
 
@@ -256,7 +256,7 @@
         <div class="py-8" />
 
         <!-- Explore -->
-        <div id="explore">
+        <!-- <div id="explore">
           <p
             :class="getLang === 'gr' ? 'noto-32-700' : 'playfair-32-700'"
             class="pb-4 my-0 text-center"
@@ -289,7 +289,7 @@
               </v-img>
             </v-col>
           </v-row>
-        </div>
+        </div> -->
 
         <div class="py-8" />
 
