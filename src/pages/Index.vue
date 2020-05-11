@@ -1,6 +1,6 @@
 <template>
   <Layout>
-    <div v-if="getViewSize === 'desktop'">
+    <div v-show="getViewSize === 'desktop'">
       <v-navigation-drawer
         class="ml-4 mr-4"
         mini-variant-width="120px"
@@ -225,12 +225,12 @@
     </v-content>
   </div>
 
-  <div v-else-if="getViewSize === 'mobile'">
+  <div v-show="getViewSize === 'mobile'">
     <v-content class="background-color-dddddd">
       <v-container class="py-0 px-0 background-color-white">
 
         <!-- About -->
-        <div id="about" class="pt-6">
+        <div id="about-small" class="pt-6">
           <v-row justify="center" align="center">
             <v-col cols=11>
               <v-img :src="about.img" :lazy-src="about.lazy" />
@@ -257,7 +257,7 @@
         <div class="py-8" />
 
         <!-- Explore -->
-        <div id="explore">
+        <div id="explore-small">
           <div
             :class="getLang === 'gr' ? 'noto-32-700' : 'playfair-32-700'"
             class="pb-4 my-0 text-center"
@@ -296,7 +296,7 @@
 
         <!-- Artists -->
         <div
-          id="artists"
+          id="artists-small"
           class="background-color-dedede pt-12 pb-10"
         >
           <div>
@@ -352,7 +352,7 @@
 
         <!-- Benefits -->
         <div
-          id="benefits"
+          id="benefits-small"
           class="background-color-fafafa pt-6"
         >
           <v-row justify="center" v-for="(benefit, i) in $page.benefits.edges[0].node.benefits" :key="'benefit-small-' + i">
@@ -374,7 +374,7 @@
 
         <!-- Media -->
         <div 
-          id="media"
+          id="media-small"
           class="pt-8 pb-10 white"
         >
           <div>
@@ -396,7 +396,7 @@
           </div>
       </div>
 
-      <div id="contact-us" class="background-color-dddddd pt-4 pb-12">
+      <div id="contact-us-small" class="background-color-dddddd pt-4 pb-12">
         <!-- <contact-us class="pb-12" :isSmall="true" colWidth="11" /> -->
       </div>
 

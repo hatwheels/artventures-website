@@ -1,6 +1,6 @@
 <template>
   <Layout>
-    <v-content v-if="getViewSize === 'desktop'">
+    <v-content v-show="getViewSize === 'desktop'">
       <v-container class="pa-0 background-color-fafafa" fluid>
 
         <!-- spacer -->
@@ -93,7 +93,7 @@
       </v-container>
     </v-content>
 
-    <v-content v-else-if="getViewSize === 'mobile'">
+    <v-content v-show="getViewSize === 'mobile'">
       <v-container class="pa-0 background-color-fafafa" fluid>
 
         <!-- main -->
@@ -115,7 +115,7 @@
             <router-link
               :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
               class="contact-us-btn-small white--text text-center"
-              :to="{ path: '/', hash:'#contact-us' }"
+              :to="{ path: '/', hash:'#contact-us-small' }"
               v-html="$page.businesses.edges[0].node.main.button[getLang]"
             />
           </v-col>

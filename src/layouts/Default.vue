@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar v-if="getViewSize === 'desktop'" flat class="px-11" app absolute color="#e8e8e8" height="76px">
+    <v-app-bar v-show="getViewSize === 'desktop'" flat class="px-11" app absolute color="#e8e8e8" height="76px">
 
       <v-btn width="185" color="transparent" text icon to="/">/
         <v-img :src="logo[0]" />
@@ -99,7 +99,7 @@
       </v-toolbar-items>
     </v-app-bar>
 
-    <v-app-bar v-else class="px-3" app absolute color="#F7F7F7" height="50px">
+    <v-app-bar v-show="getViewSize === 'mobile'" class="px-3" app absolute color="#F7F7F7" height="50px">
       <v-btn width="122px" color="transparent" text icon to="/">
         <v-img :src="logo[1]" />
       </v-btn>
@@ -133,13 +133,13 @@
                         <v-icon large color="#757575">mdi-chevron-double-right</v-icon>
                       </v-list-item-icon>
                     </v-list-item>
-                    <v-list-item v-if="$route.path == '/'" class="pb-5 px-0" @click="modalMenu = false; $vuetify.goTo('#artists');">
+                    <v-list-item v-if="$route.path == '/'" class="pb-5 px-0" @click="modalMenu = false; $vuetify.goTo('#artists-small');">
                       <v-list-item-title
                         :class="getLang === 'gr' ? 'noto-35-400' : 'raleway-35-400'"
                         v-html="routes.forArtists[getLang]"
                       />
                     </v-list-item>
-                    <v-list-item v-else class="pb-5 px-0" :to="{ path: '/', hash:'#artists' }">
+                    <v-list-item v-else class="pb-5 px-0" :to="{ path: '/', hash:'#artists-small' }">
                       <v-list-item-title
                         :class="getLang === 'gr' ? 'noto-35-400' : 'raleway-35-400'"
                         v-html="routes.forArtists[getLang]"
@@ -157,7 +157,7 @@
                         x-large
                         depressed
                         color="#333333"
-                        @click="modalMenu = false; $vuetify.goTo('#contact-us');"
+                        @click="modalMenu = false; $vuetify.goTo('#contact-us-small');"
                         v-html="routes.contact[getLang]"
                       />
                     </v-list-item>
@@ -168,7 +168,7 @@
                         x-large
                         depressed
                         color="#333333"
-                        :to="{ path: '/', hash:'#contact-us' }"
+                        :to="{ path: '/', hash:'#contact-us-small' }"
                         v-html="routes.contact[getLang]"
                       />
                     </v-list-item>

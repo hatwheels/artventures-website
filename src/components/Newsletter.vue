@@ -1,13 +1,13 @@
 <template>
   <div>
     <div
-      v-if="getViewSize === 'desktop'"
+      v-show="getViewSize === 'desktop'"
       class="pb-4"
       :class="getLang === 'gr' ? 'noto-18-600 text-center' : 'playfair-18-600 text-center'"
       v-html="title[getLang]"
     />
     <div
-      v-else-if="getViewSize === 'mobile'"
+      v-show="getViewSize === 'mobile'"
       class="pb-4"
       :class="getLang === 'gr' ? 'noto-25-600' : 'playfair-25-600'"
       v-html="title[getLang]"
@@ -27,7 +27,7 @@
         color="black"
       />
       <v-btn
-        v-if="getViewSize === 'desktop'"
+        v-show="getViewSize === 'desktop'"
         :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
         class="white--text text-capitalize mx-2 text-center"
         depressed
@@ -38,7 +38,7 @@
         v-html="emailText[getLang]"
       />
       <v-btn
-        v-else-if="getViewSize === 'mobile'"
+        v-show="getViewSize === 'mobile'"
         :class="getLang === 'gr' ? 'noto-18-400' : 'raleway-18-400'"
         class="white--text text-capitalize mx-2 text-center"
         depressed
