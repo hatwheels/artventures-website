@@ -38,7 +38,7 @@
           <div
             id="about"
             class="px-12 pt-12 background-color-white"
-            v-waypoint="{ active: true, callback: onAbout, options: intersectOptions }"
+            
           >
             <v-row justify="space-between" align="center">
               <v-col cols="5">
@@ -67,7 +67,7 @@
           <div
             id="explore"
             class="px-12 background-color-white"
-            v-waypoint="{ active: true, callback: onExplore, options: intersectOptions }"
+            
           >
             <p
               :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
@@ -104,7 +104,7 @@
           <div
             id="artists"
             class="background-color-dedede pt-12 pb-10"
-            v-waypoint="{ active: true, callback: onArtists, options: intersectOptions }"
+            
           >
             <v-container fluid class="pa-0 ma-0">
               <v-row class="pt-12 pl-12 pr-10 pb-5" justify="space-between" align="center">
@@ -159,7 +159,7 @@
           <div
             id="benefits"
             class="background-color-fafafa pt-12 pb-12"
-            v-waypoint="{ active: true, callback: onBenefits, options: intersectOptions }"
+            
           >
             <div class="pb-12">
               <v-row class="px-12 pb-3" justify="space-between">
@@ -188,7 +188,7 @@
           <div 
             id="media"
             class="pt-8 pb-12 white"
-            v-waypoint="{ active: true, callback: onMedia, options: intersectOptions}"
+            
           >
             <div>
               <p
@@ -215,7 +215,7 @@
         <div
           id="contact-us"
           class="background-color-dddddd py-12"
-          v-waypoint="{ active: true, callback: onContact, options: intersectOptions}"
+          
         >
           <!-- <contact-us /> -->
         </div>
