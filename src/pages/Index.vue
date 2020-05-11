@@ -64,7 +64,7 @@
           <div class="py-8 background-color-white" />
 
           <!-- Explore -->
-          <!-- <div
+          <div
             id="explore"
             class="px-12 background-color-white"
             v-waypoint="{ active: true, callback: onExplore, options: intersectOptions }"
@@ -83,7 +83,7 @@
                         class="white--text"
                         v-html="image[getLang]"
                       />
-                      <v-btn
+                      <!-- <v-btn
                         class="white--text px-10"
                         :class="getLang === 'gr' ? 'noto-11p5-600' :'montserrat-11p5-600'"
                         depressed
@@ -91,12 +91,12 @@
                         color="#525252"
                         v-html="$page.explore.edges[0].node.button[getLang]"
                         :to="explore.images[i].route"
-                      />
+                      /> -->
                     </div>
                   </v-img>
               </v-col>
             </v-row>
-          </div> -->
+          </div>
 
           <div class="py-12 background-color-white" />
 
@@ -123,7 +123,7 @@
                         class="pb-8"
                         v-html="$page.artists.edges[0].node.body[getLang]"
                       />
-                      <v-btn
+                      <!-- <v-btn
                         class="white--text px-10"
                         :class="getLang === 'gr' ? 'noto-10p5-600' :'montserrat-10p5-600'"
                         depressed
@@ -131,7 +131,7 @@
                         color="#525252"
                         v-html="$page.artists.edges[0].node.button[getLang]"
                         @click="$vuetify.goTo('#contact-us')"
-                      />
+                      /> -->
                     </div>
                 </v-col>
               </v-row>
@@ -257,7 +257,7 @@
         <div class="py-8" />
 
         <!-- Explore -->
-        <!-- <div id="explore">
+        <div id="explore">
           <p
             :class="getLang === 'gr' ? 'noto-32-700' : 'playfair-32-700'"
             class="pb-4 my-0 text-center"
@@ -277,7 +277,7 @@
                     class="white--text"
                     v-html="image[getLang]"
                   />
-                  <v-btn
+                  <!-- <v-btn
                     class="white--text px-10"
                     :class="getLang === 'gr' ? 'noto-11p5-600' :'montserrat-11p5-600'"
                     depressed
@@ -285,17 +285,17 @@
                     color="#525252"
                     v-html="$page.explore.edges[0].node.button[getLang]"
                     :to="explore.images[i].route"
-                  />
+                  /> -->
                 </div>
               </v-img>
             </v-col>
           </v-row>
-        </div> -->
+        </div>
 
         <div class="py-8" />
 
         <!-- Artists -->
-        <!-- <div
+        <div
           id="artists"
           class="background-color-dedede pt-12 pb-10"
         >
@@ -318,14 +318,14 @@
                     class="pb-2"
                     v-html="$page.artists.edges[0].node.body[getLang]"
                   />
-                  <v-btn
+                  <!-- <v-btn
                     class="white--text px-10"
                     :class="getLang === 'gr' ? 'noto-10p5-600' :'montserrat-10p5-600'"
                     depressed
                     x-large
                     color="#525252"
                     v-html="$page.artists.edges[0].node.button[getLang]"
-                  />
+                  /> -->
                 </div>
               </v-col>
             </v-row>
@@ -348,7 +348,7 @@
               </v-col>
             </v-row>
           </div>
-        </div> -->
+        </div>
 
         <!-- Benefits -->
         <div
