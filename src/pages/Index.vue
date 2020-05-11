@@ -83,7 +83,7 @@
                         class="white--text"
                         v-html="image[getLang]"
                       />
-                      <!-- <v-btn
+                      <v-btn
                         class="white--text px-10"
                         :class="getLang === 'gr' ? 'noto-11p5-600' :'montserrat-11p5-600'"
                         depressed
@@ -91,7 +91,7 @@
                         color="#525252"
                         v-html="$page.explore.edges[0].node.button[getLang]"
                         :to="explore.images[i].route"
-                      /> -->
+                      />
                     </div>
                   </v-img>
               </v-col>
