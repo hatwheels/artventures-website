@@ -87,7 +87,7 @@
             </v-btn>
           </template>
           <v-list flat color="#e8e8e8">
-            <v-list-item v-for="(language, i) in getLanguages" :key="'lang-' + i" @click.stop.prevent="selectLang(language)">
+            <v-list-item v-for="(language, i) in getLanguages" :key="'lang-' + i" @click="selectLang(language)">
               <v-list-item-title
                 :class="getLang === 'gr' ? 'noto-15-600' : 'nunito-15-600'"
                 class="color-333333 text-center text-uppercase"
@@ -193,7 +193,7 @@
                         class="color-333333"
                         :class="getLang === 'gr' ? 'noto-15-400' : 'nunito-15-400'"
                       >
-                      Back
+                        {{ getLang === 'gr' ? 'Πίσω': 'Back' }}
                       </v-list-item-title>
                     </v-list-item>
                     <v-list-item class="pb-5 px-0" v-for="(route, i) in routes.explore.routes" :key="'modal-route-' + i" :to="route.route">
@@ -212,12 +212,12 @@
                         class="color-333333"
                         :class="getLang === 'gr' ? 'noto-15-400' : 'nunito-15-400'"
                       >
-                      Back
+                        {{ getLang === 'gr' ? 'Πίσω': 'Back' }}
                       </v-list-item-title>
                     </v-list-item>
                     <v-list-item
                       class="pb-5 px-0" v-for="(language, i) in getLanguages" :key="'lang-small-' + i"
-                      @click.stop.prevent="selectLangModal(language)"
+                      @click="selectLangModal(language)"
                     >
                       <v-list-item-title :class="getLang === 'gr' ? 'noto-35-400' : 'raleway-35-400'">
                         <div class="color-333333 text-capitalize" v-html="langChoices[language][getLang]" />
@@ -288,17 +288,11 @@
           </v-btn>
         </div>
         <div class="pt-1">
-          <div
-            :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
-            class="black-text"
-          >
-          Artventures
-          <span
-            :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
-            class="color-757575"
-          >
-          &copy; 2020
-          </span>
+          <div class="raleway-16-600 black-text">
+            Artventures
+            <span class="noto-16-400 color-757575">
+              &copy; 2020
+            </span>
           </div>
         </div>
       </div>
@@ -363,16 +357,16 @@ export default {
       modalMenu: false,
       modalSlide: 'explore',
       langTitle: {
-        gr: '<div class="color-333333 text-capitalize">Γλωσσα</div>', // Greek, raw html
+        gr: '<div class="color-333333 text-capitalize">Γλώσσα</div>', // Greek, raw html
         en: '<div class="color-333333 text-capitalize">Language</div>', // English, raw html
       },
       langChoices: {
         gr: {
-          gr: 'Ελληνικα',
+          gr: 'Ελληνικά',
           en: 'Greek'
         },
         en: {
-          gr: 'Αγγλικα',
+          gr: 'Αγγλικά',
           en: 'English'
         }
       }

@@ -110,16 +110,6 @@ export default function (Vue, { appOptions, router, head, isClient }) {
 
   Vue.use(VueWaypoint)
 
-  // Vue.mixin({
-  //   data() {
-  //     return {
-  //       get languages() {
-  //         return ['en', 'gr'];
-  //       }
-  //     }
-  //   }
-  // })
-
   // Set default layout as a global component
   Vue.component('Layout', DefaultLayout)
 }
