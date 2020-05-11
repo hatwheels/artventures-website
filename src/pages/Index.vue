@@ -18,7 +18,7 @@
               <div class="d-flex align-center justify-center">
                 <div v-if="hover"
                   class='pr-2 text-uppercase'
-                  :class="[getLang === 'gr' ? 'noto-10-700' : 'montserrat-10-700']"
+                  :class="getLang === 'gr' ? 'noto-10-700' : 'montserrat-10-700'"
                   v-html="navItem[getLang]"
                 />
                 <v-btn :id="'nav-' + i" :ripple="false" x-small icon @click="$vuetify.goTo(navItem.tag)">
@@ -196,7 +196,7 @@
                 class="text-center color-333333 pb-12 mb-0"
                 v-html="$page.media.edges[0].node.title[getLang]"
               />
-              <div class="carousel-upper swiper-container">
+              <!-- <div class="carousel-upper swiper-container">
                 <div class="carousel-mid text-center pt-12" v-swiper:swiperNormal="swiperOption">
                   <div class="carousel-lower swiper-wrapper">
                     <div class="swiper-slide" v-for="(logo, i ) in media.logos" :key="'media-logos-' + i">
@@ -207,7 +207,7 @@
                 </div>
                 <div class="swiper-button-prev swiper-button-white" slot="button-prev" />
                 <div class="swiper-button-next swiper-button-white" slot="button-next" />
-              </div>
+              </div> -->
             </div>
         </div>
 
@@ -295,7 +295,7 @@
 
         <!-- Artists -->
         <div
-          id="artists-small"
+          id="artists"
           class="background-color-dedede pt-12 pb-10"
         >
           <v-container fluid class="pa-0 ma-0">
@@ -382,7 +382,7 @@
               class="text-center color-333333 pb-2 mb-0"
               v-html="$page.media.edges[0].node.title[getLang]"
             />
-            <div class="carousel-upper-small swiper-container">
+            <!-- <div class="carousel-upper-small swiper-container">
               <div class="carousel-mid-small text-center pt-12" v-swiper:swiperSmall="swiperOption">
                 <div class="carousel-lower-small swiper-wrapper">
                   <div class="swiper-slide" v-for="(logo, i ) in media.logos" :key="'media-logos-small-' + i">
@@ -391,7 +391,7 @@
                 </div>
                 <div class="swiper-pagination swiper-pagination-black" slot="pagination" />
               </div>
-            </div>
+            </div> -->
           </div>
       </div>
 
