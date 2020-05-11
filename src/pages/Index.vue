@@ -294,11 +294,11 @@
         <div class="py-8" />
 
         <!-- Artists -->
-        <!-- <div
+        <div
           id="artists"
           class="background-color-dedede pt-12 pb-10"
         >
-          <v-container fluid class="pa-0 ma-0">
+          <div>
             <v-row justify="center" align="center">
               <v-col cols=11>
                 <v-img :src="artists.img" :lazy-src="artists.lazy" />
@@ -346,8 +346,8 @@
                 />
               </v-col>
             </v-row>
-          </v-container>
-        </div> -->
+          </div>
+        </div>
 
         <!-- Benefits -->
         <div
