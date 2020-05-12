@@ -12,7 +12,7 @@ exports.handler = async (event, context) => {
       return {
         statusCode: 500,
         headers,
-        body: 'email query paramater required'
+        body: 'email query parameter required'
       };
     }
 
@@ -20,7 +20,7 @@ exports.handler = async (event, context) => {
       return {
         statusCode: 500,
         headers,
-        body: 'tag query paramater required'
+        body: 'tag query parameter required'
       };
     }
 

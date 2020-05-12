@@ -17,14 +17,14 @@
               v-html="form.firstname[getLang]"
             />
             <v-text-field
-                v-model.trim="name"
-                background-color="#FAFAFA"
-                color="#1A1A1A"
-                :error-messages="nameErrors"
-                outlined
-                required
-                @input="delayTouch($v.name)"
-                @blur="$v.name.$touch()"
+              v-model.trim="name"
+              background-color="#FAFAFA"
+              color="#1A1A1A"
+              :error-messages="nameErrors"
+              outlined
+              required
+              @input="delayTouch($v.name)"
+              @blur="$v.name.$touch()"
             ></v-text-field>
           </v-col>
           <v-col class="py-0" cols="6">
@@ -34,14 +34,14 @@
               v-html="form.lastname[getLang]"
             />
             <v-text-field
-                v-model.trim="lastName"
-                background-color="#FAFAFA"
-                color="#1A1A1A"
-                :error-messages="lastNameErrors"
-                outlined
-                required
-                @input="delayTouch($v.lastName)"
-                @blur="$v.lastName.$touch()"
+              v-model.trim="lastName"
+              background-color="#FAFAFA"
+              color="#1A1A1A"
+              :error-messages="lastNameErrors"
+              outlined
+              required
+              @input="delayTouch($v.lastName)"
+              @blur="$v.lastName.$touch()"
             ></v-text-field>
           </v-col>
         </v-row>
