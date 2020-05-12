@@ -40,7 +40,7 @@ export default function (Vue, { appOptions, router, head, isClient }) {
   const vuexOpts = {
     actions: {
       async mcSubscribe({commit}, params) {
-        return await axios.post('https://www.artventures.me/.netlify/functions/index',
+        return await axios.post('https://www.artventures.me/.netlify/functions/newsletter',
           {
             email: params.email,
             tag: params.tag,
