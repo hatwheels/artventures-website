@@ -21,12 +21,13 @@
               v-html="$page.individuals.edges[0].node.main.body[getLang]"
             />
             <div class="pt-3" />
-            <router-link
+            <g-link
               :class="getLang === 'gr' ? 'noto-1p312vw-600' : 'raleway-1p312vw-600'"
               class="contact-us-btn white--text text-center text-uppercase"
               :to="{ path: '/', hash:'#contact-us' }"
-              v-html="$page.individuals.edges[0].node.main.button[getLang]"
-            />
+            >
+              {{ $page.individuals.edges[0].node.main.button[getLang] }}
+            </g-link>
           </div>
         </div>
 
@@ -71,11 +72,12 @@
             style="padding-bottom: 34px"
             v-html="$page.individuals.edges[0].node.rent.body[getLang]"
           />
-          <a
+          <g-link
             :class="getLang === 'gr' ? 'noto-15-600-1p5' : 'raleway-15-600-1p5'"
             class="personality-test-btn white--text text-uppercase"
-            v-html="$page.individuals.edges[0].node.rent.button[getLang]"
-          />
+          >
+            {{ $page.individuals.edges[0].node.rent.button[getLang] }}
+          </g-link>
         </div>
 
         <!-- spacer -->
@@ -103,12 +105,13 @@
               class="color-rgba-0-0-0-p52 pb-7"
               v-html="$page.individuals.edges[0].node.main.body[getLang]"
             />
-            <router-link
+            <g-link
               :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-400'"
               class="contact-us-btn-small white--text text-center"
               :to="{ path: '/', hash:'#contact-us-small' }"
-              v-html="$page.individuals.edges[0].node.main.button[getLang]"
-            />
+            >
+              {{ $page.individuals.edges[0].node.main.button[getLang] }}
+            </g-link>
           </v-col>
         </v-row>
 
@@ -149,11 +152,12 @@
               style="padding-bottom: 34px"
               v-html="$page.individuals.edges[0].node.rent.body[getLang]"
             />
-            <a
+            <g-link
               :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-600'"
               class="personality-test-btn-small white--text text-uppercase text-center"
-              v-html="$page.individuals.edges[0].node.rent.button[getLang]"
-            />
+            >
+              {{ $page.individuals.edges[0].node.rent.button[getLang] }}
+            </g-link>
           </v-col>
         </v-row>
 
@@ -279,6 +283,7 @@ query {
 .personality-test-btn {
   display: inline-block;
   background-color: #4C4C4A;
+  text-decoration: none;
   border-radius: 4px;
   padding: 21px 34px;
   cursor: pointer;
@@ -287,6 +292,7 @@ query {
 .personality-test-btn-small {
   display: inline-block;
   background-color: #4C4C4A;
+  text-decoration: none;
   border-radius: 4px;
   padding: 10.5px 17px;
   cursor: pointer;

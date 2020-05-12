@@ -100,8 +100,10 @@
             class="send-msg-btn white--text text-center text-uppercase"
             type="submit"
             :disabled="$v.$invalid"
-            v-html="form.button[getLang]"
-          />
+          >
+            {{ form.button[getLang] }}
+            <span v-show="isLoading" class="px-1 lds-ring"><div></div><div></div><div></div><div></div></span>
+          </button>
         </div>
       </form>
     </v-col>
@@ -204,7 +206,8 @@ export default {
       fields: {},
       alert: false,
       alertMsg: "",
-      alertType: "error"
+      alertType: "error",
+      isLoading: false,
     };
   },
   computed: {
@@ -267,6 +270,7 @@ export default {
       this.subject = "";
       this.message = "";
       this.$v.$reset();
+      this.isLoading = false;
     },
     submit() {
       this.$v.$touch();
@@ -278,6 +282,7 @@ export default {
           subject: this.subject,
           msg: this.message
         };
+        this.isLoading = true;
         this.$store
           .dispatch("mcMessage", {
             email: this.email,
@@ -346,6 +351,8 @@ export default {
 </script>
 
 <style>
+@import '../assets/style/lds-ring.css';
+
 .send-msg-btn {
   display: inline-block;
   background-color: #525252;

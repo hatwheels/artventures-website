@@ -83,12 +83,14 @@
                         class="white--text"
                         v-html="image[getLang]"
                       />
-                      <router-link
+                      <g-link
                         class="btn-grey white--text px-12 py-5 text-uppercase"
                         :class="getLang === 'gr' ? 'noto-11p5-600' :'montserrat-11p5-600'"
                         v-html="$page.explore.edges[0].node.button[getLang]"
                         :to="explore.images[i].route"
-                      />
+                      >
+                        {{ $page.explore.edges[0].node.button[getLang] }}
+                      </g-link>
                     </div>
                   </v-img>
               </v-col>
@@ -271,12 +273,13 @@
                     class="white--text"
                     v-html="image[getLang]"
                   />
-                  <router-link
+                  <g-link
                     class="btn-grey white--text px-12 py-5 text-uppercase"
                     :class="getLang === 'gr' ? 'noto-11p5-600' :'montserrat-11p5-600'"
-                    v-html="$page.explore.edges[0].node.button[getLang]"
                     :to="explore.images[i].route"
-                  />
+                  >
+                    {{ $page.explore.edges[0].node.button[getLang] }}
+                  </g-link>
                 </div>
               </v-img>
             </v-col>
@@ -441,14 +444,6 @@ export default {
             break;
         }
       }, 200);
-    })
-  },
-  updated () {
-    this.$nextTick(() => {
-      if (this.$route.hash) {
-        const el = document.querySelector(this.$route.hash);
-        el && el.scrollIntoView();
-      }
     })
   },
   data () {
