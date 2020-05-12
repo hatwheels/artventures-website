@@ -1,8 +1,8 @@
 const axios = require('axios')
 const apiRoot = process.env.MC_API_ROOT + '/members'
 const headers = {
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Headers": "Content-Type"
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "Content-Type"
 }
 
 exports.handler = async (event, context) => {
@@ -12,21 +12,22 @@ exports.handler = async (event, context) => {
       return {
         statusCode: 500,
         headers,
-        body: 'email query paramater required'
+        body: 'email query parameter required'
       };
     }
 
     if (!data.tag) {
-        return {
-          statusCode: 500,
-          headers,
-          body: 'tag query paramater required'
-        };
-      }
+      return {
+        statusCode: 500,
+        headers,
+        body: 'tag query parameter required'
+      };
+    }
 
     return axios({
       method: 'post',
       url: apiRoot,
+      headers: headers,
       data:{
         email_address:data.email,
         status:'subscribed',

@@ -40,7 +40,7 @@ export default function (Vue, { appOptions, router, head, isClient }) {
   const vuexOpts = {
     actions: {
       async mcSubscribe({commit}, params) {
-        return await axios.post('https://www.artventures.me/.netlify/functions/index',
+        return await axios.post('https://www.artventures.me/.netlify/functions/newsletter',
           {
             email: params.email,
             tag: params.tag,
@@ -109,6 +109,20 @@ export default function (Vue, { appOptions, router, head, isClient }) {
   Vue.use(Vuelidate)
 
   Vue.use(VueWaypoint)
+
+  Vue.mixin({
+    computed: {
+      getViewSize() {
+        switch (this.$vuetify.breakpoint.name) {
+          case 'xs':
+          case 'sm':
+            return 'mobile'
+          default:
+            return 'desktop'
+        }
+      }
+    }
+  })
 
   // Set default layout as a global component
   Vue.component('Layout', DefaultLayout)

@@ -1,6 +1,6 @@
 <template>
   <Layout>
-    <v-content class="hidden-sm-and-down">
+    <v-content v-show="getViewSize === 'desktop'">
       <v-container class="pa-0 background-color-fafafa" fluid>
 
         <!-- spacer -->
@@ -21,12 +21,13 @@
               v-html="$page.businesses.edges[0].node.main.body[getLang]"
             />
             <div class="pt-3" />
-            <router-link
+            <g-link
               :class="getLang === 'gr' ? 'noto-1p312vw-600' : 'raleway-1p312vw-600'"
               class="contact-us-btn white--text text-center text-uppercase"
               :to="{ path: '/', hash:'#contact-us' }"
-              v-html="$page.businesses.edges[0].node.main.button[getLang]"
-            />
+            >
+              {{ $page.businesses.edges[0].node.main.button[getLang] }}
+            </g-link>
           </div>
         </div>
 
@@ -42,22 +43,24 @@
           </v-row>
           <v-row class="px-12 pt-3" justify="space-around">
             <v-col class="color-333333" cols="4" v-for="(advantage, i) in $page.businesses.edges[0].node.advantages" :key="'advantage-' + i">
-              <p
+              <div
                 :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
                 v-html="advantage.title[getLang]"
               />
-              <p
+              <div
                 :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
                 v-html="advantage.body[getLang]"
               />
             </v-col>
           </v-row>
           <div class="text-center custom-block pt-8 pb-8">
-            <a
+            <g-link
               :class="getLang === 'gr' ? 'noto-15-600-1p5' : 'raleway-15-600-1p5'"
               class="learn-more-btn white--text text-uppercase"
-              v-html="$page.businesses.edges[0].node.button[getLang]"
-            />
+              :to="{ path: '/', hash:'#contact-us' }"
+            >
+              {{ $page.businesses.edges[0].node.button[getLang] }}
+            </g-link>
           </div>
         </div>
 
@@ -93,7 +96,7 @@
       </v-container>
     </v-content>
 
-    <v-content class="hidden-md-and-up">
+    <v-content v-show="getViewSize === 'mobile'">
       <v-container class="pa-0 background-color-fafafa" fluid>
 
         <!-- main -->
@@ -112,12 +115,13 @@
               class="color-rgba-0-0-0-p52 pb-7"
               v-html="$page.businesses.edges[0].node.main.body[getLang]"
             />
-            <router-link
+            <g-link
               :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
               class="contact-us-btn-small white--text text-center"
               :to="{ path: '/', hash:'#contact-us-small' }"
-              v-html="$page.businesses.edges[0].node.main.button[getLang]"
-            />
+            >
+              {{ $page.businesses.edges[0].node.main.button[getLang] }}
+            </g-link>
           </v-col>
         </v-row>
 
@@ -127,11 +131,11 @@
             <v-col cols="11">
               <v-img class="mb-4" :src="advantages.content[i].img" :lazy-src="advantages.content[i].lazy" />
               <div class="color-333333">
-                <p
+                <div
                   :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
                   v-html="advantage.title[getLang]"
                 />
-                <p
+                <div
                   :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
                   v-html="advantage.body[getLang]"
                 />
@@ -139,11 +143,13 @@
             </v-col>
           </v-row>
           <div class="text-center custom-block">
-            <a
+            <g-link
               :class="getLang === 'gr' ? 'noto-15-600-1p5' : 'raleway-15-600-1p5'"
               class="learn-more-btn-small white--text text-uppercase"
-              v-html="$page.businesses.edges[0].node.button[getLang]"
-            />
+              :to="{ path: '/', hash:'#contact-us' }"
+            >
+              {{ $page.businesses.edges[0].node.button[getLang] }}
+            </g-link>
           </div>
         </div>
 
@@ -319,6 +325,7 @@ query {
 .learn-more-btn {
   display: inline-block;
   background-color: #4C4C4A;
+  text-decoration: none;
   border-radius: 4px;
   padding: 21px 34px;
   cursor: pointer;
@@ -327,6 +334,7 @@ query {
 .learn-more-btn-small {
   display: inline-block;
   background-color: #4C4C4A;
+  text-decoration: none;
   border-radius: 4px;
   padding: 10.5px 17px;
   cursor: pointer;

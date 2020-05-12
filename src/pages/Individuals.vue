@@ -1,6 +1,6 @@
 <template>
   <Layout>
-    <v-content class="hidden-sm-and-down">
+    <v-content v-show="getViewSize === 'desktop'">
       <v-container class="pa-0 background-color-fafafa" fluid>
 
         <!-- spacer -->
@@ -21,12 +21,13 @@
               v-html="$page.individuals.edges[0].node.main.body[getLang]"
             />
             <div class="pt-3" />
-            <router-link
+            <g-link
               :class="getLang === 'gr' ? 'noto-1p312vw-600' : 'raleway-1p312vw-600'"
               class="contact-us-btn white--text text-center text-uppercase"
               :to="{ path: '/', hash:'#contact-us' }"
-              v-html="$page.individuals.edges[0].node.main.button[getLang]"
-            />
+            >
+              {{ $page.individuals.edges[0].node.main.button[getLang] }}
+            </g-link>
           </div>
         </div>
 
@@ -42,11 +43,11 @@
           </v-row>
           <v-row class="px-12 pt-3" justify="space-around">
             <v-col class="color-333333" cols="4" v-for="(advantage, i) in $page.individuals.edges[0].node.advantages" :key="'advantage-' + i">
-              <p
+              <div
                 :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
                 v-html="advantage.title[getLang]"
               />
-              <p
+              <div
                 :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
                 v-html="advantage.body[getLang]"
               />
@@ -71,11 +72,12 @@
             style="padding-bottom: 34px"
             v-html="$page.individuals.edges[0].node.rent.body[getLang]"
           />
-          <a
+          <g-link
             :class="getLang === 'gr' ? 'noto-15-600-1p5' : 'raleway-15-600-1p5'"
             class="personality-test-btn white--text text-uppercase"
-            v-html="$page.individuals.edges[0].node.rent.button[getLang]"
-          />
+          >
+            {{ $page.individuals.edges[0].node.rent.button[getLang] }}
+          </g-link>
         </div>
 
         <!-- spacer -->
@@ -84,7 +86,7 @@
       </v-container>
     </v-content>
 
-    <v-content class="hidden-md-and-up">
+    <v-content v-show="getViewSize === 'mobile'">
       <v-container class="pa-0 background-color-fafafa" fluid>
 
         <!-- main -->
@@ -103,12 +105,13 @@
               class="color-rgba-0-0-0-p52 pb-7"
               v-html="$page.individuals.edges[0].node.main.body[getLang]"
             />
-            <router-link
+            <g-link
               :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-400'"
               class="contact-us-btn-small white--text text-center"
               :to="{ path: '/', hash:'#contact-us-small' }"
-              v-html="$page.individuals.edges[0].node.main.button[getLang]"
-            />
+            >
+              {{ $page.individuals.edges[0].node.main.button[getLang] }}
+            </g-link>
           </v-col>
         </v-row>
 
@@ -118,11 +121,11 @@
             <v-col cols="11">
               <v-img class="mb-4" :src="advantages[i].img" :lazy-src="advantages[i].lazy" />
               <div class="color-333333">
-                <p
+                <div
                   :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
                   v-html="advantage.title[getLang]"
                 />
-                <p
+                <div
                   :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
                   v-html="advantage.body[getLang]"
                 />
@@ -149,11 +152,12 @@
               style="padding-bottom: 34px"
               v-html="$page.individuals.edges[0].node.rent.body[getLang]"
             />
-            <a
+            <g-link
               :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-600'"
               class="personality-test-btn-small white--text text-uppercase text-center"
-              v-html="$page.individuals.edges[0].node.rent.button[getLang]"
-            />
+            >
+              {{ $page.individuals.edges[0].node.rent.button[getLang] }}
+            </g-link>
           </v-col>
         </v-row>
 
@@ -279,6 +283,7 @@ query {
 .personality-test-btn {
   display: inline-block;
   background-color: #4C4C4A;
+  text-decoration: none;
   border-radius: 4px;
   padding: 21px 34px;
   cursor: pointer;
@@ -287,6 +292,7 @@ query {
 .personality-test-btn-small {
   display: inline-block;
   background-color: #4C4C4A;
+  text-decoration: none;
   border-radius: 4px;
   padding: 10.5px 17px;
   cursor: pointer;

@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar flat class="hidden-sm-and-down px-11" app absolute color="#e8e8e8" height="76px">
+    <v-app-bar v-show="getViewSize === 'desktop'" flat class="px-11" app absolute color="#e8e8e8" height="76px">
 
       <v-btn width="185" color="transparent" text icon to="/">/
         <v-img :src="logo[0]" />
@@ -79,18 +79,16 @@
           <template v-slot:activator="{ on }">
             <v-btn class="px-2" text color="transparent" v-on="on" :ripple="false">
               <div
-                :class="getLang === 'gr' ? 'noto-15-600' : 'nunito-15-600'"
-                class="color-333333"
+                class="color-333333 nunito-15-600"
                 v-html="getLang"
               />
               <v-icon color="#333333" right>mdi-menu-down</v-icon>
             </v-btn>
           </template>
           <v-list flat color="#e8e8e8">
-            <v-list-item v-for="(language, i) in getLanguages" :key="'lang-' + i" @click="selectLang(language)">
+            <v-list-item v-for="(language, i) in getLanguages" :key="'lang-' + i" @click="setLang(language)">
               <v-list-item-title
-                :class="getLang === 'gr' ? 'noto-15-600' : 'nunito-15-600'"
-                class="color-333333 text-center text-uppercase"
+                class="color-333333 text-center text-uppercase nunito-15-600"
                 v-html="language"
               />
             </v-list-item>
@@ -99,7 +97,7 @@
       </v-toolbar-items>
     </v-app-bar>
 
-    <v-app-bar class="hidden-md-and-up px-3" app absolute color="#F7F7F7" height="50px">
+    <v-app-bar v-show="getViewSize === 'mobile'" class="px-3" app absolute color="#F7F7F7" height="50px">
       <v-btn width="122px" color="transparent" text icon to="/">
         <v-img :src="logo[1]" />
       </v-btn>
@@ -217,7 +215,7 @@
                     </v-list-item>
                     <v-list-item
                       class="pb-5 px-0" v-for="(language, i) in getLanguages" :key="'lang-small-' + i"
-                      @click="selectLangModal(language)"
+                      @click="modalMenu = false; setLang(language);"
                     >
                       <v-list-item-title :class="getLang === 'gr' ? 'noto-35-400' : 'raleway-35-400'">
                         <div class="color-333333 text-capitalize" v-html="langChoices[language][getLang]" />
@@ -249,48 +247,44 @@
       <div class="hidden-md-and-up pb-6"></div>
 
       <div class="d-flex flex-column align-center">
-        <div class="pb-1" >
-          <v-btn class="hidden-lg-and-down" large text icon color="black" href="https://www.facebook.com/artventures.me">
-            <v-icon>mdi-facebook-box</v-icon>
-          </v-btn>
-          <v-btn class="hidden-xl-only hidden-xs-only" text icon color="black" href="https://www.facebook.com/artventures.me">
-            <v-icon>mdi-facebook-box</v-icon>
-          </v-btn>
-          <v-btn class="hidden-sm-and-up" small text icon color="black" href="https://www.facebook.com/artventures.me">
-            <v-icon>mdi-facebook-box</v-icon>
-          </v-btn>
-          <v-btn class="hidden-lg-and-down" large text icon color="black" href="https://www.instagram.com/artventures.me/">
-            <v-icon>mdi-instagram</v-icon>
-          </v-btn>
-          <v-btn class="hidden-xl-only hidden-xs-only" text icon color="black" href="https://www.instagram.com/artventures.me/">
-            <v-icon>mdi-instagram</v-icon>
-          </v-btn>
-          <v-btn class="hidden-sm-and-up" small text icon color="black" href="https://www.instagram.com/artventures.me/">
-            <v-icon>mdi-instagram</v-icon>
-          </v-btn>
-          <v-btn class="hidden-lg-and-down" large text icon color="black" href="https://twitter.com/Artventures6">
-            <v-icon>mdi-twitter-box</v-icon>
-          </v-btn>
-          <v-btn class="hidden-xl-only hidden-xs-only" text icon color="black" href="https://twitter.com/Artventures6">
-            <v-icon>mdi-twitter-box</v-icon>
-          </v-btn>
-          <v-btn class="hidden-sm-and-up" small text icon color="black" href="https://twitter.com/Artventures6">
-            <v-icon>mdi-twitter-box</v-icon>
-          </v-btn>
-          <v-btn class="hidden-lg-and-down" large text icon color="black" href="https://www.linkedin.com/company/artventuresco">
-            <v-icon>mdi-linkedin-box</v-icon>
-          </v-btn>
-          <v-btn class="hidden-xl-only hidden-xs-only" text icon color="black" href="https://www.linkedin.com/company/artventuresco">
-            <v-icon>mdi-linkedin-box</v-icon>
-          </v-btn>
-          <v-btn class="hidden-sm-and-up" small text icon color="black" href="https://www.linkedin.com/company/artventuresco">
-            <v-icon>mdi-linkedin-box</v-icon>
-          </v-btn>
+        <div v-show="getViewSize === 'desktop'" class="pb-1">
+          <a class="px-1" style="text-decoration: none;" href="https://www.facebook.com/artventures.me">
+            <v-icon large class="black--text">mdi-facebook-box</v-icon>
+          </a>
+          <a class="px-1" style="text-decoration: none;" href="https://www.instagram.com/artventures.me/">
+            <v-icon large class="black--text">mdi-instagram</v-icon>
+          </a>
+          <a class="px-1" style="text-decoration: none;" href="https://twitter.com/Artventures6">
+            <v-icon large class="black--text">mdi-twitter-box</v-icon>
+          </a>
+          <a class="px-1" style="text-decoration: none;" href="https://www.linkedin.com/company/artventuresco">
+            <v-icon large class="black--text">mdi-linkedin-box</v-icon>
+          </a>
+        </div>
+        <div v-show="getViewSize === 'mobile'" class="pb-1">
+          <a class="px-2" style="text-decoration: none;" href="https://www.facebook.com/artventures.me">
+            <v-icon class="black--text" small>mdi-facebook-box</v-icon>
+          </a>
+          <a class="px-2" style="text-decoration: none;" href="https://www.instagram.com/artventures.me/">
+            <v-icon class="black--text" small>mdi-instagram</v-icon>
+          </a>
+          <a class="px-2" style="text-decoration: none;" href="https://twitter.com/Artventures6">
+            <v-icon class="black--text" small>mdi-twitter-box</v-icon>
+          </a>
+          <a class="px-2" style="text-decoration: none;" href="https://www.linkedin.com/company/artventuresco">
+            <v-icon class="black--text" small>mdi-linkedin-box</v-icon>
+          </a>
         </div>
         <div class="pt-1">
-          <div class="raleway-16-600 black-text">
+          <div v-show="getViewSize === 'mobile'" class="raleway-16-600 black-text">
             Artventures
-            <span class="noto-16-400 color-757575">
+            <span class="color-757575">
+              &copy; 2020
+            </span>
+          </div>
+          <div v-show="getViewSize === 'desktop'" class="raleway-18-600 black-text">
+            Artventures
+            <span class="color-757575">
               &copy; 2020
             </span>
           </div>
@@ -377,13 +371,6 @@ export default {
   },
   methods: {
     ...mapMutations(['setLang']),
-    selectLang(l) {
-      this.setLang(l);
-    },
-    selectLangModal(l) {
-      this.modalMenu = false;
-      this.setLang(l);
-    }
   },
 }
 </script>

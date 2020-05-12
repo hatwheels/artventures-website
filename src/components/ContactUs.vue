@@ -17,14 +17,14 @@
               v-html="form.firstname[getLang]"
             />
             <v-text-field
-                v-model.trim="name"
-                background-color="#FAFAFA"
-                color="#1A1A1A"
-                :error-messages="nameErrors"
-                outlined
-                required
-                @input="delayTouch($v.name)"
-                @blur="$v.name.$touch()"
+              v-model.trim="name"
+              background-color="#FAFAFA"
+              color="#1A1A1A"
+              :error-messages="nameErrors"
+              outlined
+              required
+              @input="delayTouch($v.name)"
+              @blur="$v.name.$touch()"
             ></v-text-field>
           </v-col>
           <v-col class="py-0" cols="6">
@@ -34,14 +34,14 @@
               v-html="form.lastname[getLang]"
             />
             <v-text-field
-                v-model.trim="lastName"
-                background-color="#FAFAFA"
-                color="#1A1A1A"
-                :error-messages="lastNameErrors"
-                outlined
-                required
-                @input="delayTouch($v.lastName)"
-                @blur="$v.lastName.$touch()"
+              v-model.trim="lastName"
+              background-color="#FAFAFA"
+              color="#1A1A1A"
+              :error-messages="lastNameErrors"
+              outlined
+              required
+              @input="delayTouch($v.lastName)"
+              @blur="$v.lastName.$touch()"
             ></v-text-field>
           </v-col>
         </v-row>
@@ -100,8 +100,10 @@
             class="send-msg-btn white--text text-center text-uppercase"
             type="submit"
             :disabled="$v.$invalid"
-            v-html="form.button[getLang]"
-          />
+          >
+            {{ form.button[getLang] }}
+            <span v-show="isLoading" class="px-1 lds-ring"><div></div><div></div><div></div><div></div></span>
+          </button>
         </div>
       </form>
     </v-col>
@@ -111,7 +113,6 @@
 </template>
 
 <script>
-//import axios from "axios";
 import { validationMixin } from "vuelidate";
 import { required, email } from "vuelidate/lib/validators";
 import { mapGetters } from "vuex";
@@ -205,7 +206,8 @@ export default {
       fields: {},
       alert: false,
       alertMsg: "",
-      alertType: "error"
+      alertType: "error",
+      isLoading: false,
     };
   },
   computed: {
@@ -268,6 +270,7 @@ export default {
       this.subject = "";
       this.message = "";
       this.$v.$reset();
+      this.isLoading = false;
     },
     submit() {
       this.$v.$touch();
@@ -279,6 +282,7 @@ export default {
           subject: this.subject,
           msg: this.message
         };
+        this.isLoading = true;
         this.$store
           .dispatch("mcMessage", {
             email: this.email,
@@ -347,6 +351,8 @@ export default {
 </script>
 
 <style>
+@import '../assets/style/lds-ring.css';
+
 .send-msg-btn {
   display: inline-block;
   background-color: #525252;

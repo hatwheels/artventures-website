@@ -13,7 +13,7 @@ exports.handler = async (event, context) => {
       return {
         statusCode: 500,
         headers,
-        body: 'email query paramater required'
+        body: 'email query parameter required'
       };
     }
 
@@ -21,7 +21,7 @@ exports.handler = async (event, context) => {
         return {
           statusCode: 500,
           headers,
-          body: 'First Name query paramater required'
+          body: 'First Name query parameter required'
         };
       }
 
@@ -29,7 +29,7 @@ exports.handler = async (event, context) => {
         return {
             statusCode: 500,
             headers,
-            body: 'Last Name query paramater required'
+            body: 'Last Name query parameter required'
         };
     }
 
@@ -37,7 +37,7 @@ exports.handler = async (event, context) => {
         return {
           statusCode: 500,
           headers,
-          body: 'Subject query paramater required'
+          body: 'Subject query parameter required'
         };
     }
 
@@ -45,13 +45,14 @@ exports.handler = async (event, context) => {
         return {
           statusCode: 500,
           headers,
-          body: 'Message query paramater required'
+          body: 'Message query paramaeter required'
         };
     }
 
     return axios({
       method: 'patch',
       url: apiRoot  + '/' + md5(data.email.toLowerCase()),
+      headers: headers,
       data:{
         merge_fields: {
             'FNAME': data.firstname,

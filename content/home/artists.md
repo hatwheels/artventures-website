@@ -14,16 +14,16 @@ testimonials:
       gr: |+
         “Η Artventures είναι μια καταπληκτική ιδέα, και ένας εξαιρετικός τρόπος μεγαλύτερης προβολής και περισσότερων αγοαστών. Πάνω απ' όλα όμως είναι μια σπάνια ομάδα με φανταστικούς, ενθουσιώδεις ανθρώπους που αγαπάνε την Τέχνη και τους καλλιτέχνες και κάνουν τα πάντα για να μας βοηθήσουν.”
     author:
-      en: Kostas Vaviloussakis
-      gr: Κώστας Βαβιλουσσάκης
+      en: "— Kostas Vaviloussakis"
+      gr: "— Κώστας Βαβιλουσσάκης"
   - quote:
       en: |+
         “I’m very happy to be a part of the Artventures since the beginning. They’re kind, helpful and trustworthy. And most of all they’re great guys and take care of my work.”
       gr: |+
-        “Είμαι πολύ χαρούμενος που είμαι μέλος της Artventures από την αρχή. Είναι ευγενικοί, εξυπηρετικοί και αξιόπιστοι. Και πάνω απ' όλα είναι     απίθανοι τύποι και φροντίζουν για την δουλεία μου.”
+        “Είμαι πολύ χαρούμενος που είμαι μέλος της Artventures από την αρχή. Είναι ευγενικοί, εξυπηρετικοί και αξιόπιστοι. Και πάνω απ' όλα είναι απίθανοι τύποι και φροντίζουν για την δουλεία μου.”
     author:
-      en: Yorgis Yerolymbos
-      gr: Γιώργης Γερόλυμπος
+      en: "— Yorgis Yerolymbos"
+      gr: "— Γιώργης Γερόλυμπος"
 button:
   en: Apply to Artventures
   gr: Καντε αιτηση στην Artventures

@@ -1,6 +1,6 @@
 <template>
   <Layout>
-    <v-content class="hidden-sm-and-down">
+    <v-content v-show="getViewSize === 'desktop'">
       <v-container class="pa-0 background-color-fafafa" fluid>
 
         <!-- spacer -->
@@ -21,12 +21,13 @@
               v-html="$page.hotels.edges[0].node.main.body[getLang]"
             />
             <div class="pt-3" />
-            <router-link
+            <g-link
               :class="getLang === 'gr' ? 'noto-1p312vw-600' : 'raleway-1p312vw-600'"
               class="contact-us-btn white--text text-center text-uppercase"
               :to="{ path: '/', hash:'#contact-us' }"
-              v-html="$page.hotels.edges[0].node.main.button[getLang]"
-            />
+            >
+              {{ $page.hotels.edges[0].node.main.button[getLang] }}
+            </g-link>
           </div>
         </div>
 
@@ -42,11 +43,11 @@
           </v-row>
           <v-row class="px-12 pt-3" justify="space-around">
             <v-col class="color-333333" cols="4" v-for="(advantage, i) in $page.hotels.edges[0].node.advantages" :key="'advantage-' + i">
-              <p
+              <div
                 :class="getLang === 'gr' ? 'noto-30-700-1p2' : 'playfair-30-700-1p2'"
                 v-html="advantage.title[getLang]"
               />
-              <p
+              <div
                 :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
                 v-html="advantage.body[getLang]"
               />
@@ -92,12 +93,13 @@
             v-html="$page.hotels.edges[0].node.button.title[getLang]"
           />
           <div class="custom-block">
-            <router-link
+            <g-link
               :class="getLang === 'gr' ? 'noto-15-600-1p5' : 'raleway-15-600-1p5'"
               class="form-btn white--text text-uppercase"
               :to="{ path: '/', hash:'#contact-us' }"
-              v-html="$page.hotels.edges[0].node.button.body[getLang]"
-            />
+            >
+              {{ $page.hotels.edges[0].node.button.body[getLang] }}
+            </g-link>
           </div>
           <div class="py-12" />
         </div>
@@ -105,7 +107,7 @@
       </v-container>
     </v-content>
 
-    <v-content class="hidden-md-and-up">
+    <v-content v-show="getViewSize === 'mobile'">
       <v-container class="pa-0 background-color-fafafa" fluid>
 
         <!-- main -->
@@ -124,12 +126,13 @@
               class="color-rgba-0-0-0-p52 pb-7"
               v-html="$page.hotels.edges[0].node.main.body[getLang]"
             />
-            <router-link
+            <g-link
               :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
               class="contact-us-btn-small white--text text-center"
               :to="{ path: '/', hash:'#contact-us-small' }"
-              v-html="$page.hotels.edges[0].node.main.button[getLang]"
-            />
+            >
+              {{ $page.hotels.edges[0].node.main.button[getLang] }}
+            </g-link>
           </v-col>
         </v-row>
 
@@ -139,11 +142,11 @@
             <v-col cols="11">
               <v-img class="mb-4" :src="advantages[i].img" :lazy-src="advantages[i].lazy" />
               <div class="color-333333">
-                <p
+                <div
                   :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
                   v-html="advantage.title[getLang]"
                 />
-                <p
+                <div
                   :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
                   v-html="advantage.body[getLang]"
                 />
@@ -190,12 +193,13 @@
             v-html="$page.hotels.edges[0].node.button.title[getLang]"
           />
           <div class="custom-block">
-            <router-link
+            <g-link
               :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-600'"
               class="form-btn-small white--text text-uppercase"
               :to="{ path: '/', hash:'#contact-us-small' }"
-              v-html="$page.hotels.edges[0].node.button.body[getLang]"
-            />
+            >
+              {{ $page.hotels.edges[0].node.button.body[getLang] }}
+            </g-link>
           </div>
           <div class="py-12" />
         </div>
