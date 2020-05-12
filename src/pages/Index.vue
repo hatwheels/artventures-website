@@ -124,7 +124,7 @@
                       />
                       <a
                         class="btn-grey white--text px-12 py-5 text-uppercase"
-                        :class="getLang === 'gr' ? 'noto-10p5-600' :'montserrat-10p5-600'"
+                        :class="getLang === 'gr' ? 'noto-11p5-600' :'montserrat-11p5-600'"
                         v-html="$page.artists.edges[0].node.button[getLang]"
                         @click="$vuetify.goTo('#contact-us')"
                       />
@@ -319,7 +319,7 @@
               <v-col class="my-1" cols=11>
                 <a
                   class="color-333333 btn-grey white--text px-12 py-5 text-uppercase"
-                  :class="getLang === 'gr' ? 'noto-10p5-600' :'montserrat-10p5-600'"
+                  :class="getLang === 'gr' ? 'noto-11p5-600' :'montserrat-11p5-600'"
                   v-html="$page.artists.edges[0].node.button[getLang]"
                   @click="$vuetify.goTo('#contact-us-small')"
                 />
@@ -849,11 +849,6 @@ query {
   font-size: 10px !important;
   font-weight: 700 !important;
 }
-.noto-10p5-600 {
-  font-family: 'Noto Sans', sans-serif !important;
-  font-size: 10.5px !important;
-  font-weight: 600 !important;
-}
 .noto-11p5-600 {
   font-family: 'Noto Sans', sans-serif !important;
   font-size: 11.5px !important;
@@ -864,11 +859,6 @@ query {
   font-family: 'Montserrat', sans-serif !important;
   font-size: 10px !important;
   font-weight: 700 !important;
-}
-.montserrat-10p5-600 {
-  font-family: 'Montserrat', sans-serif !important;
-  font-size: 10.5px !important;
-  font-weight: 600 !important;
 }
 .montserrat-11p5-600 {
   font-family: 'Montserrat', sans-serif !important;

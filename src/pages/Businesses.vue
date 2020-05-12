@@ -325,6 +325,7 @@ query {
 .learn-more-btn {
   display: inline-block;
   background-color: #4C4C4A;
+  text-decoration: none;
   border-radius: 4px;
   padding: 21px 34px;
   cursor: pointer;
@@ -333,6 +334,7 @@ query {
 .learn-more-btn-small {
   display: inline-block;
   background-color: #4C4C4A;
+  text-decoration: none;
   border-radius: 4px;
   padding: 10.5px 17px;
   cursor: pointer;
