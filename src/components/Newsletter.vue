@@ -28,24 +28,25 @@
       />
       <button
         v-show="getViewSize === 'desktop'"
-        style="background-color: #333333;  border-radius: 4px;"
         :class="getLang === 'gr' ? 'noto-18-400' : 'raleway-18-400'"
-        class="white--text text-capitalize mx-2 py-1 px-4 text-center"
+        class="newsletter-btn white--text text-capitalize mx-2 py-1 px-4 text-center"
         :disabled="btnLoading"
         :loading="btnLoading"
         @click="submit"
-        v-html="emailText[getLang]"
-      />
+      >
+        {{ emailText[getLang] }}
+        <span v-show="btnLoading" class="px-1 lds-ring"><div></div><div></div><div></div><div></div></span>
+      </button>
       <button
         v-show="getViewSize === 'mobile'"
-        style="background-color: #333333; border-radius: 4px;"
         :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
-        class="white--text text-capitalize mx-2 py-1 px-4 text-center"
+        class="newsletter-btn white--text text-capitalize mx-2 py-1 px-4 text-center"
         :disabled="btnLoading"
-        :loading="btnLoading"
         @click="submit"
-        v-html="emailText[getLang]"
-      />
+      >
+        <div v-show="!btnLoading">{{ emailText[getLang] }}</div>
+        <div v-show="btnLoading" class="lds-ring"><div></div><div></div><div></div><div></div></div>
+      </button>
     </form>
 
     <v-dialog v-model="dialog" max-width="290" overlay-color="transparent">
@@ -165,4 +166,45 @@ export default {
 </script>
 
 <style>
+/* Button */
+.newsletter-btn {
+  background-color: #333333;
+  border-radius: 4px;
+}
+/* Loading animation */
+.lds-ring {
+  display: inline-block;
+  position: relative;
+  width: 20px;
+  height: 18px;
+}
+.lds-ring div {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  margin: 0px;
+  border: 4px solid #fff;
+  border-radius: 50%;
+  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: #fff transparent transparent transparent;
+}
+.lds-ring div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+.lds-ring div:nth-child(2) {
+  animation-delay: -0.3s;
+}
+.lds-ring div:nth-child(3) {
+  animation-delay: -0.15s;
+}
+@keyframes lds-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 </style>
