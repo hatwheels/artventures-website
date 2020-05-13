@@ -20,6 +20,7 @@
                   class="text-justify"
                   v-html="qa.a[getLang]"
                 />
+                <br>
               </div>
             </v-col>
           </v-row>
