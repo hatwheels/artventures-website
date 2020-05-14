@@ -1,0 +1,31 @@
+.slide-enter-active {
+  transition: margin-bottom .8s ease-in-out;
+}
+
+.slide-enter {
+  margin-bottom: 200px;
+}
+
+.slide-enter-to {
+  margin-bottom: 0px;
+}
+
+.slideright-enter-active {
+  transition: margin-right 0.8s ease-in-out;
+}
+
+.slideright-enter {
+  margin-right: 300px;
+}
+
+.slideright-enter-to {
+  margin-right: 0px;
+}
+
+.fade-enter-active {
+  transition: opacity 1.0s;
+}
+
+.fade-enter {
+  opacity: 0;
+}

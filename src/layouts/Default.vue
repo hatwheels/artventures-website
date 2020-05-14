@@ -33,19 +33,10 @@
           </v-list>
         </v-menu>
         <v-btn
-          v-if="$route.path == '/'"
           :class="getLang === 'gr' ? 'noto-18-600' : 'nunito-18-600'"
           class="px-2"
           text color="transparent"
-          @click="$vuetify.goTo('#artists')"
-          v-html="routes.forArtists[getLang]"
-        />
-        <v-btn
-          v-else
-          :class="getLang === 'gr' ? 'noto-18-600' : 'nunito-18-600'"
-          class="px-2"
-          text color="transparent"
-          :to="{ path: '/', hash:'#artists' }"
+          to="/artists"
           v-html="routes.forArtists[getLang]"
         />
         <v-btn
@@ -131,13 +122,7 @@
                         <v-icon large color="#757575">mdi-chevron-double-right</v-icon>
                       </v-list-item-icon>
                     </v-list-item>
-                    <v-list-item v-if="$route.path == '/'" class="pb-5 px-0" @click="modalMenu = false; $vuetify.goTo('#artists-small');">
-                      <v-list-item-title
-                        :class="getLang === 'gr' ? 'noto-35-400' : 'raleway-35-400'"
-                        v-html="routes.forArtists[getLang]"
-                      />
-                    </v-list-item>
-                    <v-list-item v-else class="pb-5 px-0" :to="{ path: '/', hash:'#artists-small' }">
+                    <v-list-item class="pb-5 px-0" to="/artists">
                       <v-list-item-title
                         :class="getLang === 'gr' ? 'noto-35-400' : 'raleway-35-400'"
                         v-html="routes.forArtists[getLang]"
@@ -233,7 +218,11 @@
       </v-toolbar-items>
     </v-app-bar>
 
-    <slot />
+    <transition name="fade" appear>
+    <main>
+      <slot />
+    </main>
+    </transition>
 
     <v-footer
       app
@@ -376,6 +365,8 @@ export default {
 </script>
 
 <style>
+@import '../assets/style/transitions.css';
+
 .v-navigation-drawer__border {
   background-color: transparent !important;
 }
