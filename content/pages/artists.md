@@ -10,7 +10,7 @@ main:
         Artventures brings artwork from today’s most talented artists into businesses and real estate nationwide. We work with painters, photographers, illustrators, sculptors, and installation artists to provide our clients with collections of artwork that are engaging and personal.
   button:
     en: Show us your Art
-    gr: Δείξε μας την Τέχνη σου
+    gr: Δειξε μας την Τεχνη σου
 
 advantages:
   - title:
@@ -72,7 +72,7 @@ button:
     gr: Γίνε μέλος της ομάδας μας
   body:
     en: Become our Artist
-    gr: Γίνε Καλλιτέχνης μας
+    gr: Γινε Καλλιτεχνης μας
 
 artisttestimonials:
   title:

@@ -105,12 +105,12 @@
             class="pb-6"
             v-html="$page.artists.edges[0].node.button.title[getLang]"
           />
-          <g-link
+          <a
             :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-600'"
             class="join-btn white--text text-uppercase"
           >
             {{ $page.artists.edges[0].node.button.body[getLang] }}
-          </g-link>
+          </a>
         </div>
 
         <!-- spacer with divider -->
@@ -149,7 +149,7 @@
         </div>
 
         <!-- Contact -->
-        <div class="pb-12">
+        <div  class="pb-12">
           <contact-us />
         </div>
 
@@ -252,12 +252,12 @@
             class="pb-6"
             v-html="$page.artists.edges[0].node.button.title[getLang]"
           />
-          <g-link
+          <a
             :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-600'"
             class="join-btn white--text text-uppercase"
           >
             {{ $page.artists.edges[0].node.button.body[getLang] }}
-          </g-link>
+          </a>
         </div>
 
         <!-- spacer with divider -->

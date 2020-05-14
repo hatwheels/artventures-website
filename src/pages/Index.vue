@@ -122,12 +122,13 @@
                         class="pb-8"
                         v-html="$page.artists.edges[0].node.body[getLang]"
                       />
-                      <a
+                      <g-link
                         class="btn-grey white--text px-12 py-5 text-uppercase"
                         :class="getLang === 'gr' ? 'noto-11p5-600' :'montserrat-11p5-600'"
-                        v-html="$page.artists.edges[0].node.button[getLang]"
-                        @click="$vuetify.goTo('#contact-us')"
-                      />
+                        :to="artists.route"
+                      >
+                        {{ $page.artists.edges[0].node.button[getLang] }}
+                      </g-link>
                     </div>
                 </v-col>
               </v-row>
@@ -317,12 +318,13 @@
             </v-row>
             <v-row class="my-1" justify="center" align="center">
               <v-col class="my-1" cols=11>
-                <a
+                <g-link
                   class="color-333333 btn-grey white--text px-12 py-5 text-uppercase"
                   :class="getLang === 'gr' ? 'noto-11p5-600' :'montserrat-11p5-600'"
-                  v-html="$page.artists.edges[0].node.button[getLang]"
-                  @click="$vuetify.goTo('#contact-us-small')"
-                />
+                  :to="artists.route"
+                >
+                  {{ $page.artists.edges[0].node.button[getLang] }}
+                </g-link>
               </v-col>
             </v-row>
             <v-row
@@ -526,6 +528,7 @@ export default {
         isActive: false,
         img: 'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto/v1582416241/artventures/img17.jpg',
         lazy: 'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto,h_100/v1582416241/artventures/img17.jpg',
+        route: '/artists'
       },
       // Benefits
       benefits: [
