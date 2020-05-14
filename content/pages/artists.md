@@ -7,7 +7,7 @@ main:
     en: |+
         Artventures brings artwork from today’s most talented artists into businesses and real estate nationwide. We work with painters, photographers, illustrators, sculptors, and installation artists to provide our clients with collections of artwork that are engaging and personal.
     gr: |+
-      FF
+        Artventures brings artwork from today’s most talented artists into businesses and real estate nationwide. We work with painters, photographers, illustrators, sculptors, and installation artists to provide our clients with collections of artwork that are engaging and personal.
   button:
     en: Show us your Art
     gr: Δείξε μας την Τέχνη σου
@@ -20,7 +20,7 @@ advantages:
       en: |+
         The Artventures Artist Team is ready to help with anything you may need, so never hesitate to be in touch. We’re artists ourselves, and we’re dedicated to your happiness and success.
       gr: |+
-        FF
+        The Artventures Artist Team is ready to help with anything you may need, so never hesitate to be in touch. We’re artists ourselves, and we’re dedicated to your happiness and success.
   - title:
       en: Grow Your Audience
       gr: Αύξησε το Κοινο σου
@@ -28,7 +28,7 @@ advantages:
       en: |+
         Artventures brings artwork from today’s most talented artists into businesses and real estate nationwide. We work with painters, photographers, illustrators, sculptors, and installation artists to provide our clients with collections of artwork that are engaging and personal.
       gr: |+
-        FF
+        Artventures brings artwork from today’s most talented artists into businesses and real estate nationwide. We work with painters, photographers, illustrators, sculptors, and installation artists to provide our clients with collections of artwork that are engaging and personal.
   - title:
       en: Focus On Your Art
       gr: Επικεντρώσου στην Τέχνη
@@ -36,7 +36,7 @@ advantages:
       en: |+
         Using the inventory information, you’ve provided through your Artist Dashboard, our team finds the right spaces for your work. We’ll take care of all of the details in marketing, sales, and logistics to free up your time to focus in the studio.
       gr: |+
-        FF
+        Using the inventory information, you’ve provided through your Artist Dashboard, our team finds the right spaces for your work. We’ll take care of all of the details in marketing, sales, and logistics to free up your time to focus in the studio.
 earnings:
   title:
     en: Three Ways To Earn
@@ -65,8 +65,7 @@ earnings:
         en: |+
           Earn revenue on site specific and commissioned client projects.
         gr: |+
-          FF
-
+          Earn revenue on site specific and commissioned client projects.
 button:
   title:
     en: Join the Artventures team
@@ -75,7 +74,7 @@ button:
     en: Become our Artist
     gr: Γίνε Καλλιτέχνης μας
 
-testimonials:
+artisttestimonials:
   title:
     en: Testimonials from our Artists
     gr: Μαρτυρίες από τους Καλλιτέχνες μας
@@ -96,4 +95,12 @@ testimonials:
       author:
         en: "— Yorgis Yerolymbos"
         gr: "— Γιώργης Γερόλυμπος"
+    - quote:
+        en: |+
+          “I couldn’t ask for a better service or help for an artist. Artventures is an amazing idea and the people behind it are even more special”
+        gr: |+
+          “I couldn’t ask for a better service or help for an artist. Artventures is an amazing idea and the people behind it are even more special”
+      author:
+        en: "— Babis Melikidis"
+        gr: "— Μπάπμης Μελικίδης"
 ---

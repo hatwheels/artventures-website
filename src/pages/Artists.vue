@@ -7,7 +7,7 @@
         <!-- Main -->
         <v-row class="pt-12 pl-12 pr-10 pb-5" justify="space-between" align="center">
           <v-col class="pl-4 pr-0 col-artists-width">
-            <!-- <v-img contain :src="artists.img" :lazy-src="artists.lazy" /> -->
+            <v-img contain :src="artists.img" :lazy-src="artists.lazy" />
           </v-col>
           <v-col class="pl-0 pr-5 col-artists-width">
               <div class="color-333333">
@@ -30,8 +30,10 @@
           </v-col>
         </v-row>
 
+        <!-- Spacer -->
         <div class="py-6" />
 
+        <!-- Advantages -->
         <div class="py-12">
           <!-- <v-row class="px-12 pb-3" justify="space-between">
             <v-col cols="4" v-for="(benefit, i) in benefits" :key="'benefit-img-' + i">
@@ -118,14 +120,14 @@
 
         <!-- Testimonials -->
         <div
-          :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
-          class="pb-6"
-          v-html="$page.artists.edges[0].node.testimonials.title[getLang]"
+          :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
+          class="pt-10 pb-6 text-center"
+          v-html="$page.artists.edges[0].node.artisttestimonials.title[getLang]"
         />
-        <v-row class="pt-12" justify="space-around" align="center">
+        <v-row class="py-12" justify="space-around" align="center">
           <v-col
             class="col-artists-testimonials-width"
-            v-for="(testimonial, i) in $page.artists.edges[0].node.testimonials.items"
+            v-for="(testimonial, i) in $page.artists.edges[0].node.artisttestimonials.items"
             :key="'testimonial-' + i"
           >
             <div
@@ -141,6 +143,11 @@
           </v-col>
         </v-row>
 
+        <!-- spacer with divider -->
+        <div class="pt-8">
+          <div class="background-color-dddddd custom-divider" />
+        </div>
+
         <!-- Contact -->
         <div class="pb-12">
           <contact-us />
@@ -148,6 +155,151 @@
 
       </v-container>
     </v-content>
+
+    <v-content v-show="getViewSize === 'mobile'">
+      <v-container class="pa-0 background-color-fafafa" fluid>
+
+        <!-- Main -->
+        <v-row justify="center" align="center">
+          <v-col cols=11>
+            <v-img :src="artists.img" :lazy-src="artists.lazy" />
+          </v-col>
+        </v-row>
+        <v-row justify="center" align="center">
+          <v-col cols=11>
+              <div class="color-333333">
+                <div
+                  :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+                  class="pb-9"
+                  v-html="$page.artists.edges[0].node.main.title[getLang]"
+                />
+                <div
+                  :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                  class="pb-8"
+                  v-html="$page.artists.edges[0].node.main.body[getLang]"
+                />
+                <a
+                  class="btn-grey white--text px-12 py-5 text-uppercase"
+                  :class="getLang === 'gr' ? 'noto-11p5-600' :'montserrat-11p5-600'"
+                  v-html="$page.artists.edges[0].node.main.button[getLang]"
+                />
+            </div>
+          </v-col>
+        </v-row>
+
+        <!-- Advantages -->
+        <div class="pt-12">
+          <v-row
+            justify="center"
+            v-for="(advantage, i) in $page.artists.edges[0].node.advantages"
+            :key="'advantage-small-' + i">
+            <v-col cols=11>
+              <!-- <v-img class="mb-4" :src="benefits[i].img" :lazy-src="benefits[i].lazy" /> -->
+              <div class="color-333333 pb-6">
+                <div
+                  :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+                  v-html="advantage.title[getLang]"
+                />
+                <div
+                  :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                  v-html="advantage.body[getLang]"
+                />
+              </div>
+            </v-col>
+          </v-row>
+        </div>
+
+        <!-- spacer with divider -->
+        <div class="py-8">
+          <div class="background-color-dddddd custom-divider-small" />
+        </div>
+
+        <!-- Earnings -->
+        <div class="text-center">
+          <div
+            :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+            class="pb-6"
+            v-html="$page.artists.edges[0].node.earnings.title[getLang]"
+          />
+          <v-row justify="center" align="start">
+            <v-col
+              cols=3
+              v-for="(earning, i) in $page.artists.edges[0].node.earnings.items"
+              :key="'earning-small-' + i"
+            >
+              <div
+                class="pb-3"
+                :class="getLang === 'gr' ? 'noto-25-600' : 'playfair-25-600'"
+                v-html="earning.title[getLang]"
+              />
+              <div
+                :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
+                v-html="earning.body[getLang]"
+              />
+            </v-col>
+          </v-row>
+        </div>
+
+        <!-- spacer with divider -->
+        <div class="py-8">
+          <div class="background-color-dddddd custom-divider-small" />
+        </div>
+
+        <!-- Button -->
+        <div class="text-center custom-block">
+          <div
+            :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+            class="pb-6"
+            v-html="$page.artists.edges[0].node.button.title[getLang]"
+          />
+          <g-link
+            :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-600'"
+            class="join-btn white--text text-uppercase"
+          >
+            {{ $page.artists.edges[0].node.button.body[getLang] }}
+          </g-link>
+        </div>
+
+        <!-- spacer with divider -->
+        <div class="py-8">
+          <div class="background-color-dddddd custom-divider-small" />
+        </div>
+
+        <!-- Testimonials -->
+        <div
+          :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
+          class="pt-10 pb-6 text-center"
+          v-html="$page.artists.edges[0].node.artisttestimonials.title[getLang]"
+        />
+        <v-row
+          justify="center" align="center"
+          v-for="(testimonial, i) in $page.artists.edges[0].node.artisttestimonials.items"
+          :key="'testimonial-small-' + i"
+          >
+          <v-col class="pt-0 pb-6 color-1a1a1a" cols=11>
+            <div
+              :class="getLang === 'gr' ? 'noto-18-400-1p4em' : 'playfair-18-400-1p4em'"
+              class="text-center"
+              v-html="testimonial.quote[getLang]"
+            />
+            <div
+              :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-600'"
+              class="text-center pt-2"
+              v-html="testimonial.author[getLang]"
+            />
+          </v-col>
+        </v-row>
+
+        <!-- spacer with divider -->
+        <div class="pt-8">
+          <div class="background-color-dddddd custom-divider-small" />
+        </div>
+
+        <contact-us class="pb-12" :isSmall="true" colWidth="11" />
+
+      </v-container>
+    </v-content>
+
 
   </Layout>
 </template>
@@ -159,6 +311,14 @@ import ContactUs from '~/components/ContactUs.vue'
 export default {
   components: {
     ContactUs,
+  },
+  data () {
+    return {
+      artists: {
+        img: 'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto/v1582416241/artventures/img14.jpg',
+        lazy: 'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto,h_100/v1582416241/artventures/img14.jpg',
+      }
+    }
   },
   computed: {
     ...mapGetters(['getLang']),
@@ -229,7 +389,7 @@ query {
           gr
         }
       }
-      testimonials {
+      artisttestimonials {
         title {
           en
           gr
@@ -257,6 +417,13 @@ query {
   height: 1px;
   margin-right: 25vw;
   margin-left: 25vw;
+}
+
+.custom-divider-small {
+  width: 80vw;
+  height: 1px;
+  margin-right: 10vw;
+  margin-left: 10vw;
 }
 
 .custom-block {

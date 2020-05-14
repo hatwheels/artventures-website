@@ -166,7 +166,7 @@
           v-for="(testimonial, i) in $page.hotels.edges[0].node.testimonials"
           :key="'hot-testimonials-small-' + i"
         >
-          <v-col class="pt-0 pb-4 color-1a1a1a" cols=11>
+          <v-col class="pt-0 pb-6 color-1a1a1a" cols=11>
             <div
               :class="getLang === 'gr' ? 'noto-18-400-1p4em' : 'playfair-18-400-1p4em'"
               class="text-center"
