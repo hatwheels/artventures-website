@@ -379,7 +379,13 @@ collections:
                 fields:
                   - {label: english, name: en, widget: markdown}
                   - {label: greek, name: gr, widget: markdown}
-          - label: Adavantages
+              - label: Button
+                name: button
+                widget: object
+                fields:
+                  - {label: english, name: en, widget: string}
+                  - {label: greek, name: gr, widget: string}
+          - label: Advantages
             name: advantages
             widget: list
             fields:
@@ -435,21 +441,15 @@ collections:
                 name: body
                 widget: object
                 fields:
-                  - {label: english, name: en, widget: markdown}
-                  - {label: greek, name: gr, widget: markdown}
+                  - {label: english, name: en, widget: string}
+                  - {label: greek, name: gr, widget: string}
           - label: Testimonials
             name: testimonials
-            widget: list
+            widget: object
             fields:
-              - label: Quote
-                name: quote
+              - label: Title
+                name: title
                 widget: object
-                fields:
-                  - {label: english, name: en, widget: markdown}
-                  - {label: greek, name: gr, widget: markdown}
-              - label: Author
-                name: author
-                widget: author
                 fields:
                   - {label: english, name: en, widget: string}
                   - {label: greek, name: gr, widget: string}

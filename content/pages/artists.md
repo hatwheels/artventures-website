@@ -2,81 +2,98 @@
 main:
   title:
     en: You create. We do all the work.
-    gr: 
+    gr: Εσύ δημιουργείς. Εμείς κάνουμε όλη την δουλειά
   body:
     en: |+
         Artventures brings artwork from today’s most talented artists into businesses and real estate nationwide. We work with painters, photographers, illustrators, sculptors, and installation artists to provide our clients with collections of artwork that are engaging and personal.
     gr: |+
-      
+      FF
+  button:
+    en: Show us your Art
+    gr: Δείξε μας την Τέχνη σου
+
 advantages:
   - title:
       en: Your Artist Team
-      gr:
+      gr: Η καλλιτεχνική σου Ομάδα
     body:
       en: |+
         The Artventures Artist Team is ready to help with anything you may need, so never hesitate to be in touch. We’re artists ourselves, and we’re dedicated to your happiness and success.
       gr: |+
-
+        FF
   - title:
       en: Grow Your Audience
-      gr:
+      gr: Αύξησε το Κοινο σου
     body:
       en: |+
         Artventures brings artwork from today’s most talented artists into businesses and real estate nationwide. We work with painters, photographers, illustrators, sculptors, and installation artists to provide our clients with collections of artwork that are engaging and personal.
       gr: |+
-
+        FF
   - title:
       en: Focus On Your Art
-      gr:
+      gr: Επικεντρώσου στην Τέχνη
     body:
       en: |+
         Using the inventory information, you’ve provided through your Artist Dashboard, our team finds the right spaces for your work. We’ll take care of all of the details in marketing, sales, and logistics to free up your time to focus in the studio.
       gr: |+
-        
+        FF
 earnings:
   title:
     en: Three Ways To Earn
-    gr:
+    gr: Τρεις Τρόποι να κερδίσεις
   items:
     - title:
         en: Leasing
-        gr:
+        gr: Μίσθωση
       body:
         en: |+
           Earn a percentage of the artwork’s retail price for every month a piece is leased.
         gr: |+
-
+          Κέρδισε ένα ποσοστό της λιανικής τιμής του έργου για τον κάθε μήνα που ενοικιάζεται.
     - title:
         en: Sales
-        gr:
+        gr: Πωλήσεις
       body:
         en: |+
           Earn a commission from selling your work with Artventures.
         gr: |+
-
+          Κέρδισε προμήθεια απ' την πώληση του έργου σου μέσω της Artventures.
     - title:
         en: Commissions
-        gr:
+        gr: Προμήθειες
       body:
         en: |+
           Earn revenue on site specific and commissioned client projects.
         gr: |+
+          FF
+
 button:
   title:
     en: Join the Artventures team
-    gr:
+    gr: Γίνε μέλος της ομάδας μας
   body:
-    en: |+
-      Become our Artist
-    gr: |+
-      
+    en: Become our Artist
+    gr: Γίνε Καλλιτέχνης μας
+
 testimonials:
-  - quote:
-      en: |+
-        
-      gr: |+
-        
-    author:
-      en:
-      gr:
+  title:
+    en: Testimonials from our Artists
+    gr: Μαρτυρίες από τους Καλλιτέχνες μας
+  items:
+    - quote:
+        en: |+
+          “Artventures is a wonderful idea, and a great way to get more exposure and buyers. But above all, it’s a rare team with passionate, amazing people who love art and artists and do everything to help us.”
+        gr: |+
+          “Η Artventures είναι μια καταπληκτική ιδέα, και ένας εξαιρετικός τρόπος μεγαλύτερης προβολής και περισσότερων αγοαστών. Πάνω απ' όλα όμως είναι μια σπάνια ομάδα με φανταστικούς, ενθουσιώδεις ανθρώπους που αγαπάνε την Τέχνη και τους καλλιτέχνες και κάνουν τα πάντα για να μας βοηθήσουν.”
+      author:
+        en: "— Kostas Vaviloussakis"
+        gr: "— Κώστας Βαβιλουσσάκης"
+    - quote:
+        en: |+
+          “I’m very happy to be a part of the Artventures since the beginning. They’re kind, helpful and trustworthy. And most of all they’re great guys and take care of my work.”
+        gr: |+
+          “Είμαι πολύ χαρούμενος που είμαι μέλος της Artventures από την αρχή. Είναι ευγενικοί, εξυπηρετικοί και αξιόπιστοι. Και πάνω απ' όλα είναι απίθανοι τύποι και φροντίζουν για την δουλεία μου.”
+      author:
+        en: "— Yorgis Yerolymbos"
+        gr: "— Γιώργης Γερόλυμπος"
 ---
