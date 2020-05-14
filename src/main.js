@@ -37,6 +37,17 @@ export default function (Vue, { appOptions, router, head, isClient }) {
   Vue.use(Vuetify)
   appOptions.vuetify = new Vuetify(vuetifyOpts)
 
+  // router.options.scrollBehavior = function(to, from, savedPosition) {
+  //   if (to.hash) {
+  //   } else {
+  //     return savedPosition || { x: 0, y: 0 }
+  //   }
+  // }
+  // router.afterEach((to, from) => {
+  //   if (to.hash) {
+  //   }
+  // })
+
   const vuexOpts = {
     actions: {
       async mcSubscribe({commit}, params) {
@@ -95,7 +106,7 @@ export default function (Vue, { appOptions, router, head, isClient }) {
       },
       getLanguages: state => {
         return state.languages
-      }
+      },
     },
     mutations: {
       setLang (state, val) {

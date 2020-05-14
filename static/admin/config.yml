@@ -357,4 +357,99 @@ collections:
                 fields:
                   - {label: english, name: en, widget: markdown}
                   - {label: greek, name: gr, widget: markdown}
-
+      # Artists page
+      - label: Artists
+        name: artists
+        file: "content/pages/artists.md"
+        extension: 'md'
+        field:
+          - label: Main
+            name: main
+            widget: object
+            fields:
+              - label: Title
+                name: title
+                widget: object
+                fields:
+                  - {label: english, name: en, widget: string}
+                  - {label: greek, name: gr, widget: string}
+              - label: Body
+                name: body
+                widget: object
+                fields:
+                  - {label: english, name: en, widget: markdown}
+                  - {label: greek, name: gr, widget: markdown}
+          - label: Adavantages
+            name: advantages
+            widget: list
+            fields:
+              - label: Title
+                name: title
+                widget: object
+                fields:
+                  - {label: english, name: en, widget: string}
+                  - {label: greek, name: gr, widget: string}
+              - label: Body
+                name: body
+                widget: object
+                field:
+                  - {label: english, name: en, widget: markdown}
+                  - {label: greek, name: gr, widget: markdown}
+          - label: Earnings
+            name: earnings
+            widget: object
+            fields:
+              - label: Title
+                name: title
+                widget: object
+                fields:
+                  - {label: english, name: en, widget: string}
+                  - {label: greek, name: gr, widget: string}
+              - label: Earning items
+                name: items
+                widget: list
+                fields:
+                  - label: Title
+                    name: title
+                    widget: object
+                    fields:
+                      - {label: english, name: en, widget: string}
+                      - {label: greek, name: gr, widget: string}
+                  - label: Body
+                    name: body
+                    widget: object
+                    fields:
+                      - {label: english, name: en, widget: markdown}
+                      - {label: greek, name: gr, widget: markdown}
+          - label: Button
+            name: button
+            widget: object
+            fields:
+              - label: Title
+                name: title
+                widget: object
+                fields:
+                  - {label: english, name: en, widget: string}
+                  - {label: greek, name: gr, widget: string}
+              - label: Body
+                name: body
+                widget: object
+                fields:
+                  - {label: english, name: en, widget: markdown}
+                  - {label: greek, name: gr, widget: markdown}
+          - label: Testimonials
+            name: testimonials
+            widget: list
+            fields:
+              - label: Quote
+                name: quote
+                widget: object
+                fields:
+                  - {label: english, name: en, widget: markdown}
+                  - {label: greek, name: gr, widget: markdown}
+              - label: Author
+                name: author
+                widget: author
+                fields:
+                  - {label: english, name: en, widget: string}
+                  - {label: greek, name: gr, widget: string}

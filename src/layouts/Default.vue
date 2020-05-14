@@ -233,7 +233,11 @@
       </v-toolbar-items>
     </v-app-bar>
 
-    <slot />
+    <transition name="fade" appear>
+    <main>
+      <slot />
+    </main>
+    </transition>
 
     <v-footer
       app
@@ -376,6 +380,8 @@ export default {
 </script>
 
 <style>
+@import '../assets/style/transitions.css';
+
 .v-navigation-drawer__border {
   background-color: transparent !important;
 }
