@@ -362,7 +362,7 @@ collections:
         name: artists
         file: "content/pages/artists.md"
         extension: 'md'
-        field:
+        fields:
           - label: Main
             name: main
             widget: object
@@ -398,7 +398,7 @@ collections:
               - label: Body
                 name: body
                 widget: object
-                field:
+                fields:
                   - {label: english, name: en, widget: markdown}
                   - {label: greek, name: gr, widget: markdown}
           - label: Earnings
