@@ -21,7 +21,7 @@
                   :class="getLang === 'gr' ? 'noto-10-700' : 'montserrat-10-700'"
                   v-html="navItem[getLang]"
                 />
-                <v-btn :id="'nav-' + i" :ripple="false" x-small icon @click="$vuetify.goTo(navItem.tag)">
+                <v-btn :id="'nav-' + i" :ripple="false" x-small icon @click="goTo(navItem.tag)">
                   <v-icon v-if="!navItem.active" :color="hover ? 'black' : ''" small>mdi-checkbox-blank-circle-outline</v-icon>
                   <v-icon v-else size="23" color="black">mdi-record-circle-outline</v-icon>
                 </v-btn>
@@ -750,6 +750,20 @@ export default {
     ...mapGetters(['getLang']),
   },
   methods: {
+    // Go To anchor tag with smooth scrolling
+    goTo(tag) {
+      // Hack to reach id if page too long
+      this.$vuetify.goTo(tag, {
+        duration: 400,
+        easings: 'easeInSine'
+      })
+      setTimeout(() => {
+        this.$vuetify.goTo(tag, {
+          duration: 400,
+          easings: 'easeOutSine'
+        })
+      }, 400)
+    },
     /* CSS transition on View */
     // About Section
     // Text

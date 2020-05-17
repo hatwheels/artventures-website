@@ -7,6 +7,7 @@ import './assets/style/index.scss'
 import DefaultLayout from '~/layouts/Default.vue'
 import axios from 'axios'
 import VueWaypoint from "vue-waypoint"
+import goTo from 'vuetify/es5/services/goto'
 
 export default function (Vue, { appOptions, router, head, isClient }) {
   head.link.push({
@@ -37,12 +38,24 @@ export default function (Vue, { appOptions, router, head, isClient }) {
   Vue.use(Vuetify)
   appOptions.vuetify = new Vuetify(vuetifyOpts)
 
-  // router.options.scrollBehavior = function(to, from, savedPosition) {
-  //   if (to.hash) {
-  //   } else {
-  //     return savedPosition || { x: 0, y: 0 }
-  //   }
-  // }
+  router.options.scrollBehavior = function(to, from, savedPosition) {
+    if (to.hash) {
+      // Go To anchor tag with smooth scrolling
+      // Hack to reach id if page too long
+      goTo(to.hash, {
+        duration: 400,
+        easings: 'easeInSine'
+      })
+      return setTimeout(() => {
+        goTo(to.hash, {
+          duration: 400,
+          easings: 'easeOutSine'
+        })
+      }, 400)
+    } else {
+      return savedPosition || { x: 0, y: 0 }
+    }
+  }
   // router.afterEach((to, from) => {
   //   if (to.hash) {
   //   }
