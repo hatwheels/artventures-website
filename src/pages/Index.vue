@@ -42,20 +42,44 @@
           >
             <v-row justify="space-between" align="center">
               <v-col cols="5">
-                <v-img contain width="42vw" :src="about.img" :lazy-src="about.lazy" />
+                <v-img
+                  contain
+                  width="42vw"
+                  :src="about.img" :lazy-src="about.lazy"
+                />
               </v-col>
               <v-col class="pl-2 pr-12" cols="6">
-                <div class="pr-8">
-                  <div
-                    :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
-                    class="color-333333 pb-7 pr-12"
-                    v-html="$page.about.edges[0].node.title[getLang]"
-                  />
-                  <div
-                    :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                    class="color-333333 pb-4 pr-12"
-                    v-html="$page.about.edges[0].node.body[getLang]"
-                  />
+                <div class="pr-8" v-waypoint="{ active: true, callback: onAboutTextEl, options: elIsOpt }">
+
+                  <template v-if="aboutTextEl">
+                    <transition name="slide" appear>
+                      <div>
+                        <div
+                          :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+                          class="color-333333 pb-7 pr-12"
+                          v-html="$page.about.edges[0].node.title[getLang]"
+                        />
+                        <div
+                          :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                          class="color-333333 pb-4 pr-12"
+                          v-html="$page.about.edges[0].node.body[getLang]"
+                        />
+                      </div>
+                    </transition>
+                  </template>
+                  <template v-else>
+                    <div
+                      :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+                      class="color-333333 pb-7 pr-12"
+                      v-html="$page.about.edges[0].node.title[getLang]"
+                    />
+                    <div
+                      :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                      class="color-333333 pb-4 pr-12"
+                      v-html="$page.about.edges[0].node.body[getLang]"
+                    />
+                  </template>
+
                 </div>
               </v-col>
             </v-row>
@@ -69,30 +93,46 @@
             class="px-12 background-color-white"
             v-waypoint="{ active: true, callback: onExplore, options: intersectOptions }"
           >
-            <div
-              :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
-              class="pb-10 my-0 text-center"
-              v-html="$page.explore.edges[0].node.title[getLang]"
-            />
+            <div v-waypoint="{ active: true, callback: onExploreEl, options: elIsOpt }">
+              <template v-if="exploreEl">
+                <transition name="surf" appear>
+                  <div
+                    :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
+                    class="pb-10 my-0 text-center"
+                    v-html="$page.explore.edges[0].node.title[getLang]"
+                  />
+                </transition>
+              </template>
+              <template v-else>
+                <div
+                  :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
+                  class="pb-10 my-0 text-center"
+                  v-html="$page.explore.edges[0].node.title[getLang]"
+                />
+              </template>
+            </div>
             <v-row class="pt-12" justify="space-between" align="center">
               <v-col class="px-4" cols="4" v-for="(image, i) in $page.explore.edges[0].node.images" :key="'exploreImages-' + i">
-                  <v-img gradient="to top right, rgba(0,0,0,.15), rgba(0,0,0,.15)" :src="explore.images[i].img">
-                    <div style="height: 100%" class="d-flex flex-column justify-center align-center">
-                      <div
-                        :class="getLang === 'gr' ? 'noto-44-700' : 'raleway-44-700'"
-                        class="white--text"
-                        v-html="image[getLang]"
-                      />
-                      <g-link
-                        class="btn-grey white--text px-12 py-5 text-uppercase"
-                        :class="getLang === 'gr' ? 'noto-11p5-600' :'montserrat-11p5-600'"
-                        v-html="$page.explore.edges[0].node.button[getLang]"
-                        :to="explore.images[i].route"
-                      >
-                        {{ $page.explore.edges[0].node.button[getLang] }}
-                      </g-link>
-                    </div>
-                  </v-img>
+                <v-img
+                  gradient="to top right, rgba(0,0,0,.15), rgba(0,0,0,.15)"
+                  :src="explore.images[i].img"
+                >
+                  <div style="height: 100%" class="d-flex flex-column justify-center align-center">
+                    <div
+                      :class="getLang === 'gr' ? 'noto-44-700' : 'raleway-44-700'"
+                      class="white--text"
+                      v-html="image[getLang]"
+                    />
+                    <g-link
+                      class="btn-grey white--text px-12 py-5 text-uppercase"
+                      :class="getLang === 'gr' ? 'noto-11p5-600' :'montserrat-11p5-600'"
+                      v-html="$page.explore.edges[0].node.button[getLang]"
+                      :to="explore.images[i].route"
+                    >
+                      {{ $page.explore.edges[0].node.button[getLang] }}
+                    </g-link>
+                  </div>
+                </v-img>
               </v-col>
             </v-row>
           </div>
@@ -105,52 +145,96 @@
             class="background-color-dedede pt-12 pb-10"
             v-waypoint="{ active: true, callback: onArtists, options: intersectOptions }"
           >
-            <div>
-              <v-row class="pt-12 pl-12 pr-10 pb-5" justify="space-between" align="center">
-                <v-col class="pl-4 pr-0 col-artists-width">
-                  <v-img contain :src="artists.img" :lazy-src="artists.lazy" />
-                </v-col>
-                <v-col class="pl-0 pr-5 col-artists-width">
-                    <div class="color-333333">
-                      <div
-                        :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
-                        class="pb-9"
-                        v-html="$page.artists.edges[0].node.title[getLang]"
-                      />
-                      <div
-                        :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                        class="pb-8"
-                        v-html="$page.artists.edges[0].node.body[getLang]"
-                      />
-                      <g-link
-                        class="btn-grey white--text px-12 py-5 text-uppercase"
-                        :class="getLang === 'gr' ? 'noto-11p5-600' :'montserrat-11p5-600'"
-                        :to="artists.route"
-                      >
-                        {{ $page.artists.edges[0].node.button[getLang] }}
-                      </g-link>
-                    </div>
-                </v-col>
-              </v-row>
-              <v-row class="py-3" justify="space-around" align="center">
-                <v-col
-                  class="color-1a1a1a col-testimonials-width"
-                  v-for="(testimonial, i) in $page.artists.edges[0].node.testimonials"
-                  :key="'artists-testimonials-' + i"
-                >
-                  <div
-                    :class="getLang === 'gr' ? 'noto-18-400-1p4em' : 'playfair-18-400-1p4em'"
-                    class="text-center"
-                    v-html="testimonial.quote[getLang]"
-                  />
-                  <div
-                    :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-600'"
-                    class="text-center pt-2"
-                    v-html="testimonial.author[getLang]"
-                  />
-                </v-col>
-              </v-row>
-            </div>
+            <v-row class="pt-12 pl-12 pr-10 pb-5" justify="space-between" align="center">
+              <v-col class="pl-4 pr-0 col-artists-width">
+                <v-img contain :src="artists.img" :lazy-src="artists.lazy" />
+              </v-col>
+              <v-col class="pl-0 pr-5 col-artists-width">
+                <div class="color-333333" v-waypoint="{ active: true, callback: onArtistsTextEl, options: elIsOpt }">
+                  <!-- -->
+                  <template v-if="artistsTextEl">
+                    <transition name="slide" appear>
+                      <div>
+                        <div
+                          :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+                          class="pb-9"
+                          v-html="$page.artists.edges[0].node.title[getLang]"
+                        />
+                        <div
+                          :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                          class="pb-8"
+                          v-html="$page.artists.edges[0].node.body[getLang]"
+                        />
+                        <g-link
+                          class="btn-grey white--text px-12 py-5 text-uppercase"
+                          :class="getLang === 'gr' ? 'noto-11p5-600' :'montserrat-11p5-600'"
+                          :to="artists.route"
+                        >
+                          {{ $page.artists.edges[0].node.button[getLang] }}
+                        </g-link>
+                      </div>
+                    </transition>
+                  </template>
+                  <template v-else>
+                    <div
+                      :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+                      class="pb-9"
+                      v-html="$page.artists.edges[0].node.title[getLang]"
+                    />
+                    <div
+                      :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                      class="pb-8"
+                      v-html="$page.artists.edges[0].node.body[getLang]"
+                    />
+                    <g-link
+                      class="btn-grey white--text px-12 py-5 text-uppercase"
+                      :class="getLang === 'gr' ? 'noto-11p5-600' :'montserrat-11p5-600'"
+                      :to="artists.route"
+                    >
+                      {{ $page.artists.edges[0].node.button[getLang] }}
+                    </g-link>
+                  </template>
+                </div>
+              </v-col>
+            </v-row>
+            <v-row class="py-3" justify="space-around" align="center">
+              <v-col
+                class="color-1a1a1a col-testimonials-width"
+                v-for="(testimonial, i) in $page.artists.edges[0].node.testimonials"
+                :key="'artists-testimonials-' + i"
+              >
+                <div v-waypoint="{ active: true, callback: onArtistsTestimonialsEl, options: elIsOpt }">
+                  <template v-if="artistsTestimonialsEl">
+                    <transition name="ride" appear>
+                      <div>
+                        <div
+                          :class="getLang === 'gr' ? 'noto-18-400-1p4em' : 'playfair-18-400-1p4em'"
+                          class="text-center"
+                          v-html="testimonial.quote[getLang]"
+                        />
+                        <div
+                          :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-600'"
+                          class="text-center pt-2"
+                          v-html="testimonial.author[getLang]"
+                        />
+                      </div>
+                    </transition>
+                  </template>
+                  <template v-else>
+                    <div
+                      :class="getLang === 'gr' ? 'noto-18-400-1p4em' : 'playfair-18-400-1p4em'"
+                      class="text-center"
+                      v-html="testimonial.quote[getLang]"
+                    />
+                    <div
+                      :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-600'"
+                      class="text-center pt-2"
+                      v-html="testimonial.author[getLang]"
+                    />
+                  </template>
+                </div>
+              </v-col>
+            </v-row>
           </div>
 
           <!-- Benefits -->
@@ -167,15 +251,35 @@
               </v-row>
               <v-row class="px-12 pt-3" justify="space-between">
                 <v-col class="color-333333" cols="4" v-for="(benefit, i) in $page.benefits.edges[0].node.benefits" :key="'benefit-text-' + i">
-                  <div>
-                    <div
-                      :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
-                      v-html="benefit.title[getLang]"
-                    />
-                    <div
-                      :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                      v-html="benefit.body[getLang]"
-                    />
+                  <div v-waypoint="{ active: true, callback: onBenefitsTextEl, options: elIsOpt }">
+                    <template v-if="benefitsTextEl">
+                      <transition name="ride" appear>
+                        <div>
+                          <div
+                            class="pb-3"
+                            :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+                            v-html="benefit.title[getLang]"
+                          />
+                          <div
+                            :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                            v-html="benefit.body[getLang]"
+                          />
+                        </div>
+                      </transition>
+                    </template>
+                    <template v-else>
+                      <div>
+                        <div
+                          class="pb-3"
+                          :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+                          v-html="benefit.title[getLang]"
+                        />
+                        <div
+                          :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                          v-html="benefit.body[getLang]"
+                        />
+                      </div>
+                    </template>
                   </div>
                 </v-col>
               </v-row>
@@ -188,24 +292,35 @@
             class="pt-8 pb-12 white"
             v-waypoint="{ active: true, callback: onMedia, options: intersectOptions}"
           >
-            <div>
-              <div
-                :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
-                class="text-center color-333333 pb-12 mb-0"
-                v-html="$page.media.edges[0].node.title[getLang]"
-              />
-              <div class="carousel-upper swiper-container">
-                <div class="carousel-mid text-center pt-12" v-swiper:swiperNormal="swiperOption">
-                  <div class="carousel-lower swiper-wrapper">
-                    <div class="swiper-slide" v-for="(logo, i ) in media.logos" :key="'media-logos-' + i">
-                      <img class="img-slide" :src="logo.img" />
-                    </div>
+            <div v-waypoint="{ active: true, callback: onMediaEl, options: elIsOpt }">
+              <template v-if="mediaEl">
+                <transition name="ride" appear>
+                  <div
+                    :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
+                    class="text-center color-333333 pb-12 mb-0"
+                    v-html="$page.media.edges[0].node.title[getLang]"
+                  />
+                </transition>
+              </template>
+              <template v-else>
+                <div
+                  :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
+                  class="text-center color-333333 pb-12 mb-0"
+                  v-html="$page.media.edges[0].node.title[getLang]"
+                />
+              </template>
+            </div>
+            <div class="carousel-upper swiper-container">
+              <div class="carousel-mid text-center pt-12" v-swiper:swiperNormal="swiperOption">
+                <div class="carousel-lower swiper-wrapper">
+                  <div class="swiper-slide" v-for="(logo, i ) in media.logos" :key="'media-logos-' + i">
+                    <img class="img-slide" :src="logo.img" />
                   </div>
-                  <div class="swiper-pagination swiper-pagination-black" slot="pagination" />
                 </div>
-                <div class="swiper-button-prev swiper-button-white" slot="button-prev" />
-                <div class="swiper-button-next swiper-button-white" slot="button-next" />
+                <div class="swiper-pagination swiper-pagination-black" slot="pagination" />
               </div>
+              <div class="swiper-button-prev swiper-button-white" slot="button-prev" />
+              <div class="swiper-button-next swiper-button-white" slot="button-next" />
             </div>
         </div>
 
@@ -215,7 +330,16 @@
           class="background-color-dddddd py-12"
           v-waypoint="{ active: true, callback: onContact, options: intersectOptions}"
         >
-          <contact-us />
+          <div v-waypoint="{ active: true, callback: onContactEl, options: elIsOpt}">
+            <template v-if="contactEl">
+              <transition name="surf" appear>
+                <contact-us />
+              </transition>
+            </template>
+            <template v-else>
+              <contact-us />
+            </template>
+          </div>
         </div>
 
       </v-container>
@@ -456,6 +580,25 @@ export default {
         threshold: [0.3],
         root: null
       },
+      /* Element CSS transitions */
+      // intersection option for all
+      elIsOpt: {
+        threshold: [0],
+      },
+      // About section
+      // Text
+      aboutTextEl: false,
+      // Artists section
+      artistsTextEl: false,
+      artistsTestimonialsEl: false,
+      // Explore Section
+      exploreEl: false,
+      // Benefits Section
+      benefitsTextEl: false,
+      // Media Section
+      mediaEl: false,
+      // Contact Section
+      contactEl: false,
       /* Side Navigation */
       sideNav: [
         {
@@ -607,7 +750,54 @@ export default {
     ...mapGetters(['getLang']),
   },
   methods: {
-    onAbout ({ el, going, direction, _entry }) {
+    /* CSS transition on View */
+    // About Section
+    // Text
+    onAboutTextEl ({ going, direction }) {
+      if (going === this.$waypointMap.GOING_IN) {
+        this.aboutTextEl = true
+      }
+    },
+    // Explore Section
+    onExploreEl ({ going, direction }) {
+      if (going === this.$waypointMap.GOING_IN) {
+        this.exploreEl = true
+      }
+    },
+    // Artists Section
+    // Text
+    onArtistsTextEl ({ going, direction }) {
+      if (going === this.$waypointMap.GOING_IN) {
+        this.artistsTextEl = true
+      }
+    },
+    // Testimonials
+    onArtistsTestimonialsEl ({ going, direction }) {
+      if (going === this.$waypointMap.GOING_IN) {
+        this.artistsTestimonialsEl = true
+      }
+    },
+    // Benefits Section
+    // Text
+    onBenefitsTextEl ({ going, direction }) {
+      if (going === this.$waypointMap.GOING_IN) {
+        this.benefitsTextEl = true
+      }
+    },
+    // Media Section
+    onMediaEl ({ going, direction }) {
+      if (going === this.$waypointMap.GOING_IN) {
+        this.mediaEl = true
+      }
+    },
+    // Contact Section
+    onContactEl ({ going, direction }) {
+      if (going === this.$waypointMap.GOING_IN) {
+        this.contactEl = true
+      }
+    },
+    /* */
+    onAbout ({ going, direction }) {
       if (going === this.$waypointMap.GOING_IN && this.isSideNav) {
         this.sideNav[0].active = true;
         this.sideNav[1].active =
