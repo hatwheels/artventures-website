@@ -53,7 +53,7 @@
             style="border-radius: 8px;"
             depressed
             color="#333333"
-            @click="$vuetify.goTo('#contact-us')"
+            @click="goTo('#contact-us')"
             v-html="routes.contact[getLang]"
           />
           <v-btn
@@ -140,7 +140,7 @@
                         x-large
                         depressed
                         color="#333333"
-                        @click="modalMenu = false; $vuetify.goTo('#contact-us-small');"
+                        @click="modalMenu = false; goTo('#contact-us-small');"
                         v-html="routes.contact[getLang]"
                       />
                     </v-list-item>
@@ -219,9 +219,9 @@
     </v-app-bar>
 
     <transition name="fade" appear>
-    <main>
-      <slot />
-    </main>
+      <main>
+        <slot />
+      </main>
     </transition>
 
     <v-footer
@@ -360,6 +360,20 @@ export default {
   },
   methods: {
     ...mapMutations(['setLang']),
+    // Go To anchor tag with smooth scrolling
+    goTo(tag) {
+      // Hack to reach id if page too long
+      this.$vuetify.goTo(tag, {
+        duration: 400,
+        easings: 'easeInSine'
+      })
+      setTimeout(() => {
+        this.$vuetify.goTo(tag, {
+          duration: 400,
+          easings: 'easeOutSine'
+        })
+      }, 400)
+    },
   },
 }
 </script>
