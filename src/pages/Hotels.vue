@@ -282,6 +282,7 @@ import { mapGetters } from "vuex"
 export default {
   data () {
     return {
+      /* Element CSS transitions */
       // intersection option for all
       elIsOpt: {
         threshold: [0],
@@ -319,6 +320,7 @@ export default {
     ...mapGetters(['getLang']),
   },
   methods: {
+    /* Element CSS transitions */
     onAdvantagesEl ({ going, direction }) {
       if (going === this.$waypointMap.GOING_IN && direction) {
         this.advantagesEl = true
