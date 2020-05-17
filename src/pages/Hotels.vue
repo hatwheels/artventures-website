@@ -43,14 +43,34 @@
           </v-row>
           <v-row class="px-12 pt-3" justify="space-around">
             <v-col class="color-333333" cols="4" v-for="(advantage, i) in $page.hotels.edges[0].node.advantages" :key="'advantage-' + i">
-              <div
-                :class="getLang === 'gr' ? 'noto-30-700-1p2' : 'playfair-30-700-1p2'"
-                v-html="advantage.title[getLang]"
-              />
-              <div
-                :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                v-html="advantage.body[getLang]"
-              />
+              <div v-waypoint="{ active: true, callback: onAdvantagesEl, options: elIsOpt }">
+                <template v-if="advantagesEl">
+                  <transition name="ride" appear>
+                    <div>
+                      <div
+                        :class="getLang === 'gr' ? 'noto-30-700-1p2' : 'playfair-30-700-1p2'"
+                        v-html="advantage.title[getLang]"
+                      />
+                      <div
+                        :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                        v-html="advantage.body[getLang]"
+                      />
+                    </div>
+                  </transition>
+                </template>
+                <template v-else>
+                  <div>
+                    <div
+                      :class="getLang === 'gr' ? 'noto-30-700-1p2' : 'playfair-30-700-1p2'"
+                      v-html="advantage.title[getLang]"
+                    />
+                    <div
+                      :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                      v-html="advantage.body[getLang]"
+                    />
+                  </div>
+                </template>
+              </div>
             </v-col>
           </v-row>
         </div>
@@ -67,16 +87,38 @@
             v-for="(testimonial, i) in $page.hotels.edges[0].node.testimonials"
             :key="'hot-testimonials-' + i"
           >
-            <div
-              :class="getLang === 'gr' ? 'noto-18-400-1p4em' : 'playfair-18-400-1p4em'"
-              class="text-center"
-              v-html="testimonial.quote[getLang]"
-            />
-            <div
-              :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-600'"
-              class="text-center pt-2"
-              v-html="testimonial.author[getLang]"
-            />
+            <div v-waypoint="{ active: true, callback: onTestimonialsEl, options: elIsOpt }">
+              <template v-if="testimonialsEl">
+                <transition name="surf" appear>
+                  <div>
+                    <div
+                      :class="getLang === 'gr' ? 'noto-18-400-1p4em' : 'playfair-18-400-1p4em'"
+                      class="text-center"
+                      v-html="testimonial.quote[getLang]"
+                    />
+                    <div
+                      :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-600'"
+                      class="text-center pt-2"
+                      v-html="testimonial.author[getLang]"
+                    />
+                  </div>
+                </transition>
+              </template>
+              <template v-else>
+                <div>
+                  <div
+                    :class="getLang === 'gr' ? 'noto-18-400-1p4em' : 'playfair-18-400-1p4em'"
+                    class="text-center"
+                    v-html="testimonial.quote[getLang]"
+                  />
+                  <div
+                    :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-600'"
+                    class="text-center pt-2"
+                    v-html="testimonial.author[getLang]"
+                  />
+                </div>
+              </template>
+            </div>
           </v-col>
         </v-row>
 
@@ -86,21 +128,45 @@
         </div>
 
         <!-- form -->
-        <div class="text-center pt-12">
-          <div
-            :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
-            class="pb-6"
-            v-html="$page.hotels.edges[0].node.button.title[getLang]"
-          />
-          <div class="custom-block">
-            <g-link
-              :class="getLang === 'gr' ? 'noto-15-600-1p5' : 'raleway-15-600-1p5'"
-              class="form-btn white--text text-uppercase"
-              :to="{ path: '/', hash:'#contact-us' }"
-            >
-              {{ $page.hotels.edges[0].node.button.body[getLang] }}
-            </g-link>
-          </div>
+        <div class="text-center pt-12" v-waypoint="{ active: true, callback: onFormEl, options: elIsOpt }">
+          <template v-if="formEl">
+            <transition name="ride" appear>
+              <div>
+                <div
+                  :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
+                  class="pb-6"
+                  v-html="$page.hotels.edges[0].node.button.title[getLang]"
+                />
+                <div class="custom-block">
+                  <g-link
+                    :class="getLang === 'gr' ? 'noto-15-600-1p5' : 'raleway-15-600-1p5'"
+                    class="form-btn white--text text-uppercase"
+                    :to="{ path: '/', hash:'#contact-us' }"
+                  >
+                    {{ $page.hotels.edges[0].node.button.body[getLang] }}
+                  </g-link>
+                </div>
+              </div>
+            </transition>
+          </template>
+          <template v-else>
+            <div>
+              <div
+                :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
+                class="pb-6"
+                v-html="$page.hotels.edges[0].node.button.title[getLang]"
+              />
+              <div class="custom-block">
+                <g-link
+                  :class="getLang === 'gr' ? 'noto-15-600-1p5' : 'raleway-15-600-1p5'"
+                  class="form-btn white--text text-uppercase"
+                  :to="{ path: '/', hash:'#contact-us' }"
+                >
+                  {{ $page.hotels.edges[0].node.button.body[getLang] }}
+                </g-link>
+              </div>
+            </div>
+          </template>
           <div class="py-12" />
         </div>
 
@@ -216,6 +282,16 @@ import { mapGetters } from "vuex"
 export default {
   data () {
     return {
+      // intersection option for all
+      elIsOpt: {
+        threshold: [0],
+      },
+      // Advantages Section
+      advantagesEl: false,
+      // Testimonials Section
+      testimonialsEl: false,
+      // Form Section
+      formEl: false,
       /* Sections */
       // main
       main: {
@@ -241,6 +317,23 @@ export default {
   },
   computed: {
     ...mapGetters(['getLang']),
+  },
+  methods: {
+    onAdvantagesEl ({ going, direction }) {
+      if (going === this.$waypointMap.GOING_IN && direction) {
+        this.advantagesEl = true
+      }
+    },
+    onTestimonialsEl ({ going, direction }) {
+      if (going === this.$waypointMap.GOING_IN && direction) {
+        this.testimonialsEl = true
+      }
+    },
+    onFormEl ({ going, direction }) {
+      if (going === this.$waypointMap.GOING_IN && direction) {
+        this.formEl = true
+      }
+    },
   },
   metaInfo () {
     return {
