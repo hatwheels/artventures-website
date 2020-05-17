@@ -43,14 +43,34 @@
           </v-row>
           <v-row class="px-12 pt-3" justify="space-around">
             <v-col class="color-333333" cols="4" v-for="(advantage, i) in $page.individuals.edges[0].node.advantages" :key="'advantage-' + i">
-              <div
-                :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
-                v-html="advantage.title[getLang]"
-              />
-              <div
-                :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                v-html="advantage.body[getLang]"
-              />
+              <div v-waypoint="{ active: true, callback: onAdvantagesEl, options: elIsOpt }">
+                <template v-if="advantagesEl">
+                  <transition name="ride" appear>
+                    <div>
+                      <div
+                        :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+                        v-html="advantage.title[getLang]"
+                      />
+                      <div
+                        :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                        v-html="advantage.body[getLang]"
+                      />
+                    </div>
+                  </transition>
+                </template>
+                <template v-else>
+                  <div>
+                    <div
+                      :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+                      v-html="advantage.title[getLang]"
+                    />
+                    <div
+                      :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                      v-html="advantage.body[getLang]"
+                    />
+                  </div>
+                </template>
+              </div>
             </v-col>
           </v-row>
         </div>
@@ -61,23 +81,49 @@
         </div>
 
         <!-- Rent -->
-        <div class="text-center custom-block">
-          <div
-            :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
-            class="pb-6"
-            v-html="$page.individuals.edges[0].node.rent.title[getLang]"
-          />
-          <div
-            :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-            style="padding-bottom: 34px"
-            v-html="$page.individuals.edges[0].node.rent.body[getLang]"
-          />
-          <g-link
-            :class="getLang === 'gr' ? 'noto-15-600-1p5' : 'raleway-15-600-1p5'"
-            class="personality-test-btn white--text text-uppercase"
-          >
-            {{ $page.individuals.edges[0].node.rent.button[getLang] }}
-          </g-link>
+        <div class="text-center custom-block" v-waypoint="{ active: true, callback: onRentEl, options: elIsOpt }">
+          <template v-if="rentEl">
+            <transition name="surf" appear>
+              <div>
+                <div
+                  :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
+                  class="pb-6"
+                  v-html="$page.individuals.edges[0].node.rent.title[getLang]"
+                />
+                <div
+                  :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                  style="padding-bottom: 34px"
+                  v-html="$page.individuals.edges[0].node.rent.body[getLang]"
+                />
+                <g-link
+                  :class="getLang === 'gr' ? 'noto-15-600-1p5' : 'raleway-15-600-1p5'"
+                  class="personality-test-btn white--text text-uppercase"
+                >
+                  {{ $page.individuals.edges[0].node.rent.button[getLang] }}
+                </g-link>`
+              </div>
+            </transition>
+          </template>
+          <template v-else>
+            <div>
+              <div
+                :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
+                class="pb-6"
+                v-html="$page.individuals.edges[0].node.rent.title[getLang]"
+              />
+              <div
+                :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                style="padding-bottom: 34px"
+                v-html="$page.individuals.edges[0].node.rent.body[getLang]"
+              />
+              <g-link
+                :class="getLang === 'gr' ? 'noto-15-600-1p5' : 'raleway-15-600-1p5'"
+                class="personality-test-btn white--text text-uppercase"
+              >
+                {{ $page.individuals.edges[0].node.rent.button[getLang] }}
+              </g-link>
+            </div>
+          </template>
         </div>
 
         <!-- spacer -->
@@ -175,6 +221,15 @@ import { mapGetters } from "vuex"
 export default {
   data () {
     return {
+      /* Elements CSS transitions */
+      // intersection option for all
+      elIsOpt: {
+        threshold: [0],
+      },
+      // Advantages Section
+      advantagesEl: false,
+      // Rent Section
+      rentEl: false,
       /* Sections */
       // main
       main: {
@@ -200,6 +255,18 @@ export default {
   },
   computed: {
     ...mapGetters(['getLang']),
+  },
+  methods: {
+    onAdvantagesEl ({ going, direction }) {
+      if (going === this.$waypointMap.GOING_IN && direction) {
+        this.advantagesEl = true
+      }
+    },
+    onRentEl ({ going, direction }) {
+      if (going === this.$waypointMap.GOING_IN && direction) {
+        this.rentEl = true
+      }
+    },
   },
   metaInfo () {
     return {

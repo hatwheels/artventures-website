@@ -85,7 +85,7 @@
             </v-row>
           </div>
 
-          <div class="py-8 background-color-white" />
+          <div class="py-12 background-color-white" />
 
           <!-- Explore -->
           <div
@@ -253,7 +253,7 @@
                 <v-col class="color-333333" cols="4" v-for="(benefit, i) in $page.benefits.edges[0].node.benefits" :key="'benefit-text-' + i">
                   <div v-waypoint="{ active: true, callback: onBenefitsTextEl, options: elIsOpt }">
                     <template v-if="benefitsTextEl">
-                      <transition name="ride" appear>
+                      <transition name="surf" appear>
                         <div>
                           <div
                             class="pb-3"
@@ -547,7 +547,7 @@ export default {
       // load waypoint triggers and set active hash because
       // no waypoint triggered
       setTimeout(() => {
-        this.isSideNav = true;
+        this.isSideNav = true
         switch (this.$route.hash) {
           case '':
           case '#about':
@@ -760,33 +760,33 @@ export default {
     },
     // Explore Section
     onExploreEl ({ going, direction }) {
-      if (going === this.$waypointMap.GOING_IN) {
+      if (going === this.$waypointMap.GOING_IN && direction) {
         this.exploreEl = true
       }
     },
     // Artists Section
     // Text
     onArtistsTextEl ({ going, direction }) {
-      if (going === this.$waypointMap.GOING_IN) {
+      if (going === this.$waypointMap.GOING_IN && direction) {
         this.artistsTextEl = true
       }
     },
     // Testimonials
     onArtistsTestimonialsEl ({ going, direction }) {
-      if (going === this.$waypointMap.GOING_IN) {
+      if (going === this.$waypointMap.GOING_IN && direction) {
         this.artistsTestimonialsEl = true
       }
     },
     // Benefits Section
     // Text
     onBenefitsTextEl ({ going, direction }) {
-      if (going === this.$waypointMap.GOING_IN) {
+      if (going === this.$waypointMap.GOING_IN && direction) {
         this.benefitsTextEl = true
       }
     },
     // Media Section
     onMediaEl ({ going, direction }) {
-      if (going === this.$waypointMap.GOING_IN) {
+      if (going === this.$waypointMap.GOING_IN && direction) {
         this.mediaEl = true
       }
     },
