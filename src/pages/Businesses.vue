@@ -43,24 +43,57 @@
           </v-row>
           <v-row class="px-12 pt-3" justify="space-around">
             <v-col class="color-333333" cols="4" v-for="(advantage, i) in $page.businesses.edges[0].node.advantages" :key="'advantage-' + i">
-              <div
-                :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
-                v-html="advantage.title[getLang]"
-              />
-              <div
-                :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                v-html="advantage.body[getLang]"
-              />
+              <div v-waypoint="{ active: true, callback: onAdvantagesEl, options: elIsOpt }">
+                <template v-if="advantagesEl">
+                  <transition name="ride" appear>
+                    <div>
+                      <div
+                        :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+                        v-html="advantage.title[getLang]"
+                      />
+                      <div
+                        :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                        v-html="advantage.body[getLang]"
+                      />
+                    </div>
+                  </transition>
+                </template>
+                <template v-else>
+                  <div>
+                    <div
+                      :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+                      v-html="advantage.title[getLang]"
+                    />
+                    <div
+                      :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                      v-html="advantage.body[getLang]"
+                    />
+                  </div>
+                </template>
+              </div>
             </v-col>
           </v-row>
-          <div class="text-center custom-block pt-8 pb-8">
-            <g-link
-              :class="getLang === 'gr' ? 'noto-15-600-1p5' : 'raleway-15-600-1p5'"
-              class="learn-more-btn white--text text-uppercase"
-              :to="{ path: '/', hash:'#contact-us' }"
-            >
-              {{ $page.businesses.edges[0].node.button[getLang] }}
-            </g-link>
+          <div class="text-center custom-block pt-8 pb-8" v-waypoint="{ active: true, callback: onAdvantagesBtnEl, options: elIsOpt }">
+            <template v-if="advantagesBtnEl">
+              <transition name="surf" appear>
+                <g-link
+                  :class="getLang === 'gr' ? 'noto-15-600-1p5' : 'raleway-15-600-1p5'"
+                  class="learn-more-btn white--text text-uppercase"
+                  :to="{ path: '/', hash:'#contact-us' }"
+                >
+                  {{ $page.businesses.edges[0].node.button[getLang] }}
+                </g-link>
+              </transition>
+            </template>
+            <template v-else>
+              <g-link
+                :class="getLang === 'gr' ? 'noto-15-600-1p5' : 'raleway-15-600-1p5'"
+                class="learn-more-btn white--text text-uppercase"
+                :to="{ path: '/', hash:'#contact-us' }"
+              >
+                {{ $page.businesses.edges[0].node.button[getLang] }}
+              </g-link>
+            </template>
           </div>
         </div>
 
@@ -77,16 +110,38 @@
             v-for="(testimonial, i) in $page.businesses.edges[0].node.testimonials"
             :key="'biz-testimonials-' + i"
           >
-            <div
-              :class="getLang === 'gr' ? 'noto-18-400-1p4em' : 'playfair-18-400-1p4em'"
-              class="text-center"
-              v-html="testimonial.quote[getLang]"
-            />
-            <div
-              :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-600'"
-              class="text-center pt-2"
-              v-html="testimonial.author[getLang]"
-            />
+            <div v-waypoint="{ active: true, callback: onTestimonialsEl, options: elIsOpt }">
+              <template v-if="testimonialsEl">
+                <transition name="ride" appear>
+                  <div>
+                    <div
+                      :class="getLang === 'gr' ? 'noto-18-400-1p4em' : 'playfair-18-400-1p4em'"
+                      class="text-center"
+                      v-html="testimonial.quote[getLang]"
+                    />
+                    <div
+                      :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-600'"
+                      class="text-center pt-2"
+                      v-html="testimonial.author[getLang]"
+                    />
+                  </div>
+                </transition>
+              </template>
+              <template v-else>
+                <div>
+                  <div
+                    :class="getLang === 'gr' ? 'noto-18-400-1p4em' : 'playfair-18-400-1p4em'"
+                    class="text-center"
+                    v-html="testimonial.quote[getLang]"
+                  />
+                  <div
+                    :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-600'"
+                    class="text-center pt-2"
+                    v-html="testimonial.author[getLang]"
+                  />
+                </div>
+              </template>
+            </div>
           </v-col>
         </v-row>
 
@@ -192,6 +247,16 @@ import { mapGetters } from "vuex"
 export default {
   data () {
     return {
+      /* Elements CSS transitions */
+      // intersection option for all
+      elIsOpt: {
+        threshold: [0],
+      },
+      // Advantages Section
+      advantagesEl: false,
+      advantagesBtnEl: false,
+      // Testimonials Section
+      testimonialsEl: false,
       /* Sections */
       // main
       main: {
@@ -219,6 +284,23 @@ export default {
   },
   computed: {
     ...mapGetters(['getLang']),
+  },
+  methods: {
+    onAdvantagesEl ({ going, direction }) {
+      if (going === this.$waypointMap.GOING_IN && direction) {
+        this.advantagesEl = true
+      }
+    },
+    onAdvantagesBtnEl ({ going, direction }) {
+      if (going === this.$waypointMap.GOING_IN && direction) {
+        this.advantagesBtnEl = true
+      }
+    },
+    onTestimonialsEl ({ going, direction }) {
+      if (going === this.$waypointMap.GOING_IN && direction) {
+        this.testimonialsEl = true
+      }
+    },
   },
   metaInfo () {
     return {
