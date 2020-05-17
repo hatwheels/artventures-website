@@ -35,11 +35,11 @@
 
         <!-- Advantages -->
         <div class="py-12">
-          <!-- <v-row class="px-12 pb-3" justify="space-between">
-            <v-col cols="4" v-for="(benefit, i) in benefits" :key="'benefit-img-' + i">
-              <v-img contain :src="benefit.img" :lazy-src="benefit.lazy" />
+          <v-row class="px-12 pb-3" justify="space-between">
+            <v-col cols="4" v-for="(advantage, i) in advantages" :key="'advantage-img-' + i">
+              <v-img contain :src="advantage.img" :lazy-src="advantage.lazy" />
             </v-col>
-          </v-row> -->
+          </v-row>
           <v-row class="px-12 pt-3" justify="space-between">
             <v-col
               class="color-333333"
@@ -194,7 +194,7 @@
             v-for="(advantage, i) in $page.artists.edges[0].node.advantages"
             :key="'advantage-small-' + i">
             <v-col cols=11>
-              <!-- <v-img class="mb-4" :src="benefits[i].img" :lazy-src="benefits[i].lazy" /> -->
+              <v-img class="mb-4" :src="advantages[i].img" :lazy-src="advantages[i].lazy" />
               <div class="color-333333 pb-6">
                 <div
                   :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
@@ -317,7 +317,22 @@ export default {
       artists: {
         img: 'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto/v1582416241/artventures/img14.jpg',
         lazy: 'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto,h_100/v1582416241/artventures/img14.jpg',
-      }
+      },
+      // Advantages
+      advantages: [
+        {
+          img: 'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto/v1585320144/artventures/img15.jpg',
+          lazy: 'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto,h_100/v1582416241/artventures/img15.jpg',
+        },
+        {
+          img: 'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto/v1585320144/artventures/img16.jpg',
+          lazy: 'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto,h_100/v1582416241/artventures/img16.jpg',
+        },
+        {
+          img: 'https://res.cloudinary.com/de1jgt6c5/image/upload/c_scale,h_577,w_768,q_auto,fl_lossy,f_auto,dpr_auto/v1585320144/artventures/img28.jpg',
+          lazy: 'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto,h_100/v1582416241/artventures/img28.jpg',
+        },
+      ],
     }
   },
   computed: {
