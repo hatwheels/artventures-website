@@ -1,31 +1,36 @@
 .slide-enter-active {
-  transition: margin-bottom .8s ease-in-out;
+  transition: all 750ms ease-in-out
 }
-
 .slide-enter {
-  margin-bottom: 200px;
+  transform: translateY(-40%);
 }
-
 .slide-enter-to {
-  margin-bottom: 0px;
+  transform: translateY(0);
 }
 
-.slideright-enter-active {
-  transition: margin-right 0.8s ease-in-out;
+.ride-enter-active {
+  transition: all 750ms ease-in-out;
+}
+.ride-enter {
+  transform: translateX(40%)
+}
+.ride-enter-to {
+  transform: translateX(0)
 }
 
-.slideright-enter {
-  margin-right: 300px;
+.surf-enter-active {
+  transition: all 750ms ease-in-out;
 }
-
-.slideright-enter-to {
-  margin-right: 0px;
+.surf-enter {
+  transform: translateX(-40%)
+}
+.surf-enter-to {
+  transform: translateX(0)
 }
 
 .fade-enter-active {
   transition: opacity 1.0s;
 }
-
 .fade-enter {
   opacity: 0;
 }
