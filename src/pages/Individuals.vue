@@ -195,7 +195,7 @@
           <v-row justify="center">
             <v-col cols="11">
               <v-img class="mb-4" :src="advantages[0].img" :lazy-src="advantages[0].lazy" />
-                <div v-waypoint="{ active: true, callback: onAdvantagesElMob0, options: elIsOpt }"/>
+                <div v-if="wpActiveMob" v-waypoint="{ active: true, callback: onAdvantagesElMob0, options: elIsOpt }"/>
                 <template v-if="advantagesElMob0">
                   <transition name="ride" appear>
                     <div class="color-333333">
@@ -222,28 +222,15 @@
                     />
                   </div>
                 </template>
-              
+                <div v-if="wpActiveMob" v-waypoint="{ active: true, callback: onAdvantagesElMob0, options: elIsOpt }"/>
             </v-col>
           </v-row>
           <v-row justify="center">
             <v-col cols="11">
               <v-img class="mb-4" :src="advantages[1].img" :lazy-src="advantages[1].lazy" />
-              <div v-waypoint="{ active: true, callback: onAdvantagesElMob1, options: elIsOpt }">
-                <template v-if="advantagesElMob1">
-                  <transition name="ride" appear>
-                    <div class="color-333333">
-                      <div
-                        :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
-                        v-html="$page.individuals.edges[0].node.advantages[1].title[getLang]"
-                      />
-                      <div
-                        :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                        v-html="$page.individuals.edges[0].node.advantages[1].body[getLang]"
-                      />
-                    </div>
-                  </transition>
-                </template>
-                <template v-else>
+              <div v-if="wpActiveMob" v-waypoint="{ active: true, callback: onAdvantagesElMob1, options: elIsOpt }" />
+              <template v-if="advantagesElMob1">
+                <transition name="ride" appear>
                   <div class="color-333333">
                     <div
                       :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
@@ -254,29 +241,29 @@
                       v-html="$page.individuals.edges[0].node.advantages[1].body[getLang]"
                     />
                   </div>
-                </template>
-              </div>
+                </transition>
+              </template>
+              <template v-else>
+                <div class="color-333333">
+                  <div
+                    :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+                    v-html="$page.individuals.edges[0].node.advantages[1].title[getLang]"
+                  />
+                  <div
+                    :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                    v-html="$page.individuals.edges[0].node.advantages[1].body[getLang]"
+                  />
+                </div>
+              </template>
+              <div v-if="wpActiveMob" v-waypoint="{ active: true, callback: onAdvantagesElMob1, options: elIsOpt }" />
             </v-col>
           </v-row>
           <v-row justify="center">
             <v-col cols="11">
               <v-img class="mb-4" :src="advantages[2].img" :lazy-src="advantages[2].lazy" />
-              <div v-waypoint="{ active: true, callback: onAdvantagesElMob2, options: elIsOpt }">
-                <template v-if="advantagesElMob2">
-                  <transition name="ride" appear>
-                    <div class="color-333333">
-                      <div
-                        :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
-                        v-html="$page.individuals.edges[0].node.advantages[2].title[getLang]"
-                      />
-                      <div
-                        :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                        v-html="$page.individuals.edges[0].node.advantages[2].body[getLang]"
-                      />
-                    </div>
-                  </transition>
-                </template>
-                <template v-else>
+              <div v-if="wpActiveMob" v-waypoint="{ active: true, callback: onAdvantagesElMob2, options: elIsOpt }" />
+              <template v-if="advantagesElMob2">
+                <transition name="ride" appear>
                   <div class="color-333333">
                     <div
                       :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
@@ -287,8 +274,21 @@
                       v-html="$page.individuals.edges[0].node.advantages[2].body[getLang]"
                     />
                   </div>
-                </template>
-              </div>
+                </transition>
+              </template>
+              <template v-else>
+                <div class="color-333333">
+                  <div
+                    :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+                    v-html="$page.individuals.edges[0].node.advantages[2].title[getLang]"
+                  />
+                  <div
+                    :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                    v-html="$page.individuals.edges[0].node.advantages[2].body[getLang]"
+                  />
+                </div>
+              </template>
+              <div v-if="wpActiveMob" v-waypoint="{ active: true, callback: onAdvantagesElMob2, options: elIsOpt }" />
             </v-col>
           </v-row>
         </div>
@@ -356,10 +356,14 @@
 import { mapGetters } from "vuex"
 
 export default {
+  mounted () {
+    setTimeout( () => this.wpActiveMob = true, 1000)
+  },
   data () {
     return {
       /* Elements CSS transitions */
       // intersection option for all
+      wpActiveMob: false,
       elIsOpt: {
         threshold: [0],
       },
@@ -412,17 +416,17 @@ export default {
       }
     },
     onAdvantagesElMob0 ({ going, direction }) {
-      if (going === this.$waypointMap.GOING_IN && direction != 'right' && direction != 'left') {
+      if (going === this.$waypointMap.GOING_IN && direction) {
         this.advantagesElMob0 = true
       }
     },
     onAdvantagesElMob1 ({ going, direction }) {
-      if (going === this.$waypointMap.GOING_IN && direction != 'right' && direction != 'left') {
+      if (going === this.$waypointMap.GOING_IN && direction) {
         this.advantagesElMob1 = true
       }
     },
     onAdvantagesElMob2 ({ going, direction }) {
-      if (going === this.$waypointMap.GOING_IN && direction != 'right' && direction != 'left') {
+      if (going === this.$waypointMap.GOING_IN && direction) {
         this.advantagesElMob2 = true
       }
     },

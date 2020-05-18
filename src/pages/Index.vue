@@ -399,24 +399,30 @@
 
         <!-- Explore -->
         <div id="explore-small">
-          <div v-waypoint="{ active: true, callback: onExploreElMob, options: elIsOpt }">
-            <template v-if="exploreElMob">
-              <transition name="surf" appear>
-                <div
-                  :class="getLang === 'gr' ? 'noto-32-700' : 'playfair-32-700'"
-                  class="pb-4 my-0 text-center"
-                  v-html="$page.explore.edges[0].node.title[getLang]"
-                />
-              </transition>
-            </template>
-            <template v-else>
+          <div
+            v-if="wpActiveMob"
+            v-waypoint="{ active: true, callback: onExploreElMob, options: elIsOpt }"
+          />
+          <template v-if="exploreElMob">
+            <transition name="surf" appear>
               <div
                 :class="getLang === 'gr' ? 'noto-32-700' : 'playfair-32-700'"
                 class="pb-4 my-0 text-center"
                 v-html="$page.explore.edges[0].node.title[getLang]"
               />
-            </template>
-          </div>
+            </transition>
+          </template>
+          <template v-else>
+            <div
+              :class="getLang === 'gr' ? 'noto-32-700' : 'playfair-32-700'"
+              class="pb-4 my-0 text-center"
+              v-html="$page.explore.edges[0].node.title[getLang]"
+            />
+          </template>
+          <div
+            v-if="wpActiveMob"
+            v-waypoint="{ active: true, callback: onExploreElMob, options: elIsOpt }"
+          />
           <v-row
             class="pt-2"
             justify="center"
@@ -459,24 +465,12 @@
             </v-row>
             <v-row justify="center" align="center">
               <v-col cols=11>
-                <div v-waypoint="{ active: true, callback: onArtistsElMob, options: elIsOpt }">
-                  <template v-if="artistsElMob">
-                    <transition name="ride" appear>
-                      <div class="color-333333">
-                        <div
-                          :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
-                          class="pb-2"
-                          v-html="$page.artists.edges[0].node.title[getLang]"
-                        />
-                        <div
-                          :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                          class="pb-2"
-                          v-html="$page.artists.edges[0].node.body[getLang]"
-                        />
-                      </div>
-                    </transition>
-                  </template>
-                  <template v-else>
+                <div
+                  v-if="wpActiveMob"
+                  v-waypoint="{ active: true, callback: onArtistsElMob, options: elIsOpt }"
+                />
+                <template v-if="artistsElMob">
+                  <transition name="ride" appear>
                     <div class="color-333333">
                       <div
                         :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
@@ -489,8 +483,26 @@
                         v-html="$page.artists.edges[0].node.body[getLang]"
                       />
                     </div>
-                  </template>
-                </div>
+                  </transition>
+                </template>
+                <template v-else>
+                  <div class="color-333333">
+                    <div
+                      :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+                      class="pb-2"
+                      v-html="$page.artists.edges[0].node.title[getLang]"
+                    />
+                    <div
+                      :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                      class="pb-2"
+                      v-html="$page.artists.edges[0].node.body[getLang]"
+                    />
+                  </div>
+                </template>
+                <div
+                  v-if="wpActiveMob"
+                  v-waypoint="{ active: true, callback: onArtistsElMob, options: elIsOpt }"
+                />
               </v-col>
             </v-row>
             <v-row class="my-1" justify="center" align="center">
@@ -512,8 +524,11 @@
               <v-col
                 class="color-1a1a1a"
                 cols=11
-                v-waypoint="{ active: true, callback: onArtistsTestimonialsElMob, options: elIsOpt }"
               >
+                <div
+                  v-if="wpActiveMob"
+                  v-waypoint="{ active: true, callback: onArtistsTestimonialsElMob, options: elIsOpt }"
+                />
                 <template v-if="artistsTestimonialsElMob">
                   <transition name="surf" appear>
                     <div>
@@ -542,6 +557,10 @@
                     v-html="testimonial.author[getLang]"
                   />
                 </template>
+                <div
+                  v-if="wpActiveMob"
+                  v-waypoint="{ active: true, callback: onArtistsTestimonialsElMob, options: elIsOpt }"
+                />
               </v-col>
             </v-row>
           </div>
@@ -555,22 +574,12 @@
           <v-row justify="center">
             <v-col cols=11>
               <v-img class="mb-4" :src="benefits[0].img" :lazy-src="benefits[0].lazy" />
-              <div v-waypoint="{ active: true, callback: onBenefitsElMob0, options: elIsOpt }">
-                <template v-if="benefitsElMob0">
-                  <transition name="ride" appear>
-                    <div class="color-333333 pb-6">
-                      <div
-                        :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
-                        v-html="$page.benefits.edges[0].node.benefits[0].title[getLang]"
-                      />
-                      <div
-                        :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                        v-html="$page.benefits.edges[0].node.benefits[0].body[getLang]"
-                      />
-                    </div>
-                  </transition>
-                </template>
-                <template v-else>
+              <div
+                v-if="wpActiveMob"
+                v-waypoint="{ active: true, callback: onBenefitsElMob0, options: elIsOpt }"
+              />
+              <template v-if="benefitsElMob0">
+                <transition name="ride" appear>
                   <div class="color-333333 pb-6">
                     <div
                       :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
@@ -581,29 +590,35 @@
                       v-html="$page.benefits.edges[0].node.benefits[0].body[getLang]"
                     />
                   </div>
-                </template>
-              </div>
+                </transition>
+              </template>
+              <template v-else>
+                <div class="color-333333 pb-6">
+                  <div
+                    :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+                    v-html="$page.benefits.edges[0].node.benefits[0].title[getLang]"
+                  />
+                  <div
+                    :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                    v-html="$page.benefits.edges[0].node.benefits[0].body[getLang]"
+                  />
+                </div>
+              </template>
+              <div
+                v-if="wpActiveMob"
+                v-waypoint="{ active: true, callback: onBenefitsElMob0, options: elIsOpt }"
+              />
             </v-col>
           </v-row>
           <v-row justify="center">
             <v-col cols=11>
               <v-img class="mb-4" :src="benefits[1].img" :lazy-src="benefits[1].lazy" />
-              <div v-waypoint="{ active: true, callback: onBenefitsElMob1, options: elIsOpt }">
-                <template v-if="benefitsElMob1">
-                  <transition name="ride" appear>
-                    <div class="color-333333 pb-6">
-                      <div
-                        :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
-                        v-html="$page.benefits.edges[0].node.benefits[1].title[getLang]"
-                      />
-                      <div
-                        :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                        v-html="$page.benefits.edges[0].node.benefits[1].body[getLang]"
-                      />
-                    </div>
-                  </transition>
-                </template>
-                <template v-else>
+              <div
+                v-if="wpActiveMob"
+                v-waypoint="{ active: true, callback: onBenefitsElMob1, options: elIsOpt }"
+              />
+              <template v-if="benefitsElMob1">
+                <transition name="ride" appear>
                   <div class="color-333333 pb-6">
                     <div
                       :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
@@ -614,29 +629,35 @@
                       v-html="$page.benefits.edges[0].node.benefits[1].body[getLang]"
                     />
                   </div>
-                </template>
-              </div>
+                </transition>
+              </template>
+              <template v-else>
+                <div class="color-333333 pb-6">
+                  <div
+                    :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+                    v-html="$page.benefits.edges[0].node.benefits[1].title[getLang]"
+                  />
+                  <div
+                    :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                    v-html="$page.benefits.edges[0].node.benefits[1].body[getLang]"
+                  />
+                </div>
+              </template>
+              <div
+                v-if="wpActiveMob"
+                v-waypoint="{ active: true, callback: onBenefitsElMob1, options: elIsOpt }"
+              />
             </v-col>
           </v-row>
           <v-row justify="center">
             <v-col cols=11>
               <v-img class="mb-4" :src="benefits[2].img" :lazy-src="benefits[2].lazy" />
-              <div v-waypoint="{ active: true, callback: onBenefitsElMob2, options: elIsOpt }">
-                <template v-if="benefitsElMob2">
-                  <transition name="ride" appear>
-                    <div class="color-333333 pb-6">
-                      <div
-                        :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
-                        v-html="$page.benefits.edges[0].node.benefits[2].title[getLang]"
-                      />
-                      <div
-                        :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                        v-html="$page.benefits.edges[0].node.benefits[2].body[getLang]"
-                      />
-                    </div>
-                  </transition>
-                </template>
-                <template v-else>
+              <div
+                v-if="wpActiveMob"
+                v-waypoint="{ active: true, callback: onBenefitsElMob2, options: elIsOpt }"
+              />
+              <template v-if="benefitsElMob2">
+                <transition name="ride" appear>
                   <div class="color-333333 pb-6">
                     <div
                       :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
@@ -647,8 +668,24 @@
                       v-html="$page.benefits.edges[0].node.benefits[2].body[getLang]"
                     />
                   </div>
-                </template>
-              </div>
+                </transition>
+              </template>
+              <template v-else>
+                <div class="color-333333 pb-6">
+                  <div
+                    :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+                    v-html="$page.benefits.edges[0].node.benefits[2].title[getLang]"
+                  />
+                  <div
+                    :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                    v-html="$page.benefits.edges[0].node.benefits[2].body[getLang]"
+                  />
+                </div>
+              </template>
+              <div
+                v-if="wpActiveMob"
+                v-waypoint="{ active: true, callback: onBenefitsElMob2, options: elIsOpt }"
+              />
             </v-col>
           </v-row>
         </div>
@@ -658,24 +695,30 @@
           id="media-small"
           class="pt-8 pb-10 white"
         >
-          <div v-waypoint="{ active: true, callback: onMediaElMob, options: elIsOpt }">
-            <template v-if="mediaElMob">
-              <transition name="surf" appear>
-                <div
-                  :class="getLang === 'gr' ? 'noto-32-700' : 'playfair-32-700'"
-                  class="text-center color-333333 pb-2 mb-0"
-                  v-html="$page.media.edges[0].node.title[getLang]"
-                />
-              </transition>
-            </template>
-            <template v-else>
+          <div
+            v-if="wpActiveMob"
+            v-waypoint="{ active: true, callback: onMediaElMob, options: elIsOpt }"
+          />
+          <template v-if="mediaElMob">
+            <transition name="surf" appear>
               <div
                 :class="getLang === 'gr' ? 'noto-32-700' : 'playfair-32-700'"
                 class="text-center color-333333 pb-2 mb-0"
                 v-html="$page.media.edges[0].node.title[getLang]"
               />
-            </template>
-          </div>
+            </transition>
+          </template>
+          <template v-else>
+            <div
+              :class="getLang === 'gr' ? 'noto-32-700' : 'playfair-32-700'"
+              class="text-center color-333333 pb-2 mb-0"
+              v-html="$page.media.edges[0].node.title[getLang]"
+            />
+          </template>
+          <div
+            v-if="wpActiveMob"
+            v-waypoint="{ active: true, callback: onMediaElMob, options: elIsOpt }"
+          />
           <div class="carousel-upper-small swiper-container">
             <div class="carousel-mid-small text-center pt-12" v-swiper:swiperSmall="swiperOption">
               <div class="carousel-lower-small swiper-wrapper">
@@ -723,6 +766,7 @@ export default {
     swiper: directive
   },
   mounted () {
+    setTimeout( () => this.wpActiveMob = true, 1000)
     this.$nextTick(() => {
       // Enable side navigation with a 200ms delay to avoid
       // load waypoint triggers and set active hash because
@@ -762,6 +806,7 @@ export default {
         root: null
       },
       /* Element CSS transitions */
+      wpActiveMob: false,
       // intersection option for all
       elIsOpt: {
         threshold: [0],
@@ -976,7 +1021,7 @@ export default {
       }
     },
     onExploreElMob ({ going, direction }) {
-      if (going === this.$waypointMap.GOING_IN && direction != 'right' && direction != 'left') {
+      if (going === this.$waypointMap.GOING_IN && direction) {
         this.exploreElMob = true
       }
     },
@@ -988,7 +1033,7 @@ export default {
       }
     },
     onArtistsElMob ({ going, direction }) {
-      if (going === this.$waypointMap.GOING_IN && direction != 'right' && direction != 'left') {
+      if (going === this.$waypointMap.GOING_IN && direction) {
         this.artistsElMob = true
       }
     },
@@ -999,7 +1044,7 @@ export default {
       }
     },
     onArtistsTestimonialsElMob ({ going, direction }) {
-      if (going === this.$waypointMap.GOING_IN && direction != 'right' && direction != 'left') {
+      if (going === this.$waypointMap.GOING_IN && direction) {
         this.artistsTestimonialsElMob = true
       }
     },
@@ -1011,17 +1056,17 @@ export default {
       }
     },
     onBenefitsElMob0 ({ going, direction }) {
-      if (going === this.$waypointMap.GOING_IN && direction != 'right' && direction != 'left') {
+      if (going === this.$waypointMap.GOING_IN && direction) {
         this.benefitsElMob0 = true
       }
     },
     onBenefitsElMob1 ({ going, direction }) {
-      if (going === this.$waypointMap.GOING_IN && direction != 'right' && direction != 'left') {
+      if (going === this.$waypointMap.GOING_IN && direction) {
         this.benefitsElMob1 = true
       }
     },
     onBenefitsElMob2 ({ going, direction }) {
-      if (going === this.$waypointMap.GOING_IN && direction != 'right' && direction != 'left') {
+      if (going === this.$waypointMap.GOING_IN && direction) {
         this.benefitsElMob2 = true
       }
     },
@@ -1032,7 +1077,7 @@ export default {
       }
     },
     onMediaElMob ({ going, direction }) {
-      if (going === this.$waypointMap.GOING_IN && direction != 'right' && direction != 'left') {
+      if (going === this.$waypointMap.GOING_IN && direction) {
         this.mediaElMob = true
       }
     },
@@ -1047,7 +1092,7 @@ export default {
         this.contactElMob = true
       }
     },
-    /* */
+    /* Side Navigation */
     onAbout ({ going, direction }) {
       if (going === this.$waypointMap.GOING_IN && this.isSideNav) {
         this.sideNav[0].active = true;
