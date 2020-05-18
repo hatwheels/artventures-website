@@ -140,42 +140,155 @@
           <v-col cols=11>
             <v-img contain :src="main.img" :lazy="main.lazy" />
           </v-col>
-          <v-col class="background-color-f5f5f5" cols=11>
-            <div
-              :class="getLang === 'gr' ? 'noto-30-700' : 'raleway-30-700'"
-              class="black--text pb-4"
-              v-html="$page.individuals.edges[0].node.main.title[getLang]"
-            />
-            <div
-              :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
-              class="color-rgba-0-0-0-p52 pb-7"
-              v-html="$page.individuals.edges[0].node.main.body[getLang]"
-            />
-            <g-link
-              :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-400'"
-              class="contact-us-btn-small white--text text-center"
-              :to="{ path: '/', hash:'#contact-us-small' }"
-            >
-              {{ $page.individuals.edges[0].node.main.button[getLang] }}
-            </g-link>
+          <v-col
+            class="background-color-f5f5f5"
+            cols=11
+            v-waypoint="{ active: true, callback: onMainElMob, options: elIsOpt }"
+          >
+            <template v-if="mainElMob">
+              <transition name="surf" appear>
+                <div>
+                  <div
+                    :class="getLang === 'gr' ? 'noto-30-700' : 'raleway-30-700'"
+                    class="black--text pb-4"
+                    v-html="$page.individuals.edges[0].node.main.title[getLang]"
+                  />
+                  <div
+                    :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
+                    class="color-rgba-0-0-0-p52 pb-7"
+                    v-html="$page.individuals.edges[0].node.main.body[getLang]"
+                  />
+                  <g-link
+                    :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-400'"
+                    class="contact-us-btn-small white--text text-center"
+                    :to="{ path: '/', hash:'#contact-us-small' }"
+                  >
+                    {{ $page.individuals.edges[0].node.main.button[getLang] }}
+                  </g-link>
+                </div>
+              </transition>
+            </template>
+            <template v-else>
+              <div
+                :class="getLang === 'gr' ? 'noto-30-700' : 'raleway-30-700'"
+                class="black--text pb-4"
+                v-html="$page.individuals.edges[0].node.main.title[getLang]"
+              />
+              <div
+                :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
+                class="color-rgba-0-0-0-p52 pb-7"
+                v-html="$page.individuals.edges[0].node.main.body[getLang]"
+              />
+              <g-link
+                :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-400'"
+                class="contact-us-btn-small white--text text-center"
+                :to="{ path: '/', hash:'#contact-us-small' }"
+              >
+                {{ $page.individuals.edges[0].node.main.button[getLang] }}
+              </g-link>
+            </template>
           </v-col>
         </v-row>
 
         <!-- advantages -->
         <div class="pt-6">
-          <v-row justify="center" v-for="(advantage, i) in $page.individuals.edges[0].node.advantages" :key="'advantage-small' + i">
+          <v-row justify="center">
             <v-col cols="11">
-              <v-img class="mb-4" :src="advantages[i].img" :lazy-src="advantages[i].lazy" />
-              <div class="color-333333">
-                <div
-                  :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
-                  v-html="advantage.title[getLang]"
-                />
-                <div
-                  :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                  v-html="advantage.body[getLang]"
-                />
-              </div>
+              <v-img class="mb-4" :src="advantages[0].img" :lazy-src="advantages[0].lazy" />
+                <div v-if="wpActiveMob" v-waypoint="{ active: true, callback: onAdvantagesElMob0, options: elIsOpt }"/>
+                <template v-if="advantagesElMob0">
+                  <transition name="ride" appear>
+                    <div class="color-333333">
+                      <div
+                        :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+                        v-html="$page.individuals.edges[0].node.advantages[0].title[getLang]"
+                      />
+                      <div
+                        :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                        v-html="$page.individuals.edges[0].node.advantages[0].body[getLang]"
+                      />
+                    </div>
+                  </transition>
+                </template>
+                <template v-else>
+                  <div class="color-333333">
+                    <div
+                      :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+                      v-html="$page.individuals.edges[0].node.advantages[0].title[getLang]"
+                    />
+                    <div
+                      :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                      v-html="$page.individuals.edges[0].node.advantages[0].body[getLang]"
+                    />
+                  </div>
+                </template>
+                <div v-if="wpActiveMob" v-waypoint="{ active: true, callback: onAdvantagesElMob0, options: elIsOpt }"/>
+            </v-col>
+          </v-row>
+          <v-row justify="center">
+            <v-col cols="11">
+              <v-img class="mb-4" :src="advantages[1].img" :lazy-src="advantages[1].lazy" />
+              <div v-if="wpActiveMob" v-waypoint="{ active: true, callback: onAdvantagesElMob1, options: elIsOpt }" />
+              <template v-if="advantagesElMob1">
+                <transition name="ride" appear>
+                  <div class="color-333333">
+                    <div
+                      :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+                      v-html="$page.individuals.edges[0].node.advantages[1].title[getLang]"
+                    />
+                    <div
+                      :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                      v-html="$page.individuals.edges[0].node.advantages[1].body[getLang]"
+                    />
+                  </div>
+                </transition>
+              </template>
+              <template v-else>
+                <div class="color-333333">
+                  <div
+                    :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+                    v-html="$page.individuals.edges[0].node.advantages[1].title[getLang]"
+                  />
+                  <div
+                    :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                    v-html="$page.individuals.edges[0].node.advantages[1].body[getLang]"
+                  />
+                </div>
+              </template>
+              <div v-if="wpActiveMob" v-waypoint="{ active: true, callback: onAdvantagesElMob1, options: elIsOpt }" />
+            </v-col>
+          </v-row>
+          <v-row justify="center">
+            <v-col cols="11">
+              <v-img class="mb-4" :src="advantages[2].img" :lazy-src="advantages[2].lazy" />
+              <div v-if="wpActiveMob" v-waypoint="{ active: true, callback: onAdvantagesElMob2, options: elIsOpt }" />
+              <template v-if="advantagesElMob2">
+                <transition name="ride" appear>
+                  <div class="color-333333">
+                    <div
+                      :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+                      v-html="$page.individuals.edges[0].node.advantages[2].title[getLang]"
+                    />
+                    <div
+                      :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                      v-html="$page.individuals.edges[0].node.advantages[2].body[getLang]"
+                    />
+                  </div>
+                </transition>
+              </template>
+              <template v-else>
+                <div class="color-333333">
+                  <div
+                    :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+                    v-html="$page.individuals.edges[0].node.advantages[2].title[getLang]"
+                  />
+                  <div
+                    :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                    v-html="$page.individuals.edges[0].node.advantages[2].body[getLang]"
+                  />
+                </div>
+              </template>
+              <div v-if="wpActiveMob" v-waypoint="{ active: true, callback: onAdvantagesElMob2, options: elIsOpt }" />
             </v-col>
           </v-row>
         </div>
@@ -187,23 +300,47 @@
 
         <!-- Rent -->
         <v-row justify="center">
-          <v-col class="text-center" cols="11">
-            <div
-              :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
-              class="pb-6"
-              v-html="$page.individuals.edges[0].node.rent.title[getLang]"
-            />
-            <div
-              :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-              style="padding-bottom: 34px"
-              v-html="$page.individuals.edges[0].node.rent.body[getLang]"
-            />
-            <g-link
-              :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-600'"
-              class="personality-test-btn-small white--text text-uppercase text-center"
-            >
-              {{ $page.individuals.edges[0].node.rent.button[getLang] }}
-            </g-link>
+          <v-col class="text-center" cols="11" v-waypoint="{ active: true, callback: onRentElMob, options: elIsOpt }">
+            <template v-if="rentElMob">
+              <transition name="surf" appear>
+                <div>
+                  <div
+                    :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
+                    class="pb-6"
+                    v-html="$page.individuals.edges[0].node.rent.title[getLang]"
+                  />
+                  <div
+                    :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                    style="padding-bottom: 34px"
+                    v-html="$page.individuals.edges[0].node.rent.body[getLang]"
+                  />
+                  <g-link
+                    :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-600'"
+                    class="personality-test-btn-small white--text text-uppercase text-center"
+                  >
+                    {{ $page.individuals.edges[0].node.rent.button[getLang] }}
+                  </g-link>
+                </div>
+              </transition>
+            </template>
+            <template v-else>
+              <div
+                :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
+                class="pb-6"
+                v-html="$page.individuals.edges[0].node.rent.title[getLang]"
+              />
+              <div
+                :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                style="padding-bottom: 34px"
+                v-html="$page.individuals.edges[0].node.rent.body[getLang]"
+              />
+              <g-link
+                :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-600'"
+                class="personality-test-btn-small white--text text-uppercase text-center"
+              >
+                {{ $page.individuals.edges[0].node.rent.button[getLang] }}
+              </g-link>
+            </template>
           </v-col>
         </v-row>
 
@@ -219,17 +356,27 @@
 import { mapGetters } from "vuex"
 
 export default {
+  mounted () {
+    setTimeout( () => this.wpActiveMob = true, 1000)
+  },
   data () {
     return {
       /* Elements CSS transitions */
       // intersection option for all
+      wpActiveMob: false,
       elIsOpt: {
         threshold: [0],
       },
+      // Main Section
+      mainElMob: false,
       // Advantages Section
       advantagesEl: false,
+      advantagesElMob0: false,
+      advantagesElMob1: false,
+      advantagesElMob2: false,
       // Rent Section
       rentEl: false,
+      rentElMob: false,
       /* Sections */
       // main
       main: {
@@ -258,14 +405,39 @@ export default {
   },
   methods: {
     /* Element CSS transitions */
+    onMainElMob ({ going, direction }) {
+      if (going === this.$waypointMap.GOING_IN) {
+        this.mainElMob = true
+      }
+    },
     onAdvantagesEl ({ going, direction }) {
       if (going === this.$waypointMap.GOING_IN && direction) {
         this.advantagesEl = true
       }
     },
+    onAdvantagesElMob0 ({ going, direction }) {
+      if (going === this.$waypointMap.GOING_IN && direction) {
+        this.advantagesElMob0 = true
+      }
+    },
+    onAdvantagesElMob1 ({ going, direction }) {
+      if (going === this.$waypointMap.GOING_IN && direction) {
+        this.advantagesElMob1 = true
+      }
+    },
+    onAdvantagesElMob2 ({ going, direction }) {
+      if (going === this.$waypointMap.GOING_IN && direction) {
+        this.advantagesElMob2 = true
+      }
+    },
     onRentEl ({ going, direction }) {
       if (going === this.$waypointMap.GOING_IN && direction) {
         this.rentEl = true
+      }
+    },
+    onRentElMob ({ going, direction }) {
+      if (going === this.$waypointMap.GOING_IN && direction) {
+        this.rentElMob = true
       }
     },
   },
