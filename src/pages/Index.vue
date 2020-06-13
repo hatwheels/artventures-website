@@ -49,38 +49,18 @@
                 />
               </v-col>
               <v-col class="pl-2 pr-12" cols="6">
-                <div class="pr-8" v-waypoint="{ active: true, callback: onAboutTextEl, options: elIsOpt }">
-
-                  <template v-if="aboutTextEl">
-                    <transition name="slide" appear>
-                      <div>
-                        <div
-                          :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
-                          class="color-333333 pb-7 pr-12"
-                          v-html="$page.about.edges[0].node.title[getLang]"
-                        />
-                        <div
-                          :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                          class="color-333333 pb-4 pr-12"
-                          v-html="$page.about.edges[0].node.body[getLang]"
-                        />
-                      </div>
-                    </transition>
-                  </template>
-                  <template v-else>
-                    <div
-                      :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
-                      class="color-333333 pb-7 pr-12"
-                      v-html="$page.about.edges[0].node.title[getLang]"
-                    />
-                    <div
-                      :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                      class="color-333333 pb-4 pr-12"
-                      v-html="$page.about.edges[0].node.body[getLang]"
-                    />
-                  </template>
-
-                </div>
+                <wp-transition class="pr-8" :isActive="true" nm="slide" :dir="false">
+                  <div
+                    :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+                    class="color-333333 pb-7 pr-12"
+                    v-html="$page.about.edges[0].node.title[getLang]"
+                  />
+                  <div
+                    :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                    class="color-333333 pb-4 pr-12"
+                    v-html="$page.about.edges[0].node.body[getLang]"
+                  />
+                </wp-transition>
               </v-col>
             </v-row>
           </div>
@@ -93,24 +73,13 @@
             class="px-12 background-color-white"
             v-waypoint="{ active: true, callback: onExplore, options: intersectOptions }"
           >
-            <div v-waypoint="{ active: true, callback: onExploreEl, options: elIsOpt }">
-              <template v-if="exploreEl">
-                <transition name="surf" appear>
-                  <div
-                    :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
-                    class="pb-10 my-0 text-center"
-                    v-html="$page.explore.edges[0].node.title[getLang]"
-                  />
-                </transition>
-              </template>
-              <template v-else>
-                <div
-                  :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
-                  class="pb-10 my-0 text-center"
-                  v-html="$page.explore.edges[0].node.title[getLang]"
-                />
-              </template>
-            </div>
+            <wp-transition :isActive="true" nm="surf">
+              <div
+                :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
+                class="pb-10 my-0 text-center"
+                v-html="$page.explore.edges[0].node.title[getLang]"
+              />
+            </wp-transition>
             <v-row class="pt-12" justify="space-between" align="center">
               <v-col class="px-4" cols="4" v-for="(image, i) in $page.explore.edges[0].node.images" :key="'exploreImages-' + i">
                 <v-img
@@ -150,51 +119,25 @@
                 <v-img contain :src="artists.img" :lazy-src="artists.lazy" />
               </v-col>
               <v-col class="pl-0 pr-5 col-artists-width">
-                <div class="color-333333" v-waypoint="{ active: true, callback: onArtistsTextEl, options: elIsOpt }">
-                  <!-- -->
-                  <template v-if="artistsTextEl">
-                    <transition name="slide" appear>
-                      <div>
-                        <div
-                          :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
-                          class="pb-9"
-                          v-html="$page.artists.edges[0].node.title[getLang]"
-                        />
-                        <div
-                          :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                          class="pb-8"
-                          v-html="$page.artists.edges[0].node.body[getLang]"
-                        />
-                        <g-link
-                          class="btn-grey white--text px-12 py-5 text-uppercase"
-                          :class="getLang === 'gr' ? 'noto-11p5-600' :'montserrat-11p5-600'"
-                          :to="artists.route"
-                        >
-                          {{ $page.artists.edges[0].node.button[getLang] }}
-                        </g-link>
-                      </div>
-                    </transition>
-                  </template>
-                  <template v-else>
-                    <div
-                      :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
-                      class="pb-9"
-                      v-html="$page.artists.edges[0].node.title[getLang]"
-                    />
-                    <div
-                      :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                      class="pb-8"
-                      v-html="$page.artists.edges[0].node.body[getLang]"
-                    />
-                    <g-link
-                      class="btn-grey white--text px-12 py-5 text-uppercase"
-                      :class="getLang === 'gr' ? 'noto-11p5-600' :'montserrat-11p5-600'"
-                      :to="artists.route"
-                    >
-                      {{ $page.artists.edges[0].node.button[getLang] }}
-                    </g-link>
-                  </template>
-                </div>
+                <wp-transition class="color-333333" :isActive="true" nm="slide">
+                  <div
+                    :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+                    class="pb-9"
+                    v-html="$page.artists.edges[0].node.title[getLang]"
+                  />
+                  <div
+                    :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                    class="pb-8"
+                    v-html="$page.artists.edges[0].node.body[getLang]"
+                  />
+                  <g-link
+                    class="btn-grey white--text px-12 py-5 text-uppercase"
+                    :class="getLang === 'gr' ? 'noto-11p5-600' :'montserrat-11p5-600'"
+                    :to="artists.route"
+                  >
+                    {{ $page.artists.edges[0].node.button[getLang] }}
+                  </g-link>
+                </wp-transition>
               </v-col>
             </v-row>
             <v-row class="py-3" justify="space-around" align="center">
@@ -203,36 +146,18 @@
                 v-for="(testimonial, i) in $page.artists.edges[0].node.testimonials"
                 :key="'artists-testimonials-' + i"
               >
-                <div v-waypoint="{ active: true, callback: onArtistsTestimonialsEl, options: elIsOpt }">
-                  <template v-if="artistsTestimonialsEl">
-                    <transition name="ride" appear>
-                      <div>
-                        <div
-                          :class="getLang === 'gr' ? 'noto-18-400-1p4em' : 'playfair-18-400-1p4em'"
-                          class="text-center"
-                          v-html="testimonial.quote[getLang]"
-                        />
-                        <div
-                          :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-600'"
-                          class="text-center pt-2"
-                          v-html="testimonial.author[getLang]"
-                        />
-                      </div>
-                    </transition>
-                  </template>
-                  <template v-else>
-                    <div
-                      :class="getLang === 'gr' ? 'noto-18-400-1p4em' : 'playfair-18-400-1p4em'"
-                      class="text-center"
-                      v-html="testimonial.quote[getLang]"
-                    />
-                    <div
-                      :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-600'"
-                      class="text-center pt-2"
-                      v-html="testimonial.author[getLang]"
-                    />
-                  </template>
-                </div>
+                <wp-transition :isActive="true" nm="ride">
+                  <div
+                    :class="getLang === 'gr' ? 'noto-18-400-1p4em' : 'playfair-18-400-1p4em'"
+                    class="text-center"
+                    v-html="testimonial.quote[getLang]"
+                  />
+                  <div
+                    :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-600'"
+                    class="text-center pt-2"
+                    v-html="testimonial.author[getLang]"
+                  />
+                </wp-transition>
               </v-col>
             </v-row>
           </div>
@@ -251,36 +176,17 @@
               </v-row>
               <v-row class="px-12 pt-3" justify="space-between">
                 <v-col class="color-333333" cols="4" v-for="(benefit, i) in $page.benefits.edges[0].node.benefits" :key="'benefit-text-' + i">
-                  <div v-waypoint="{ active: true, callback: onBenefitsTextEl, options: elIsOpt }">
-                    <template v-if="benefitsTextEl">
-                      <transition name="surf" appear>
-                        <div>
-                          <div
-                            class="pb-3"
-                            :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
-                            v-html="benefit.title[getLang]"
-                          />
-                          <div
-                            :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                            v-html="benefit.body[getLang]"
-                          />
-                        </div>
-                      </transition>
-                    </template>
-                    <template v-else>
-                      <div>
-                        <div
-                          class="pb-3"
-                          :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
-                          v-html="benefit.title[getLang]"
-                        />
-                        <div
-                          :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                          v-html="benefit.body[getLang]"
-                        />
-                      </div>
-                    </template>
-                  </div>
+                  <wp-transition :isActive="true" nm="surf">
+                    <div
+                      class="pb-3"
+                      :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+                      v-html="benefit.title[getLang]"
+                    />
+                    <div
+                      :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                      v-html="benefit.body[getLang]"
+                    />
+                  </wp-transition>
                 </v-col>
               </v-row>
             </div>
@@ -292,24 +198,13 @@
             class="pt-8 pb-12 white"
             v-waypoint="{ active: true, callback: onMedia, options: intersectOptions}"
           >
-            <div v-waypoint="{ active: true, callback: onMediaEl, options: elIsOpt }">
-              <template v-if="mediaEl">
-                <transition name="ride" appear>
-                  <div
-                    :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
-                    class="text-center color-333333 pb-12 mb-0"
-                    v-html="$page.media.edges[0].node.title[getLang]"
-                  />
-                </transition>
-              </template>
-              <template v-else>
-                <div
-                  :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
-                  class="text-center color-333333 pb-12 mb-0"
-                  v-html="$page.media.edges[0].node.title[getLang]"
-                />
-              </template>
-            </div>
+            <wp-transition :isActive="true" nm="ride">
+              <div
+                :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
+                class="text-center color-333333 pb-12 mb-0"
+                v-html="$page.media.edges[0].node.title[getLang]"
+              />
+            </wp-transition>
             <div class="carousel-upper swiper-container">
               <div class="carousel-mid text-center pt-12" v-swiper:swiperNormal="swiperOption">
                 <div class="carousel-lower swiper-wrapper">
@@ -330,16 +225,9 @@
           class="background-color-dddddd py-12"
           v-waypoint="{ active: true, callback: onContact, options: intersectOptions}"
         >
-          <div v-waypoint="{ active: true, callback: onContactEl, options: elIsOpt}">
-            <template v-if="contactEl">
-              <transition name="surf" appear>
-                <contact-us />
-              </transition>
-            </template>
-            <template v-else>
-              <contact-us />
-            </template>
-          </div>
+          <wp-transition :isActive="true" nm="surf">
+            <contact-us />
+          </wp-transition>
         </div>
 
       </v-container>
@@ -359,38 +247,18 @@
           </v-row>
           <v-row justify="center" align="center">
             <v-col cols="11">
-              <div v-waypoint="{ active: true, callback: onAboutTitleElMob, options: elIsOpt }">
-                <template v-if="aboutTitleElMob">
-                  <transition name="ride" appear>
-                    <div>
-                      <div
-                        :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
-                        class="color-333333 pb-2"
-                        v-html="$page.about.edges[0].node.title[getLang]"
-                      />
-                      <div
-                        :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                        class="color-333333 pb-2"
-                        v-html="$page.about.edges[0].node.body[getLang]"
-                      />
-                    </div>
-                  </transition>
-                </template>
-                <template v-else>
-                  <div>
-                    <div
-                      :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
-                      class="color-333333 pb-2"
-                      v-html="$page.about.edges[0].node.title[getLang]"
-                    />
-                    <div
-                      :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                      class="color-333333 pb-2"
-                      v-html="$page.about.edges[0].node.body[getLang]"
-                    />
-                  </div>
-                </template>
-              </div>
+              <wp-transition :isActive="true" nm="ride" :dir="false">
+                <div
+                  :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+                  class="color-333333 pb-2"
+                  v-html="$page.about.edges[0].node.title[getLang]"
+                />
+                <div
+                  :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                  class="color-333333 pb-2"
+                  v-html="$page.about.edges[0].node.body[getLang]"
+                />
+              </wp-transition>
             </v-col>
           </v-row>
         </div>
@@ -399,30 +267,13 @@
 
         <!-- Explore -->
         <div id="explore-small">
-          <div
-            v-if="wpActiveMob"
-            v-waypoint="{ active: true, callback: onExploreElMob, options: elIsOpt }"
-          />
-          <template v-if="exploreElMob">
-            <transition name="surf" appear>
-              <div
-                :class="getLang === 'gr' ? 'noto-32-700' : 'playfair-32-700'"
-                class="pb-4 my-0 text-center"
-                v-html="$page.explore.edges[0].node.title[getLang]"
-              />
-            </transition>
-          </template>
-          <template v-else>
+          <wp-transition :isActive="wpActiveMob">
             <div
               :class="getLang === 'gr' ? 'noto-32-700' : 'playfair-32-700'"
               class="pb-4 my-0 text-center"
               v-html="$page.explore.edges[0].node.title[getLang]"
             />
-          </template>
-          <div
-            v-if="wpActiveMob"
-            v-waypoint="{ active: true, callback: onExploreElMob, options: elIsOpt }"
-          />
+          </wp-transition>
           <v-row
             class="pt-2"
             justify="center"
@@ -465,44 +316,18 @@
             </v-row>
             <v-row justify="center" align="center">
               <v-col cols=11>
-                <div
-                  v-if="wpActiveMob"
-                  v-waypoint="{ active: true, callback: onArtistsElMob, options: elIsOpt }"
-                />
-                <template v-if="artistsElMob">
-                  <transition name="ride" appear>
-                    <div class="color-333333">
-                      <div
-                        :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
-                        class="pb-2"
-                        v-html="$page.artists.edges[0].node.title[getLang]"
-                      />
-                      <div
-                        :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                        class="pb-2"
-                        v-html="$page.artists.edges[0].node.body[getLang]"
-                      />
-                    </div>
-                  </transition>
-                </template>
-                <template v-else>
-                  <div class="color-333333">
-                    <div
-                      :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
-                      class="pb-2"
-                      v-html="$page.artists.edges[0].node.title[getLang]"
-                    />
-                    <div
-                      :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                      class="pb-2"
-                      v-html="$page.artists.edges[0].node.body[getLang]"
-                    />
-                  </div>
-                </template>
-                <div
-                  v-if="wpActiveMob"
-                  v-waypoint="{ active: true, callback: onArtistsElMob, options: elIsOpt }"
-                />
+                <wp-transition :isActive="wpActiveMob" nm="ride">
+                  <div
+                    :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+                    class="pb-2"
+                    v-html="$page.artists.edges[0].node.title[getLang]"
+                  />
+                  <div
+                    :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                    class="pb-2"
+                    v-html="$page.artists.edges[0].node.body[getLang]"
+                  />
+                </wp-transition>
               </v-col>
             </v-row>
             <v-row class="my-1" justify="center" align="center">
@@ -525,27 +350,7 @@
                 class="color-1a1a1a"
                 cols=11
               >
-                <div
-                  v-if="wpActiveMob"
-                  v-waypoint="{ active: true, callback: onArtistsTestimonialsElMob, options: elIsOpt }"
-                />
-                <template v-if="artistsTestimonialsElMob">
-                  <transition name="surf" appear>
-                    <div>
-                      <div
-                        :class="getLang === 'gr' ? 'noto-18-400-1p4em' : 'playfair-18-400-1p4em'"
-                        class="text-center"
-                        v-html="testimonial.quote[getLang]"
-                      />
-                      <div
-                        :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-600'"
-                        class="text-center pt-2"
-                        v-html="testimonial.author[getLang]"
-                      />
-                    </div>
-                  </transition>
-                </template>
-                <template v-else>
+                <wp-transition :isActive="wpActiveMob" nm="surf">
                   <div
                     :class="getLang === 'gr' ? 'noto-18-400-1p4em' : 'playfair-18-400-1p4em'"
                     class="text-center"
@@ -556,11 +361,7 @@
                     class="text-center pt-2"
                     v-html="testimonial.author[getLang]"
                   />
-                </template>
-                <div
-                  v-if="wpActiveMob"
-                  v-waypoint="{ active: true, callback: onArtistsTestimonialsElMob, options: elIsOpt }"
-                />
+                </wp-transition>
               </v-col>
             </v-row>
           </div>
@@ -571,121 +372,21 @@
           id="benefits-small"
           class="background-color-fafafa pt-6"
         >
-          <v-row justify="center">
+          <v-row justify="center" v-for="(benefit, i) in $page.benefits.edges[0].node.benefits" :key="'benefits-small-' + i">
             <v-col cols=11>
-              <v-img class="mb-4" :src="benefits[0].img" :lazy-src="benefits[0].lazy" />
-              <div
-                v-if="wpActiveMob"
-                v-waypoint="{ active: true, callback: onBenefitsElMob0, options: elIsOpt }"
-              />
-              <template v-if="benefitsElMob0">
-                <transition name="ride" appear>
-                  <div class="color-333333 pb-6">
-                    <div
-                      :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
-                      v-html="$page.benefits.edges[0].node.benefits[0].title[getLang]"
-                    />
-                    <div
-                      :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                      v-html="$page.benefits.edges[0].node.benefits[0].body[getLang]"
-                    />
-                  </div>
-                </transition>
-              </template>
-              <template v-else>
+              <v-img class="mb-4" :src="benefits[i].img" :lazy-src="benefits[i].lazy" />
+              <wp-transition :isActive="wpActiveMob" nm="ride">
                 <div class="color-333333 pb-6">
                   <div
                     :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
-                    v-html="$page.benefits.edges[0].node.benefits[0].title[getLang]"
+                    v-html="benefit.title[getLang]"
                   />
                   <div
                     :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                    v-html="$page.benefits.edges[0].node.benefits[0].body[getLang]"
+                    v-html="benefit.body[getLang]"
                   />
                 </div>
-              </template>
-              <div
-                v-if="wpActiveMob"
-                v-waypoint="{ active: true, callback: onBenefitsElMob0, options: elIsOpt }"
-              />
-            </v-col>
-          </v-row>
-          <v-row justify="center">
-            <v-col cols=11>
-              <v-img class="mb-4" :src="benefits[1].img" :lazy-src="benefits[1].lazy" />
-              <div
-                v-if="wpActiveMob"
-                v-waypoint="{ active: true, callback: onBenefitsElMob1, options: elIsOpt }"
-              />
-              <template v-if="benefitsElMob1">
-                <transition name="ride" appear>
-                  <div class="color-333333 pb-6">
-                    <div
-                      :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
-                      v-html="$page.benefits.edges[0].node.benefits[1].title[getLang]"
-                    />
-                    <div
-                      :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                      v-html="$page.benefits.edges[0].node.benefits[1].body[getLang]"
-                    />
-                  </div>
-                </transition>
-              </template>
-              <template v-else>
-                <div class="color-333333 pb-6">
-                  <div
-                    :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
-                    v-html="$page.benefits.edges[0].node.benefits[1].title[getLang]"
-                  />
-                  <div
-                    :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                    v-html="$page.benefits.edges[0].node.benefits[1].body[getLang]"
-                  />
-                </div>
-              </template>
-              <div
-                v-if="wpActiveMob"
-                v-waypoint="{ active: true, callback: onBenefitsElMob1, options: elIsOpt }"
-              />
-            </v-col>
-          </v-row>
-          <v-row justify="center">
-            <v-col cols=11>
-              <v-img class="mb-4" :src="benefits[2].img" :lazy-src="benefits[2].lazy" />
-              <div
-                v-if="wpActiveMob"
-                v-waypoint="{ active: true, callback: onBenefitsElMob2, options: elIsOpt }"
-              />
-              <template v-if="benefitsElMob2">
-                <transition name="ride" appear>
-                  <div class="color-333333 pb-6">
-                    <div
-                      :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
-                      v-html="$page.benefits.edges[0].node.benefits[2].title[getLang]"
-                    />
-                    <div
-                      :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                      v-html="$page.benefits.edges[0].node.benefits[2].body[getLang]"
-                    />
-                  </div>
-                </transition>
-              </template>
-              <template v-else>
-                <div class="color-333333 pb-6">
-                  <div
-                    :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
-                    v-html="$page.benefits.edges[0].node.benefits[2].title[getLang]"
-                  />
-                  <div
-                    :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                    v-html="$page.benefits.edges[0].node.benefits[2].body[getLang]"
-                  />
-                </div>
-              </template>
-              <div
-                v-if="wpActiveMob"
-                v-waypoint="{ active: true, callback: onBenefitsElMob2, options: elIsOpt }"
-              />
+              </wp-transition>
             </v-col>
           </v-row>
         </div>
@@ -695,30 +396,13 @@
           id="media-small"
           class="pt-8 pb-10 white"
         >
-          <div
-            v-if="wpActiveMob"
-            v-waypoint="{ active: true, callback: onMediaElMob, options: elIsOpt }"
-          />
-          <template v-if="mediaElMob">
-            <transition name="surf" appear>
-              <div
-                :class="getLang === 'gr' ? 'noto-32-700' : 'playfair-32-700'"
-                class="text-center color-333333 pb-2 mb-0"
-                v-html="$page.media.edges[0].node.title[getLang]"
-              />
-            </transition>
-          </template>
-          <template v-else>
+          <wp-transition :isActive="wpActiveMob" nm="surf">
             <div
               :class="getLang === 'gr' ? 'noto-32-700' : 'playfair-32-700'"
               class="text-center color-333333 pb-2 mb-0"
               v-html="$page.media.edges[0].node.title[getLang]"
             />
-          </template>
-          <div
-            v-if="wpActiveMob"
-            v-waypoint="{ active: true, callback: onMediaElMob, options: elIsOpt }"
-          />
+          </wp-transition>
           <div class="carousel-upper-small swiper-container">
             <div class="carousel-mid-small text-center pt-12" v-swiper:swiperSmall="swiperOption">
               <div class="carousel-lower-small swiper-wrapper">
@@ -731,20 +415,14 @@
           </div>
         </div>
 
-        <div
+        <wp-transition
           id="contact-us-small"
           class="background-color-dddddd pt-4 pb-12"
-          v-waypoint="{ active: true, callback: onContactElMob, options: elIsOpt }"
+          :isActive="wpActiveMob"
+          nm="ride"
         >
-          <template v-if="contactElMob">
-            <transition name="ride" appear>
-              <contact-us class="pb-12" :isSmall="true" colWidth="11" />
-            </transition>
-          </template>
-          <template v-else>
-            <contact-us class="pb-12" :isSmall="true" colWidth="11" />
-          </template>
-        </div>
+          <contact-us class="pb-12" :isSmall="true" colWidth="11" />
+        </wp-transition>
 
       </v-container>
     </v-content>
@@ -757,10 +435,12 @@
 import { mapGetters } from "vuex"
 import { directive } from 'vue-awesome-swiper'
 import ContactUs from '~/components/ContactUs.vue'
+import WpTransition from '~/components/WpTransition.vue'
 
 export default {
   components: {
     ContactUs,
+    WpTransition,
   },
   directives: {
     swiper: directive
@@ -811,30 +491,6 @@ export default {
       elIsOpt: {
         threshold: [0],
       },
-      // About section
-      // Title
-      aboutTitleElMob: false,
-      // Text
-      aboutTextEl: false,
-      // Artists section
-      artistsTextEl: false,
-      artistsTestimonialsEl: false,
-      artistsElMob: false,
-      artistsTestimonialsElMob: false,
-      // Explore Section
-      exploreEl: false,
-      exploreElMob: false,
-      // Benefits Section
-      benefitsTextEl: false,
-      benefitsElMob0:false,
-      benefitsElMob1:false,
-      benefitsElMob2:false,
-      // Media Section
-      mediaEl: false,
-      mediaElMob: false,
-      // Contact Section
-      contactEl: false,
-      contactElMob: false,
       /* Side Navigation */
       sideNav: [
         {
@@ -999,98 +655,6 @@ export default {
           easings: 'easeOutSine'
         })
       }, 400)
-    },
-    /* CSS transition on View */
-    // About Section
-    // Title
-    onAboutTitleElMob ({ going, direction }) {
-      if (going === this.$waypointMap.GOING_IN) {
-        this.aboutTitleElMob = true
-      }
-    },
-    // Text
-    onAboutTextEl ({ going, direction }) {
-      if (going === this.$waypointMap.GOING_IN) {
-        this.aboutTextEl = true
-      }
-    },
-    // Explore Section
-    onExploreEl ({ going, direction }) {
-      if (going === this.$waypointMap.GOING_IN && direction) {
-        this.exploreEl = true
-      }
-    },
-    onExploreElMob ({ going, direction }) {
-      if (going === this.$waypointMap.GOING_IN && direction) {
-        this.exploreElMob = true
-      }
-    },
-    // Artists Section
-    // Text
-    onArtistsTextEl ({ going, direction }) {
-      if (going === this.$waypointMap.GOING_IN && direction) {
-        this.artistsTextEl = true
-      }
-    },
-    onArtistsElMob ({ going, direction }) {
-      if (going === this.$waypointMap.GOING_IN && direction) {
-        this.artistsElMob = true
-      }
-    },
-    // Testimonials
-    onArtistsTestimonialsEl ({ going, direction }) {
-      if (going === this.$waypointMap.GOING_IN && direction) {
-        this.artistsTestimonialsEl = true
-      }
-    },
-    onArtistsTestimonialsElMob ({ going, direction }) {
-      if (going === this.$waypointMap.GOING_IN && direction) {
-        this.artistsTestimonialsElMob = true
-      }
-    },
-    // Benefits Section
-    // Text
-    onBenefitsTextEl ({ going, direction }) {
-      if (going === this.$waypointMap.GOING_IN && direction) {
-        this.benefitsTextEl = true
-      }
-    },
-    onBenefitsElMob0 ({ going, direction }) {
-      if (going === this.$waypointMap.GOING_IN && direction) {
-        this.benefitsElMob0 = true
-      }
-    },
-    onBenefitsElMob1 ({ going, direction }) {
-      if (going === this.$waypointMap.GOING_IN && direction) {
-        this.benefitsElMob1 = true
-      }
-    },
-    onBenefitsElMob2 ({ going, direction }) {
-      if (going === this.$waypointMap.GOING_IN && direction) {
-        this.benefitsElMob2 = true
-      }
-    },
-    // Media Section
-    onMediaEl ({ going, direction }) {
-      if (going === this.$waypointMap.GOING_IN && direction) {
-        this.mediaEl = true
-      }
-    },
-    onMediaElMob ({ going, direction }) {
-      if (going === this.$waypointMap.GOING_IN && direction) {
-        this.mediaElMob = true
-      }
-    },
-    // Contact Section
-    onContactEl ({ going, direction }) {
-      if (going === this.$waypointMap.GOING_IN) {
-        this.contactEl = true
-      }
-    },
-    onContactElMob ({ going, direction }) {
-      if (going === this.$waypointMap.GOING_IN) {
-        this.contactElMob = true
-      }
     },
     /* Side Navigation */
     onAbout ({ going, direction }) {
