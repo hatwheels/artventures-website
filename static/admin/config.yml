@@ -405,22 +405,22 @@ collections:
                     fields:
                       - {label: english, name: en, widget: markdown}
                       - {label: greek, name: gr, widget: markdown}
-          # - label: Button
-          #   name: button
-          #   widget: object
-          #   fields:
-          #     - label: Title
-          #       name: title
-          #       widget: object
-          #       fields:
-          #         - {label: english, name: en, widget: string}
-          #         - {label: greek, name: gr, widget: string}
-          #     - label: Text
-          #       name: par
-          #       widget: object
-          #       fields:
-          #         - {label: english, name: en, widget: string}
-          #         - {label: greek, name: gr, widget: string}
+          - label: Button
+            name: button
+            widget: object
+            fields:
+              - label: Title
+                name: title
+                widget: object
+                fields:
+                  - {label: english, name: en, widget: string}
+                  - {label: greek, name: gr, widget: string}
+              - label: Text
+                name: par
+                widget: object
+                fields:
+                  - {label: english, name: en, widget: string}
+                  - {label: greek, name: gr, widget: string}
           # - label: Testimonials
           #   name: artisttestimonials
           #   widget: object
