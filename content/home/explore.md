@@ -1,12 +1,15 @@
 ---
 title:
-  en: Explore your options
+  en: Explore your optionsff
   gr: Ανακαλύψτε τις επιλογές σας
 images:
-  - {en: Individuals, gr: Ιδιώτες}
-  - {en: Businesses, gr: Επιχειρήσεις}
-  - {en: Hotels, gr: Ξενοδοχεία}
+  - en: Individuals
+    gr: Ιδιώτες
+  - en: Businesses
+    gr: Επιχειρήσεις
+  - en: Hotels
+    gr: Ξενοδοχεία
 button:
-    en: Find out more
-    gr: Δειτε περισσοτερα
+  en: Find out more
+  gr: Δειτε περισσοτερα
 ---
