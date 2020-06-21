@@ -5,9 +5,9 @@ main:
     gr: Εσύ δημιουργείς. Εμείς κάνουμε όλη την δουλειά
   par:
     en: |+
-        Artventures brings artwork from today’s most talented artists into businesses and real estate nationwide. We work with painters, photographers, illustrators, sculptors, and installation artists to provide our clients with collections of artwork that are engaging and personal.
+      Artventures brings artwork from today’s most talented artists into businesses and real estate nationwide. We work with painters, photographers, illustrators, sculptors, and installation artists to provide our clients with collections of artwork that are engaging and personal.
     gr: |+
-        Artventures brings artwork from today’s most talented artists into businesses and real estate nationwide. We work with painters, photographers, illustrators, sculptors, and installation artists to provide our clients with collections of artwork that are engaging and personal.
+      Artventures brings artwork from today’s most talented artists into businesses and real estate nationwide. We work with painters, photographers, illustrators, sculptors, and installation artists to provide our clients with collections of artwork that are engaging and personal.
   button:
     en: Show us your Art
     gr: Δειξε μας την Τεχνη σου
