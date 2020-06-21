@@ -21,7 +21,7 @@
                   <div
                     :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
                     class="pb-8"
-                    v-html="$page.artists.edges[0].node.main.text[getLang]"
+                    v-html="$page.artists.edges[0].node.main.par[getLang]"
                   />
                   <a
                     class="btn-grey white--text px-12 py-5 text-uppercase"
@@ -41,7 +41,7 @@
                 <div
                   :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
                   class="pb-8"
-                  v-html="$page.artists.edges[0].node.main.text[getLang]"
+                  v-html="$page.artists.edges[0].node.main.par[getLang]"
                 />
                 <a
                   class="btn-grey white--text px-12 py-5 text-uppercase"
@@ -81,7 +81,7 @@
                     />
                     <div
                       :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                      v-html="advantage.text[getLang]"
+                      v-html="advantage.par[getLang]"
                     />
                   </div>
                 </transition>
@@ -95,7 +95,7 @@
                   />
                   <div
                     :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                    v-html="advantage.text[getLang]"
+                    v-html="advantage.par[getLang]"
                   />
                 </div>
               </template>
@@ -132,7 +132,7 @@
                     />
                     <div
                       :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
-                      v-html="earning.text[getLang]"
+                      v-html="earning.par[getLang]"
                     />
                   </v-col>
                 </v-row>
@@ -159,7 +159,7 @@
                   />
                   <div
                     :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
-                    v-html="earning.text[getLang]"
+                    v-html="earning.par[getLang]"
                   />
                 </v-col>
               </v-row>
@@ -186,7 +186,7 @@
                   :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-600'"
                   class="join-btn white--text text-uppercase"
                 >
-                  {{ $page.artists.edges[0].node.button.text[getLang] }}
+                  {{ $page.artists.edges[0].node.button.par[getLang] }}
                 </a>
               </div>
             </transition>
@@ -201,7 +201,7 @@
               :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-600'"
               class="join-btn white--text text-uppercase"
             >
-              {{ $page.artists.edges[0].node.button.text[getLang] }}
+              {{ $page.artists.edges[0].node.button.par[getLang] }}
             </a>
           </template>
         </div>
@@ -313,7 +313,7 @@
                   <div
                     :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
                     class="pb-8"
-                    v-html="$page.artists.edges[0].node.main.text[getLang]"
+                    v-html="$page.artists.edges[0].node.main.par[getLang]"
                   />
                   <a
                     class="btn-grey white--text px-12 py-5 text-uppercase"
@@ -333,7 +333,7 @@
                 <div
                   :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
                   class="pb-8"
-                  v-html="$page.artists.edges[0].node.main.text[getLang]"
+                  v-html="$page.artists.edges[0].node.main.par[getLang]"
                 />
                 <a
                   class="btn-grey white--text px-12 py-5 text-uppercase"
@@ -363,7 +363,7 @@
                     />
                     <div
                       :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                      v-html="$page.artists.edges[0].node.advantages[0].text[getLang]"
+                      v-html="$page.artists.edges[0].node.advantages[0].par[getLang]"
                     />
                   </div>
                 </transition>
@@ -376,7 +376,7 @@
                   />
                   <div
                     :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                    v-html="$page.artists.edges[0].node.advantages[0].text[getLang]"
+                    v-html="$page.artists.edges[0].node.advantages[0].par[getLang]"
                   />
                 </div>
               </template>
@@ -402,7 +402,7 @@
                     />
                     <div
                       :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                      v-html="$page.artists.edges[0].node.advantages[1].text[getLang]"
+                      v-html="$page.artists.edges[0].node.advantages[1].par[getLang]"
                     />
                   </div>
                 </transition>
@@ -415,7 +415,7 @@
                   />
                   <div
                     :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                    v-html="$page.artists.edges[0].node.advantages[1].text[getLang]"
+                    v-html="$page.artists.edges[0].node.advantages[1].par[getLang]"
                   />
                 </div>
               </template>
@@ -441,7 +441,7 @@
                     />
                     <div
                       :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                      v-html="$page.artists.edges[0].node.advantages[2].text[getLang]"
+                      v-html="$page.artists.edges[0].node.advantages[2].par[getLang]"
                     />
                   </div>
                 </transition>
@@ -454,7 +454,7 @@
                   />
                   <div
                     :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                    v-html="$page.artists.edges[0].node.advantages[2].text[getLang]"
+                    v-html="$page.artists.edges[0].node.advantages[2].par[getLang]"
                   />
                 </div>
               </template>
@@ -498,7 +498,7 @@
                   />
                   <div
                     :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
-                    v-html="earning.text[getLang]"
+                    v-html="earning.par[getLang]"
                   />
                 </v-col>
               </v-row>
@@ -526,7 +526,7 @@
                 />
                 <div
                   :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
-                  v-html="earning.text[getLang]"
+                  v-html="earning.par[getLang]"
                 />
               </v-col>
             </v-row>
@@ -556,7 +556,7 @@
                 :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-600'"
                 class="join-btn white--text text-uppercase"
               >
-                {{ $page.artists.edges[0].node.button.text[getLang] }}
+                {{ $page.artists.edges[0].node.button.par[getLang] }}
               </a>
             </div>
           </transition>
@@ -572,7 +572,7 @@
               :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-600'"
               class="join-btn white--text text-uppercase"
             >
-              {{ $page.artists.edges[0].node.button.text[getLang] }}
+              {{ $page.artists.edges[0].node.button.par[getLang] }}
             </a>
           </div>
         </template>
