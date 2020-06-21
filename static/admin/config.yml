@@ -421,16 +421,16 @@ collections:
                 fields:
                   - {label: english, name: en, widget: string}
                   - {label: greek, name: gr, widget: string}
-          # - label: Testimonials
-          #   name: artisttestimonials
-          #   widget: object
-          #   fields:
-          #     - label: Title
-          #       name: title
-          #       widget: object
-          #       fields:
-          #         - {label: english, name: en, widget: string}
-          #         - {label: greek, name: gr, widget: string}
+          - label: Testimonials
+            name: artisttestimonials
+            widget: object
+            fields:
+              - label: Title
+                name: title
+                widget: object
+                fields:
+                  - {label: english, name: en, widget: string}
+                  - {label: greek, name: gr, widget: string}
           #     - label: Testimonials
           #       name: items
           #       widget: object
