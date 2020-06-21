@@ -3,13 +3,13 @@ title:
   en: Explore your optionsff
   gr: Ανακαλύψτε τις επιλογές σαςff
 images:
-  - en: Individuals
-    gr: Ιδιώτες
-  - en: Businesses
-    gr: Επιχειρήσεις
-  - en: Hotels
-    gr: Ξενοδοχεία
+  - en: Individualsff
+    gr: Ιδιώτεςff
+  - en: Businessesff
+    gr: Επιχειρήσειςff
+  - en: Hotelsff
+    gr: Ξενοδοχείαff
 button:
-  en: Find out more
-  gr: Δειτε περισσοτερα
+  en: Find out moreff
+  gr: Δειτε περισσοτεραff
 ---
