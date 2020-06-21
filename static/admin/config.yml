@@ -351,18 +351,18 @@ collections:
                 fields:
                   - {label: english, name: en, widget: string}
                   - {label: greek, name: gr, widget: string}
-          #     - label: Text
-          #       name: par
-          #       widget: object
-          #       fields:
-          #         - {label: english, name: en, widget: markdown}
-          #         - {label: greek, name: gr, widget: markdown}
-          #     - label: Button
-          #       name: button
-          #       widget: object
-          #       fields:
-          #         - {label: english, name: en, widget: string}
-          #         - {label: greek, name: gr, widget: string}
+              - label: Text
+                name: par
+                widget: object
+                fields:
+                  - {label: english, name: en, widget: markdown}
+                  - {label: greek, name: gr, widget: markdown}
+              - label: Button
+                name: button
+                widget: object
+                fields:
+                  - {label: english, name: en, widget: string}
+                  - {label: greek, name: gr, widget: string}
           - label: Advantages
             name: advantages
             widget: list
