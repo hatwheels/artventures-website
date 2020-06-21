@@ -1,5 +1,5 @@
 ---
-main:
+mainartists:
   title:
     en: You create. We do all the work.
     gr: Εσύ δημιουργείς. Εμείς κάνουμε όλη την δουλειά

@@ -16,17 +16,17 @@
                   <div
                     :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
                     class="pb-9"
-                    v-html="$page.artists.edges[0].node.main.title[getLang]"
+                    v-html="$page.artists.edges[0].node.mainartists.title[getLang]"
                   />
                   <div
                     :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
                     class="pb-8"
-                    v-html="$page.artists.edges[0].node.main.par[getLang]"
+                    v-html="$page.artists.edges[0].node.mainartists.par[getLang]"
                   />
                   <a
                     class="btn-grey white--text px-12 py-5 text-uppercase"
                     :class="getLang === 'gr' ? 'noto-11p5-600' :'montserrat-11p5-600'"
-                    v-html="$page.artists.edges[0].node.main.button[getLang]"
+                    v-html="$page.artists.edges[0].node.mainartists.button[getLang]"
                   />
                 </div>
               </transition>
@@ -36,17 +36,17 @@
                 <div
                   :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
                   class="pb-9"
-                  v-html="$page.artists.edges[0].node.main.title[getLang]"
+                  v-html="$page.artists.edges[0].node.mainartists.title[getLang]"
                 />
                 <div
                   :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
                   class="pb-8"
-                  v-html="$page.artists.edges[0].node.main.par[getLang]"
+                  v-html="$page.artists.edges[0].node.mainartists.par[getLang]"
                 />
                 <a
                   class="btn-grey white--text px-12 py-5 text-uppercase"
                   :class="getLang === 'gr' ? 'noto-11p5-600' :'montserrat-11p5-600'"
-                  v-html="$page.artists.edges[0].node.main.button[getLang]"
+                  v-html="$page.artists.edges[0].node.mainartists.button[getLang]"
                 />
               </div>
             </template>
@@ -308,17 +308,17 @@
                   <div
                     :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
                     class="pb-9"
-                    v-html="$page.artists.edges[0].node.main.title[getLang]"
+                    v-html="$page.artists.edges[0].node.mainartists.title[getLang]"
                   />
                   <div
                     :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
                     class="pb-8"
-                    v-html="$page.artists.edges[0].node.main.par[getLang]"
+                    v-html="$page.artists.edges[0].node.mainartists.par[getLang]"
                   />
                   <a
                     class="btn-grey white--text px-12 py-5 text-uppercase"
                     :class="getLang === 'gr' ? 'noto-11p5-600' :'montserrat-11p5-600'"
-                    v-html="$page.artists.edges[0].node.main.button[getLang]"
+                    v-html="$page.artists.edges[0].node.mainartists.button[getLang]"
                   />
                 </div>
               </transition>
@@ -328,17 +328,17 @@
                 <div
                   :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
                   class="pb-9"
-                  v-html="$page.artists.edges[0].node.main.title[getLang]"
+                  v-html="$page.artists.edges[0].node.mainartists.title[getLang]"
                 />
                 <div
                   :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
                   class="pb-8"
-                  v-html="$page.artists.edges[0].node.main.par[getLang]"
+                  v-html="$page.artists.edges[0].node.mainartists.par[getLang]"
                 />
                 <a
                   class="btn-grey white--text px-12 py-5 text-uppercase"
                   :class="getLang === 'gr' ? 'noto-11p5-600' :'montserrat-11p5-600'"
-                  v-html="$page.artists.edges[0].node.main.button[getLang]"
+                  v-html="$page.artists.edges[0].node.mainartists.button[getLang]"
                 />
               </div>
             </template>
@@ -823,7 +823,7 @@ query {
   artists: allPages(filter: { path: { eq: "/content/pages/artists/" }}) {
   edges {
     node {
- 	    main {
+ 	    mainartists {
         title {
           en
           gr
