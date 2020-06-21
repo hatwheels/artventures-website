@@ -52,7 +52,7 @@ collections:
             fields:
               - {label: english, name: en, widget: string}
               - {label: greek, name: gr, widget: string}
-      # Explore Section
+      # Artists Section
       - label: "Artists Section"
         name: "artists"
         file: "content/home/artists.md"
@@ -85,7 +85,7 @@ collections:
                 fields:
                   - {label: english, name: en, widget: string}
                   - {label: greek, name: gr, widget: string}
-          - label: Text of the button
+          - label:  Button text
             name: button
             widget: object
             fields:
@@ -114,7 +114,7 @@ collections:
                   - {label: greek, name: gr, widget: markdown}
       # Media Section
       - label: "Media Section"
-        name: "mdeia"
+        name: "media"
         file: "content/home/media.md"
         fields:
           - label: Title
@@ -453,3 +453,19 @@ collections:
                 fields:
                   - {label: english, name: en, widget: string}
                   - {label: greek, name: gr, widget: string}
+              - label: Testimonials
+                name: items
+                widget: object
+                fields:
+                  - label: Quote
+                    name: quote
+                    widget: object
+                    fields:
+                      - {label: english, name: en, widget: markdown}
+                      - {label: greek, name: gr, widget: markdown}
+                  - label: Author
+                    name: author
+                    widget: object
+                    fields:
+                      - {label: english, name: en, widget: string}
+                      - {label: greek, name: gr, widget: string}
