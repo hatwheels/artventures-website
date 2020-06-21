@@ -828,7 +828,7 @@ query {
           en
           gr
         }
-        text {
+        par {
           en
           gr
         }
@@ -842,7 +842,7 @@ query {
           en
           gr
         }
-        text {
+        par {
           en
           gr
         }
@@ -857,7 +857,7 @@ query {
             en
             gr
           }
-          text {
+          par {
             en
             gr
           }
@@ -868,7 +868,7 @@ query {
           en
           gr
         }
-        text {
+        par {
           en
           gr
         }
