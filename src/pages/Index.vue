@@ -58,7 +58,7 @@
                   <div
                     :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
                     class="color-333333 pb-4 pr-12"
-                    v-html="$page.about.edges[0].node.body[getLang]"
+                    v-html="$page.about.edges[0].node.text[getLang]"
                   />
                 </wp-transition>
               </v-col>
@@ -128,7 +128,7 @@
                   <div
                     :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
                     class="pb-8"
-                    v-html="$page.artists.edges[0].node.body[getLang]"
+                    v-html="$page.artists.edges[0].node.text[getLang]"
                   />
                   <g-link
                     class="btn-grey white--text px-12 py-5 text-uppercase"
@@ -184,7 +184,7 @@
                     />
                     <div
                       :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                      v-html="benefit.body[getLang]"
+                      v-html="benefit.text[getLang]"
                     />
                   </wp-transition>
                 </v-col>
@@ -256,7 +256,7 @@
                 <div
                   :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
                   class="color-333333 pb-2"
-                  v-html="$page.about.edges[0].node.body[getLang]"
+                  v-html="$page.about.edges[0].node.text[getLang]"
                 />
               </wp-transition>
             </v-col>
@@ -325,7 +325,7 @@
                   <div
                     :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
                     class="pb-2"
-                    v-html="$page.artists.edges[0].node.body[getLang]"
+                    v-html="$page.artists.edges[0].node.text[getLang]"
                   />
                 </wp-transition>
               </v-col>
@@ -383,7 +383,7 @@
                   />
                   <div
                     :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                    v-html="benefit.body[getLang]"
+                    v-html="benefit.text[getLang]"
                   />
                 </div>
               </wp-transition>
@@ -738,7 +738,7 @@ query {
           en
           gr
         }
-        body {
+        text {
           en
           gr
         }
@@ -770,7 +770,7 @@ query {
           en
           gr
         }
-        body {
+        text {
           en
           gr
         }
@@ -799,7 +799,7 @@ query {
             en
             gr
           }
-          body {
+          text {
             en
             gr
           }

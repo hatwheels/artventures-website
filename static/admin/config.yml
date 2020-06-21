@@ -23,8 +23,8 @@ collections:
             fields:
               - {label: english, name: en, widget: string}
               - {label: greek, name: gr, widget: string}
-          - label: Body
-            name: body
+          - label: Text
+            name: text
             widget: object
             fields:
               - {label: english, name: en, widget: markdown}
@@ -63,8 +63,8 @@ collections:
             fields:
               - {label: english, name: en, widget: string}
               - {label: greek, name: gr, widget: string}
-          - label: Body
-            name: body
+          - label: Text
+            name: text
             widget: object
             fields:
               - {label: english, name: en, widget: markdown}
@@ -106,8 +106,8 @@ collections:
                 fields:
                   - {label: english, name: en, widget: string}
                   - {label: greek, name: gr, widget: string}
-              - label: Body
-                name: body
+              - label: Text
+                name: text
                 widget: object
                 fields:
                   - {label: english, name: en, widget: markdown}
@@ -143,8 +143,8 @@ collections:
                 fields:
                   - {label: english, name: en, widget: string}
                   - {label: greek, name: gr, widget: string}
-              - label: Body
-                name: body
+              - label: Text
+                name: text
                 widget: object
                 fields:
                   - {label: english, name: en, widget: markdown}
@@ -165,8 +165,8 @@ collections:
                 fields:
                   - {label: english, name: en, widget: string}
                   - {label: greek, name: gr, widget: string}
-              - label: Body
-                name: body
+              - label: Text
+                name: text
                 widget: object
                 fields:
                   - {label: english, name: en, widget: markdown}
@@ -181,8 +181,8 @@ collections:
                 fields:
                   - {label: english, name: en, widget: string}
                   - {label: greek, name: gr, widget: string}
-              - label: Body
-                name: body
+              - label: Text
+                name: text
                 widget: object
                 fields:
                   - {label: english, name: en, widget: markdown}
@@ -209,8 +209,8 @@ collections:
                 fields:
                   - {label: english, name: en, widget: string}
                   - {label: greek, name: gr, widget: string}
-              - label: Body
-                name: body
+              - label: Text
+                name: text
                 widget: object
                 fields:
                   - {label: english, name: en, widget: markdown}
@@ -237,8 +237,8 @@ collections:
                 fields:
                   - {label: english, name: en, widget: string}
                   - {label: greek, name: gr, widget: string}
-              - label: Body
-                name: body
+              - label: Text
+                name: text
                 widget: object
                 fields:
                   - {label: english, name: en, widget: markdown}
@@ -275,8 +275,8 @@ collections:
                 fields:
                   - {label: english, name: en, widget: string}
                   - {label: greek, name: gr, widget: string}
-              - label: Body
-                name: body
+              - label: Text
+                name: text
                 widget: object
                 fields:
                   - {label: english, name: en, widget: markdown}
@@ -297,8 +297,8 @@ collections:
                 fields:
                   - {label: english, name: en, widget: string}
                   - {label: greek, name: gr, widget: string}
-              - label: Body
-                name: body
+              - label: Text
+                name: text
                 widget: object
                 fields:
                   - {label: english, name: en, widget: markdown}
@@ -329,8 +329,8 @@ collections:
                 fields:
                   - {label: english, name: en, widget: string}
                   - {label: greek, name: gr, widget: string}
-              - label: Body
-                name: body
+              - label: Text
+                name: text
                 widget: object
                 fields:
                   - {label: english, name: en, widget: string}
@@ -373,8 +373,8 @@ collections:
                 fields:
                   - {label: english, name: en, widget: string}
                   - {label: greek, name: gr, widget: string}
-              - label: Body
-                name: body
+              - label: Text
+                name: text
                 widget: object
                 fields:
                   - {label: english, name: en, widget: markdown}
@@ -395,8 +395,8 @@ collections:
                 fields:
                   - {label: english, name: en, widget: string}
                   - {label: greek, name: gr, widget: string}
-              - label: Body
-                name: body
+              - label: Text
+                name: text
                 widget: object
                 fields:
                   - {label: english, name: en, widget: markdown}
@@ -421,8 +421,8 @@ collections:
                     fields:
                       - {label: english, name: en, widget: string}
                       - {label: greek, name: gr, widget: string}
-                  - label: Body
-                    name: body
+                  - label: Text
+                    name: text
                     widget: object
                     fields:
                       - {label: english, name: en, widget: markdown}
@@ -437,8 +437,8 @@ collections:
                 fields:
                   - {label: english, name: en, widget: string}
                   - {label: greek, name: gr, widget: string}
-              - label: Body
-                name: body
+              - label: Text
+                name: text
                 widget: object
                 fields:
                   - {label: english, name: en, widget: string}

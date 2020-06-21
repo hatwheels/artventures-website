@@ -18,7 +18,7 @@
             <div
               :class="getLang === 'gr' ? 'noto-1p312vw-400' : 'raleway-1p312vw-400'"
               class="color-rgba-0-0-0-p52 pb-12"
-              v-html="$page.individuals.edges[0].node.main.body[getLang]"
+              v-html="$page.individuals.edges[0].node.main.text[getLang]"
             />
             <div class="pt-3" />
             <g-link
@@ -50,7 +50,7 @@
                 />
                 <div
                   :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                  v-html="advantage.body[getLang]"
+                  v-html="advantage.text[getLang]"
                 />
               </wp-transition>
             </v-col>
@@ -73,7 +73,7 @@
             <div
               :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
               style="padding-bottom: 34px"
-              v-html="$page.individuals.edges[0].node.rent.body[getLang]"
+              v-html="$page.individuals.edges[0].node.rent.text[getLang]"
             />
             <g-link
               :class="getLang === 'gr' ? 'noto-15-600-1p5' : 'raleway-15-600-1p5'"
@@ -108,7 +108,7 @@
               <div
                 :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
                 class="color-rgba-0-0-0-p52 pb-7"
-                v-html="$page.individuals.edges[0].node.main.body[getLang]"
+                v-html="$page.individuals.edges[0].node.main.text[getLang]"
               />
               <g-link
                 :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-400'"
@@ -134,7 +134,7 @@
                   />
                   <div
                     :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                    v-html="advantage.body[getLang]"
+                    v-html="advantage.text[getLang]"
                   />
                 </div>
               </wp-transition>
@@ -159,7 +159,7 @@
               <div
                 :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
                 style="padding-bottom: 34px"
-                v-html="$page.individuals.edges[0].node.rent.body[getLang]"
+                v-html="$page.individuals.edges[0].node.rent.text[getLang]"
               />
               <g-link
                 :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-600'"
@@ -245,7 +245,7 @@ query {
           en
           gr
         }
-        body {
+        text {
           en
           gr
         }
@@ -259,7 +259,7 @@ query {
           en
           gr
         }
-        body {
+        text {
           en
           gr
         }
@@ -269,7 +269,7 @@ query {
           en
           gr
         }
-        body {
+        text {
           en
           gr
         }

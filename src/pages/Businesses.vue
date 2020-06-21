@@ -18,7 +18,7 @@
             <div
               :class="getLang === 'gr' ? 'noto-1p312vw-400' : 'raleway-1p312vw-400'"
               class="color-rgba-0-0-0-p52 pb-12"
-              v-html="$page.businesses.edges[0].node.main.body[getLang]"
+              v-html="$page.businesses.edges[0].node.main.text[getLang]"
             />
             <div class="pt-3" />
             <g-link
@@ -53,7 +53,7 @@
                       />
                       <div
                         :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                        v-html="advantage.body[getLang]"
+                        v-html="advantage.text[getLang]"
                       />
                     </div>
                   </transition>
@@ -66,7 +66,7 @@
                     />
                     <div
                       :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                      v-html="advantage.body[getLang]"
+                      v-html="advantage.text[getLang]"
                     />
                   </div>
                 </template>
@@ -175,7 +175,7 @@
                   <div
                     :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
                     class="color-rgba-0-0-0-p52 pb-7"
-                    v-html="$page.businesses.edges[0].node.main.body[getLang]"
+                    v-html="$page.businesses.edges[0].node.main.text[getLang]"
                   />
                   <g-link
                     :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
@@ -196,7 +196,7 @@
               <div
                 :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
                 class="color-rgba-0-0-0-p52 pb-7"
-                v-html="$page.businesses.edges[0].node.main.body[getLang]"
+                v-html="$page.businesses.edges[0].node.main.text[getLang]"
               />
               <g-link
                 :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
@@ -227,7 +227,7 @@
                       />
                       <div
                         :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                        v-html="$page.businesses.edges[0].node.advantages[0].body[getLang]"
+                        v-html="$page.businesses.edges[0].node.advantages[0].text[getLang]"
                       />
                     </div>
                 </transition>
@@ -240,7 +240,7 @@
                   />
                   <div
                     :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                    v-html="$page.businesses.edges[0].node.advantages[0].body[getLang]"
+                    v-html="$page.businesses.edges[0].node.advantages[0].text[getLang]"
                   />
                 </div>
               </template>
@@ -266,7 +266,7 @@
                       />
                       <div
                         :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                        v-html="$page.businesses.edges[0].node.advantages[1].body[getLang]"
+                        v-html="$page.businesses.edges[0].node.advantages[1].text[getLang]"
                       />
                     </div>
                 </transition>
@@ -279,7 +279,7 @@
                   />
                   <div
                     :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                    v-html="$page.businesses.edges[0].node.advantages[1].body[getLang]"
+                    v-html="$page.businesses.edges[0].node.advantages[1].text[getLang]"
                   />
                 </div>
               </template>
@@ -305,7 +305,7 @@
                       />
                       <div
                         :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                        v-html="$page.businesses.edges[0].node.advantages[2].body[getLang]"
+                        v-html="$page.businesses.edges[0].node.advantages[2].text[getLang]"
                       />
                     </div>
                 </transition>
@@ -318,7 +318,7 @@
                   />
                   <div
                     :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                    v-html="$page.businesses.edges[0].node.advantages[2].body[getLang]"
+                    v-html="$page.businesses.edges[0].node.advantages[2].text[getLang]"
                   />
                 </div>
               </template>
@@ -549,7 +549,7 @@ query {
           en
           gr
         }
-        body {
+        text {
           en
           gr
         }
@@ -567,7 +567,7 @@ query {
           en
           gr
         }
-        body {
+        text {
           en
           gr
         }

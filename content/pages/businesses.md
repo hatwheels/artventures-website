@@ -3,7 +3,7 @@ main:
   title:
     en: Art that works for your business
     gr: Τέχνη που δουλεύει για την επιχείρηση σας
-  body:
+  text:
     en: |+
         Whether you’re a doctor, a lawyer, a small office or a company with hundreds of employees, we’re here to help you experience Art in your spaces.
     gr: |+
@@ -18,7 +18,7 @@ advantages:
   - title:
       en: Don’t lift a finger
       gr: Χωρίς να κουνήσετε ένα δάχτυλο
-    body:
+    text:
       en: |+
         Our team takes care of every detail, from design and curation to installation and rotation, so you don’t need to lift a finger.
       gr: |+
@@ -26,7 +26,7 @@ advantages:
   - title:
       en: Support local artists
       gr: Υποστηρίξτε τοπικούς καλλιτέχνες
-    body:
+    text:
       en: |+
         Exhibit artwork that represents your community and support the artists who share it with you. Whether you are renting or buying artwork, a percentage of every Euro you spend with Artventures is paid directly to the artists whose work you enjoy.
       gr: |+
@@ -34,7 +34,7 @@ advantages:
   - title:
       en: Get your team involved
       gr: Κάντε το σαν ομάδα
-    body:
+    text:
       en: |+
         You will work directly with one of our Art Advisors to explore our constantly expanding catalog. Final selections can be made through our community voting tool to engage your employees and build company culture.
       gr: |+

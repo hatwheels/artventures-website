@@ -3,7 +3,7 @@ main:
   title:
     en: Experience original Art without spending a fortune
     gr: Εξερευνήστε πρωτότυπη Τέχνη χωρίς να ξοδέψετε μια περιουσία
-  body:
+  text:
     en: |+
       Subscribe to Artventures. Get a new Artwork in your home. Change it whenever you want.<br>Take the Art personality test. Subscribe to Artventures. With 50€ per month, you’ll get a new work of Art every 2 or 3 months delivered to your space.
     gr: |+
@@ -15,7 +15,7 @@ advantages:
   - title:
       en: Experience it in person
       gr: Ζήστε την από κοντά
-    body:
+    text:
       en: |+
        Try the Art that inspires you the most, either by buying it, or by giving it a try in your space. With your subscription to Artventures you’ll have the chance to get in your space 4-6 different works of Art in a whole year, for a small amount every month. Moving to and from your place every 2-3 months is included in the subscription, and anytime you want, you can buy the artwork you enjoy, or even something by the same artist or genre.
       gr: |+
@@ -23,7 +23,7 @@ advantages:
   - title:
       en: Your Art speaks for you
       gr: Η Τέχνη μιλάει για εσάς
-    body:
+    text:
       en: |+
         Whether you’re looking to inspire, ask questions, start a conversation, make an impression, or challenge an assumption, the art you show can make the statement over and over in unique, dynamic ways.
       gr: |+
@@ -31,7 +31,7 @@ advantages:
   - title:
       en: Invest smart
       gr: Επενδύστε έξυπνα
-    body:
+    text:
       en: |+
         Get to know young and talented artists before they even gain much publicity, help those you value by trying out and / or purchasing their artworks, promote those you believe are worth more, by giving them the exposure they need. Start or increase your collection and give it good value by supporting and discovering new, promising artists at the same time.<br><br>Art Rentals for 50€ per month. Get original art in your home for a fixed monthly fee. We ship each work ready to hang. And we don’t believe in minimum terms or hidden costs, so there aren’t any.
       gr: |+
@@ -40,7 +40,7 @@ rent:
   title:
     en: Why Rent Art?
     gr: Γιατί να νοικιάσετε Τέχνη;
-  body:
+  text:
     en: |+
       Because that’s the best way to find out if what you love works. Or even fits. Renting a piece of art gives you a chance to road test, experiment, or explore your taste — risk free. Check trends or techniques you hadn’t seen before or learn about new and upcoming artists. And of course, whatever you like, you can buy it anytime you want.<br><br>What does the Art you like say about you?
     gr: |+

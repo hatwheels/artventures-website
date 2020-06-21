@@ -2,7 +2,7 @@
 title:
   en: A new Artwork in your space, anytime you want
   gr: Ένα νέο Έργο στο χώρο σας, όποτε το θελήσετε
-body:
+text:
   en: |+
     We are here to change the way you think and experience Art. So give us your hand and let us take you to your first... Artventure. Get original Art in your home, office, workspace or even your hotel, without spending a fortune.<br><br>Explore new, upcoming or well established artists from all over Greece, and experience Art as a Service.<br><br>Explore, rent and enjoy Art.
   gr: |+

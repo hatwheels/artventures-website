@@ -2,7 +2,7 @@
 title:
   en: Artists, Sell with us!
   gr: Καλλιτέχνες, πουλήστε με μας!
-body:
+text:
   en: |+
     Join Artventures’ team of Artists and get exposure, income and recognition. We don’t care if you’re young and upcoming or experienced and well established, we only care about your Art. Through our experts and partners we provide everything our sellers need, so you can focus on what you love to do – create exquisite Art!
   gr: |+

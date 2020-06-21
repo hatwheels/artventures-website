@@ -3,7 +3,7 @@ benefits:
   - title:
       en: Your Art speaks for you.
       gr: Η Τέχνη μιλάει για εσάς.
-    body:
+    text:
       en: |+
         Whether you’re looking to inspire, ask questions, start a conversation, make an impression, or challenge an assumption, the art you show can make the statement over and over in unique, dynamic ways.
       gr: |+
@@ -11,7 +11,7 @@ benefits:
   - title:
       en: Support local artists.
       gr: Υποστηρίξτε τοπικούς καλλιτέχνες.
-    body:
+    text:
       en: |+
         Exhibit artwork that represents your community and support the artists who share it with you. Whether you are renting or buying artwork, a percentage of every Euro you spend with Artventures is paid directly to the artists whose work you enjoy.
       gr: |+
@@ -19,7 +19,7 @@ benefits:
   - title:
       en: Invest smart.
       gr: Επενδύστε έξυπνα.
-    body:
+    text:
       en: |+
         Get to know young and talented artists before they even gain much publicity, help those you value by trying out and / or purchasing their artworks, promote those you believe are worth more, by giving them the exposure they need. Start or increase your collection and give it good value by supporting and discovering new, promising artists at the same time.
       gr: |+

@@ -3,7 +3,7 @@ main:
   title:
     en: You create. We do all the work.
     gr: Εσύ δημιουργείς. Εμείς κάνουμε όλη την δουλειά
-  body:
+  text:
     en: |+
         Artventures brings artwork from today’s most talented artists into businesses and real estate nationwide. We work with painters, photographers, illustrators, sculptors, and installation artists to provide our clients with collections of artwork that are engaging and personal.
     gr: |+
@@ -16,7 +16,7 @@ advantages:
   - title:
       en: Your Artist Team
       gr: Η καλλιτεχνική σου Ομάδα
-    body:
+    text:
       en: |+
         The Artventures Artist Team is ready to help with anything you may need, so never hesitate to be in touch. We’re artists ourselves, and we’re dedicated to your happiness and success.
       gr: |+
@@ -24,7 +24,7 @@ advantages:
   - title:
       en: Grow Your Audience
       gr: Αύξησε το Κοινο σου
-    body:
+    text:
       en: |+
         Artventures brings artwork from today’s most talented artists into businesses and real estate nationwide. We work with painters, photographers, illustrators, sculptors, and installation artists to provide our clients with collections of artwork that are engaging and personal.
       gr: |+
@@ -32,7 +32,7 @@ advantages:
   - title:
       en: Focus On Your Art
       gr: Επικεντρώσου στην Τέχνη
-    body:
+    text:
       en: |+
         Using the inventory information, you’ve provided through your Artist Dashboard, our team finds the right spaces for your work. We’ll take care of all of the details in marketing, sales, and logistics to free up your time to focus in the studio.
       gr: |+
@@ -45,7 +45,7 @@ earnings:
     - title:
         en: Leasing
         gr: Μίσθωση
-      body:
+      text:
         en: |+
           Earn a percentage of the artwork’s retail price for every month a piece is leased.
         gr: |+
@@ -53,7 +53,7 @@ earnings:
     - title:
         en: Sales
         gr: Πωλήσεις
-      body:
+      text:
         en: |+
           Earn a commission from selling your work with Artventures.
         gr: |+
@@ -61,7 +61,7 @@ earnings:
     - title:
         en: Commissions
         gr: Προμήθειες
-      body:
+      text:
         en: |+
           Earn revenue on site specific and commissioned client projects.
         gr: |+
@@ -70,7 +70,7 @@ button:
   title:
     en: Join the Artventures team
     gr: Γίνε μέλος της ομάδας μας
-  body:
+  text:
     en: Become our Artist
     gr: Γινε Καλλιτεχνης μας
 

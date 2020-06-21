@@ -3,7 +3,7 @@ main:
   title:
     en: Art that make your spaces shine
     gr: Τέχνη που κάνει τους χώρους σας να λάμπουν
-  body:
+  text:
     en: |+
         Transform your spaces to an “open gallery” and expand your brand narrative through Art.
         
@@ -19,7 +19,7 @@ advantages:
   - title:
       en: Take an innovative approach to renovation
       gr: Επιλέξτε μια καινοτόμα λύση για την ανακαίνιση
-    body:
+    text:
       en: |+
         Change the artwork in your spaces and rooms as often as you want.
         
@@ -29,7 +29,7 @@ advantages:
   - title:
       en: Discover the right piece of art for every room
       gr: Ανακαλύψτε την κατάλλητη τέχνη για κάθε χώρο
-    body:
+    text:
       en: |+
         From floor-to-ceiling lobby installations to hallway triptychs, we offer a full range of artworks. You’ll work one-on-one with a dedicated Art Advisor to find the perfect piece for every space.
       gr: |+
@@ -37,7 +37,7 @@ advantages:
   - title:
       en: Get more value and even more revenue
       gr: Αυξήστε την αξία και τα έσοδα σας
-    body:
+    text:
       en: |+
         Purchase or rent. Pay up front or over time. We offer a range of flexible options to make the most of your budget, every time. And get commissions from every sale.
       gr: |+
@@ -55,7 +55,7 @@ button:
   title:
     en: Find out what we can do for you
     gr: Ανακαλύψτε τι μπορούμε να κάνουμε για εσάς
-  body:
+  text:
     en: Complete the form
     gr: Συμπληρωστε την φορμα
 ---
