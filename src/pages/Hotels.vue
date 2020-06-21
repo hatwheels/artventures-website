@@ -43,34 +43,16 @@
           </v-row>
           <v-row class="px-12 pt-3" justify="space-around">
             <v-col class="color-333333" cols="4" v-for="(advantage, i) in $page.hotels.edges[0].node.advantages" :key="'advantage-' + i">
-              <div v-waypoint="{ active: true, callback: onAdvantagesEl, options: elIsOpt }">
-                <template v-if="advantagesEl">
-                  <transition name="ride" appear>
-                    <div>
-                      <div
-                        :class="getLang === 'gr' ? 'noto-30-700-1p2' : 'playfair-30-700-1p2'"
-                        v-html="advantage.title[getLang]"
-                      />
-                      <div
-                        :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                        v-html="advantage.body[getLang]"
-                      />
-                    </div>
-                  </transition>
-                </template>
-                <template v-else>
-                  <div>
-                    <div
-                      :class="getLang === 'gr' ? 'noto-30-700-1p2' : 'playfair-30-700-1p2'"
-                      v-html="advantage.title[getLang]"
-                    />
-                    <div
-                      :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                      v-html="advantage.body[getLang]"
-                    />
-                  </div>
-                </template>
-              </div>
+              <wp-transition :isActive="true" nm="ride">
+                <div
+                  :class="getLang === 'gr' ? 'noto-30-700-1p2' : 'playfair-30-700-1p2'"
+                  v-html="advantage.title[getLang]"
+                />
+                <div
+                  :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                  v-html="advantage.body[getLang]"
+                />
+              </wp-transition>
             </v-col>
           </v-row>
         </div>
@@ -87,38 +69,18 @@
             v-for="(testimonial, i) in $page.hotels.edges[0].node.testimonials"
             :key="'hot-testimonials-' + i"
           >
-            <div v-waypoint="{ active: true, callback: onTestimonialsEl, options: elIsOpt }">
-              <template v-if="testimonialsEl">
-                <transition name="surf" appear>
-                  <div>
-                    <div
-                      :class="getLang === 'gr' ? 'noto-18-400-1p4em' : 'playfair-18-400-1p4em'"
-                      class="text-center"
-                      v-html="testimonial.quote[getLang]"
-                    />
-                    <div
-                      :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-600'"
-                      class="text-center pt-2"
-                      v-html="testimonial.author[getLang]"
-                    />
-                  </div>
-                </transition>
-              </template>
-              <template v-else>
-                <div>
-                  <div
-                    :class="getLang === 'gr' ? 'noto-18-400-1p4em' : 'playfair-18-400-1p4em'"
-                    class="text-center"
-                    v-html="testimonial.quote[getLang]"
-                  />
-                  <div
-                    :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-600'"
-                    class="text-center pt-2"
-                    v-html="testimonial.author[getLang]"
-                  />
-                </div>
-              </template>
-            </div>
+            <wp-transition :isActive="true" nm="surf">
+              <div
+                :class="getLang === 'gr' ? 'noto-18-400-1p4em' : 'playfair-18-400-1p4em'"
+                class="text-center"
+                v-html="testimonial.quote[getLang]"
+              />
+              <div
+                :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-600'"
+                class="text-center pt-2"
+                v-html="testimonial.author[getLang]"
+              />
+            </wp-transition>
           </v-col>
         </v-row>
 
@@ -128,47 +90,23 @@
         </div>
 
         <!-- form -->
-        <div class="text-center pt-12" v-waypoint="{ active: true, callback: onFormEl, options: elIsOpt }">
-          <template v-if="formEl">
-            <transition name="ride" appear>
-              <div>
-                <div
-                  :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
-                  class="pb-6"
-                  v-html="$page.hotels.edges[0].node.button.title[getLang]"
-                />
-                <div class="custom-block">
-                  <g-link
-                    :class="getLang === 'gr' ? 'noto-15-600-1p5' : 'raleway-15-600-1p5'"
-                    class="form-btn white--text text-uppercase"
-                    :to="{ path: '/', hash:'#contact-us' }"
-                  >
-                    {{ $page.hotels.edges[0].node.button.body[getLang] }}
-                  </g-link>
-                </div>
-              </div>
-            </transition>
-          </template>
-          <template v-else>
-            <div>
-              <div
-                :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
-                class="pb-6"
-                v-html="$page.hotels.edges[0].node.button.title[getLang]"
-              />
-              <div class="custom-block">
-                <g-link
-                  :class="getLang === 'gr' ? 'noto-15-600-1p5' : 'raleway-15-600-1p5'"
-                  class="form-btn white--text text-uppercase"
-                  :to="{ path: '/', hash:'#contact-us' }"
-                >
-                  {{ $page.hotels.edges[0].node.button.body[getLang] }}
-                </g-link>
-              </div>
-            </div>
-          </template>
+        <wp-transition class="text-center pt-12" :isActive="true" nm="ride">
+          <div
+            :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
+            class="pb-6"
+            v-html="$page.hotels.edges[0].node.button.title[getLang]"
+          />
+          <div class="custom-block">
+            <g-link
+              :class="getLang === 'gr' ? 'noto-15-600-1p5' : 'raleway-15-600-1p5'"
+              class="form-btn white--text text-uppercase"
+              :to="{ path: '/', hash:'#contact-us' }"
+            >
+              {{ $page.hotels.edges[0].node.button.body[getLang] }}
+            </g-link>
+          </div>
           <div class="py-12" />
-        </div>
+        </wp-transition>
 
       </v-container>
     </v-content>
@@ -454,9 +392,13 @@
 </template>
 
 <script>
+import WpTransition from '~/components/WpTransition.vue'
 import { mapGetters } from "vuex"
 
 export default {
+  components: {
+    WpTransition,
+  },
   mounted () {
     setTimeout( () => this.wpActiveMob = true, 1000)
   },
@@ -471,15 +413,12 @@ export default {
       // Main Section
       mainElMob: false,
       // Advantages Section
-      advantagesEl: false,
       advantagesElMob0: false,
       advantagesElMob1: false,
       advantagesElMob2: false,
       // Testimonials Section
-      testimonialsEl: false,
       testimonialsElMob: false,
       // Form Section
-      formEl: false,
       formElMob: false,
       /* Sections */
       // main
@@ -514,11 +453,6 @@ export default {
         this.mainElMob = true
       }
     },
-    onAdvantagesEl ({ going, direction }) {
-      if (going === this.$waypointMap.GOING_IN && direction) {
-        this.advantagesEl = true
-      }
-    },
     onAdvantagesElMob0 ({ going, direction }) {
       if (going === this.$waypointMap.GOING_IN && direction) {
         this.advantagesElMob0 = true
@@ -534,19 +468,9 @@ export default {
         this.advantagesElMob2 = true
       }
     },
-    onTestimonialsEl ({ going, direction }) {
-      if (going === this.$waypointMap.GOING_IN && direction) {
-        this.testimonialsEl = true
-      }
-    },
     onTestimonialsElMob ({ going, direction }) {
       if (going === this.$waypointMap.GOING_IN && direction) {
         this.testimonialsElMob = true
-      }
-    },
-    onFormEl ({ going, direction }) {
-      if (going === this.$waypointMap.GOING_IN && direction) {
-        this.formEl = true
       }
     },
     onFormElMob ({ going, direction }) {
