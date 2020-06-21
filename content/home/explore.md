@@ -1,7 +1,7 @@
 ---
 title:
   en: Explore your optionsff
-  gr: Ανακαλύψτε τις επιλογές σας
+  gr: Ανακαλύψτε τις επιλογές σαςff
 images:
   - en: Individuals
     gr: Ιδιώτες
