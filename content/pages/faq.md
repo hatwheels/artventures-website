@@ -1,7 +1,7 @@
 ---
 qa:
   - q:
-      en: "Q: How does Artventures work?"
+      en: "Q: How does Artventures work?dsdsd"
       gr: "Ε: Πως λειτουργεί η Artventures;"
     a:
       en: >
@@ -121,19 +121,24 @@ qa:
         Send them to us! We are always looking for talented young artists. If
         there are any you would like to see at Artventures, then send us links
         to their personal websites and we'll check them out. You can contact us
-        <span><a class="hidden-sm-and-down" href="/#contact-us">here</a><a class="hidden-md-and-up" href="/#contact-us-small">here</a>.</span>
+        <span><a class="hidden-sm-and-down" href="/#contact-us">here</a><a
+        class="hidden-md-and-up" href="/#contact-us-small">here</a>.</span>
       gr: >
         Στείλτε τους σε εμάς! Ψάχνουμε πάντα για ταλαντούχους νέους καλλιτέχνες.
         Αν υπάρχουν κάποια που θα θέλατε να δείτε στην Artventures, τότε στείλτε
         μας συνδέσμους στους προσωπικούς τους ιστοτόπους και θα τους ελέγξουμε.
-        Μπορείτε να επικοινωνήσετε μαζί μας <span><a class="hidden-sm-and-down" href="/#contact-us">εδώ</a><a class="hidden-md-and-up" href="/#contact-us-small">εδώ</a>.</span>
+        Μπορείτε να επικοινωνήσετε μαζί μας <span><a class="hidden-sm-and-down"
+        href="/#contact-us">εδώ</a><a class="hidden-md-and-up"
+        href="/#contact-us-small">εδώ</a>.</span>
   - q:
       en: "Q: My question has not been answered. Where can I send my question?"
       gr: "E: Η ερώτησή μου δεν έχει απαντηθεί. Πού μπορώ να στείλω την ερώτησή μου;"
     a:
       en: >
-        Ιf your question does not answer above, you can contact us <span>
-        <a class="hidden-sm-and-down" href="/#contact-us">here</a><a class="hidden-md-and-up" href="/#contact-us-small">here</a>.</span>
+        Ιf your question does not answer above, you can contact us <span> <a
+        class="hidden-sm-and-down" href="/#contact-us">here</a><a
+        class="hidden-md-and-up" href="/#contact-us-small">here</a>.</span>
       gr: Αν η ερώτησή σας δεν απαντάτε παραπάνω, μπορείτε να επικοινωνήσετε μαζί μας
-        <span><a class="hidden-sm-and-down" href="/#contact-us">εδώ</a><a class="hidden-md-and-up" href="/#contact-us-small">εδώ</a>.</span>
+        <span><a class="hidden-sm-and-down" href="/#contact-us">εδώ</a><a
+        class="hidden-md-and-up" href="/#contact-us-small">εδώ</a>.</span>
 ---
