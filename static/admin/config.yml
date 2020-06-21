@@ -46,7 +46,7 @@ collections:
             fields:
               - {label: english, name: en, widget: string}
               - {label: greek, name: gr, widget: string}
-          - label: Text of the button
+          - label: Button text
             name: button
             widget: object
             fields:
