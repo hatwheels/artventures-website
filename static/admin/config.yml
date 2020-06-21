@@ -431,22 +431,22 @@ collections:
                 fields:
                   - {label: english, name: en, widget: string}
                   - {label: greek, name: gr, widget: string}
-          #     - label: Testimonials
-          #       name: items
-          #       widget: object
-          #       fields:
-          #         - label: Quote
-          #           name: quote
-          #           widget: object
-          #           fields:
-          #             - {label: english, name: en, widget: markdown}
-          #             - {label: greek, name: gr, widget: markdown}
-          #         - label: Author
-          #           name: author
-          #           widget: object
-          #           fields:
-          #             - {label: english, name: en, widget: string}
-          #             - {label: greek, name: gr, widget: string}
+              - label: Testimonials
+                name: items
+                widget: list
+                fields:
+                  - label: Quote
+                    name: quote
+                    widget: object
+                    fields:
+                      - {label: english, name: en, widget: markdown}
+                      - {label: greek, name: gr, widget: markdown}
+                  - label: Author
+                    name: author
+                    widget: object
+                    fields:
+                      - {label: english, name: en, widget: string}
+                      - {label: greek, name: gr, widget: string}
       # FAQ page
       - label: FAQ
         name: faq
