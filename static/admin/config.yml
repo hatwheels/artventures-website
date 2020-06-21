@@ -379,16 +379,16 @@ collections:
                 fields:
                   - {label: english, name: en, widget: markdown}
                   - {label: greek, name: gr, widget: markdown}
-          # - label: Earnings
-          #   name: earnings
-          #   widget: object
-          #   fields:
-          #     - label: Title
-          #       name: title
-          #       widget: object
-          #       fields:
-          #         - {label: english, name: en, widget: string}
-          #         - {label: greek, name: gr, widget: string}
+          - label: Earnings
+            name: earnings
+            widget: object
+            fields:
+              - label: Title
+                name: title
+                widget: object
+                fields:
+                  - {label: english, name: en, widget: string}
+                  - {label: greek, name: gr, widget: string}
           #     - label: Earning items
           #       name: items
           #       widget: list
