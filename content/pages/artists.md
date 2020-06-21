@@ -11,7 +11,6 @@ main:
   button:
     en: Show us your Art
     gr: Δειξε μας την Τεχνη σου
-
 advantages:
   - title:
       en: Your Artist Team
@@ -73,7 +72,6 @@ button:
   text:
     en: Become our Artist
     gr: Γινε Καλλιτεχνης μας
-
 artisttestimonials:
   title:
     en: Testimonials from our Artists
