@@ -341,16 +341,16 @@ collections:
         file: "content/pages/artists.md"
         extension: 'md'
         fields:
-          # - label: Main
-          #   name: mainartists
-          #   widget: object
-          #   fields:
-          #     - label: Title
-          #       name: title
-          #       widget: object
-          #       fields:
-          #         - {label: english, name: en, widget: string}
-          #         - {label: greek, name: gr, widget: string}
+          - label: Main
+            name: mainartists
+            widget: object
+            fields:
+              - label: Title
+                name: title
+                widget: object
+                fields:
+                  - {label: english, name: en, widget: string}
+                  - {label: greek, name: gr, widget: string}
           #     - label: Text
           #       name: par
           #       widget: object
