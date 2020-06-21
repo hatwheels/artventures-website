@@ -341,28 +341,28 @@ collections:
         file: "content/pages/artists.md"
         extension: 'md'
         fields:
-          - label: Main
-            name: mainartists
-            widget: object
-            fields:
-              - label: Title
-                name: title
-                widget: object
-                fields:
-                  - {label: english, name: en, widget: string}
-                  - {label: greek, name: gr, widget: string}
-              - label: Text
-                name: par
-                widget: object
-                fields:
-                  - {label: english, name: en, widget: markdown}
-                  - {label: greek, name: gr, widget: markdown}
-              - label: Button
-                name: button
-                widget: object
-                fields:
-                  - {label: english, name: en, widget: string}
-                  - {label: greek, name: gr, widget: string}
+          # - label: Main
+          #   name: mainartists
+          #   widget: object
+          #   fields:
+          #     - label: Title
+          #       name: title
+          #       widget: object
+          #       fields:
+          #         - {label: english, name: en, widget: string}
+          #         - {label: greek, name: gr, widget: string}
+          #     - label: Text
+          #       name: par
+          #       widget: object
+          #       fields:
+          #         - {label: english, name: en, widget: markdown}
+          #         - {label: greek, name: gr, widget: markdown}
+          #     - label: Button
+          #       name: button
+          #       widget: object
+          #       fields:
+          #         - {label: english, name: en, widget: string}
+          #         - {label: greek, name: gr, widget: string}
           - label: Advantages
             name: advantages
             widget: list
@@ -379,74 +379,74 @@ collections:
                 fields:
                   - {label: english, name: en, widget: markdown}
                   - {label: greek, name: gr, widget: markdown}
-          - label: Earnings
-            name: earnings
-            widget: object
-            fields:
-              - label: Title
-                name: title
-                widget: object
-                fields:
-                  - {label: english, name: en, widget: string}
-                  - {label: greek, name: gr, widget: string}
-              - label: Earning items
-                name: items
-                widget: list
-                fields:
-                  - label: Title
-                    name: title
-                    widget: object
-                    fields:
-                      - {label: english, name: en, widget: string}
-                      - {label: greek, name: gr, widget: string}
-                  - label: Text
-                    name: par
-                    widget: object
-                    fields:
-                      - {label: english, name: en, widget: markdown}
-                      - {label: greek, name: gr, widget: markdown}
-          - label: Button
-            name: button
-            widget: object
-            fields:
-              - label: Title
-                name: title
-                widget: object
-                fields:
-                  - {label: english, name: en, widget: string}
-                  - {label: greek, name: gr, widget: string}
-              - label: Text
-                name: par
-                widget: object
-                fields:
-                  - {label: english, name: en, widget: string}
-                  - {label: greek, name: gr, widget: string}
-          - label: Testimonials
-            name: artisttestimonials
-            widget: object
-            fields:
-              - label: Title
-                name: title
-                widget: object
-                fields:
-                  - {label: english, name: en, widget: string}
-                  - {label: greek, name: gr, widget: string}
-              - label: Testimonials
-                name: items
-                widget: object
-                fields:
-                  - label: Quote
-                    name: quote
-                    widget: object
-                    fields:
-                      - {label: english, name: en, widget: markdown}
-                      - {label: greek, name: gr, widget: markdown}
-                  - label: Author
-                    name: author
-                    widget: object
-                    fields:
-                      - {label: english, name: en, widget: string}
-                      - {label: greek, name: gr, widget: string}
+          # - label: Earnings
+          #   name: earnings
+          #   widget: object
+          #   fields:
+          #     - label: Title
+          #       name: title
+          #       widget: object
+          #       fields:
+          #         - {label: english, name: en, widget: string}
+          #         - {label: greek, name: gr, widget: string}
+          #     - label: Earning items
+          #       name: items
+          #       widget: list
+          #       fields:
+          #         - label: Title
+          #           name: title
+          #           widget: object
+          #           fields:
+          #             - {label: english, name: en, widget: string}
+          #             - {label: greek, name: gr, widget: string}
+          #         - label: Text
+          #           name: par
+          #           widget: object
+          #           fields:
+          #             - {label: english, name: en, widget: markdown}
+          #             - {label: greek, name: gr, widget: markdown}
+          # - label: Button
+          #   name: button
+          #   widget: object
+          #   fields:
+          #     - label: Title
+          #       name: title
+          #       widget: object
+          #       fields:
+          #         - {label: english, name: en, widget: string}
+          #         - {label: greek, name: gr, widget: string}
+          #     - label: Text
+          #       name: par
+          #       widget: object
+          #       fields:
+          #         - {label: english, name: en, widget: string}
+          #         - {label: greek, name: gr, widget: string}
+          # - label: Testimonials
+          #   name: artisttestimonials
+          #   widget: object
+          #   fields:
+          #     - label: Title
+          #       name: title
+          #       widget: object
+          #       fields:
+          #         - {label: english, name: en, widget: string}
+          #         - {label: greek, name: gr, widget: string}
+          #     - label: Testimonials
+          #       name: items
+          #       widget: object
+          #       fields:
+          #         - label: Quote
+          #           name: quote
+          #           widget: object
+          #           fields:
+          #             - {label: english, name: en, widget: markdown}
+          #             - {label: greek, name: gr, widget: markdown}
+          #         - label: Author
+          #           name: author
+          #           widget: object
+          #           fields:
+          #             - {label: english, name: en, widget: string}
+          #             - {label: greek, name: gr, widget: string}
       # FAQ page
       - label: FAQ
         name: faq
