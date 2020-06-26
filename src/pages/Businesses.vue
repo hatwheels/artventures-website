@@ -42,59 +42,32 @@
             </v-col>
           </v-row>
           <v-row class="px-12 pt-3" justify="space-around">
-            <v-col class="color-333333" cols="4" v-for="(advantage, i) in $page.businesses.edges[0].node.advantages" :key="'advantage-' + i">
-              <div v-waypoint="{ active: true, callback: onAdvantagesEl, options: elIsOpt }">
-                <template v-if="advantagesEl">
-                  <transition name="ride" appear>
-                    <div>
-                      <div
-                        :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
-                        v-html="advantage.title[getLang]"
-                      />
-                      <div
-                        :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                        v-html="advantage.text[getLang]"
-                      />
-                    </div>
-                  </transition>
-                </template>
-                <template v-else>
-                  <div>
-                    <div
-                      :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
-                      v-html="advantage.title[getLang]"
-                    />
-                    <div
-                      :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                      v-html="advantage.text[getLang]"
-                    />
-                  </div>
-                </template>
-              </div>
+            <v-col
+              class="color-333333"
+              cols="4"
+              v-for="(advantage, i) in $page.businesses.edges[0].node.advantages" :key="'advantage-' + i"
+            >
+              <wp-transition :isActive="true" nm="ride">
+                <div
+                  :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+                  v-html="advantage.title[getLang]"
+                />
+                <div
+                  :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                  v-html="advantage.text[getLang]"
+                />
+              </wp-transition>
             </v-col>
           </v-row>
-          <div class="text-center custom-block pt-8 pb-8" v-waypoint="{ active: true, callback: onAdvantagesBtnEl, options: elIsOpt }">
-            <template v-if="advantagesBtnEl">
-              <transition name="surf" appear>
-                <g-link
-                  :class="getLang === 'gr' ? 'noto-15-600-1p5' : 'raleway-15-600-1p5'"
-                  class="learn-more-btn white--text text-uppercase"
-                  :to="{ path: '/', hash:'#contact-us' }"
-                >
-                  {{ $page.businesses.edges[0].node.button[getLang] }}
-                </g-link>
-              </transition>
-            </template>
-            <template v-else>
-              <g-link
-                :class="getLang === 'gr' ? 'noto-15-600-1p5' : 'raleway-15-600-1p5'"
-                class="learn-more-btn white--text text-uppercase"
-                :to="{ path: '/', hash:'#contact-us' }"
-              >
-                {{ $page.businesses.edges[0].node.button[getLang] }}
-              </g-link>
-            </template>
-          </div>
+          <wp-transition class="text-center custom-block pt-8 pb-8" :isActive="true" nm="surf">
+            <g-link
+              :class="getLang === 'gr' ? 'noto-15-600-1p5' : 'raleway-15-600-1p5'"
+              class="learn-more-btn white--text text-uppercase"
+              :to="{ path: '/', hash:'#contact-us' }"
+            >
+              {{ $page.businesses.edges[0].node.button[getLang] }}
+            </g-link>
+          </wp-transition>
         </div>
 
 
@@ -110,38 +83,18 @@
             v-for="(testimonial, i) in $page.businesses.edges[0].node.testimonials"
             :key="'biz-testimonials-' + i"
           >
-            <div v-waypoint="{ active: true, callback: onTestimonialsEl, options: elIsOpt }">
-              <template v-if="testimonialsEl">
-                <transition name="ride" appear>
-                  <div>
-                    <div
-                      :class="getLang === 'gr' ? 'noto-18-400-1p4em' : 'playfair-18-400-1p4em'"
-                      class="text-center"
-                      v-html="testimonial.quote[getLang]"
-                    />
-                    <div
-                      :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-600'"
-                      class="text-center pt-2"
-                      v-html="testimonial.author[getLang]"
-                    />
-                  </div>
-                </transition>
-              </template>
-              <template v-else>
-                <div>
-                  <div
-                    :class="getLang === 'gr' ? 'noto-18-400-1p4em' : 'playfair-18-400-1p4em'"
-                    class="text-center"
-                    v-html="testimonial.quote[getLang]"
-                  />
-                  <div
-                    :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-600'"
-                    class="text-center pt-2"
-                    v-html="testimonial.author[getLang]"
-                  />
-                </div>
-              </template>
-            </div>
+            <wp-transition :isActive="true" nm="ride">
+              <div
+                :class="getLang === 'gr' ? 'noto-18-400-1p4em' : 'playfair-18-400-1p4em'"
+                class="text-center"
+                v-html="testimonial.quote[getLang]"
+              />
+              <div
+                :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-600'"
+                class="text-center pt-2"
+                v-html="testimonial.author[getLang]"
+              />
+            </wp-transition>
           </v-col>
         </v-row>
 
@@ -162,32 +115,8 @@
           <v-col
             class="background-color-f5f5f5"
             cols=11
-            v-waypoint="{ active: true, callback: onMainElMob, options: elIsOpt }"
           >
-            <template v-if="mainElMob">
-              <transition name="surf" appear>
-                <div>
-                  <div
-                    :class="getLang === 'gr' ? 'noto-30-700' : 'raleway-30-700'"
-                    class="black--text pb-4"
-                    v-html="$page.businesses.edges[0].node.main.title[getLang]"
-                  />
-                  <div
-                    :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
-                    class="color-rgba-0-0-0-p52 pb-7"
-                    v-html="$page.businesses.edges[0].node.main.text[getLang]"
-                  />
-                  <g-link
-                    :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
-                    class="contact-us-btn-small white--text text-center"
-                    :to="{ path: '/', hash:'#contact-us-small' }"
-                  >
-                    {{ $page.businesses.edges[0].node.main.button[getLang] }}
-                  </g-link>
-                </div>
-              </transition>
-            </template>
-            <template v-else>
+            <wp-transition :isActive="true" nm="surf" :dir="false">
               <div
                 :class="getLang === 'gr' ? 'noto-30-700' : 'raleway-30-700'"
                 class="black--text pb-4"
@@ -205,162 +134,41 @@
               >
                 {{ $page.businesses.edges[0].node.main.button[getLang] }}
               </g-link>
-            </template>
+            </wp-transition>
           </v-col>
         </v-row>
 
         <!-- advantages -->
         <div class="pt-6">
-          <v-row justify="center">
+          <v-row
+            justify="center"
+            v-for="(advantage, i) in $page.businesses.edges[0].node.advantages"
+            :key="'adv-sm-' + i"
+          >
             <v-col cols="11">
-              <v-img class="mb-4" :src="advantages.content[0].img" :lazy-src="advantages.content[0].lazy" />
-              <div
-                v-if="wpActiveMob"
-                v-waypoint="{ active: true, callback: onAdvantagesElMob0, options: elIsOpt }"
-              />
-              <template v-if="advantagesElMob0">
-                <transition name="ride" appear>
-                    <div class="color-333333">
-                      <div
-                        :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
-                        v-html="$page.businesses.edges[0].node.advantages[0].title[getLang]"
-                      />
-                      <div
-                        :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                        v-html="$page.businesses.edges[0].node.advantages[0].text[getLang]"
-                      />
-                    </div>
-                </transition>
-              </template>
-              <template v-else>
-                <div class="color-333333">
-                  <div
-                    :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
-                    v-html="$page.businesses.edges[0].node.advantages[0].title[getLang]"
-                  />
-                  <div
-                    :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                    v-html="$page.businesses.edges[0].node.advantages[0].text[getLang]"
-                  />
-                </div>
-              </template>
-              <div
-                v-if="wpActiveMob"
-                v-waypoint="{ active: true, callback: onAdvantagesElMob0, options: elIsOpt }"
-              />
-            </v-col>
-          </v-row>
-          <v-row justify="center">
-            <v-col cols="11">
-              <v-img class="mb-4" :src="advantages.content[1].img" :lazy-src="advantages.content[1].lazy" />
-              <div
-                v-if="wpActiveMob"
-                v-waypoint="{ active: true, callback: onAdvantagesElMob1, options: elIsOpt }"
-              />
-              <template v-if="advantagesElMob1">
-                <transition name="ride" appear>
-                    <div class="color-333333">
-                      <div
-                        :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
-                        v-html="$page.businesses.edges[0].node.advantages[1].title[getLang]"
-                      />
-                      <div
-                        :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                        v-html="$page.businesses.edges[0].node.advantages[1].text[getLang]"
-                      />
-                    </div>
-                </transition>
-              </template>
-              <template v-else>
-                <div class="color-333333">
-                  <div
-                    :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
-                    v-html="$page.businesses.edges[0].node.advantages[1].title[getLang]"
-                  />
-                  <div
-                    :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                    v-html="$page.businesses.edges[0].node.advantages[1].text[getLang]"
-                  />
-                </div>
-              </template>
-              <div
-                v-if="wpActiveMob"
-                v-waypoint="{ active: true, callback: onAdvantagesElMob1, options: elIsOpt }"
-              />
-            </v-col>
-          </v-row>
-          <v-row justify="center">
-            <v-col cols="11">
-              <v-img class="mb-4" :src="advantages.content[2].img" :lazy-src="advantages.content[2].lazy" />
-              <div
-                v-if="wpActiveMob"
-                v-waypoint="{ active: true, callback: onAdvantagesElMob2, options: elIsOpt }"
-              />
-              <template v-if="advantagesElMob2">
-                <transition name="ride" appear>
-                    <div class="color-333333">
-                      <div
-                        :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
-                        v-html="$page.businesses.edges[0].node.advantages[2].title[getLang]"
-                      />
-                      <div
-                        :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                        v-html="$page.businesses.edges[0].node.advantages[2].text[getLang]"
-                      />
-                    </div>
-                </transition>
-              </template>
-              <template v-else>
-                <div class="color-333333">
-                  <div
-                    :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
-                    v-html="$page.businesses.edges[0].node.advantages[2].title[getLang]"
-                  />
-                  <div
-                    :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                    v-html="$page.businesses.edges[0].node.advantages[2].text[getLang]"
-                  />
-                </div>
-              </template>
-              <div
-                v-if="wpActiveMob"
-                v-waypoint="{ active: true, callback: onAdvantagesElMob2, options: elIsOpt }"
-              />
+              <v-img class="mb-4" :src="advantages.content[i].img" :lazy-src="advantages.content[i].lazy" />
+              <wp-transition class="color-333333" :isActive="wpActiveMob" nm="ride">
+                <div
+                  :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"
+                  v-html="advantage.title[getLang]"
+                />
+                <div
+                  :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                  v-html="advantage.text[getLang]"
+                />
+              </wp-transition>
             </v-col>
           </v-row>
         </div>
-        <div
-          v-if="wpActiveMob"
-          v-waypoint="{ active: true, callback: onAdvantagesBtnElMob, options: elIsOpt }"
-        />
-        <template v-if="advantagesBtnElMob">
-          <transition name="surf" appear>
-            <div class="text-center custom-block">
-              <g-link
-                :class="getLang === 'gr' ? 'noto-15-600-1p5' : 'raleway-15-600-1p5'"
-                class="learn-more-btn-small white--text text-uppercase"
-                :to="{ path: '/', hash:'#contact-us' }"
-              >
-                {{ $page.businesses.edges[0].node.button[getLang] }}
-              </g-link>
-            </div>
-          </transition>
-        </template>
-        <template v-else>
-          <div class="text-center custom-block">
-            <g-link
-              :class="getLang === 'gr' ? 'noto-15-600-1p5' : 'raleway-15-600-1p5'"
-              class="learn-more-btn-small white--text text-uppercase"
-              :to="{ path: '/', hash:'#contact-us' }"
-            >
-              {{ $page.businesses.edges[0].node.button[getLang] }}
-            </g-link>
-          </div>
-        </template>
-        <div
-          v-if="wpActiveMob"
-          v-waypoint="{ active: true, callback: onAdvantagesBtnElMob, options: elIsOpt }"
-        />
+        <wp-transition class="text-center custom-block" :isActive="wpActiveMob" nm="surf">
+          <g-link
+            :class="getLang === 'gr' ? 'noto-15-600-1p5' : 'raleway-15-600-1p5'"
+            class="learn-more-btn-small white--text text-uppercase"
+            :to="{ path: '/', hash:'#contact-us' }"
+          >
+            {{ $page.businesses.edges[0].node.button[getLang] }}
+          </g-link>
+        </wp-transition>
 
         <!-- spacer with divider -->
         <div class="py-8">
@@ -368,54 +176,28 @@
         </div>
 
         <!-- testimonials -->
-        <div v-waypoint="{ active: true, callback: onTestimonialsElMob, options: elIsOpt }">
-          <template v-if="testimonialsElMob">
-            <transition-group name="surf" appear>
-              <v-row
-                justify="center" align="center"
-                v-for="(testimonial, i) in $page.businesses.edges[0].node.testimonials"
-                :key="'biz-testimonials-small-' + i"
-              >
-                <v-col class="pt-0 pb-6 color-1a1a1a" cols=11>
-                  <div>
-                    <div
-                      :class="getLang === 'gr' ? 'noto-18-400-1p4em' : 'playfair-18-400-1p4em'"
-                      class="text-center"
-                      v-html="testimonial.quote[getLang]"
-                    />
-                    <div
-                      :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-600'"
-                      class="text-center pt-2"
-                      v-html="testimonial.author[getLang]"
-                    />
-                  </div>
-                </v-col>
-              </v-row>
-            </transition-group>
-          </template>
-          <template v-else>
-            <v-row
-              justify="center" align="center"
-              v-for="(testimonial, i) in $page.businesses.edges[0].node.testimonials"
-              :key="'biz-testimonials-small-' + i"
-            >
-              <v-col class="pt-0 pb-6 color-1a1a1a" cols=11>
-                <div>
-                  <div
-                    :class="getLang === 'gr' ? 'noto-18-400-1p4em' : 'playfair-18-400-1p4em'"
-                    class="text-center"
-                    v-html="testimonial.quote[getLang]"
-                  />
-                  <div
-                    :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-600'"
-                    class="text-center pt-2"
-                    v-html="testimonial.author[getLang]"
-                  />
-                </div>
-              </v-col>
-            </v-row>
-          </template>
-        </div>
+        <wp-transition :isActive="wpActiveMob" nm="ride">
+          <v-row
+            justify="center" align="center"
+            v-for="(testimonial, i) in $page.businesses.edges[0].node.testimonials"
+            :key="'biz-testimonials-small-' + i"
+          >
+            <v-col class="pt-0 pb-6 color-1a1a1a" cols=11>
+              <div>
+                <div
+                  :class="getLang === 'gr' ? 'noto-18-400-1p4em' : 'playfair-18-400-1p4em'"
+                  class="text-center"
+                  v-html="testimonial.quote[getLang]"
+                />
+                <div
+                  :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-600'"
+                  class="text-center pt-2"
+                  v-html="testimonial.author[getLang]"
+                />
+              </div>
+            </v-col>
+          </v-row>
+        </wp-transition>
 
         <!-- spacer -->
         <div class="pb-10" />
@@ -427,31 +209,20 @@
 
 <script>
 import { mapGetters } from "vuex"
+import WpTransition from '~/components/WpTransition.vue'
 
 export default {
   mounted () {
     setTimeout( () => this.wpActiveMob = true, 1000)
+  },
+  components: {
+    WpTransition,
   },
   data () {
     return {
       /* Elements CSS transitions */
       // intersection option for all
       wpActiveMob: false,
-      elIsOpt: {
-        threshold: [0],
-      },
-      // Main Section
-      mainElMob: false,
-      // Advantages Section
-      advantagesEl: false,
-      advantagesElMob0: false,
-      advantagesElMob1: false,
-      advantagesElMob2: false,
-      advantagesBtnEl: false,
-      advantagesBtnElMob: false,
-      // Testimonials Section
-      testimonialsEl: false,
-      testimonialsElMob: false,
       /* Sections */
       // main
       main: {
@@ -479,54 +250,6 @@ export default {
   },
   computed: {
     ...mapGetters(['getLang']),
-  },
-  methods: {
-    /* Element CSS transitions */
-    onMainElMob ({ going, direction }) {
-      if (going === this.$waypointMap.GOING_IN) {
-        this.mainElMob = true
-      }
-    },
-    onAdvantagesEl ({ going, direction }) {
-      if (going === this.$waypointMap.GOING_IN && direction) {
-        this.advantagesEl = true
-      }
-    },
-    onAdvantagesElMob0 ({ going, direction }) {
-      if (going === this.$waypointMap.GOING_IN && direction) {
-        this.advantagesElMob0 = true
-      }
-    },
-    onAdvantagesElMob1 ({ going, direction }) {
-      if (going === this.$waypointMap.GOING_IN && direction) {
-        this.advantagesElMob1 = true
-      }
-    },
-    onAdvantagesElMob2 ({ going, direction }) {
-      if (going === this.$waypointMap.GOING_IN && direction) {
-        this.advantagesElMob2 = true
-      }
-    },
-    onAdvantagesBtnEl ({ going, direction }) {
-      if (going === this.$waypointMap.GOING_IN && direction) {
-        this.advantagesBtnEl = true
-      }
-    },
-    onAdvantagesBtnElMob ({ going, direction }) {
-      if (going === this.$waypointMap.GOING_IN && direction) {
-        this.advantagesBtnElMob = true
-      }
-    },
-    onTestimonialsEl ({ going, direction }) {
-      if (going === this.$waypointMap.GOING_IN && direction) {
-        this.testimonialsEl = true
-      }
-    },
-    onTestimonialsElMob ({ going, direction }) {
-      if (going === this.$waypointMap.GOING_IN && direction) {
-        this.testimonialsElMob = true
-      }
-    },
   },
   metaInfo () {
     return {
