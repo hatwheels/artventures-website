@@ -193,7 +193,7 @@
 
         <!-- Advantages -->
         <div class="pt-12">
-          <v-row justify="center" v-for="(advantage, i) in $page.artists.edges[0].node.advantages" :key="'adv-' + i">
+          <v-row justify="center" v-for="(advantage, i) in $page.artists.edges[0].node.advantages" :key="'adv-sm' + i">
             <v-col cols=11>
               <v-img class="mb-4" :src="advantages[i].img" :lazy-src="advantages[i].lazy" />
               <wp-transition class="color-333333 pb-6" :isActive="wpActiveMob" nm="ride">
