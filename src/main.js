@@ -80,10 +80,10 @@ export default function (Vue, { appOptions, router, head, isClient }) {
         return await axios.post('https://www.artventures.me/.netlify/functions/message',
           {
             email: params.email,
-            firstname: params.firstname,
+            firstname: params.name,
             lastname: params.lastname,
             subject: params.subject,
-            message: params.message,
+            message: params.msg,
           },
           {
             headers: {
@@ -96,15 +96,26 @@ export default function (Vue, { appOptions, router, head, isClient }) {
         return await axios.post('https://www.artventures.me/.netlify/functions/newmessage',
           {
             email: params.email,
-            firstname: params.firstname,
+            firstname: params.name,
             lastname: params.lastname,
             subject: params.subject,
-            message: params.message,
+            message: params.msg,
           },
           {
             headers: {
               "Content-Type": "application/json"
             }
+          }
+        )
+      },
+      mgSend({commit}, params) {
+        axios.post('https://www.artventures.me/.netlify/functions/mg_send',
+          {
+            email: params.email,
+            firstname: params.name,
+            lastname: params.lastname,
+            subject: params.subject,
+            message: params.msg,
           }
         )
       }

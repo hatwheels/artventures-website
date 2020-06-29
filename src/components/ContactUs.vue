@@ -284,16 +284,11 @@ export default {
         };
         this.isLoading = true;
         this.$store
-          .dispatch("mcMessage", {
-            email: this.email,
-            firstname: this.name,
-            lastname: this.lastName,
-            subject: this.subject,
-            message: this.message
-          })
+          .dispatch("mcMessage", this.fields)
           .then(res => {
             // success
             if (200 == res.status) {
+              this.$store.dispatch("mgSend", this.fields) // send to us message from user
               this.clearFields()
               this.setAlert('success')
             } else {
@@ -306,16 +301,11 @@ export default {
             if (err) {
               if ("Member Exists" == err.response.data.title) {
                 this.$store.
-                  dispatch('mcNewMessage', {
-                    email: this.email,
-                    firstname: this.name,
-                    lastname: this.lastName,
-                    subject: this.subject,
-                    message: this.message
-                  })
+                  dispatch('mcNewMessage', this.fields)
                   .then(res => {
                     // success
                     if (200 == res.status) {
+                      this.$store.dispatch("mgSend", this.fields) // send to us message from user
                       this.clearFields()
                       this.setAlert('success')
                     } else {
