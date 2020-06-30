@@ -81,7 +81,7 @@ export default function (Vue, { appOptions, router, head, isClient }) {
           {
             email: params.email,
             firstname: params.name,
-            lastname: params.lastname,
+            lastname: params.lastName,
             subject: params.subject,
             message: params.msg,
           },
@@ -97,7 +97,7 @@ export default function (Vue, { appOptions, router, head, isClient }) {
           {
             email: params.email,
             firstname: params.name,
-            lastname: params.lastname,
+            lastname: params.lastName,
             subject: params.subject,
             message: params.msg,
           },
@@ -113,7 +113,7 @@ export default function (Vue, { appOptions, router, head, isClient }) {
           {
             email: params.email,
             firstname: params.name,
-            lastname: params.lastname,
+            lastname: params.lastName,
             subject: params.subject,
             message: params.msg,
           }

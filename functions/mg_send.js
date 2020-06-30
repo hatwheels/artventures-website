@@ -4,7 +4,7 @@ const mg = mailgun.client({username: 'api', key: process.env.MG_PRV_KEY})
 exports.handler = (event, context) => {
     const data = JSON.parse(event.body)
     let content = {
-        from: data.firstname + ' ' + data.lastName + ' <' +  data.email + '>',
+        from: data.firstname + ' ' + data.lastname + ' <' +  data.email + '>',
         to: ['pdemertzis@gmail.com', 'kmarko1385@gmail.com'],
         subject: data.subject,
         text: data.message,
