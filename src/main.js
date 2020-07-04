@@ -5,6 +5,7 @@ import Vuex from 'vuex'
 import Vuelidate from 'vuelidate'
 import './assets/style/index.scss'
 import DefaultLayout from '~/layouts/Default.vue'
+import VueCookieAcceptDecline from 'vue-cookie-accept-decline'
 import axios from 'axios'
 import VueWaypoint from "vue-waypoint"
 import goTo from 'vuetify/es5/services/goto'
@@ -21,6 +22,11 @@ export default function (Vue, { appOptions, router, head, isClient }) {
   head.link.push({
     rel: 'stylesheet',
     href: 'https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/css/swiper.css'
+  })
+  head.link.push({
+    rel: 'stylesheet',
+    type: "text/css",
+    href: 'https://unpkg.com/vue-cookie-accept-decline@5.3.1/dist/vue-cookie-accept-decline.css'
   })
 
   const vuetifyOpts = {
@@ -161,4 +167,5 @@ export default function (Vue, { appOptions, router, head, isClient }) {
 
   // Set default layout as a global component
   Vue.component('Layout', DefaultLayout)
+  Vue.component('vue-cookie-accept-decline', VueCookieAcceptDecline);
 }

@@ -1,5 +1,30 @@
 <template>
   <v-app>
+    <!-- Cookie consent (GDPR) -->
+    <vue-cookie-accept-decline
+      :ref="'cookieBar'"
+      :elementId="'cookieBar'"
+      :debug="false"
+      :position="'bottom'"
+      :type="'bar'"
+      :disableDecline="true"
+      :transitionName="'slideFromBottom'"
+      :showPostponeButton="true"
+      @status="cookieStatus"
+      @clicked-accept="cookieClickedAccept"
+      @clicked-decline="cookieClickedDecline"
+    >
+      <div slot="message" class="messageText" :class="getLang === 'gr' ? 'noto-16-500' : 'nunito-18-600'">
+        {{ cookieTxt[getLang] }}
+      </div>
+      <div slot="declineContent" :class="getLang === 'gr' ? 'noto-16-500' : 'nunito-18-600'">
+        {{ declineCookies[getLang] }}
+      </div>
+      <div slot="acceptContent" :class="getLang === 'gr' ? 'noto-16-500' : 'nunito-18-600'">
+        {{ allowCookies[getLang] }}
+        </div>
+    </vue-cookie-accept-decline>
+
     <v-app-bar v-show="getViewSize === 'desktop'" flat class="px-11" app absolute color="#e8e8e8" height="76px">
 
       <v-btn width="185" color="transparent" text icon to="/">/
@@ -10,7 +35,7 @@
 
       <v-toolbar-items class="pa-0">
         <v-btn
-          :class="getLang === 'gr' ? 'noto-18-600' : 'nunito-18-600'"
+          :class="getLang === 'gr' ? 'noto-16-500' : 'nunito-18-600'"
           class="px-2"
           text color="transparent"
           to="/"
@@ -20,7 +45,7 @@
           <template v-slot:activator="{ on }">
             <v-btn class="px-2" text color="transparent" v-on="on" :ripple="false">
               <div
-                :class="getLang === 'gr' ? 'noto-18-600' : 'nunito-18-600'"
+                :class="getLang === 'gr' ? 'noto-16-500' : 'nunito-18-600'"
                 class="color-333333"
                 v-html="routes.explore[getLang]"
               />
@@ -28,19 +53,19 @@
           </template>
           <v-list flat color="#e8e8e8">
             <v-list-item v-for="(route, i) in routes.explore.routes" :key="'route-' + i" :to="route.route">
-              <v-list-item-title :class="getLang === 'gr' ? 'noto-18-600' : 'nunito-18-600'" v-html="route[getLang]" />
+              <v-list-item-title :class="getLang === 'gr' ? 'noto-16-500' : 'nunito-18-600'" v-html="route[getLang]" />
             </v-list-item>
           </v-list>
         </v-menu>
         <v-btn
-          :class="getLang === 'gr' ? 'noto-18-600' : 'nunito-18-600'"
+          :class="getLang === 'gr' ? 'noto-16-500' : 'nunito-18-600'"
           class="px-2"
           text color="transparent"
           to="/artists"
           v-html="routes.forArtists[getLang]"
         />
         <v-btn
-          :class="getLang === 'gr' ? 'noto-18-600' : 'nunito-18-600'"
+          :class="getLang === 'gr' ? 'noto-16-500' : 'nunito-18-600'"
           class="px-2"
           text color="transparent"
           to="/faq"
@@ -49,7 +74,7 @@
         <div class="my-5 mx-2">
           <v-btn
             v-if="$route.path == '/'"
-            :class="getLang === 'gr' ? 'noto-18-400' : 'raleway-18-400'"
+            :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
             style="border-radius: 8px;"
             depressed
             color="#333333"
@@ -58,7 +83,7 @@
           />
           <v-btn
             v-else
-            :class="getLang === 'gr' ? 'noto-18-400' : 'raleway-18-400'"
+            :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
             style="border-radius: 8px;"
             depressed
             color="#333333"
@@ -292,8 +317,29 @@ export default {
   components: {
     Newsletter,
   },
+  mounted () {
+    if (process.isClient) {
+      if (localStorage.getItem('vue-cookie-accept-decline-cookieBar') === 'postpone') {
+        this.$refs.cookieBar.removeCookie();
+        this.$refs.cookieBar.init();
+      }
+    }
+  },
   data () {
     return {
+      status: null,
+      cookieTxt: {
+        gr: 'Χρησιμοποιούμε αρχεία αναγνώρισης ("cookies") για την βελτίωση της εμπειρίας και την ανάλυση της διαδικτυακής κίνησης.',
+        en: 'We use cookies to offer you a better experience and analyse traffic.',
+      },
+      allowCookies: {
+        gr: 'Αποδέχομαι',
+        en: 'Accept',
+      },
+      declineCookies: {
+        gr: 'Δεν Αποδέχομαι',
+        en: 'Decline',
+      },
       logo: [
         'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto,h_76,w_auto/v1583838043/artventures/artventures_logo.svg',
         'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto,h_50,w_auto/v1583838043/artventures/artventures_logo.svg',
@@ -374,6 +420,16 @@ export default {
         })
       }, 400)
     },
+    cookieStatus(status) {
+      this.status = status;
+    },
+    cookieClickedAccept() {
+      this.status = 'accept';
+      this.$ga.enable();
+    },
+    cookieClickedDecline() {
+      this.status = 'decline';
+    }
   },
 }
 </script>
@@ -475,6 +531,11 @@ export default {
   font-size: 16px !important;
   font-weight: 400 !important;
   line-height: 1.6em !important;
+}
+.noto-16-500 {
+  font-family: 'Noto Sans', sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 500 !important;
 }
 .noto-18-400 {
   font-family: 'Noto Sans', sans-serif !important;
@@ -688,6 +749,10 @@ export default {
   font-family: 'Playfair Display', serif !important;
   font-size: 38px !important;
   font-weight: 700 !important;
+}
+.cookie__bar__buttons__button--accept {
+        background: #525252 !important;
+
 }
 </style>
 
