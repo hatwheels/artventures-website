@@ -405,7 +405,7 @@ export default {
     ...mapGetters(['getLang', 'getLanguages']),
   },
   methods: {
-    ...mapMutations(['setLang']),
+    ...mapMutations(['setLang', 'setCookieRedirect']),
     // Go To anchor tag with smooth scrolling
     goTo(tag) {
       // Hack to reach id if page too long
@@ -426,6 +426,11 @@ export default {
     cookieClickedAccept() {
       this.status = 'accept';
       this.$ga.enable();
+      this.setCookieRedirect(this.$route.path)
+      this.$router.replace({
+        path: '/cookies-accepted',
+        force: true
+      });
     },
     cookieClickedDecline() {
       this.status = 'decline';

@@ -129,6 +129,7 @@ export default function (Vue, { appOptions, router, head, isClient }) {
     state: {
       lang: 'en',
       languages: ['en', 'gr'],
+      cookieRedirect: '/'
     },
     getters: {
       getLang: state => {
@@ -137,10 +138,16 @@ export default function (Vue, { appOptions, router, head, isClient }) {
       getLanguages: state => {
         return state.languages
       },
+      getCookieRedirect: state => {
+        return state.cookieRedirect
+      }
     },
     mutations: {
       setLang (state, val) {
         state.lang = val
+      },
+      setCookieRedirect (state, val) {
+        state.cookieRedirect = val
       }
     }
   }
