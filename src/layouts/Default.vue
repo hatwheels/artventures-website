@@ -25,6 +25,7 @@
         </div>
     </vue-cookie-accept-decline>
 
+    <!-- Desktop -->
     <v-app-bar v-show="getViewSize === 'desktop'" flat class="px-11" app absolute color="#e8e8e8" height="76px">
 
       <v-btn width="185" color="transparent" text icon to="/">/
@@ -110,6 +111,13 @@
             </v-list-item>
           </v-list>
         </v-menu>
+        <v-btn
+          :class="getLang === 'gr' ? 'noto-16-500' : 'nunito-18-600'"
+          class="px-2"
+          text color="transparent"
+          to="/profile"
+          v-html="routes.profile[getLang]"
+        />
       </v-toolbar-items>
     </v-app-bar>
 
@@ -129,9 +137,9 @@
           </template>
           <v-card flat>
             <div class="d-flex justify-space-between">
-              <v-carousel ref="menucarousel" hide-delimiter-background hide-delimiters :show-arrows="false">
+              <v-carousel ref="menucarousel" hide-delimiter-background hide-delimiters :show-arrows="false" height="100%">
                 <v-carousel-item>
-                  <v-list color="#ffffff" class="px-9 py-9">
+                  <v-list color="#ffffff" class="px-9  py-9">
                     <v-list-item class="pb-5 px-0" to="/">
                       <v-list-item-title
                         :class="getLang === 'gr' ? 'noto-35-400' : 'raleway-35-400'"
@@ -189,6 +197,12 @@
                         <v-icon large color="#757575">mdi-chevron-double-right</v-icon>
                       </v-list-item-icon>
                     </v-list-item>
+                   <v-list-item class="pb-5 px-0" to="/profile">
+                      <v-list-item-title
+                        :class="getLang === 'gr' ? 'noto-35-400' : 'raleway-35-400'"
+                        v-html="routes.profile[getLang]"
+                      />
+                   </v-list-item>
                   </v-list>
                 </v-carousel-item>
                 <v-carousel-item>
@@ -381,6 +395,10 @@ export default {
         contact: {
           gr: '<div class="white--text text-capitalize">Επικοινωνία</div>', // Greek, raw html
           en: '<div class="white--text text-capitalize">Contact</div>', // English, raw html
+        },
+        profile: {
+          gr: '<div class="color-333333 text-capitalize">Προφίλ</div>', // Greek, raw html
+          en: '<div class="color-333333 text-capitalize">Profile</div>', // English, raw html
         }
       },
       modalMenu: false,
