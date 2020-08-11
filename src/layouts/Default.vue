@@ -116,7 +116,7 @@
           class="px-2"
           text color="transparent"
           to="/profile"
-          v-html="routes.profile[getLang]"
+          v-html="isAuthenticated ? routes.profile[getLang] : routes.login[getLang]"
         />
       </v-toolbar-items>
     </v-app-bar>
@@ -332,6 +332,7 @@ export default {
     Newsletter,
   },
   mounted () {
+    this.isAuthenticated = this.$auth.isAuthenticated();
     if (process.isClient) {
       if (localStorage.getItem('vue-cookie-accept-decline-cookieBar') === 'postpone') {
         this.$refs.cookieBar.removeCookie();
@@ -341,6 +342,9 @@ export default {
   },
   data () {
     return {
+      // Auth0
+      isAuthenticated: false,
+      // Cookies
       status: null,
       cookieTxt: {
         gr: 'Χρησιμοποιούμε αρχεία αναγνώρισης ("cookies") για την βελτίωση της εμπειρίας και την ανάλυση της διαδικτυακής κίνησης.',
@@ -399,6 +403,10 @@ export default {
         profile: {
           gr: '<div class="color-333333 text-capitalize">Προφίλ</div>', // Greek, raw html
           en: '<div class="color-333333 text-capitalize">Profile</div>', // English, raw html
+        },
+        login: {
+          gr: '<div class="color-333333 text-capitalize">Σύνδεση</div>', // Greek, raw html
+          en: '<div class="color-333333 text-capitalize">Login</div>', // English, raw html
         }
       },
       modalMenu: false,

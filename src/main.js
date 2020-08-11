@@ -9,6 +9,7 @@ import VueCookieAcceptDecline from 'vue-cookie-accept-decline'
 import axios from 'axios'
 import VueWaypoint from "vue-waypoint"
 import goTo from 'vuetify/es5/services/goto'
+import AuthPlugin from './plugins/auth'
 
 export default function (Vue, { appOptions, router, head, isClient }) {
   head.link.push({
@@ -157,6 +158,8 @@ export default function (Vue, { appOptions, router, head, isClient }) {
   Vue.use(Vuelidate)
 
   Vue.use(VueWaypoint)
+
+  Vue.use(AuthPlugin)
 
   Vue.mixin({
     computed: {
