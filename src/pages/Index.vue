@@ -675,6 +675,7 @@ export default {
         this.sideNav[3].active =
         this.sideNav[4].active =
         this.sideNav[5].active = false;
+        console.log(process.env.GRIDSOME_SITE_URL)
       }
     },
     onArtists ({ going, direction }) {

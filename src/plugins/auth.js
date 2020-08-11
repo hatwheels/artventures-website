@@ -4,7 +4,7 @@ import Vue from 'vue'
 let webAuth = new auth0.WebAuth({
     domain: process.env.GRIDSOME_AUTH0_DOMAIN,
     clientID: process.env.GRIDSOME_AUTH0_CLIENT_ID,
-    redirectUri: 'http://localhost:8888/auth0cb',
+    redirectUri:  process.env.GRIDSOME_SITE_URL + '/auth0cb',
     audience: 'https://' + process.env.GRIDSOME_AUTH0_DOMAIN + '/api/v2/',
     responseType: 'token id_token',
     scope: 'openid email profile'
@@ -57,7 +57,7 @@ let auth = new Vue({
                 localStorage.removeItem('expires_at')
                 localStorage.removeItem('user')
                 webAuth.logout({
-                    returnTo: 'http://localhost:8888',
+                    returnTo: process.env.GRIDSOME_SITE_URL,
                     clientID: process.env.AUTH0_CLIENT_ID,
                 })
             })

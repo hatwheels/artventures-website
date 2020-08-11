@@ -88,7 +88,7 @@ export default function (Vue, { appOptions, router, head, isClient }) {
   const vuexOpts = {
     actions: {
       async mcSubscribe({commit}, params) {
-        return await axios.post('https://www.artventures.me/.netlify/functions/newsletter',
+        return await axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/newsletter',
           {
             email: params.email,
             tag: params.tag,
@@ -101,7 +101,7 @@ export default function (Vue, { appOptions, router, head, isClient }) {
         )
       },
       async mcMessage({commit}, params) {
-        return await axios.post('https://www.artventures.me/.netlify/functions/message',
+        return await axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/message',
           {
             email: params.email,
             firstname: params.name,
@@ -117,7 +117,7 @@ export default function (Vue, { appOptions, router, head, isClient }) {
         )
       },
       async mcNewMessage({commit}, params) {
-        return await axios.post('https://www.artventures.me/.netlify/functions/newmessage',
+        return await axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/newmessage',
           {
             email: params.email,
             firstname: params.name,
@@ -133,7 +133,7 @@ export default function (Vue, { appOptions, router, head, isClient }) {
         )
       },
       mgSend({commit}, params) {
-        axios.post('https://www.artventures.me/.netlify/functions/mg_send',
+        axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/mg_send',
           {
             email: params.email,
             firstname: params.name,
