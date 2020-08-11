@@ -63,6 +63,22 @@ export default function (Vue, { appOptions, router, head, isClient }) {
       return savedPosition || { x: 0, y: 0 }
     }
   }
+  router.beforeEach((to, from, next) => {
+    if (to.path != '/profile') {
+      next()
+    }
+    else if (router.app.$auth.isAuthenticated()) { // if authenticated allow access
+      if (from.name !== null) {
+        if (from.query._storyblok) {
+          return next(false)
+        }
+      }
+      next()
+    }
+    else { // trigger auth0's login
+      router.app.$auth.login()
+    }
+  })
   // router.afterEach((to, from) => {
   //   if (to.hash) {
   //   }

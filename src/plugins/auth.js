@@ -4,8 +4,8 @@ import Vue from 'vue'
 let webAuth = new auth0.WebAuth({
     domain: process.env.GRIDSOME_AUTH0_DOMAIN,
     clientID: process.env.GRIDSOME_AUTH0_CLIENT_ID,
-    redirectUri: 'https://artventures.me/auth-callback',
-    audience: 'https://' + process.env.AUTH0_DOMAIN + '/api/v2/',
+    redirectUri: 'http://localhost:8888/auth-callback',
+    audience: 'https://' + process.env.GRIDSOME_AUTH0_DOMAIN + '/api/v2/',
     responseType: 'token id_token',
     scope: 'openid email profile'
 })
