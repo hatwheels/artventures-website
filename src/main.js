@@ -5,6 +5,7 @@ import Vuex from 'vuex'
 import Vuelidate from 'vuelidate'
 import './assets/style/index.scss'
 import DefaultLayout from '~/layouts/Default.vue'
+import ArtistLayout from '~/layouts/Artist.vue'
 import VueCookieAcceptDecline from 'vue-cookie-accept-decline'
 import axios from 'axios'
 import VueWaypoint from "vue-waypoint"
@@ -146,7 +147,7 @@ export default function (Vue, { appOptions, router, head, isClient }) {
     state: {
       lang: 'en',
       languages: ['en', 'gr'],
-      cookieRedirect: '/'
+      cookieRedirect: '/',
     },
     getters: {
       getLang: state => {
@@ -157,15 +158,16 @@ export default function (Vue, { appOptions, router, head, isClient }) {
       },
       getCookieRedirect: state => {
         return state.cookieRedirect
-      }
+      },
     },
+
     mutations: {
       setLang (state, val) {
         state.lang = val
       },
       setCookieRedirect (state, val) {
         state.cookieRedirect = val
-      }
+      },
     }
   }
   Vue.use(Vuex)
@@ -193,5 +195,6 @@ export default function (Vue, { appOptions, router, head, isClient }) {
 
   // Set default layout as a global component
   Vue.component('Layout', DefaultLayout)
+  Vue.component('ArtistLayout', ArtistLayout)
   Vue.component('vue-cookie-accept-decline', VueCookieAcceptDecline);
 }

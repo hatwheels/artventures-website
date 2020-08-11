@@ -57,7 +57,7 @@ let auth = new Vue({
                 localStorage.removeItem('expires_at')
                 localStorage.removeItem('user')
                 webAuth.logout({
-                    returnTo: 'https://artventures.me',
+                    returnTo: 'http://localhost:8888',
                     clientID: process.env.AUTH0_CLIENT_ID,
                 })
             })

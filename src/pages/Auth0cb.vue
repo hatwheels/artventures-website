@@ -8,7 +8,7 @@
 export default {
   mounted() {
     this.$auth.handleAuthentication().then( (data) => {
-      this.$router.push({ path: '/profile', })
+      this.$router.push({ path: '/profile' })
     })
   }
 }
