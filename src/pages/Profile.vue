@@ -1,9 +1,9 @@
 <template>
     <ArtistLayout>
-      <v-content class="background-color-dddddd">
+      <v-content class="background-color-fafafa">
         <v-container class="px-0 pt-0" fluid>
             <div class="mx-auto my-10 w-64 text-center uppercase font-bold">
-                {{ greet[getLang] }} {{ user.given_name || user.name }}
+                {{ title[getLang] }} {{ user.given_name || user.name }}
             </div>
             <table class="table-auto mx-auto mb-4">
                 <tbody>

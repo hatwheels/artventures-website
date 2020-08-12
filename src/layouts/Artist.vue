@@ -125,6 +125,14 @@
             </span>
           </div>
         </div>
+        <g-link
+          style="text-decoration: none;"
+          :class="getLang === 'en' ? 'raleway-13-400' : 'noto-13-400'"
+          class="black--text"
+          to="/privacy-policy"
+        >
+          {{ getLang === 'en' ? 'Privacy Policy' : 'Πολιτική Απορρήτου' }}
+        </g-link>
       </div>
 
     </v-footer>

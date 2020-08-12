@@ -59,6 +59,7 @@ let auth = new Vue({
                 webAuth.logout({
                     returnTo: process.env.GRIDSOME_SITE_URL,
                     clientID: process.env.AUTH0_CLIENT_ID,
+                    federated: false
                 })
             })
         },
