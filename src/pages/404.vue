@@ -3,7 +3,7 @@
 
     <v-content>
       <v-container class="pa-0 background-color-fafafa" fluid>
-        <v-card color="rgba(250, 250, 250, 1)" :height="getHeight">
+        <v-card class="center-viewport" flat>
           <v-row style="height: 100%" justify="center" align="center">
             <v-col>
               <p class="text-center" :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'">404</p>
@@ -31,9 +31,18 @@ export default {
   },
   computed: {
     ...mapGetters(['getLang']),
-    getHeight() {
-      return window.innerHeight;
-    }
+    // getHeight() {
+    //   return window.innerHeight;
+    // }
   }
 }
 </script>
+
+<style>
+.center-viewport {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+</style>
