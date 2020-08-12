@@ -143,13 +143,13 @@
                   <v-list color="#ffffff" class="px-9  py-9">
                     <v-list-item class="pb-5 px-0" to="/">
                       <v-list-item-title
-                        :class="getLang === 'gr' ? 'noto-35-400' : 'raleway-35-400'"
+                        :class="getLang === 'gr' ? 'noto-28-400' : 'raleway-3-400'"
                         v-html="routes.about[getLang]"
                       />
                     </v-list-item>
                     <v-list-item class="pb-5 px-0" @click="modalSlide = 'explore'; $refs.menucarousel.next();">
                       <v-list-item-title
-                        :class="getLang === 'gr' ? 'noto-35-400' : 'raleway-35-400'"
+                        :class="getLang === 'gr' ? 'noto-28-400' : 'raleway-28-400'"
                         v-html="routes.explore[getLang]"
                       />
                       <v-list-item-icon>
@@ -158,13 +158,13 @@
                     </v-list-item>
                     <v-list-item class="pb-5 px-0" to="/artists">
                       <v-list-item-title
-                        :class="getLang === 'gr' ? 'noto-35-400' : 'raleway-35-400'"
+                        :class="getLang === 'gr' ? 'noto-28-400' : 'raleway-28-400'"
                         v-html="routes.forArtists[getLang]"
                       />
                     </v-list-item>
                     <v-list-item class="pb-5 px-0" to="/faq">
                       <v-list-item-title
-                        :class="getLang === 'gr' ? 'noto-35-400' : 'raleway-35-400'"
+                        :class="getLang === 'gr' ? 'noto-28-400' : 'raleway-28-400'"
                         v-html="routes.faq[getLang]"
                       />
                     </v-list-item>
@@ -191,7 +191,7 @@
                     </v-list-item>
                     <v-list-item class="pb-5 px-0" @click="modalSlide = 'language'; $refs.menucarousel.next();">
                       <v-list-item-title
-                        :class="getLang === 'gr' ? 'noto-35-400' : 'raleway-35-400'"
+                        :class="getLang === 'gr' ? 'noto-28-400' : 'raleway-28-400'"
                         v-html="langTitle[getLang]"
                       />
                       <v-list-item-icon>
@@ -200,8 +200,8 @@
                     </v-list-item>
                    <v-list-item class="pb-5 px-0" to="/profile">
                       <v-list-item-title
-                        :class="getLang === 'gr' ? 'noto-35-400' : 'raleway-35-400'"
-                        v-html="routes.profile[getLang]"
+                        :class="getLang === 'gr' ? 'noto-28-400' : 'raleway-28-400'"
+                        v-html="isAuthenticated ? routes.profile[getLang] : routes.login[getLang]"
                       />
                    </v-list-item>
                   </v-list>
@@ -221,7 +221,7 @@
                     </v-list-item>
                     <v-list-item class="pb-5 px-0" v-for="(route, i) in routes.explore.routes" :key="'modal-route-' + i" :to="route.route">
                       <v-list-item-title
-                        :class="getLang === 'gr' ? 'noto-35-400' : 'raleway-35-400'"
+                        :class="getLang === 'gr' ? 'noto-28-400' : 'raleway-28-400'"
                         v-html="route[getLang]"
                       />
                     </v-list-item>
@@ -242,14 +242,14 @@
                       class="pb-5 px-0" v-for="(language, i) in getLanguages" :key="'lang-small-' + i"
                       @click="modalMenu = false; setLang(language);"
                     >
-                      <v-list-item-title :class="getLang === 'gr' ? 'noto-35-400' : 'raleway-35-400'">
+                      <v-list-item-title :class="getLang === 'gr' ? 'noto-28-400' : 'raleway-28-400'">
                         <div class="color-333333 text-capitalize" v-html="langChoices[language][getLang]" />
                       </v-list-item-title>
                     </v-list-item>
                   </v-list>
                 </v-carousel-item>
               </v-carousel>
-              <v-btn class="mx-4 my-4" color="#333333" icon @click="modalMenu = false;">
+              <v-btn class="mx-3 my-3" color="#333333" small icon @click="modalMenu = false;">
                 <v-icon color="1a1a1a">mdi-close</v-icon>
               </v-btn>
             </div>
@@ -625,6 +625,11 @@ export default {
   font-size: 25px !important;
   font-weight: 600 !important;
 }
+.noto-28-400 {
+  font-family: 'Noto Sans', sans-serif !important;
+  font-size: 28px !important;
+  font-weight: 400 !important;
+}
 .noto-30-700 {
   font-family: 'Noto Sans', sans-serif !important;
   font-size: 30px !important;
@@ -635,11 +640,6 @@ export default {
   font-size: 30px !important;
   font-weight: 700 !important;
   line-height: 1.2em !important;
-}
-.noto-35-400 {
-  font-family: 'Noto Sans', sans-serif !important;
-  font-size: 35px !important;
-  font-weight: 400 !important;
 }
 .noto-38-700 {
   font-family: 'Noto Sans', sans-serif !important;
@@ -742,15 +742,15 @@ export default {
   font-size: 25px !important;
   font-weight: 400 !important;
 }
+.raleway-28-400 {
+  font-family: 'Raleway', sans-serif !important;
+  font-size: 28px !important;
+  font-weight: 400 !important;
+}
 .raleway-30-700 {
   font-family: 'Raleway', sans-serif !important;
   font-size: 30px !important;
   font-weight: 700 !important;
-}
-.raleway-35-400 {
-  font-family: 'Raleway', sans-serif !important;
-  font-size: 35px !important;
-  font-weight: 400 !important;
 }
 .raleway-44-700 {
   font-family: 'Raleway', sans-serif !important;

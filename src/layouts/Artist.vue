@@ -365,6 +365,11 @@ export default {
   font-size: 25px !important;
   font-weight: 600 !important;
 }
+.noto-28-400 {
+  font-family: 'Noto Sans', sans-serif !important;
+  font-size: 28px !important;
+  font-weight: 400 !important;
+}
 .noto-30-700 {
   font-family: 'Noto Sans', sans-serif !important;
   font-size: 30px !important;
@@ -375,11 +380,6 @@ export default {
   font-size: 30px !important;
   font-weight: 700 !important;
   line-height: 1.2em !important;
-}
-.noto-35-400 {
-  font-family: 'Noto Sans', sans-serif !important;
-  font-size: 35px !important;
-  font-weight: 400 !important;
 }
 .noto-38-700 {
   font-family: 'Noto Sans', sans-serif !important;
@@ -482,15 +482,15 @@ export default {
   font-size: 25px !important;
   font-weight: 400 !important;
 }
+.raleway-28-400 {
+  font-family: 'Raleway', sans-serif !important;
+  font-size: 28px !important;
+  font-weight: 400 !important;
+}
 .raleway-30-700 {
   font-family: 'Raleway', sans-serif !important;
   font-size: 30px !important;
   font-weight: 700 !important;
-}
-.raleway-35-400 {
-  font-family: 'Raleway', sans-serif !important;
-  font-size: 35px !important;
-  font-weight: 400 !important;
 }
 .raleway-44-700 {
   font-family: 'Raleway', sans-serif !important;
