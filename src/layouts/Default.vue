@@ -304,6 +304,7 @@
             <v-icon class="black--text" small>mdi-linkedin-box</v-icon>
           </a>
         </div>
+
         <div class="pt-1">
           <div v-show="getViewSize === 'mobile'" class="raleway-16-600 black-text">
             Artventures
@@ -318,11 +319,40 @@
             </span>
           </div>
         </div>
+        <g-link
+          style="text-decoration: none;"
+          :class="getLang === 'en' ? 'raleway-13-400' : 'noto-13-400'"
+          class="black--text"
+          to="/privacy-policy"
+        >
+          {{ getLang === 'en' ? 'Privacy Policy' : 'Πολιτική Απορρήτου' }}
+        </g-link>
       </div>
 
     </v-footer>
   </v-app>
 </template>
+
+<page-query>
+query {
+  privacypolicy: allPages(filter: { path: { eq: "/content/pages/privacypolicy/" }}) {
+  	edges {
+  		node {
+        id
+        path
+        title {
+          en
+          gr
+        }
+        text {
+          en
+          gr
+        }
+      }
+    }
+  }
+}
+</page-query>
 
 <script>
 import { mapGetters, mapMutations } from 'vuex'
