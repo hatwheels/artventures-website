@@ -469,3 +469,22 @@ collections:
                 fields:
                   - {label: english, name: en, widget: markdown}
                   - {label: greek, name: gr, widget: markdown}
+      # Privacy Policy
+      - label: Privacy Policy
+        name: privacypolicy
+        file: "content/pages/privacypolicy.md"
+        extensions: 'md'
+        fields:
+          - label: Title
+            name: title
+            widget: object
+            fields:
+              - {label: english, name: en, widget: markdown}
+              - {label: greek, name: gr, widget: markdown}
+          - label: Text
+            name: text
+            widget: object
+            fields:
+              - {label: english, name: en, widget: markdown}
+              - {label: greek, name: gr, widget: markdown}
+

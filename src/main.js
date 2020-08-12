@@ -5,10 +5,12 @@ import Vuex from 'vuex'
 import Vuelidate from 'vuelidate'
 import './assets/style/index.scss'
 import DefaultLayout from '~/layouts/Default.vue'
+import ArtistLayout from '~/layouts/Artist.vue'
 import VueCookieAcceptDecline from 'vue-cookie-accept-decline'
 import axios from 'axios'
 import VueWaypoint from "vue-waypoint"
 import goTo from 'vuetify/es5/services/goto'
+import AuthPlugin from './plugins/auth'
 
 export default function (Vue, { appOptions, router, head, isClient }) {
   head.link.push({
@@ -62,6 +64,22 @@ export default function (Vue, { appOptions, router, head, isClient }) {
       return savedPosition || { x: 0, y: 0 }
     }
   }
+  router.beforeEach((to, from, next) => {
+    if (to.path != '/profile') {
+      next()
+    }
+    else if (router.app.$auth.isAuthenticated()) { // if authenticated allow access
+      if (from.name !== null) {
+        if (from.query._storyblok) {
+          return next(false)
+        }
+      }
+      next()
+    }
+    else { // trigger auth0's login
+      router.app.$auth.login()
+    }
+  })
   // router.afterEach((to, from) => {
   //   if (to.hash) {
   //   }
@@ -70,7 +88,7 @@ export default function (Vue, { appOptions, router, head, isClient }) {
   const vuexOpts = {
     actions: {
       async mcSubscribe({commit}, params) {
-        return await axios.post('https://www.artventures.me/.netlify/functions/newsletter',
+        return await axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/newsletter',
           {
             email: params.email,
             tag: params.tag,
@@ -83,7 +101,7 @@ export default function (Vue, { appOptions, router, head, isClient }) {
         )
       },
       async mcMessage({commit}, params) {
-        return await axios.post('https://www.artventures.me/.netlify/functions/message',
+        return await axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/message',
           {
             email: params.email,
             firstname: params.name,
@@ -99,7 +117,7 @@ export default function (Vue, { appOptions, router, head, isClient }) {
         )
       },
       async mcNewMessage({commit}, params) {
-        return await axios.post('https://www.artventures.me/.netlify/functions/newmessage',
+        return await axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/newmessage',
           {
             email: params.email,
             firstname: params.name,
@@ -115,7 +133,7 @@ export default function (Vue, { appOptions, router, head, isClient }) {
         )
       },
       mgSend({commit}, params) {
-        axios.post('https://www.artventures.me/.netlify/functions/mg_send',
+        axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/mg_send',
           {
             email: params.email,
             firstname: params.name,
@@ -129,7 +147,7 @@ export default function (Vue, { appOptions, router, head, isClient }) {
     state: {
       lang: 'en',
       languages: ['en', 'gr'],
-      cookieRedirect: '/'
+      cookieRedirect: '/',
     },
     getters: {
       getLang: state => {
@@ -140,15 +158,16 @@ export default function (Vue, { appOptions, router, head, isClient }) {
       },
       getCookieRedirect: state => {
         return state.cookieRedirect
-      }
+      },
     },
+
     mutations: {
       setLang (state, val) {
         state.lang = val
       },
       setCookieRedirect (state, val) {
         state.cookieRedirect = val
-      }
+      },
     }
   }
   Vue.use(Vuex)
@@ -157,6 +176,8 @@ export default function (Vue, { appOptions, router, head, isClient }) {
   Vue.use(Vuelidate)
 
   Vue.use(VueWaypoint)
+
+  Vue.use(AuthPlugin)
 
   Vue.mixin({
     computed: {
@@ -174,5 +195,6 @@ export default function (Vue, { appOptions, router, head, isClient }) {
 
   // Set default layout as a global component
   Vue.component('Layout', DefaultLayout)
+  Vue.component('ArtistLayout', ArtistLayout)
   Vue.component('vue-cookie-accept-decline', VueCookieAcceptDecline);
 }
