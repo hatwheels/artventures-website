@@ -6,8 +6,20 @@
 
 module.exports = {
   siteName: 'Artventures',
+  siteUrl: process.env.GRIDSOME_SITE_URL,
 
   plugins: [
+    {
+      use: 'gridsome-plugin-robots-txt'
+    },
+
+    {
+      use: '@gridsome/plugin-sitemap',
+      options: {
+        exclude: ['/profile'],
+      }
+    },
+
     {
       use: '@gridsome/plugin-google-analytics',
       options: {
