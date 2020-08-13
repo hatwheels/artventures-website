@@ -1,5 +1,5 @@
 <template>
-    <ArtistLayout>
+    <UserLayout>
       <v-content class="background-color-fafafa">
         <v-container class="px-0 pt-0" fluid>
             <div class="mx-auto my-10 w-64 text-center uppercase font-bold">
@@ -35,7 +35,7 @@
             </table>
         </v-container>
       </v-content>
-    </ArtistLayout>
+    </UserLayout>
 </template>
 
 <script>

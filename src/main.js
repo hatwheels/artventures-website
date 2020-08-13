@@ -5,7 +5,7 @@ import Vuex from 'vuex'
 import Vuelidate from 'vuelidate'
 import './assets/style/index.scss'
 import DefaultLayout from '~/layouts/Default.vue'
-import ArtistLayout from '~/layouts/Artist.vue'
+import UserLayout from '~/layouts/User.vue'
 import VueCookieAcceptDecline from 'vue-cookie-accept-decline'
 import axios from 'axios'
 import VueWaypoint from "vue-waypoint"
@@ -195,6 +195,6 @@ export default function (Vue, { appOptions, router, head, isClient }) {
 
   // Set default layout as a global component
   Vue.component('Layout', DefaultLayout)
-  Vue.component('ArtistLayout', ArtistLayout)
+  Vue.component('UserLayout', UserLayout)
   Vue.component('vue-cookie-accept-decline', VueCookieAcceptDecline);
 }
