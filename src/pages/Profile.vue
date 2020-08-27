@@ -73,7 +73,7 @@ export default {
             en: 'Nickname',
         },
         email: {
-            gr: 'Ηλεκτγρονική διεύθυνση',
+            gr: 'Ηλεκτρονική διεύθυνση',
             en: 'Email',
         },
     }

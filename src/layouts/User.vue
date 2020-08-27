@@ -35,7 +35,7 @@
       <v-spacer />
 
       <v-toolbar-items class="pa-0">
-        <v-menu open-on-hover bottom :offset-y="true" transition="slide-y-transition">
+        <!-- <v-menu open-on-hover bottom :offset-y="true" transition="slide-y-transition">
           <template v-slot:activator="{ on }">
             <v-btn class="px-2" text color="transparent" v-on="on" :ripple="false">
               <div
@@ -53,14 +53,46 @@
               />
             </v-list-item>
           </v-list>
+        </v-menu> -->
+       <v-menu open-on-hover bottom :offset-y="true" transition="slide-y-transition">
+          <template v-slot:activator="{ on }" :ripple="false">
+            <v-btn class="px-2" text v-on="on" color="transparent" :ripple="false">
+              <v-avatar rounded>
+                <v-img :src="user.picture" />
+              </v-avatar>
+            </v-btn>
+          </template>
+          <v-list flat color="#e8e8e8">
+            <v-list-item>
+              <v-list-item-title
+                :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
+                color="#333333"
+                v-html="spa.profile[getLang]"
+              />
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-title
+                :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
+                color="#333333"
+                v-html="spa.artwork[getLang]"
+              />
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-title
+                :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
+                color="#333333"
+                v-html="spa.settings[getLang]"
+              />
+            </v-list-item>
+            <v-list-item @click="logout">
+              <v-list-item-title
+                :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
+                color="#333333"
+                v-html="routes.logout[getLang]"
+              />
+            </v-list-item>
+          </v-list>
         </v-menu>
-        <v-btn
-          :class="getLang === 'gr' ? 'noto-16-500' : 'nunito-18-600'"
-          class="px-2"
-          text color="transparent"
-          @click="logout"
-          v-html="routes.logout[getLang]"
-        />
       </v-toolbar-items>
 
     </v-app-bar>
@@ -178,11 +210,13 @@ export default {
         this.$refs.cookieBar.init();
       }
     }
+    this.user = this.$auth.user || {}
+    console.log(this.user)
   },
   data () {
     return {
       // Auth0
-      isAuthenticated: false,
+      user: {},
       // Cookies
       status: null,
       cookieTxt: {
@@ -205,6 +239,20 @@ export default {
         logout: {
           gr: '<div class="color-333333 text-capitalize">Αποσύνδεση</div>', // Greek, raw html
           en: '<div class="color-333333 text-capitalize">Logout</div>', // English, raw html
+        }
+      },
+      spa: {
+        profile: {
+          gr: '<div class="color-333333 text-capitalize">Προφίλ</div>', // Greek, raw html
+          en: '<div class="color-333333 text-capitalize">Profile</div>', // English, raw html
+        },
+        artwork: {
+          gr: '<div class="color-333333 text-capitalize">Έργα Τέχνης</div>', // Greek, raw html
+          en: '<div class="color-333333 text-capitalize">Artworks</div>', // English, raw html
+        },
+        settings: {
+          gr: '<div class="color-333333 text-capitalize">Ρυθμίσεις</div>', // Greek, raw html
+          en: '<div class="color-333333 text-capitalize">Settings</div>', // English, raw html
         }
       }
     }
