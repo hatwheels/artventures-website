@@ -58,26 +58,26 @@
           <template v-slot:activator="{ on }" :ripple="false">
             <v-btn class="px-2" text v-on="on" color="transparent" :ripple="false">
               <v-avatar rounded>
-                <v-img :src="user.picture" />
+                <v-img :src="$auth.user.picture" />
               </v-avatar>
             </v-btn>
           </template>
           <v-list flat color="#e8e8e8">
-            <v-list-item>
+            <v-list-item @click="userNavigation = 'profile'">
               <v-list-item-title
                 :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
                 color="#333333"
                 v-html="spa.profile[getLang]"
               />
             </v-list-item>
-            <v-list-item>
+            <v-list-item @click="userNavigation = 'artwork'">
               <v-list-item-title
                 :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
                 color="#333333"
                 v-html="spa.artwork[getLang]"
               />
             </v-list-item>
-            <v-list-item>
+            <v-list-item @click="userNavigation = 'settings'">
               <v-list-item-title
                 :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
                 color="#333333"
@@ -99,7 +99,9 @@
 
     <transition name="fade" appear>
       <main>
-        <slot />
+        <slot v-if="userNavigation === 'profile'" name="profile" />
+        <slot name="artwork" />
+        <slot name="settings" />
       </main>
     </transition>
 
@@ -210,13 +212,10 @@ export default {
         this.$refs.cookieBar.init();
       }
     }
-    this.user = this.$auth.user || {}
-    console.log(this.user)
+    this.userNavigation = 'profile'
   },
   data () {
     return {
-      // Auth0
-      user: {},
       // Cookies
       status: null,
       cookieTxt: {
@@ -254,7 +253,8 @@ export default {
           gr: '<div class="color-333333 text-capitalize">Ρυθμίσεις</div>', // Greek, raw html
           en: '<div class="color-333333 text-capitalize">Settings</div>', // English, raw html
         }
-      }
+      },
+      userNavigation: '',
     }
   },
   computed: {
