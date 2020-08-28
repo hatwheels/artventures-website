@@ -1,4 +1,5 @@
 import auth0 from 'auth0-js'
+import axios from 'axios'
 import Vue from 'vue'
 
 let webAuth = new auth0.WebAuth({
@@ -58,7 +59,7 @@ let auth = new Vue({
                 localStorage.removeItem('user')
                 webAuth.logout({
                     returnTo: process.env.GRIDSOME_SITE_URL,
-                    clientID: process.env.AUTH0_CLIENT_ID,
+                    clientID: process.env.GRIDSOME_AUTH0_CLIENT_ID,
                     federated: false
                 })
             })
@@ -82,6 +83,19 @@ let auth = new Vue({
                     }
                 })
             })
+        },
+        async getUserRole(getToken) {
+            return await axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/auth0-get-user-role',
+                {
+                    user_id: this.user.sub,
+                    get_token: getToken
+                },
+                {
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                }
+            )
         }
     }
 })

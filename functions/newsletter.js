@@ -10,15 +10,15 @@ exports.handler = async (event, context) => {
     const data = JSON.parse(event.body)
     if (!data.email) {
       return {
-        statusCode: 500,
+        statusCode: 400,
         headers,
         body: 'email query parameter required'
-      };
+      }
     }
 
     if (!data.tag) {
       return {
-        statusCode: 500,
+        statusCode: 400,
         headers,
         body: 'tag query parameter required'
       };

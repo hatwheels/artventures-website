@@ -11,7 +11,7 @@ exports.handler = async (event, context) => {
     const data = JSON.parse(event.body)
     if (!data.email) {
       return {
-        statusCode: 500,
+        statusCode: 400,
         headers,
         body: 'email query parameter required'
       };
@@ -19,7 +19,7 @@ exports.handler = async (event, context) => {
 
     if (!data.firstname) {
         return {
-          statusCode: 500,
+          statusCode: 400,
           headers,
           body: 'First Name query parameter required'
         };
@@ -27,7 +27,7 @@ exports.handler = async (event, context) => {
 
     if (!data.lastname) {
         return {
-            statusCode: 500,
+            statusCode: 400,
             headers,
             body: 'Last Name query parameter required'
         };
@@ -35,7 +35,7 @@ exports.handler = async (event, context) => {
 
     if (!data.subject) {
         return {
-          statusCode: 500,
+          statusCode: 400,
           headers,
           body: 'Subject query parameter required'
         };
@@ -43,9 +43,9 @@ exports.handler = async (event, context) => {
 
     if (!data.message) {
         return {
-          statusCode: 500,
+          statusCode: 400,
           headers,
-          body: 'Message query paramaeter required'
+          body: 'Message query paramater required'
         };
     }
 
