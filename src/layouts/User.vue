@@ -63,21 +63,21 @@
             </v-btn>
           </template>
           <v-list flat color="#e8e8e8">
-            <v-list-item @click="userNavigation = 'profile'">
+            <v-list-item to="/user/profile">
               <v-list-item-title
                 :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
                 color="#333333"
                 v-html="spa.profile[getLang]"
               />
             </v-list-item>
-            <v-list-item @click="userNavigation = 'artwork'">
+            <v-list-item to="/user/portfolio">
               <v-list-item-title
                 :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
                 color="#333333"
-                v-html="spa.artwork[getLang]"
+                v-html="spa.portfolio[getLang]"
               />
             </v-list-item>
-            <v-list-item @click="userNavigation = 'settings'">
+            <v-list-item to="/user/settings">
               <v-list-item-title
                 :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
                 color="#333333"
@@ -99,9 +99,7 @@
 
     <transition name="fade" appear>
       <main>
-        <slot v-if="userNavigation === 'profile'" name="profile" />
-        <slot name="artwork" />
-        <slot name="settings" />
+        <slot />
       </main>
     </transition>
 
@@ -212,7 +210,6 @@ export default {
         this.$refs.cookieBar.init();
       }
     }
-    this.userNavigation = 'profile'
   },
   data () {
     return {
@@ -245,16 +242,15 @@ export default {
           gr: '<div class="color-333333 text-capitalize">Προφίλ</div>', // Greek, raw html
           en: '<div class="color-333333 text-capitalize">Profile</div>', // English, raw html
         },
-        artwork: {
-          gr: '<div class="color-333333 text-capitalize">Έργα Τέχνης</div>', // Greek, raw html
-          en: '<div class="color-333333 text-capitalize">Artworks</div>', // English, raw html
+        portfolio: {
+          gr: '<div class="color-333333 text-capitalize">Πορτφόλιο</div>', // Greek, raw html
+          en: '<div class="color-333333 text-capitalize">Portfolio</div>', // English, raw html
         },
         settings: {
           gr: '<div class="color-333333 text-capitalize">Ρυθμίσεις</div>', // Greek, raw html
           en: '<div class="color-333333 text-capitalize">Settings</div>', // English, raw html
         }
       },
-      userNavigation: '',
     }
   },
   computed: {

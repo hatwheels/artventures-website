@@ -45,6 +45,14 @@ let auth = new Vue({
             set: function(user) {
                 localStorage.setItem('user', JSON.stringify(user))
             }
+        },
+        userRole: {
+            get: function() {
+                return JSON.parse(localStorage.getItem('userRole'))
+            },
+            set: function(userRole) {
+                localStorage.setItem('userRole', JSON.stringify(userRole))
+            }
         }
     },
     methods: {
@@ -57,6 +65,7 @@ let auth = new Vue({
                 localStorage.removeItem('id_token')
                 localStorage.removeItem('expires_at')
                 localStorage.removeItem('user')
+                localStorage.removeItem('userRole')
                 webAuth.logout({
                     returnTo: process.env.GRIDSOME_SITE_URL,
                     clientID: process.env.GRIDSOME_AUTH0_CLIENT_ID,
@@ -84,18 +93,30 @@ let auth = new Vue({
                 })
             })
         },
-        async getUserRole(getToken) {
-            return await axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/auth0-get-user-role',
-                {
-                    user_id: this.user.sub,
-                    get_token: getToken
-                },
-                {
-                    headers: {
-                        "Content-Type": "application/json"
+        getUserRole(getToken) {
+            return new Promise((resolve, reject) => {
+                axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/auth0-get-user-role',
+                    {
+                        user_id: this.user.sub,
+                        get_token: getToken
+                    },
+                    {
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
                     }
-                }
-            )
+                ).then(res => {
+                    // success
+                    if (200 == res.status) {
+                        this.userRole = res.data
+                        resolve()
+                    } else {
+                        reject(res.status)
+                    }
+                }).catch(err => {
+                    reject(err)
+                })
+            })
         }
     }
 })

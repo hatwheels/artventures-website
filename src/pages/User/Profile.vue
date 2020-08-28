@@ -1,8 +1,12 @@
 <template>
     <UserLayout>
-      <template v-slot:profile>
       <v-content class="background-color-fafafa">
         <v-container class="px-0 py-12" fluid>
+            <div
+                :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
+                class="pb-10 my-0 text-center"
+                v-html="getLang === 'gr' ? 'Το Προφίλ μου' : 'My Profile'"
+            />
             <table class="table-auto mx-auto mb-4">
                 <tbody :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'">
                     <tr>
@@ -72,7 +76,6 @@
             </table>
         </v-container>
       </v-content>
-      </template>
     </UserLayout>
 </template>
 
@@ -140,22 +143,18 @@ export default {
   },
   methods: {
       getRole() {
-        this.$auth.getUserRole(process.env.GRIDSOME_BUILD === 'prod' ? true : false)
-        .then(res => {
-            // success
-            if (200 == res.status) {
-                this.getLanguages.forEach(lang => {
-                    this.role.name[lang] = this.availableRoles[res.data[0].name][lang]
-                });
+        this.getLanguages.forEach(lang => {
+            if (this.$auth.userRole && this.$auth.userRole.length) {
+                this.role.name[lang] = this.availableRoles[this.$auth.userRole[0].name][lang]
             }
-        })
+        });
       }
   },
   metaInfo () {
     return {
       titleTemplate: this.getLang === 'gr' ? 'Προφίλ — Artventures' : 'Profile — Artventures',
       meta: [
-        { name: 'description', content: 'Landing page' },
+        { name: 'description', content: 'Web Application' },
       ],
     }
   },
