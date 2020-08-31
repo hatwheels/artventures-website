@@ -8,7 +8,7 @@ const url = 'https://' + process.env.GRIDSOME_AUTH0_DOMAIN + '/api/v2/users/'
 exports.handler = async (event, context) => {
     try {
         const data = JSON.parse(event.body)
-
+        
         if (!data.token ||  data.token != process.env.GRIDSOME_AUTH0_MASTER_TOKEN) {
             console.log('401: user id query parameter required.')
             return {
@@ -34,20 +34,20 @@ exports.handler = async (event, context) => {
             clientSecret: process.env.AUTH0_MAPI_CLIENT_SECRET
         });
 
-        return await auth0.users.getRoles({ id: data.user_id })
-            .then(roles => {
+        return await auth0.users.get({ id: data.user_id })
+            .then(user => {
                 return {
                     statusCode: 200,
-                    body: JSON.stringify(roles)
+                    body: JSON.stringify(user.identities[0].provider)
                 }
             })
             .catch(err => {
-            console.log(err)
-            return {
-                statusCode: err.statusCode,
-                body: JSON.stringify(err)
-            }
-        })
+                console.log(err)
+                return {
+                    statusCode: err.statusCode,
+                    body: JSON.stringify(err)
+                }
+            })
     } catch (err) {
         return {
             statusCode: 500,

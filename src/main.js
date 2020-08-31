@@ -81,6 +81,23 @@ export default function (Vue, { appOptions, router, head, isClient }) {
         }
         break;
 
+      case '/user/portfolio':
+        if (router.app.$auth.isAuthenticated()) { // if authenticated allow access
+          if (from.name !== null) {
+            if (from.query._storyblok) {
+              return next(false)
+            }
+          }
+          if (router.app.$auth.userRole[0].name === 'user') { // users have no portfolio
+            return next(false)
+          }
+          next()
+        }
+        else { // trigger auth0's login
+          router.app.$auth.login()
+        }
+        break;
+
       default:
         next()
         break;

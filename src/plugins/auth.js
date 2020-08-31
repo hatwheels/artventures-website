@@ -53,6 +53,14 @@ let auth = new Vue({
             set: function(userRole) {
                 localStorage.setItem('userRole', JSON.stringify(userRole))
             }
+        },
+        provider: {
+            get: function() {
+                return JSON.parse(localStorage.getItem('provider'))
+            },
+            set: function(provider) {
+                localStorage.setItem('provider', JSON.stringify(provider))
+            }
         }
     },
     methods: {
@@ -93,12 +101,48 @@ let auth = new Vue({
                 })
             })
         },
-        getUserRole(getToken) {
+        resetPassword() {
+            return new Promise((resolve, reject) => {
+                webAuth.changePassword({
+                    connection: 'Username-Password-Authentication',
+                    email: this.user.email
+                }, function (err, resp) {
+                    if (err){
+                        reject(err);
+                    } else {
+                        resolve(resp)
+                    }
+                });
+            })
+        },
+        getProvider() {
+            return new Promise((resolve, reject) => {
+                axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/auth0-get-user',
+                    {
+                        user_id: this.user.sub,
+                        token: process.env.GRIDSOME_AUTH0_MASTER_TOKEN
+                    },
+                    {
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    }
+                ).then(res => {
+                    if (200 == res.status) {
+                        this.provider = res.data
+                        resolve()
+                    }
+                }).catch(err => {
+                    reject(err)
+                })
+            })
+        },
+        getUserRole() {
             return new Promise((resolve, reject) => {
                 axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/auth0-get-user-role',
                     {
                         user_id: this.user.sub,
-                        get_token: getToken
+                        token: process.env.GRIDSOME_AUTH0_MASTER_TOKEN
                     },
                     {
                         headers: {

@@ -54,12 +54,13 @@
             </v-list-item>
           </v-list>
         </v-menu> -->
-       <v-menu open-on-hover bottom :offset-y="true" transition="slide-y-transition">
+       <v-menu bottom :offset-y="true" transition="slide-y-transition">
           <template v-slot:activator="{ on }" :ripple="false">
             <v-btn class="px-2" text v-on="on" color="transparent" :ripple="false">
               <v-avatar rounded>
                 <v-img :src="$auth.user.picture" />
               </v-avatar>
+              <v-icon color="#333333" right large>mdi-menu-down</v-icon>
             </v-btn>
           </template>
           <v-list flat color="#e8e8e8">
@@ -70,7 +71,7 @@
                 v-html="spa.profile[getLang]"
               />
             </v-list-item>
-            <v-list-item to="/user/portfolio">
+            <v-list-item v-if="$auth.userRole[0].name !== 'user'" to="/user/portfolio">
               <v-list-item-title
                 :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
                 color="#333333"

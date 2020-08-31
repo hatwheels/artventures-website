@@ -12,14 +12,19 @@
                     <tr>
                         <td class="border px-4 py-2">{{ pic[getLang] }}</td>
                         <td class="border px-4 py-2">
-                            <g-image
+                            <v-img
                                 v-if="$auth.user.picture"
                                 :src="$auth.user.picture"
+                                width="200"
+                                height="200"
+                                max-width="200"
+                                max-height="200"
+                                contain
                             />
                         </td>
                     </tr>
                     <tr>
-                        <td class="border px-4 py-2">{{ givenName[getLang] }}</td>
+                        <td class="border px-4 py-2">{{ firstName[getLang] }}</td>
                         <td 
                             class="border px-4 py-2"
                             :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
@@ -34,15 +39,6 @@
                             :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
                         >
                             {{ $auth.user.family_name }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="border px-4 py-2">{{ firstName[getLang] }}</td>
-                        <td
-                            class="border px-4 py-2"
-                            :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                        >
-                            {{ $auth.user.name }}
                         </td>
                     </tr>
                     <tr>
@@ -106,17 +102,13 @@ export default {
             gr: 'Φωτογραφία',
             en: 'Picture',
         },
-        givenName: {
+        firstName: {
             gr: 'Όνομα',
-            en: 'Given Name',
+            en: 'First Name',
         },
         lastName: {
             gr: 'Επίθετο',
             en: 'Last Name',
-        },
-        firstName: {
-            gr: 'Όνομα',
-            en: 'First Name',
         },
         nickname: {
             gr: 'Ψευδόνυμο',
