@@ -1,11 +1,11 @@
 <template>
     <UserLayout>
-      <v-content class="background-color-fafafa">
+      <v-content>
         <v-container class="px-0 py-12" fluid>
             <div
                 :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
                 class="pb-10 my-0 text-center"
-                v-html="getLang === 'gr' ? 'Ρυθμίσεις Προφίλ' : 'Profile Settings'"
+                v-html="getLang === 'gr' ? 'Οι Ρυθμίσεις μου' : 'My Settings'"
             />
             <v-row justify="center" align="start">
                 <v-col offset="2" cols="4">
@@ -142,15 +142,15 @@
                         />
                     </v-row>
                     <v-row>
-                        <v-img width="200" height="200" max-width="200" max-height="200" :src="pic" contain />
+                        <g-image style="width: 200px; height: 200px" :src="pic" />
                     </v-row>
                     <v-row class="pt-2">
                         <label
                             :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
-                            class="pic-btn black white--text text-capitalize py-1 px-4 text-center"
+                            class="pic-btn black white--text text-capitalize py-1 pl-2 pr-4 text-center"
                             for="pic_profile"
                         >
-                            {{ buttons.pic[getLang] }}
+                            <v-icon class="white--text pr-2" small>mdi-pencil</v-icon>{{ buttons.pic[getLang] }}
                         </label>
                         <input
                             id="pic_profile"

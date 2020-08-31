@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app class="background-color-fafafa">
     <!-- Cookie consent (GDPR) -->
     <vue-cookie-accept-decline
       :ref="'cookieBar'"
@@ -531,7 +531,7 @@ export default {
 }
 
 .background-color-fafafa {
-  background-color: #FAFAFA;
+  background-color: #FAFAFA !important;
 }
 
 .background-color-dddddd {

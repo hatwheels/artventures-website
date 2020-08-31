@@ -1,6 +1,6 @@
 <template>
     <UserLayout>
-      <v-content class="background-color-fafafa">
+      <v-content>
         <v-container class="px-0 py-12" fluid>
             <div
                 :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
@@ -12,14 +12,11 @@
                     <tr>
                         <td class="border px-4 py-2">{{ pic[getLang] }}</td>
                         <td class="border px-4 py-2">
-                            <v-img
+                            <g-image
                                 v-if="$auth.user.picture"
                                 :src="$auth.user.picture"
-                                width="200"
-                                height="200"
-                                max-width="200"
-                                max-height="200"
-                                contain
+                                style="height: 200px;width: 200px;"
+                                fit="contain"
                             />
                         </td>
                     </tr>
