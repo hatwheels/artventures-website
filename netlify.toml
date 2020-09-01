@@ -7,19 +7,19 @@
       Access-Control-Allow-Origin = "*"
 
 [[redirects]]
-  from = "https://artventur.es"
-  to = "https://artventures.me"
+  from = "https://artventur.es/*"
+  to = "https://artventures.me/:splat"
   status = 301
   force = true
 
 [[redirects]]
-  from = "https://www.artventur.es"
-  to = "https://www.artventures.me"
+  from = "https://www.artventur.es/*"
+  to = "https://www.artventures.me/:splat"
   status = 301
   force = true
 
 [[redirects]]
-  from = "https://flamboyant-stonebraker-6fe6d3.netlify.app"
-  to = "https://artventures.me"
+  from = "https://flamboyant-stonebraker-6fe6d3.netlify.app/*"
+  to = "https://artventures.me/:splat"
   status = 301
   force = true
