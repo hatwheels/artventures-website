@@ -109,16 +109,16 @@ export default {
         userEmail: null,
         availableRoles: {
             admin: {
-                gr: 'διαχειριστής',
-                en: 'admin'
+                gr: 'Διαχειριστής',
+                en: 'Administrator'
             },
             artist: {
-                gr: 'καλλιτέχνης',
-                en: 'artist'
+                gr: 'Καλλιτέχνης',
+                en: 'Artist'
             },
             user: {
                 gr: 'χρήστης',
-                en: 'user'
+                en: 'User'
             }
         },
         pic: {

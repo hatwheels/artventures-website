@@ -461,7 +461,7 @@ export default {
         availableRoles: {
             admin: {
                 gr: 'Διαχειριστής',
-                en: 'Admin'
+                en: 'Administrator'
             },
             artist: {
                 gr: 'Καλλιτέχνης',
