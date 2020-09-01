@@ -51,12 +51,11 @@
 
     <v-dialog v-model="dialog" max-width="290" overlay-color="transparent">
       <v-card>
-        <div
-          class="px-3 pt-2 pb-4 subtitle-2"
-          :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
-        >
+        <v-card-text
+          class="px-3 pt-2 pb-4"
+          :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'">
           {{ dialogText[getLang] }}
-        </div>
+        </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
@@ -108,10 +107,10 @@ export default {
         en: "Your email"
       },
       // Dialog
-      dialog: false,
+      dialog: true,
       dialogText: {
         gr: "",
-        en: ""
+        en: "dfdfd"
       },
       btnLoading: false
     };
