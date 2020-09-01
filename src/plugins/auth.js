@@ -15,38 +15,44 @@ let auth = new Vue({
     computed: {
         token: {
             get: function() {
-                if (localStorage) {
+                if (process.isClient) {
                     return localStorage.getItem('id_token')
-                } else
+                } else {
                     return null
+                }
             },
             set: function(id_token) {
-                if (localStorage) {
+                if (process.isClient) {
                     localStorage.setItem('id_token', id_token)
                 }
             }
         },
         accessToken: {
             get: function() {
-                if (localStorage)
+                if (process.isClient) {
                     return localStorage.getItem('access_token')
-                else
+                }
+                else {
                     return null
+                }
             },
             set: function(accessToken) {
-                if (localStorage)
+                if (process.isClient) {
                     localStorage.setItem('access_token', accessToken)
+                }
             }
         },
         expiresAt: {
             get: function() {
-                if (localStorage)
+                if (process.isClient) {
                     return localStorage.getItem('expires_at')
-                else
+                }
+                else {
                     return null
+                }
             },
             set: function(expiresIn) {
-                if (localStorage){
+                if (process.isClient){
                     let expiresAt = JSON.stringify(expiresIn * 1000 + new Date().getTime())
                     localStorage.setItem('expires_at', expiresAt)
                 }
@@ -54,39 +60,46 @@ let auth = new Vue({
         },
         user: {
             get: function() {
-                if (localStorage)
+                if (process.isClient) {
                     return JSON.parse(localStorage.getItem('user'))
-                else
+                }
+                else {
                     return null
+                }
             },
             set: function(user) {
-                if (localStorage)
+                if (process.isClient) {
                     localStorage.setItem('user', JSON.stringify(user))
+                }
             }
         },
         userRole: {
             get: function() {
-                if (localStorage) {
+                if (process.isClient) {
                     return JSON.parse(localStorage.getItem('userRole'))
                 } else {
                     return null
                 }
             },
             set: function(userRole) {
-                if (localStorage)
+                if (process.isClient) {
                     localStorage.setItem('userRole', JSON.stringify(userRole))
+                }
             }
         },
         provider: {
             get: function() {
-                if (localStorage)
+                if (process.isClient) {
                     return JSON.parse(localStorage.getItem('provider'))
-                else
+                }
+                else {
                     return null;
+                }
             },
             set: function(provider) {
-                if (localStorage)
+                if (process.isClient) {
                     localStorage.setItem('provider', JSON.stringify(provider))
+                }
             }
         }
     },
