@@ -8,7 +8,17 @@
 export default {
   mounted() {
     this.$auth.handleAuthentication().then( (data) => {
-      this.$router.push({ path: '/profile' })
+      this.$auth.getProvider()
+        .then(() => {
+          this.$auth.getUserRole()
+            .then(() => this.$router.push({ path: '/user/profile' }))
+            .catch(err => {
+                this.$auth.logout()
+              })
+        })
+        .catch(err => {
+          this.$auth.logout()
+        })
     })
   }
 }

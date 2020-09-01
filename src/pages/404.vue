@@ -31,9 +31,6 @@ export default {
   },
   computed: {
     ...mapGetters(['getLang']),
-    // getHeight() {
-    //   return window.innerHeight;
-    // }
   }
 }
 </script>

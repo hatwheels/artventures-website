@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app class="background-color-fafafa">
     <!-- Cookie consent (GDPR) -->
     <vue-cookie-accept-decline
       :ref="'cookieBar'"
@@ -115,7 +115,7 @@
           :class="getLang === 'gr' ? 'noto-16-500' : 'nunito-18-600'"
           class="px-2"
           text color="transparent"
-          to="/profile"
+          to="/user/profile"
           v-html="isAuthenticated ? routes.profile[getLang] : routes.login[getLang]"
         />
       </v-toolbar-items>
@@ -198,7 +198,7 @@
                         <v-icon large color="#757575">mdi-chevron-double-right</v-icon>
                       </v-list-item-icon>
                     </v-list-item>
-                   <v-list-item class="pb-5 px-0" to="/profile">
+                   <v-list-item class="pb-5 px-0" to="/user/profile">
                       <v-list-item-title
                         :class="getLang === 'gr' ? 'noto-28-400' : 'raleway-28-400'"
                         v-html="isAuthenticated ? routes.profile[getLang] : routes.login[getLang]"
@@ -531,7 +531,7 @@ export default {
 }
 
 .background-color-fafafa {
-  background-color: #FAFAFA;
+  background-color: #FAFAFA !important;
 }
 
 .background-color-dddddd {

@@ -12,6 +12,7 @@
     "@gridsome/remark-prismjs": "^0.3.0",
     "@gridsome/source-filesystem": "^0.6.2",
     "@gridsome/transformer-remark": "^0.5.0",
+    "auth0": "^2.28.0",
     "auth0-js": "^9.13.4",
     "axios": "^0.19.2",
     "gridsome": "^0.7.18",

@@ -65,19 +65,42 @@ export default function (Vue, { appOptions, router, head, isClient }) {
     }
   }
   router.beforeEach((to, from, next) => {
-    if (to.path != '/profile') {
-      next()
-    }
-    else if (router.app.$auth.isAuthenticated()) { // if authenticated allow access
-      if (from.name !== null) {
-        if (from.query._storyblok) {
-          return next(false)
+    switch (to.path) {
+      case '/user/profile':
+      case '/user/settings':
+        if (router.app.$auth.isAuthenticated()) { // if authenticated allow access
+          if (from.name !== null) {
+            if (from.query._storyblok) {
+              return next(false)
+            }
+          }
+          next()
         }
-      }
-      next()
-    }
-    else { // trigger auth0's login
-      router.app.$auth.login()
+        else { // trigger auth0's login
+          router.app.$auth.login()
+        }
+        break;
+
+      case '/user/portfolio':
+        if (router.app.$auth.isAuthenticated()) { // if authenticated allow access
+          if (from.name !== null) {
+            if (from.query._storyblok) {
+              return next(false)
+            }
+          }
+          if (router.app.$auth.userRole[0].name === 'user') { // users have no portfolio
+            return next(false)
+          }
+          next()
+        }
+        else { // trigger auth0's login
+          router.app.$auth.login()
+        }
+        break;
+
+      default:
+        next()
+        break;
     }
   })
   // router.afterEach((to, from) => {
