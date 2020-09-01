@@ -415,14 +415,15 @@
           </div>
         </div>
 
-        <wp-transition
-          id="contact-us-small"
-          class="background-color-dddddd pt-4 pb-12"
-          :isActive="wpActiveMob"
-          nm="ride"
-        >
-          <contact-us class="pb-12" :isSmall="true" colWidth="11" />
-        </wp-transition>
+        <div id="contact-us-small">
+          <wp-transition
+            class="background-color-dddddd pt-4 pb-12"
+            :isActive="wpActiveMob"
+            nm="ride"
+          >
+            <contact-us class="pb-12" :isSmall="true" colWidth="11" />
+          </wp-transition>
+        </div>
 
       </v-container>
     </v-main>

@@ -164,7 +164,7 @@
           <g-link
             :class="getLang === 'gr' ? 'noto-15-600-1p5' : 'raleway-15-600-1p5'"
             class="learn-more-btn-small white--text text-uppercase"
-            :to="{ path: '/', hash:'#contact-us' }"
+            :to="{ path: '/', hash:'#contact-us-small' }"
           >
             {{ $page.businesses.edges[0].node.button[getLang] }}
           </g-link>
