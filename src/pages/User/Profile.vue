@@ -12,12 +12,22 @@
                     <tr>
                         <td class="border px-4 py-2">{{ pic[getLang] }}</td>
                         <td class="border px-4 py-2">
-                            <g-image
-                                v-if="$auth.user.picture"
-                                :src="$auth.user.picture"
-                                style="height: 200px;width: 200px;"
-                                fit="contain"
-                            />
+                            <div v-show="getViewSize === 'desktop'">
+                                <g-image
+                                    v-if="$auth.user.picture"
+                                    :src="$auth.user.picture"
+                                    style="height: 200px;width: 200px;"
+                                    fit="contain"
+                                />
+                            </div>
+                            <div v-show="getViewSize === 'mobile'">
+                                <g-image
+                                    v-if="$auth.user.picture"
+                                    :src="$auth.user.picture"
+                                    style="height: 100px;width: 100px;"
+                                    fit="contain"
+                                />
+                            </div>
                         </td>
                     </tr>
                     <tr>

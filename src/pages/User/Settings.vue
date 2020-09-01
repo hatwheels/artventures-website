@@ -7,7 +7,7 @@
                 class="pb-10 my-0 text-center"
                 v-html="getLang === 'gr' ? 'Οι Ρυθμίσεις μου' : 'My Settings'"
             />
-            <v-row justify="center" align="start">
+            <v-row v-if="getViewSize === 'desktop'" justify="center" align="start">
                 <v-col offset="2" cols="4">
                     <form lazy-validation @submit.prevent="submit()">
                         <v-row justify="start" align="center">
@@ -114,22 +114,22 @@
                             </v-col>
                         </v-row>
                         <v-row justify="start" align="center">
-                            <!-- <button
+                            <!-- <v-btn
                                 :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
-                                class="settings-form-btn white--text text-center text-capitalize py-2 px-4"
+                                class="text-capitalize white--text"
+                                color="#333333"
                                 type="submit"
-                                :disabled="$v.$invalid"
-                            >
-                                {{ buttons.form[getLang] }}
-                            </button> -->
-                            <button
+                                :disabled="$v.invalid"
+                                v-html="buttons.form[getLang]"
+                            /> -->
+                            <v-btn
                                 :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
-                                class="settings-form-btn white--text text-center text-capitalize py-2 px-4"
+                                class="text-capitalize white--text"
+                                color="#333333"
                                 type="submit"
-                                disabled="true"
-                            >
-                                {{ buttons.form[getLang] }}
-                            </button>
+                                disabled
+                                v-html="buttons.form[getLang]"
+                            />
                         </v-row>
                     </form>
                 </v-col>
@@ -147,15 +147,15 @@
                     <v-row class="pt-2">
                         <label
                             :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
-                            class="pic-btn black white--text text-capitalize py-1 pl-2 pr-4 text-center"
+                            class="pic-btn white--text text-capitalize py-1 pl-2 pr-4 text-center"
                             for="pic_profile"
                         >
-                            <v-icon class="white--text pr-2" small>mdi-pencil</v-icon>{{ buttons.pic[getLang] }}
+                            <v-icon class="pb-1 white--text pr-2">mdi-pencil</v-icon>{{ buttons.pic[getLang] }}
                         </label>
                         <input
                             id="pic_profile"
                             name="pic_profile"
-                            class="input-pic"
+                            style="opacity: 0;"
                             :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
                             accept="image/png, image/jpeg, image/bmp"
                             type="file"
@@ -190,6 +190,203 @@
                             </div>
                         </v-col>
                     </v-row>
+                    <v-row justify="start" align="start" no-gutter>
+                        <v-col cols="8" class="px-0 pb-0">
+                            <label
+                                :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
+                                class="color-1a1a1a"
+                                v-html="language[getLang]"
+                            />
+                        </v-col>
+                    </v-row>
+                    <v-row justify="start" align="start" no-gutter>
+                        <v-col cols="8" class="px-0 py-0">
+                            <v-select
+                                v-model="chosenLanguage"
+                                :items="getLanguages"
+                                color="#333333"
+                                @change="setLang(chosenLanguage)"
+                            />
+                        </v-col>
+                    </v-row>
+                </v-col>
+            </v-row>
+            <v-row v-else-if="getViewSize === 'mobile'" justify="center" align="start">
+                <v-col cols="10">
+                    <v-row justify="center" align="center">
+                        <label
+                            :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
+                            class="color-1a1a1a"
+                            v-html="form.pic[getLang]"
+                        />
+                    </v-row>
+                    <v-row  justify="center" align="center">
+                        <g-image style="width: 150px; height: 150px" :src="pic" />
+                    </v-row>
+                    <v-row class="pt-2" justify="center" align="center">
+                        <label
+                            :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
+                            class="pic-btn white--text text-capitalize py-1 pl-2 pr-4 mt-2 text-center center-label"
+                            style="pos"
+                            for="pic_profile"
+                        >
+                            <v-icon class="pb-1 white--text pr-2">mdi-pencil</v-icon>{{ buttons.pic[getLang] }}
+                        </label>
+                        <input
+                            id="pic_profile"
+                            name="pic_profile"
+                            style="opacity: 0;"
+                            accept="image/png, image/jpeg, image/bmp"
+                            type="file"
+                            @input="changeProfilePic"
+                        >
+                    </v-row>
+                    <v-row class="pt-6" justify="center" align="center">
+                        <div
+                            :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
+                            class="color-1a1a1a"
+                            v-html="pw.title[getLang]"
+                        />
+                    </v-row>
+                    <v-row class="pt-2" justify="center" align="center">
+                        <v-btn
+                            dark
+                            color="#333333"
+                            v-if="$auth.provider === 'auth0'"
+                            :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
+                            class="text-capitalize"
+                            v-html="pw.reset[getLang]"
+                            @click="this.$auth.resetPassword()"
+                        />
+                        <div
+                            v-else
+                            :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
+                        >
+                            {{ pw.text3rd['1st'][getLang] }}
+                            <span class='raleway-16-600'>{{ availableProviders[$auth.provider] }}</span>
+                            {{ pw.text3rd['2nd'][getLang] }}
+                        </div>
+                    </v-row>
+                    <v-row class="pt-6" justify="center" align="center">
+                        <label
+                            :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
+                            class="color-1a1a1a"
+                            v-html="language[getLang]"
+                        />
+                    </v-row>
+                    <v-row justify="center" align="center">
+                        <v-col cols="3">
+                            <v-select
+                                v-model="chosenLanguage"
+                                :items="getLanguages"
+                                color="#333333"
+                                @change="setLang(chosenLanguage)"
+                            />
+                        </v-col>
+                    </v-row>
+                    <v-row class="pt-12" justify="center" align="center">
+                        <form lazy-validation @submit.prevent="submit()">
+                            <label
+                                :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
+                                class="color-1a1a1a"
+                                v-html="form.firstName[getLang]"
+                            />
+                            <v-text-field
+                                v-model.trim="firstName"
+                                background-color="#FAFAFA"
+                                color="#1A1A1A"
+                                :error-messages="firstNameErrors"
+                                outlined
+                                required
+                                @input="delayTouch($v.firstName)"
+                                @blur="$v.firstName.$touch()"
+                            ></v-text-field>
+                            <label
+                                :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
+                                class="color-1a1a1a"
+                                v-html="form.lastName[getLang]"
+                            />
+                            <v-text-field
+                                v-model.trim="lastName"
+                                background-color="#FAFAFA"
+                                color="#1A1A1A"
+                                :error-messages="lastNameErrors"
+                                outlined
+                                required
+                                @input="delayTouch($v.lastName)"
+                                @blur="$v.lastName.$touch()"
+                            ></v-text-field>
+                            <label
+                                :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
+                                class="color-1a1a1a"
+                                v-html="form.nickname[getLang]"
+                            />
+                            <v-text-field
+                                v-model.trim="nickname"
+                                background-color="#FAFAFA"
+                                color="#1A1A1A"
+                                :error-messages="nicknameErrors"
+                                outlined
+                                required
+                                @input="delayTouch($v.nickname)"
+                                @blur="$v.nickname.$touch()"
+                            ></v-text-field>
+                            <label
+                                :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
+                                class="color-1a1a1a"
+                                v-html="form.email[getLang]"
+                            />
+                            <v-text-field
+                                v-model="email"
+                                background-color="#FAFAFA"
+                                color="#1A1A1A"
+                                :error-messages="emailErrors"
+                                outlined
+                                required
+                                @input="delayTouch($v.email)"
+                                @blur="$v.email.$touch()"
+                            ></v-text-field>
+                            <label
+                                :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
+                                class="color-1a1a1a"
+                                v-html="form.role[getLang]"
+                            />
+                            <v-radio-group v-model="role" row :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'">
+                                <v-radio
+                                    v-if="role === 'admin'"
+                                    color="rgba(26,26,26,1)"
+                                    :label="availableRoles['admin'][getLang]"
+                                    value="admin">
+                                </v-radio>
+                                <v-radio
+                                    color="rgba(26,26,26,1)"
+                                    :label="availableRoles['artist'][getLang]"
+                                    value="artist">
+                                </v-radio>
+                                <v-radio
+                                    color="rgba(26,26,26,1)"
+                                    :label="availableRoles['user'][getLang]"
+                                    value="user">
+                                </v-radio>
+                            </v-radio-group>
+                        <!-- <v-btn
+                            :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
+                            class="text-capitalize white--text"
+                            color="#333333"
+                            type="submit"
+                            :disabled="$v.invalid"
+                            v-html="buttons.form[getLang]"
+                        /> -->
+                        <v-btn
+                            :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
+                            class="text-capitalize white--text"
+                            color="#333333"
+                            type="submit"
+                            disabled
+                            v-html="buttons.form[getLang]"
+                        />
+                        </form>
+                    </v-row>
                 </v-col>
             </v-row>
         </v-container>
@@ -198,7 +395,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import { validationMixin } from "vuelidate";
 import { required, email } from "vuelidate/lib/validators";
 
@@ -217,6 +414,7 @@ export default {
     this.email = this.$auth.user.email
     this.role = this.$auth.userRole[0].name
     this.pic = this.$auth.user.picture
+    this.chosenLanguage = this.getLang
   },
   data() {
     return {
@@ -224,6 +422,11 @@ export default {
             auth0: "Auth0",
             "google-oauth2": "Google",
             "facebook": "Facebook"
+        },
+        chosenLanguage: '',
+        language: {
+            gr: 'Γλώσσα',
+            en: 'Language'
         },
         pw: {
             title: {
@@ -360,6 +563,7 @@ export default {
     },
   },
   methods: {
+      ...mapMutations(['setLang']),
     submit() {
     },
     delayTouch($v) {
@@ -388,16 +592,18 @@ export default {
 .theme--light.v-label {
     color: rgba(26, 26, 26, 1) !important;
 }
-.input-pic {
-    opacity: 0;
-}
 .pic-btn {
     border-radius: 4px;
     cursor: pointer;
-    border: outset black;
+    border: outset #333333;
+    background-color: #333333;
 }
 .settings-form-btn {
   background-color: #333333;
   border-radius: 4px;
+}
+.center-label {
+    position: absolute;
+    text-align: center;
 }
 </style>
