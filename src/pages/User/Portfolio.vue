@@ -36,7 +36,7 @@
               >
                 <v-card v-if="!artworksInSection" height="300px" flat color="#FAFAFA">
                   <v-card-text
-                    class="center-viewport"
+                    style="padding-top: 140px;"
                     :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
                     v-html="tabs.emptySection[getLang]"
                   />
@@ -268,12 +268,6 @@ export default {
 </script>
 
 <style>
-.center-viewport {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
 .artwork-btn {
     border-radius: 4px;
     cursor: pointer;
