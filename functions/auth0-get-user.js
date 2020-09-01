@@ -31,7 +31,8 @@ exports.handler = async (event, context) => {
             token: process.env.GRIDSOME_AUTH0_MANAGEMENT_API_TOKEN,
             domain: process.env.GRIDSOME_AUTH0_DOMAIN,
             clientId: process.env.AUTH0_MAPI_CLIENT_ID,
-            clientSecret: process.env.AUTH0_MAPI_CLIENT_SECRET
+            clientSecret: process.env.AUTH0_MAPI_CLIENT_SECRET,
+            headers : headers,
         });
 
         return await auth0.users.get({ id: data.user_id })
