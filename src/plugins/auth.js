@@ -15,51 +15,78 @@ let auth = new Vue({
     computed: {
         token: {
             get: function() {
-                return localStorage.getItem('id_token')
+                if (localStorage) {
+                    return localStorage.getItem('id_token')
+                } else
+                    return null
             },
             set: function(id_token) {
-                localStorage.setItem('id_token', id_token)
+                if (localStorage) {
+                    localStorage.setItem('id_token', id_token)
+                }
             }
         },
         accessToken: {
             get: function() {
-                return localStorage.getItem('access_token')
+                if (localStorage)
+                    return localStorage.getItem('access_token')
+                else
+                    return null
             },
             set: function(accessToken) {
-                localStorage.setItem('access_token', accessToken)
+                if (localStorage)
+                    localStorage.setItem('access_token', accessToken)
             }
         },
         expiresAt: {
             get: function() {
-                return localStorage.getItem('expires_at')
+                if (localStorage)
+                    return localStorage.getItem('expires_at')
+                else
+                    return null
             },
             set: function(expiresIn) {
-                let expiresAt = JSON.stringify(expiresIn * 1000 + new Date().getTime())
-                localStorage.setItem('expires_at', expiresAt)
+                if (localStorage){
+                    let expiresAt = JSON.stringify(expiresIn * 1000 + new Date().getTime())
+                    localStorage.setItem('expires_at', expiresAt)
+                }
             }
         },
         user: {
             get: function() {
-                return JSON.parse(localStorage.getItem('user'))
+                if (localStorage)
+                    return JSON.parse(localStorage.getItem('user'))
+                else
+                    return null
             },
             set: function(user) {
-                localStorage.setItem('user', JSON.stringify(user))
+                if (localStorage)
+                    localStorage.setItem('user', JSON.stringify(user))
             }
         },
         userRole: {
             get: function() {
-                return JSON.parse(localStorage.getItem('userRole'))
+                if (localStorage) {
+                    return JSON.parse(localStorage.getItem('userRole'))
+                } else {
+                    return null
+                }
             },
             set: function(userRole) {
-                localStorage.setItem('userRole', JSON.stringify(userRole))
+                if (localStorage)
+                    localStorage.setItem('userRole', JSON.stringify(userRole))
             }
         },
         provider: {
             get: function() {
-                return JSON.parse(localStorage.getItem('provider'))
+                if (localStorage)
+                    return JSON.parse(localStorage.getItem('provider'))
+                else
+                    return null;
             },
             set: function(provider) {
-                localStorage.setItem('provider', JSON.stringify(provider))
+                if (localStorage)
+                    localStorage.setItem('provider', JSON.stringify(provider))
             }
         }
     },
