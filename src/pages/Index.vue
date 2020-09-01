@@ -42,10 +42,10 @@
           >
             <v-row justify="space-between" align="center">
               <v-col cols="5">
-                <v-img
-                  contain
-                  width="42vw"
-                  :src="about.img" :lazy-src="about.lazy"
+                <g-image
+                  fit="contain"
+                  style="width: 42vw"
+                  :src="about.img" 
                 />
               </v-col>
               <v-col class="pl-2 pr-12" cols="6">
@@ -116,7 +116,7 @@
           >
             <v-row class="pt-12 pl-12 pr-10 pb-5" justify="space-between" align="center">
               <v-col class="pl-4 pr-0 col-artists-width">
-                <v-img contain :src="artists.img" :lazy-src="artists.lazy" />
+                <g-image style="width: 100%" fit="contain" :src="artists.img" />
               </v-col>
               <v-col class="pl-0 pr-5 col-artists-width">
                 <wp-transition class="color-333333" :isActive="true" nm="slide">
@@ -171,7 +171,7 @@
             <div class="pb-12">
               <v-row class="px-12 pb-3" justify="space-between">
                 <v-col cols="4" v-for="(benefit, i) in benefits" :key="'benefit-img-' + i">
-                  <v-img contain :src="benefit.img" :lazy-src="benefit.lazy" />
+                  <g-image style="width: 100%" fit="contain" :src="benefit.img" />
                 </v-col>
               </v-row>
               <v-row class="px-12 pt-3" justify="space-between">
@@ -209,7 +209,7 @@
               <div class="carousel-mid text-center pt-12" v-swiper:swiperNormal="swiperOption">
                 <div class="carousel-lower swiper-wrapper">
                   <div class="swiper-slide" v-for="(logo, i ) in media.logos" :key="'media-logos-' + i">
-                    <img class="img-slide" :src="logo.img" />
+                    <g-image class="img-slide" :src="logo.img" />
                   </div>
                 </div>
                 <div class="swiper-pagination swiper-pagination-black" slot="pagination" />
@@ -242,7 +242,7 @@
         <div id="about-small" class="pt-6">
           <v-row justify="center" align="center">
             <v-col cols=11>
-              <v-img :src="about.img" :lazy-src="about.lazy" />
+              <g-image style="width: 100%" :src="about.img" />
             </v-col>
           </v-row>
           <v-row justify="center" align="center">
@@ -311,7 +311,7 @@
           <div>
             <v-row justify="center" align="center">
               <v-col cols=11>
-                <v-img :src="artists.img" :lazy-src="artists.lazy" />
+                <g-image :src="artists.img" style="width: 100%" />
               </v-col>
             </v-row>
             <v-row justify="center" align="center">
@@ -374,7 +374,7 @@
         >
           <v-row justify="center" v-for="(benefit, i) in $page.benefits.edges[0].node.benefits" :key="'benefits-small-' + i">
             <v-col cols=11>
-              <v-img class="mb-4" :src="benefits[i].img" :lazy-src="benefits[i].lazy" />
+              <g-image class="mb-4" style="width: 100%" :src="benefits[i].img" />
               <wp-transition :isActive="wpActiveMob" nm="ride">
                 <div class="color-333333 pb-6">
                   <div
@@ -407,7 +407,7 @@
             <div class="carousel-mid-small text-center pt-12" v-swiper:swiperSmall="swiperOption">
               <div class="carousel-lower-small swiper-wrapper">
                 <div class="swiper-slide" v-for="(logo, i ) in media.logos" :key="'media-logos-small-' + i">
-                  <img class="img-slide" :src="logo.imgSmall" />
+                  <g-image class="img-slide" :src="logo.imgSmall" />
                 </div>
               </div>
               <div class="swiper-pagination swiper-pagination-black" slot="pagination" />

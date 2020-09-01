@@ -29,7 +29,7 @@
     <v-app-bar flat class="px-11" app absolute color="#e8e8e8" height="76px">
 
       <v-btn width="185" color="transparent" text icon to="/">/
-        <v-img :src="logo[0]" />
+        <g-image style="width: 100%" :src="logo[0]" />
       </v-btn>
 
       <v-spacer />
@@ -58,7 +58,7 @@
           <template v-slot:activator="{ on }" :ripple="false">
             <v-btn class="px-2" text v-on="on" color="transparent" :ripple="false">
               <v-avatar>
-                <v-img v-if="userPicture" :src="userPicture" />
+                <g-image v-if="userPicture" style="width: 100%" :src="userPicture" />
               </v-avatar>
               <v-icon color="#333333" right large>mdi-menu-down</v-icon>
             </v-btn>
