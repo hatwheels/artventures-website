@@ -1,9 +1,9 @@
 <template>
   <Layout>
 
-    <v-content>
+    <v-main>
       <v-container class="pa-0 background-color-fafafa" fluid>
-        <v-card class="center-viewport" flat>
+        <v-card class="center-viewport" color="#fafafa" flat>
           <v-row style="height: 100%" justify="center" align="center">
             <v-col>
               <p class="text-center" :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'">404</p>
@@ -12,7 +12,7 @@
           </v-row>
         </v-card>
       </v-container>
-    </v-content>
+    </v-main>
 
   </Layout>
 </template>

@@ -31,7 +31,7 @@
         </div>
       </v-navigation-drawer>
 
-      <v-content class="background-color-dddddd">
+      <v-main class="background-color-dddddd">
         <v-container class="px-0 pt-0" fluid>
 
           <!-- About -->
@@ -231,11 +231,11 @@
         </div>
 
       </v-container>
-    </v-content>
+    </v-main>
   </div>
 
   <div v-show="getViewSize === 'mobile'">
-    <v-content class="background-color-dddddd">
+    <v-main class="background-color-dddddd">
       <v-container class="py-0 px-0 background-color-white">
 
         <!-- About -->
@@ -425,7 +425,7 @@
         </wp-transition>
 
       </v-container>
-    </v-content>
+    </v-main>
   </div>
 
   </Layout>

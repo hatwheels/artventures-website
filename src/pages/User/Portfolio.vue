@@ -1,6 +1,6 @@
 <template>
     <UserLayout>
-      <v-content>
+      <v-main>
         <v-container class="px-0 py-12 background-color-fafafa" fluid>
           <div
               :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
@@ -116,7 +116,7 @@
           </v-row>
 
         </v-container>
-      </v-content>
+      </v-main>
     </UserLayout>
 </template>
 

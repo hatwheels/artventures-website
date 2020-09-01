@@ -1,6 +1,6 @@
 <template>
   <Layout>
-    <v-content v-show="getViewSize === 'desktop'">
+    <v-main v-show="getViewSize === 'desktop'">
       <v-container class="pa-0 background-color-fafafa" fluid>
 
         <!-- spacer -->
@@ -109,9 +109,9 @@
         </wp-transition>
 
       </v-container>
-    </v-content>
+    </v-main>
 
-    <v-content v-show="getViewSize === 'mobile'">
+    <v-main v-show="getViewSize === 'mobile'">
       <v-container class="pa-0 background-color-fafafa" fluid>
 
         <!-- main -->
@@ -215,7 +215,7 @@
         </wp-transition>
         <div class="py-12" />
       </v-container>
-    </v-content>
+    </v-main>
 
   </Layout>
 </template>

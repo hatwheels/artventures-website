@@ -18,5 +18,8 @@ This is the project you get when you run `gridsome create new-project`.
 
 ### 4. Create .env.development for local environment variables
 
-1. `GRIDSOME_SITE_URL`
-2. `GRIDSOME_AUTH0_CLIENT_ID`
+1. `GRIDSOME_BUILD`
+2. `GRIDSOME_SITE_URL`
+3. `GRIDSOME_AUTH0_CLIENT_ID`
+4. `GRIDSOME_AUTH0_CLIENT_SECRET`
+5. `GRIDSOME_AUTH0_MANAGEMENT_API_TOKEN`

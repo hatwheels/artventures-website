@@ -1,6 +1,6 @@
 <template>
   <Layout>
-    <v-content v-show="getViewSize === 'desktop'">
+    <v-main v-show="getViewSize === 'desktop'">
       <v-container class="pa-0 background-color-fafafa" fluid>
 
         <!-- spacer -->
@@ -88,9 +88,9 @@
         <div style="padding: 100px 0px" />
 
       </v-container>
-    </v-content>
+    </v-main>
 
-    <v-content v-show="getViewSize === 'mobile'">
+    <v-main v-show="getViewSize === 'mobile'">
       <v-container class="pa-0 background-color-fafafa" fluid>
 
         <!-- main -->
@@ -175,7 +175,7 @@
         <div class="py-6" />
 
       </v-container>
-    </v-content>
+    </v-main>
   </Layout>
 </template>
 

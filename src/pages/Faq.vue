@@ -1,6 +1,6 @@
 <template>
   <Layout>
-    <v-content>
+    <v-main>
       <v-container class="pa-0 background-color-fafafa" fluid>
 
           <!-- spacer -->
@@ -33,7 +33,7 @@
           <div class="py-10" />
 
       </v-container>
-    </v-content>
+    </v-main>
   </Layout>
 </template>
 

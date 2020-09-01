@@ -108,12 +108,13 @@ let auth = new Vue({
             webAuth.authorize()
         },
         logout() {
-            return new Promise((resolve, reject) => { 
+            return new Promise((resolve, reject) => {
                 localStorage.removeItem('access_token')
                 localStorage.removeItem('id_token')
                 localStorage.removeItem('expires_at')
                 localStorage.removeItem('user')
                 localStorage.removeItem('userRole')
+                localStorage.removeItem('provider')
                 webAuth.logout({
                     returnTo: process.env.GRIDSOME_SITE_URL,
                     clientID: process.env.GRIDSOME_AUTH0_CLIENT_ID,

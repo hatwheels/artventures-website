@@ -57,7 +57,7 @@
        <v-menu bottom :offset-y="true" transition="slide-y-transition">
           <template v-slot:activator="{ on }" :ripple="false">
             <v-btn class="px-2" text v-on="on" color="transparent" :ripple="false">
-              <v-avatar rounded>
+              <v-avatar>
                 <v-img v-if="userPicture" :src="userPicture" />
               </v-avatar>
               <v-icon color="#333333" right large>mdi-menu-down</v-icon>

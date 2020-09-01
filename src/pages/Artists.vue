@@ -1,7 +1,7 @@
 <template>
   <Layout>
 
-    <v-content v-show="getViewSize === 'desktop'">
+    <v-main v-show="getViewSize === 'desktop'">
       <v-container class="pa-0 background-color-fafafa" fluid>
 
         <!-- Main -->
@@ -157,9 +157,9 @@
         </wp-transition>
 
       </v-container>
-    </v-content>
+    </v-main>
 
-    <v-content v-show="getViewSize === 'mobile'">
+    <v-main v-show="getViewSize === 'mobile'">
       <v-container class="pa-0 background-color-fafafa" fluid>
 
         <!-- Main -->
@@ -307,7 +307,7 @@
         </wp-transition>
 
       </v-container>
-    </v-content>
+    </v-main>
 
 
   </Layout>
