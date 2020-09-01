@@ -10,7 +10,7 @@
     <script>
       if (window.netlifyIdentity) {
         window.netlifyIdentity.on("init", user => {
-          if (!user) {
+          if (!user && window.location.pathname != '/admin') {
             window.netlifyIdentity.on("login", () => {
               document.location.href = "/admin/";
             });
