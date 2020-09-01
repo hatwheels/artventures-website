@@ -107,10 +107,10 @@ export default {
         en: "Your email"
       },
       // Dialog
-      dialog: true,
+      dialog: false,
       dialogText: {
         gr: "",
-        en: "dfdfd"
+        en: ""
       },
       btnLoading: false
     };
