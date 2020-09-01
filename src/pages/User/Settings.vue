@@ -174,7 +174,7 @@
                             <v-btn
                                 dark
                                 color="#333333"
-                                v-if="$auth.provider === 'auth0'"
+                                v-if="provider === 'auth0'"
                                 :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
                                 class="text-capitalize"
                                 v-html="pw.reset[getLang]"
@@ -185,7 +185,7 @@
                                 :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
                             >
                                 {{ pw.text3rd['1st'][getLang] }}
-                                <span class='raleway-16-600'>{{ availableProviders[$auth.provider] }}</span>
+                                <span class='raleway-16-600'>{{ availableProviders[provider] }}</span>
                                 {{ pw.text3rd['2nd'][getLang] }}
                             </div>
                         </v-col>
@@ -252,7 +252,7 @@
                         <v-btn
                             dark
                             color="#333333"
-                            v-if="$auth.provider === 'auth0'"
+                            v-if="provider === 'auth0'"
                             :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
                             class="text-capitalize"
                             v-html="pw.reset[getLang]"
@@ -263,7 +263,7 @@
                             :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
                         >
                             {{ pw.text3rd['1st'][getLang] }}
-                            <span class='raleway-16-600'>{{ availableProviders[$auth.provider] }}</span>
+                            <span class='raleway-16-600'>{{ availableProviders[provider] }}</span>
                             {{ pw.text3rd['2nd'][getLang] }}
                         </div>
                     </v-row>
@@ -415,9 +415,11 @@ export default {
     this.role = this.$auth.userRole[0].name
     this.pic = this.$auth.user.picture
     this.chosenLanguage = this.getLang
+    this.provider = this.$auth.provider
   },
   data() {
     return {
+        provider: null,
         availableProviders: {
             auth0: "Auth0",
             "google-oauth2": "Google",
