@@ -32,9 +32,6 @@ exports.handler = async (event, context) => {
         email_address:data.email,
         status:'subscribed',
         tags: [data.tag],
-        merge_fields: {
-          'MESSAGE': '',
-      }
       },
       auth: {
         'username': 'petrosArt',

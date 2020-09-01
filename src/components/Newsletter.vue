@@ -51,10 +51,21 @@
 
     <v-dialog v-model="dialog" max-width="290" overlay-color="transparent">
       <v-card>
-        <div class="px-3 pt-2 pb-4 subtitle-2">{{ dialogText[getLang] }}</div>
+        <div
+          class="px-3 pt-2 pb-4 subtitle-2"
+          :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
+        >
+          {{ dialogText[getLang] }}
+        </div>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn class="white--text" color="blue" @click="() => unsetDialog()">OK</v-btn>
+          <v-btn
+            class="white--text"
+            :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
+            color="#333333" @click="() => unsetDialog()"
+          >
+            OK
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
