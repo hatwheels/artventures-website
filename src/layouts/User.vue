@@ -58,7 +58,7 @@
           <template v-slot:activator="{ on }" :ripple="false">
             <v-btn class="px-2" text v-on="on" color="transparent" :ripple="false">
               <v-avatar rounded>
-                <v-img :src="$auth.user.picture" />
+                <v-img v-if="userPicture" :src="userPicture" />
               </v-avatar>
               <v-icon color="#333333" right large>mdi-menu-down</v-icon>
             </v-btn>
@@ -71,7 +71,7 @@
                 v-html="spa.profile[getLang]"
               />
             </v-list-item>
-            <v-list-item v-if="$auth.userRole[0].name !== 'user'" to="/user/portfolio">
+            <v-list-item v-if="userRole !== 'user'" to="/user/portfolio">
               <v-list-item-title
                 :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
                 color="#333333"
@@ -211,9 +211,19 @@ export default {
         this.$refs.cookieBar.init();
       }
     }
+    if (this.$auth.user) {
+      this.userPicture = this.$auth.user.picture || null
+    }
+
+    if (this.$auth.userRole) {
+      this.userRole = this.$auth.userRole[0].name || null
+    }
   },
   data () {
     return {
+      // auth0
+      userPicture: null,
+      userRole: null,
       // Cookies
       status: null,
       cookieTxt: {

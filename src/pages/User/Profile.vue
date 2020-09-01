@@ -14,16 +14,16 @@
                         <td class="border px-4 py-2">
                             <div v-show="getViewSize === 'desktop'">
                                 <g-image
-                                    v-if="$auth.user.picture"
-                                    :src="$auth.user.picture"
+                                    v-if="userPicture"
+                                    :src="userPicture"
                                     style="height: 200px;width: 200px;"
                                     fit="contain"
                                 />
                             </div>
                             <div v-show="getViewSize === 'mobile'">
                                 <g-image
-                                    v-if="$auth.user.picture"
-                                    :src="$auth.user.picture"
+                                    v-if="userPicture"
+                                    :src="userPicture"
                                     style="height: 100px;width: 100px;"
                                     fit="contain"
                                 />
@@ -36,7 +36,7 @@
                             class="border px-4 py-2"
                             :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
                         >
-                            {{ $auth.user.given_name }}
+                            {{ userGivenName }}
                         </td>
                     </tr>
                     <tr>
@@ -45,7 +45,7 @@
                             class="border px-4 py-2"
                             :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
                         >
-                            {{ $auth.user.family_name }}
+                            {{ userFamilyName }}
                         </td>
                     </tr>
                     <tr>
@@ -54,7 +54,7 @@
                             class="border px-4 py-2"
                             :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
                         >
-                            {{ $auth.user.nickname }}
+                            {{ userNickname }}
                         </td>
                     </tr>
                     <tr>
@@ -63,7 +63,7 @@
                             class="border px-4 py-2"
                             :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
                         >
-                            {{ $auth.user.email }}
+                            {{ userEmail }}
                         </td>
                     </tr>
                     <tr>
@@ -87,10 +87,26 @@ import { mapGetters } from 'vuex'
 
 export default {
   mounted () {
+    if (this.$auth.user) {
+        this.userPicture = this.$auth.user.picture || null
+        this.userGivenName = this.$auth.user.given_name || null
+        this.userFamilyName = this.$auth.user.family_name || null
+        this.userNickname = this.$auth.user.nickname || null
+        this.userEmail = this.$auth.user.email || null
+    }
+    if (this.$auth.userRole) {
+        this.userRole = this.$auth.userRole[0].name || null
+    }
     this.getRole()
   },
   data() {
     return {
+        // auth0
+        userPicture: null,
+        userGivenName: null,
+        userFamilyName: null,
+        userNickname: null,
+        userEmail: null,
         availableRoles: {
             admin: {
                 gr: 'διαχειριστής',
@@ -142,11 +158,11 @@ export default {
   },
   methods: {
       getRole() {
-        this.getLanguages.forEach(lang => {
-            if (this.$auth.userRole && this.$auth.userRole.length) {
-                this.role.name[lang] = this.availableRoles[this.$auth.userRole[0].name][lang]
-            }
-        });
+        if (this.userRole) {
+            this.getLanguages.forEach(lang => {
+                this.role.name[lang] = this.availableRoles[this.userRole][lang]
+            });
+        }
       }
   },
   metaInfo () {

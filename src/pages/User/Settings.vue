@@ -408,14 +408,18 @@ export default {
     email: { required, email },
   },
   mounted () {
-    this.firstName = this.$auth.user.given_name
-    this.lastName = this.$auth.user.family_name
-    this.nickname = this.$auth.user.nickname
-    this.email = this.$auth.user.email
-    this.role = this.$auth.userRole[0].name
-    this.pic = this.$auth.user.picture
+    if (this.$auth.user) {
+        this.firstName = this.$auth.user.given_name || null
+        this.lastName = this.$auth.user.family_name || null
+        this.nickname = this.$auth.user.nickname || null
+        this.email = this.$auth.user.email || null
+        this.pic = this.$auth.user.picture || null
+    }
+    this.provider = this.$auth.provider || null
+    if (this.$auth.userRole) {
+        this.role = this.$auth.userRole[0].name
+    }
     this.chosenLanguage = this.getLang
-    this.provider = this.$auth.provider
   },
   data() {
     return {
@@ -576,7 +580,7 @@ export default {
       touchMap.set($v, setTimeout($v.$touch, 1000));
     },
     changeProfilePic(value) {
-        console.log(value)
+        //console.log(value)
     }
   },
   metaInfo () {
