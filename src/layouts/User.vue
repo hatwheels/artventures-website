@@ -71,7 +71,7 @@
                 v-html="spa.profile[getLang]"
               />
             </v-list-item>
-            <v-list-item v-if="userRole !== 'user'" to="/user/portfolio">
+            <v-list-item v-if="userRole === 'admin' || userRole === 'artist'" to="/user/portfolio">
               <v-list-item-title
                 :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
                 color="#333333"
@@ -211,19 +211,9 @@ export default {
         this.$refs.cookieBar.init();
       }
     }
-    if (this.$auth.user) {
-      this.userPicture = this.$auth.user.picture || null
-    }
-
-    if (this.$auth.userRole) {
-      this.userRole = this.$auth.userRole[0].name || null
-    }
   },
   data () {
     return {
-      // auth0
-      userPicture: null,
-      userRole: null,
       // Cookies
       status: null,
       cookieTxt: {
@@ -266,6 +256,18 @@ export default {
   },
   computed: {
     ...mapGetters(['getLang', 'getLanguages']),
+    userRole () {
+      if (this.$auth.userRole != null) {
+        return this.$auth.userRole[0].name
+      }
+      return null
+    },
+    userPicture () {
+      if (this.$auth.user) {
+        return this.$auth.user.picture
+      }
+      return null
+    }
   },
   methods: {
     ...mapMutations(['setLang', 'setCookieRedirect']),

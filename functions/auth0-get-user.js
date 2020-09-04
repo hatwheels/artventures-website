@@ -3,14 +3,16 @@ const headers = {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Headers": "Content-Type",
 }
-const url = 'https://' + process.env.GRIDSOME_AUTH0_DOMAIN + '/api/v2/users/'
 
 exports.handler = async (event, context) => {
+    console.log("### START ###")
     try {
         const data = JSON.parse(event.body)
         
         if (!data.token ||  data.token != process.env.GRIDSOME_AUTH0_MASTER_TOKEN) {
             console.log('401: user id query parameter required.')
+            console.log("### END ###")
+
             return {
                 statusCode: 401,
                 headers,
@@ -20,6 +22,8 @@ exports.handler = async (event, context) => {
 
         if (!data.user_id) {
             console.log('400: user id query parameter required.')
+            console.log("### END ###")
+
             return {
                 statusCode: 400,
                 headers,
@@ -35,21 +39,28 @@ exports.handler = async (event, context) => {
             headers : headers,
         });
 
-        return await auth0.users.get({ id: data.user_id })
+        return await auth0.getUser({ id: data.user_id })
             .then(user => {
+                console.log("Success, found user: " + JSON.stringify(user))
+                console.log("### END ###")
                 return {
                     statusCode: 200,
-                    body: JSON.stringify(user.identities[0].provider)
+                    body: JSON.stringify(user)
                 }
             })
             .catch(err => {
                 console.log(err)
+                console.log("### END ###")
+
                 return {
                     statusCode: err.statusCode,
-                    body: JSON.stringify(err)
+                    body: err.message
                 }
             })
     } catch (err) {
+        console.log(err)
+        console.log("### END ###")
+
         return {
             statusCode: 500,
             body: err.toString()

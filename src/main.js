@@ -171,6 +171,7 @@ export default function (Vue, { appOptions, router, head, isClient }) {
       lang: 'en',
       languages: ['en', 'gr'],
       cookieRedirect: '/',
+      userRole: null,
     },
     getters: {
       getLang: state => {
@@ -182,6 +183,9 @@ export default function (Vue, { appOptions, router, head, isClient }) {
       getCookieRedirect: state => {
         return state.cookieRedirect
       },
+      getUserRole: state => {
+        return state.userRole
+      }
     },
 
     mutations: {
@@ -191,6 +195,9 @@ export default function (Vue, { appOptions, router, head, isClient }) {
       setCookieRedirect (state, val) {
         state.cookieRedirect = val
       },
+      setUserRole (state, val) {
+        state.userRole = val
+      }
     }
   }
   Vue.use(Vuex)

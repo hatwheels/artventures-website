@@ -66,13 +66,13 @@
                             {{ userEmail }}
                         </td>
                     </tr>
-                    <tr>
-                        <td class="border px-4 py-2">{{ role.title[getLang] }}</td>
+                    <tr v-if="$auth.userRole">
+                        <td  class="border px-4 py-2">{{ role.title[getLang] }}</td>
                         <td
                             class="border px-4 py-2"
                             :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
                         >
-                            {{ role.name[getLang] }}
+                            {{ availableRoles[$auth.userRole[0].name][getLang] }}
                         </td>
                     </tr>
                 </tbody>
@@ -94,10 +94,6 @@ export default {
         this.userNickname = this.$auth.user.nickname || null
         this.userEmail = this.$auth.user.email || null
     }
-    if (this.$auth.userRole) {
-        this.userRole = this.$auth.userRole[0].name || null
-    }
-    this.getRole()
   },
   data() {
     return {
@@ -145,25 +141,12 @@ export default {
             title: {
                 gr: 'Ρόλος',
                 en: 'Role'
-            },
-            name: {
-                gr: '',
-                en: '',
             }
         },
     }
   },
   computed: {
     ...mapGetters(['getLang', 'getLanguages']),
-  },
-  methods: {
-      getRole() {
-        if (this.userRole) {
-            this.getLanguages.forEach(lang => {
-                this.role.name[lang] = this.availableRoles[this.userRole][lang]
-            });
-        }
-      }
   },
   metaInfo () {
     return {

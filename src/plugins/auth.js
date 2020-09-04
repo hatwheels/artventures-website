@@ -101,7 +101,7 @@ let auth = new Vue({
                     localStorage.setItem('provider', JSON.stringify(provider))
                 }
             }
-        }
+        },
     },
     methods: {
         login() {
@@ -172,7 +172,7 @@ let auth = new Vue({
                     }
                 ).then(res => {
                     if (200 == res.status) {
-                        this.provider = res.data
+                        this.provider = res.data.identities[0].provider
                         resolve()
                     }
                 }).catch(err => {
@@ -197,11 +197,42 @@ let auth = new Vue({
                 ).then(res => {
                     // success
                     if (200 == res.status) {
-                        this.userRole = res.data
-                        resolve()
+                        if (!res.data || res.data.length == 0) {
+                            let that = this
+                            // Assign default user
+                            this.assignUserRole("user")
+                                .then((role) => {
+                                    that.userRole = role
+                                    resolve()
+                                })
+                                .catch(err => reject(err))
+                        } else {
+                            this.userRole = res.data
+                            resolve()
+                        }
                     } else {
                         reject(res.status)
                     }
+                }).catch(err => reject(err))
+            })
+        },
+        assignUserRole(role) {
+            return new Promise((resolve, reject) => {
+                axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/auth0-assign-user-role',
+                    {
+                        user_id: this.user.sub,
+                        role_id: role,
+                        token: process.env.GRIDSOME_AUTH0_MASTER_TOKEN,
+                    },
+                    {
+                        headers: {
+                            "Access-Control-Allow-Origin": "*",
+                            "Access-Control-Allow-Headers": "Content-Type",
+                            "Content-Type": "application/json"
+                        }
+                    }
+                ).then((res) => {
+                    resolve(res.data)
                 }).catch(err => {
                     reject(err)
                 })
