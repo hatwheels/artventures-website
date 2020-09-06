@@ -104,7 +104,7 @@
                                 />
                                 <v-radio-group v-model="role" row :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'">
                                     <v-radio
-                                        v-if="getUserRole()[0].name === 'admin'"
+                                        v-if="getUserRoleName() === 'admin'"
                                         color="rgba(26,26,26,1)"
                                         :label="availableRoles['admin'][getLang]"
                                         value="admin">
@@ -365,7 +365,7 @@
                             />
                             <v-radio-group v-model="role" required row :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'">
                                 <v-radio
-                                    v-if="getUserRole()[0].name === 'admin'"
+                                    v-if="getUserRoleName() === 'admin'"
                                     color="rgba(26,26,26,1)"
                                     :label="availableRoles['admin'][getLang]"
                                     value="admin">
@@ -426,8 +426,8 @@ export default {
         this.pic = this.$auth.user.picture || null
     }
     this.provider = this.$auth.provider || null
-    if (this.getUserRole()) {
-        this.role = this.getUserRole()[0].name
+    if (userRole) {
+        this.role = this.getUserRoleName()
     }
     this.chosenLanguage = this.getLang
   },
@@ -638,9 +638,17 @@ export default {
             return null
         }
     },
+    getUserRoleName() {
+        if (process.isClient) {
+            var roles = JSON.parse(localStorage.getItem('userRole'))
+            return roles[0].name
+        } else {
+            return null
+        }
+    },
     clearRole() {
       if (this.getUserRole()) {
-        this.role = getUserRole().name || null
+        this.role = getc || null
       } else {
         this.role = null
       }
@@ -687,7 +695,7 @@ export default {
                 })
             }
         }
-        if (this.getUserRole() && this.role !== this.getUserRole()[0].name) {
+        if (this.getUserRole() && this.role !== this.getUserRoleName()) {
             this.isLoading = true;
             this.$auth.updateUserRole(this.role).then((roleObj) => {
                 this.setAlertRole('success')
