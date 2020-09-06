@@ -20,6 +20,7 @@ exports.handler = async (event, context) => {
                 body: 'Unauthorized Request'
             }
         }
+        delete data.token
 
         if (!data.user_id) {
             console.log('400: user id query parameter required.')
@@ -31,6 +32,8 @@ exports.handler = async (event, context) => {
                 body: 'user id query parameter required'
             }
         }
+        const user_id = data.user_id
+        delete data.user_id
 
         var auth0 = new ManagementClient({
             token: process.env.GRIDSOME_AUTH0_MANAGEMENT_API_TOKEN,
@@ -40,22 +43,38 @@ exports.handler = async (event, context) => {
             headers : headers,
         });
 
-        return await auth0.users.getRoles({ id: data.user_id })
-            .then(roles => {
-                let filteredRoles = []
-                roles.forEach(role => {
-                    filteredRoles.push({
-                        name: role.name,
-                        description: role.description
-                    })
-                })
+        return await auth0.updateUser({ id: user_id }, data)
+            .then(user => {
+                console.log("User successfully updated")
 
-                console.log("Success, found user's roles: " + JSON.stringify(roles))
+                const filteredUser = {}
+                var nameUpdate = false
+                if (data.hasOwnProperty('given_name')) {
+                    filteredUser.given_name = user.given_name
+                    nameUpdate = true
+                }
+                if (data.hasOwnProperty('family_name')) {
+                    filteredUser.family_name = user.family_name
+                    nameUpdate = true
+                }
+                if (nameUpdate) {
+                    filteredUser.name = user.name
+                }
+                if (data.hasOwnProperty('nickname')) {
+                    filteredUser.nickname = user.nickname
+                }
+                if (data.hasOwnProperty('email')) {
+                    filteredUser.email = user.email
+                    filteredUser.email_verified = user.email_verified
+                    filteredUser.verify_email = user.verify_email
+                }
+
+                console.log(filteredUser)
                 console.log("### END ###")
 
                 return {
                     statusCode: 200,
-                    body: JSON.stringify(filteredRoles)
+                    body: JSON.stringify(filteredUser)
                 }
             })
             .catch(err => {
@@ -66,7 +85,7 @@ exports.handler = async (event, context) => {
                     statusCode: err.statusCode,
                     body: err.message
                 }
-        })
+            })
     } catch (err) {
         console.log(err)
         console.log("### END ###")

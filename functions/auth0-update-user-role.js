@@ -31,19 +31,31 @@ exports.handler = async (event, context) => {
             }
         }
 
-        if (!data.role_id) {
-            console.log('400: role ids query parameter required.')
+        if (!data.remove_role_id) {
+            console.log('400: remove role ids query parameter required.')
             console.log("### END ###")
 
             return {
                 statusCode: 400,
                 headers,
-                body: 'role id query parameter required'
+                body: 'remove role id query parameter required'
+            }
+        }
+
+        if (!data.add_role_id) {
+            console.log('400: assign role ids query parameter required.')
+            console.log("### END ###")
+
+            return {
+                statusCode: 400,
+                headers,
+                body: 'assign role id query parameter required'
             }
         }
         
         console.log("User ID: " + data.user_id)
-        console.log("Role: " + data.role_id)
+        console.log("Role to remove: " + data.remove_role_id)
+        console.log("Role to add: " + data.add_role_id)
 
         var auth0 = new ManagementClient({
             token: process.env.GRIDSOME_AUTH0_MANAGEMENT_API_TOKEN,
@@ -53,31 +65,50 @@ exports.handler = async (event, context) => {
             headers : headers,
         });
 
-        // find role id of role to assign
         return await auth0.getRoles()
             .then(roles => {
-                let roleId = []
-                let roleObj = []
+                let removeRoleId = []
+                let removeRoleObject = []
+                let addRoleId = []
+                let addRoleObject = []
                 roles.forEach(role => {
-                    if (role.name == data.role_id) {
-                        roleId.push(role.id)
-                        roleObj.push({ name: role.name, description: role.description })
+                    if (role.name == data.remove_role_id) {
+                        removeRoleId.push(role.id)
+                        removeRoleObject.push({ name: role.name, description: role.description })
+                    }
+                    if (role.name == data.add_role_id) {
+                        addRoleId.push(role.id)
+                        addRoleObject.push({ name: role.name, description: role.description })
                     }
                 });
+                console.log("Remove Role IDs found: " + JSON.stringify(removeRoleId))
+                console.log("Add Role IDs found: " + JSON.stringify(addRoleId))
 
-                console.log("Role IDs found: " + JSON.stringify(roleId))
-
-                if (roleId.length > 0) {
-                    // assign found role id
-                    return auth0.assignRolestoUser({ id: data.user_id }, { "roles": roleId })
+                if (removeRoleId.length > 0 && addRoleId.length > 0) {
+                    // first remove role to avoid having more than one
+                    return auth0.removeRolesFromUser({ id: data.user_id }, { "roles": removeRoleId })
                         .then(() => {
-                            console.log("Role successfully assigned")
-                            console.log("### END ###")
+                            console.log("Role successfully removed")
 
-                            return {
-                                statusCode: 200,
-                                body: JSON.stringify(roleObj)
-                            }
+                            // now assign new role
+                            return auth0.assignRolestoUser({ id: data.user_id }, { "roles": addRoleId })
+                                .then(() => {
+                                    console.log("Role successfully assigned")
+                                    console.log("### END ###")
+
+                                    return {
+                                        statusCode: 200,
+                                        body: JSON.stringify(addRoleObject)
+                                    }
+                                }).catch(err => {
+                                    console.log(err)
+                                    console.log("### END ###")
+        
+                                    return {
+                                        statusCode: err.statusCode,
+                                        body: err.message
+                                    }
+                                })
                         }).catch(err => {
                             console.log(err)
                             console.log("### END ###")

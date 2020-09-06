@@ -174,6 +174,8 @@ let auth = new Vue({
                     if (200 == res.status) {
                         this.provider = res.data.identities[0].provider
                         resolve()
+                    } else {
+                        reject(res.status)
                     }
                 }).catch(err => {
                     reject(err)
@@ -198,14 +200,10 @@ let auth = new Vue({
                     // success
                     if (200 == res.status) {
                         if (!res.data || res.data.length == 0) {
-                            let that = this
                             // Assign default user
                             this.assignUserRole("user")
-                                .then((role) => {
-                                    that.userRole = role
-                                    resolve()
-                                })
-                                .catch(err => reject(err))
+                            .then((roleObj) => resolve(roleObj))
+                            .catch(err => reject(err))
                         } else {
                             this.userRole = res.data
                             resolve()
@@ -216,7 +214,55 @@ let auth = new Vue({
                 }).catch(err => reject(err))
             })
         },
+        updateUser(data) {
+            return new Promise((resolve, reject) => {
+                data.token = process.env.GRIDSOME_AUTH0_MASTER_TOKEN
+                data.user_id = this.user.sub
+
+                axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/auth0-update-user',
+                    data,
+                    {
+                        headers: {
+                            "Access-Control-Allow-Origin": "*",
+                            "Access-Control-Allow-Headers": "Content-Type",
+                            "Content-Type": "application/json"
+                        }
+                    }
+                ).then(res => {
+                    // success
+                    if (200 == res.status) {
+                        const data = res.data
+
+                        if (data.hasOwnProperty('given_name')) {
+                            this.user.given_name = data.given_name
+                        }
+                        if (data.hasOwnProperty('family_name')) {
+                            this.user.family_name = data.family_name
+                        }
+                        if (data.hasOwnProperty('name')) {
+                            this.user.name = data.name
+                        }
+                        if (data.hasOwnProperty('nickname')) {
+                            this.user.nickname = data.nickname
+                        }
+                        if (data.hasOwnProperty('email')) {
+                            this.user.email = data.email
+                        }
+                        if (data.hasOwnProperty('email_verified')) {
+                            this.user.email_verified = data.email_verified
+                        }
+                        if (data.hasOwnProperty('verify_email')) {
+                            this.user.verify_email = data.verify_email
+                        }
+                        resolve()
+                    } else {
+                        reject(res.status)
+                    }
+                }).catch(err => reject(err))
+            })
+        },
         assignUserRole(role) {
+            const that = this
             return new Promise((resolve, reject) => {
                 axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/auth0-assign-user-role',
                     {
@@ -232,7 +278,34 @@ let auth = new Vue({
                         }
                     }
                 ).then((res) => {
-                    resolve(res.data)
+                    const roleObj = res.data
+                    that.userRole = roleObj
+                    resolve(roleObj)
+                }).catch(err => {
+                    reject(err)
+                })
+            })
+        },
+        updateUserRole(newRole) {
+            return new Promise((resolve, reject) => {
+                axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/auth0-update-user-role',
+                    {
+                        user_id: this.user.sub,
+                        remove_role_id: this.userRole[0].name,
+                        add_role_id: newRole,
+                        token: process.env.GRIDSOME_AUTH0_MASTER_TOKEN,
+                    },
+                    {
+                        headers: {
+                            "Access-Control-Allow-Origin": "*",
+                            "Access-Control-Allow-Headers": "Content-Type",
+                            "Content-Type": "application/json"
+                        }
+                    }
+                ).then((res) => {
+                    // Update localstore userRole in caller
+                    const roleObj = res.data
+                    resolve(roleObj)
                 }).catch(err => {
                     reject(err)
                 })
