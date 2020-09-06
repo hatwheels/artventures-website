@@ -7,6 +7,7 @@
                 class="pb-10 my-0 text-center"
                 v-html="getLang === 'gr' ? 'Οι Ρυθμίσεις μου' : 'My Settings'"
             />
+            <!-- Desktop -->
             <v-row v-if="getViewSize === 'desktop'" justify="center" align="start">
                 <v-col offset="2" cols="4">
                     <form lazy-validation @submit.prevent="submit()">
@@ -72,8 +73,14 @@
                                 <label
                                     :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
                                     class="color-1a1a1a"
-                                    v-html="form.email[getLang]"
-                                />
+                                >
+                                    {{ form.email[getLang] }}
+                                    <span
+                                        v-if="provider !== 'auth0'"
+                                        :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'">
+                                            {{ form.email.readonly[getLang] }} {{ availableProviders[provider] }}.
+                                    </span>
+                                </label>
                                 <v-text-field
                                     v-model="email"
                                     background-color="#FAFAFA"
@@ -81,6 +88,8 @@
                                     :error-messages="emailErrors"
                                     outlined
                                     required
+                                    :disabled="provider !== 'auth0'"
+                                    :readonly="provider !== 'auth0'"
                                     @input="delayTouch($v.email)"
                                     @blur="$v.email.$touch()"
                                 ></v-text-field>
@@ -95,7 +104,7 @@
                                 />
                                 <v-radio-group v-model="role" row :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'">
                                     <v-radio
-                                        v-if="role === 'admin'"
+                                        v-if="getUserRole()[0].name === 'admin'"
                                         color="rgba(26,26,26,1)"
                                         :label="availableRoles['admin'][getLang]"
                                         value="admin">
@@ -114,22 +123,16 @@
                             </v-col>
                         </v-row>
                         <v-row justify="start" align="center">
-                            <!-- <v-btn
-                                :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
-                                class="text-capitalize white--text"
-                                color="#333333"
-                                type="submit"
-                                :disabled="$v.invalid"
-                                v-html="buttons.form[getLang]"
-                            /> -->
                             <v-btn
                                 :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
                                 class="text-capitalize white--text"
                                 color="#333333"
                                 type="submit"
-                                disabled
-                                v-html="buttons.form[getLang]"
-                            />
+                                :disabled="$v.$invalid"
+                            >
+                                {{ buttons.form[getLang] }}
+                                <span v-show="isLoading" class="px-1 lds-ring"><div></div><div></div><div></div><div></div></span>
+                            </v-btn>
                         </v-row>
                     </form>
                 </v-col>
@@ -211,6 +214,7 @@
                     </v-row>
                 </v-col>
             </v-row>
+            <!-- Mobile -->
             <v-row v-else-if="getViewSize === 'mobile'" justify="center" align="start">
                 <v-col cols="10">
                     <v-row justify="center" align="center">
@@ -334,8 +338,14 @@
                             <label
                                 :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
                                 class="color-1a1a1a"
-                                v-html="form.email[getLang]"
-                            />
+                            >
+                                {{ form.email[getLang] }}
+                                <span
+                                    v-if="provider !== 'auth0'"
+                                    :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'">
+                                        {{ form.email.readonly[getLang] }} {{ availableProviders[provider] }}.
+                                </span>
+                            </label>
                             <v-text-field
                                 v-model="email"
                                 background-color="#FAFAFA"
@@ -343,6 +353,8 @@
                                 :error-messages="emailErrors"
                                 outlined
                                 required
+                                :disabled="provider !== 'auth0'"
+                                :readonly="provider !== 'auth0'"
                                 @input="delayTouch($v.email)"
                                 @blur="$v.email.$touch()"
                             ></v-text-field>
@@ -351,9 +363,9 @@
                                 class="color-1a1a1a"
                                 v-html="form.role[getLang]"
                             />
-                            <v-radio-group v-model="role" row :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'">
+                            <v-radio-group v-model="role" required row :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'">
                                 <v-radio
-                                    v-if="role === 'admin'"
+                                    v-if="getUserRole()[0].name === 'admin'"
                                     color="rgba(26,26,26,1)"
                                     :label="availableRoles['admin'][getLang]"
                                     value="admin">
@@ -369,26 +381,22 @@
                                     value="user">
                                 </v-radio>
                             </v-radio-group>
-                        <!-- <v-btn
-                            :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
-                            class="text-capitalize white--text"
-                            color="#333333"
-                            type="submit"
-                            :disabled="$v.invalid"
-                            v-html="buttons.form[getLang]"
-                        /> -->
-                        <v-btn
-                            :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
-                            class="text-capitalize white--text"
-                            color="#333333"
-                            type="submit"
-                            disabled
-                            v-html="buttons.form[getLang]"
-                        />
+                            <v-btn
+                                :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
+                                class="text-capitalize white--text"
+                                color="#333333"
+                                type="submit"
+                                :disabled="$v.$invalid"
+                            >
+                                {{ buttons.form[getLang] }}
+                                <span v-show="isLoading" class="px-1 lds-ring"><div></div><div></div><div></div><div></div></span>
+                            </v-btn>
                         </form>
                     </v-row>
                 </v-col>
             </v-row>
+            <v-alert class="mt-2 settings-alert-block" :type='alertType' v-model="alert" dismissible>{{ alertMsg }}</v-alert>
+            <v-alert class="mt-1 settings-alert-block" :type='alertRoleType' v-model="alertRole" dismissible>{{ alertRoleMsg }}</v-alert>
         </v-container>
       </v-main>
     </UserLayout>
@@ -397,13 +405,15 @@
 <script>
 import { mapGetters, mapMutations } from 'vuex'
 import { validationMixin } from "vuelidate";
-import { required, email } from "vuelidate/lib/validators";
+import { required, email, alpha } from "vuelidate/lib/validators";
+
+const touchMap = new WeakMap();
 
 export default {
   mixins: [validationMixin],
   validations: {
-    firstName: { required },
-    lastName: { required },
+    firstName: { required, alpha },
+    lastName: { required, alpha },
     nickname: { required },
     email: { required, email },
   },
@@ -416,8 +426,8 @@ export default {
         this.pic = this.$auth.user.picture || null
     }
     this.provider = this.$auth.provider || null
-    if (this.$auth.userRole) {
-        this.role = this.$auth.userRole[0].name
+    if (this.getUserRole()) {
+        this.role = this.getUserRole()[0].name
     }
     this.chosenLanguage = this.getLang
   },
@@ -512,6 +522,10 @@ export default {
             email: {
                 gr: 'Ηλεκτρονική διεύθυνση',
                 en: 'Email',
+                readonly: {
+                    gr: 'Δεν μπορείτε να αλλάξετε το email σας επειδή συνδέεστε μέσω',
+                    en: 'Cannot change your email as you login via '
+                }
             },
             role: {
                 gr: 'Ρόλος',
@@ -537,7 +551,14 @@ export default {
                 gr: 'επεξεργασία',
                 en: 'edit'
             }
-        }
+        },
+        alert: false,
+        alertMsg: "",
+        alertType: "error",
+        alertRole: false,
+        alertRoleMsg: "",
+        alertRoleType: "error", 
+        isLoading: false,
     }
   },
   computed: {
@@ -569,8 +590,115 @@ export default {
     },
   },
   methods: {
-      ...mapMutations(['setLang']),
+    ...mapMutations(['setLang']),
+    setAlert(type) {
+      this.alert = true;
+      if (type == "success") {
+        this.alertMsg = this.getLang === 'gr' ? "Τα στοιχεία σας ενημερώθηκαν" : "Your personal details have been updated";
+        this.alertType = "success";
+      } else {
+        this.alertMsg = this.getLang === 'gr' ? "Κάποιο λάθος συνέβη ενημερώνοντας τα στοιχεία σας" : "An error occured updating your personal details";
+        this.alertType = "error";
+      }
+    },
+    setAlertRole(type) {
+      this.alertRole = true;
+      if (type == "success") {
+        this.alertRoleMsg = this.getLang === 'gr' ? "Ο ρόλος σας ενημερώθηκε" : "Your role has been updated";
+        this.alertRoleType = "success";
+      } else {
+        this.alertRoleMsg = this.getLang === 'gr' ? "Κάποιο λάθος συνέβη ενημερώνοντας το ρόλο σας" : "An error occured updating your role";
+        this.alertRoleType = "error";
+      }
+    },
+     clearUser() {
+      if (this.$auth.user) {
+        this.firstName = this.$auth.user.given_name || null
+        this.lastName = this.$auth.user.family_name || null
+        this.nickname = this.$auth.user.nickname || null
+        this.email = this.$auth.user.email || null
+      } else {
+        this.firstName = null
+        this.lastName = null
+        this.nickname = null
+        this.email = null
+      }
+      this.isLoading = false
+    },
+    setUserRole(roleObj) {
+        if (process.isClient) {
+            this.$auth.userRole = roleObj
+            localStorage.setItem('userRole', JSON.stringify(roleObj))
+        }
+    },
+    getUserRole() {
+        if (process.isClient) {
+            return JSON.parse(localStorage.getItem('userRole'))
+        } else {
+            return null
+        }
+    },
+    clearRole() {
+      if (this.getUserRole()) {
+        this.role = getUserRole().name || null
+      } else {
+        this.role = null
+      }
+      this.isLoading = false
+    },
+    updateRole(roleObj) {
+        this.setUserRole(roleObj)
+        this.role = roleObj[0].name
+        this.isLoading = false
+    },
     submit() {
+      this.$v.$touch();
+      if (!this.$v.$invalid) {
+        if (this.$auth.user) {
+            var data = {}
+            var nameUpdate = false
+            if (this.firstName !== this.$auth.user.given_name) {
+                data['given_name'] = this.firstName
+                nameUpdate = true
+            }
+            if (this.lastName !== this.$auth.user.family_name) {
+                data['family_name'] = this.lastName
+                nameUpdate = true
+            }
+            if (this.nickname !== this.$auth.user.nickname) {
+                data['nickname'] = this.nickname
+            }
+            if (this.email !== this.$auth.user.email) {
+                data['email'] = this.email
+                data['email_verified'] = false
+                data['verify_email'] = true
+            }
+            if (nameUpdate) {
+                data['name'] = this.firstName + ' ' + this.lastName
+            }
+            if (Object.keys(data).length !== 0 && obj.constructor === Object) {
+                this.isLoading = true;
+                this.$auth.updateUser(data).then(() => {
+                    this.clearUser()
+                    this.setAlert('success')
+                }).catch(err => {
+                    this.clearUser()
+                    this.setAlert('error')
+                })
+            }
+        }
+        if (this.getUserRole() && this.role !== this.getUserRole()[0].name) {
+            this.isLoading = true;
+            this.$auth.updateUserRole(this.role).then((roleObj) => {
+                this.setAlertRole('success')
+                this.updateRole(roleObj)
+            }).catch(err => {
+                this.clearRole()
+                this.setAlertRole('error')
+            })
+        }
+        this.$v.$reset()
+      }
     },
     delayTouch($v) {
       $v.$reset();
@@ -595,6 +723,8 @@ export default {
 </script>
 
 <style>
+@import '../../assets/style/lds-ring.css';
+
 .theme--light.v-label {
     color: rgba(26, 26, 26, 1) !important;
 }
@@ -611,5 +741,14 @@ export default {
 .center-label {
     position: absolute;
     text-align: center;
+}
+.v-messages__message {
+  font-family: 'Raleway', sans-serif !important;
+}
+
+.settings-alert-block {
+  width: 50vw;
+  margin-right: 25vw;
+  margin-left: 25vw;
 }
 </style>

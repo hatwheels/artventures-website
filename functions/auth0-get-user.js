@@ -10,7 +10,7 @@ exports.handler = async (event, context) => {
         const data = JSON.parse(event.body)
         
         if (!data.token ||  data.token != process.env.GRIDSOME_AUTH0_MASTER_TOKEN) {
-            console.log('401: user id query parameter required.')
+            console.log('401: token query parameter required.')
             console.log("### END ###")
 
             return {
