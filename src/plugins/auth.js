@@ -200,13 +200,14 @@ let auth = new Vue({
                     // success
                     if (200 == res.status) {
                         if (!res.data || res.data.length == 0) {
+                            resolve(null)
                             // Assign default user
-                            this.assignUserRole("user")
-                            .then((roleObj) => resolve(roleObj))
-                            .catch(err => reject(err))
+                            // this.assignUserRole("user")
+                            // .then((roleObj) => resolve(roleObj))
+                            // .catch(err => reject(err))
                         } else {
                             this.userRole = res.data
-                            resolve()
+                            resolve(res.data)
                         }
                     } else {
                         reject(res.status)
