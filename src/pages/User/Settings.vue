@@ -181,7 +181,7 @@
                                 :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
                                 class="text-capitalize"
                                 v-html="pw.reset[getLang]"
-                                @click="this.$auth.resetPassword()"
+                                @click="pwDialog.toggle = true"
                             />
                             <div
                                 v-else
@@ -260,7 +260,7 @@
                             :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
                             class="text-capitalize"
                             v-html="pw.reset[getLang]"
-                            @click="this.$auth.resetPassword()"
+                            @click="pwDialog.toggle = true"
                         />
                         <div
                             v-else
@@ -395,6 +395,53 @@
                     </v-row>
                 </v-col>
             </v-row>
+            <!-- Dialogs -->
+            <v-dialog v-model="pwDialog.toggle" persistent max-width="290" overlay-color="transparent">
+                <v-card>
+                    <v-card-text
+                        class="px-3 pt-2 pb-4"
+                        :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'">
+                        {{ pwDialog.text[getLang] }}
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn
+                            class="black--text"
+                            :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
+                            color="#FAFAFA" @click="resetPasswordEmail()"
+                        >
+                            {{ getLang === 'gr' ? 'Ναι' : 'Yes' }}
+                        </v-btn>
+                        <v-btn
+                            class="white--text"
+                            :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
+                            color="#333333" @click="pwDialog.toggle = false"
+                        >
+                            {{ getLang === 'gr' ? 'Όχι' : 'No' }}
+                        </v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
+            <v-dialog v-model="pwDialog.emailSent" persistent max-width="290" overlay-color="transparent">
+                <v-card>
+                    <v-card-text
+                        class="px-3 pt-2 pb-4"
+                        :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'">
+                        {{ pwDialog.emailText[getLang] }}
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn
+                            class="white--text"
+                            :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
+                            color="#333333" @click="unsetPwDialogEmail()"
+                        >
+                            OK
+                        </v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
+            <!-- Alerts -->
             <v-alert
                 class="mt-2 settings-alert-block"
                 :type='alertType'
@@ -575,6 +622,19 @@ export default {
         alertRoleMsg: "",
         alertRoleType: "error", 
         isLoading: false,
+        pwDialog: {
+            toggle: false,
+            text: {
+                gr: 'Είστε σίγουροι ότι θέλετε να αλλάξετε το κωδικό πρόσβασης;',
+                en: 'Are you sure you want to reset your password?',
+            },
+            emailSent: false,
+            emailText: {
+                gr: '',
+                en: '',
+            }
+        },
+        
     }
   },
   computed: {
@@ -743,6 +803,25 @@ export default {
     },
     changeProfilePic(value) {
         //console.log(value)
+    },
+    resetPasswordEmail() {
+        this.pwDialog.toggle = false
+        this.$auth.resetPassword()
+        .then(res => {
+            this.pwDialog.emailText.en = 'An email with instructions will be sent shortly to ' + this.$auth.user.email
+            this.pwDialog.emailText.gr = 'Ένα email με πληροφορίες θα σταλεί σε λίγο στην διεύθυνση ' + this.$auth.user.email
+            this.pwDialog.emailSent = true
+        }).catch(err => {
+            console.log(err)
+            this.pwDialog.emailText.en = 'An error has occured'
+            this.pwDialog.emailText.gr = 'Κάποιο σφάλμα προέκυψε'
+            this.pwDialog.emailSent = true
+        })
+    },
+    unsetPwDialogEmail() {
+        this.pwDialog.emailSent = false
+        this.pwDialog.emailText.en = ''
+        this.pwDialog.emailText.gr = ''
     }
   },
   metaInfo () {
