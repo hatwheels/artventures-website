@@ -1,6 +1,7 @@
 <template>
   <Layout>
 
+    <!-- Desktop -->
     <v-main v-show="getViewSize === 'desktop'">
       <v-container class="pa-0 background-color-fafafa" fluid>
 
@@ -24,6 +25,7 @@
               <g-link
                 class="btn-grey white--text px-12 py-5 text-uppercase"
                 :class="getLang === 'gr' ? 'noto-11p5-600' :'montserrat-11p5-600'"
+                to="/user/portfolio"
               >
                 {{ $page.artists.edges[0].node.mainartists.button[getLang] }}
               </g-link>
@@ -109,6 +111,7 @@
           <g-link
             :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-600'"
             class="join-btn white--text text-uppercase"
+            to="/user/portfolio"
           >
             {{ $page.artists.edges[0].node.button.par[getLang] }}
           </g-link>
@@ -159,6 +162,7 @@
       </v-container>
     </v-main>
 
+    <!-- Mobile -->
     <v-main v-show="getViewSize === 'mobile'">
       <v-container class="pa-0 background-color-fafafa" fluid>
 
@@ -184,6 +188,7 @@
               <g-link
                 class="btn-grey white--text px-12 py-5 text-uppercase"
                 :class="getLang === 'gr' ? 'noto-11p5-600' :'montserrat-11p5-600'"
+                to="/user/portfolio"
               >
                 {{ $page.artists.edges[0].node.mainartists.button[getLang] }}
               </g-link>
@@ -259,6 +264,7 @@
           <g-link
             :class="getLang === 'gr' ? 'noto-13-600' : 'raleway-13-600'"
             class="join-btn white--text text-uppercase"
+            to="/user/portfolio"
           >
             {{ $page.artists.edges[0].node.button.par[getLang] }}
           </g-link>

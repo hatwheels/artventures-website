@@ -181,7 +181,7 @@
                                 :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
                                 class="text-capitalize"
                                 v-html="pw.reset[getLang]"
-                                @click="this.$auth.resetPassword()"
+                                @click="pwDialog.toggle = true"
                             />
                             <div
                                 v-else
@@ -260,7 +260,7 @@
                             :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
                             class="text-capitalize"
                             v-html="pw.reset[getLang]"
-                            @click="this.$auth.resetPassword()"
+                            @click="pwDialog.toggle = true"
                         />
                         <div
                             v-else
@@ -395,8 +395,71 @@
                     </v-row>
                 </v-col>
             </v-row>
-            <v-alert class="mt-2 settings-alert-block" :type='alertType' v-model="alert" dismissible>{{ alertMsg }}</v-alert>
-            <v-alert class="mt-1 settings-alert-block" :type='alertRoleType' v-model="alertRole" dismissible>{{ alertRoleMsg }}</v-alert>
+            <!-- Dialogs -->
+            <v-dialog v-model="pwDialog.toggle" persistent max-width="290" overlay-color="transparent">
+                <v-card>
+                    <v-card-text
+                        class="px-3 pt-2 pb-4"
+                        :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'">
+                        {{ pwDialog.text[getLang] }}
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn
+                            class="black--text"
+                            :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
+                            color="#FAFAFA" @click="resetPasswordEmail()"
+                        >
+                            {{ getLang === 'gr' ? 'Ναι' : 'Yes' }}
+                        </v-btn>
+                        <v-btn
+                            class="white--text"
+                            :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
+                            color="#333333" @click="pwDialog.toggle = false"
+                        >
+                            {{ getLang === 'gr' ? 'Όχι' : 'No' }}
+                        </v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
+            <v-dialog v-model="pwDialog.emailSent" persistent max-width="290" overlay-color="transparent">
+                <v-card>
+                    <v-card-text
+                        class="px-3 pt-2 pb-4"
+                        :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'">
+                        {{ pwDialog.emailText[getLang] }}
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn
+                            class="white--text"
+                            :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
+                            color="#333333" @click="unsetPwDialogEmail()"
+                        >
+                            OK
+                        </v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
+            <!-- Alerts -->
+            <v-alert
+                class="mt-2 settings-alert-block"
+                :type='alertType'
+                v-model="alert"
+                dismissible
+                transition="slide-x-transition"
+            >
+                {{ alertMsg }}
+            </v-alert>
+            <v-alert
+                class="mt-1 settings-alert-block"
+                :type='alertRoleType'
+                v-model="alertRole"
+                dismissible
+                transition="slide-x-transition"
+            >
+                {{ alertRoleMsg }}
+            </v-alert>
         </v-container>
       </v-main>
     </UserLayout>
@@ -417,7 +480,7 @@ export default {
     nickname: { required },
     email: { required, email },
   },
-  mounted () {
+  created () {
     if (this.$auth.user) {
         this.firstName = this.$auth.user.given_name || null
         this.lastName = this.$auth.user.family_name || null
@@ -426,8 +489,8 @@ export default {
         this.pic = this.$auth.user.picture || null
     }
     this.provider = this.$auth.provider || null
-    if (userRole) {
-        this.role = this.getUserRoleName()
+    if (this.getUserRole()) {
+        this.role = this.getUserRoleName() || null
     }
     this.chosenLanguage = this.getLang
   },
@@ -559,6 +622,19 @@ export default {
         alertRoleMsg: "",
         alertRoleType: "error", 
         isLoading: false,
+        pwDialog: {
+            toggle: false,
+            text: {
+                gr: 'Είστε σίγουροι ότι θέλετε να αλλάξετε το κωδικό πρόσβασης;',
+                en: 'Are you sure you want to reset your password?',
+            },
+            emailSent: false,
+            emailText: {
+                gr: '',
+                en: '',
+            }
+        },
+        
     }
   },
   computed: {
@@ -592,7 +668,6 @@ export default {
   methods: {
     ...mapMutations(['setLang']),
     setAlert(type) {
-      this.alert = true;
       if (type == "success") {
         this.alertMsg = this.getLang === 'gr' ? "Τα στοιχεία σας ενημερώθηκαν" : "Your personal details have been updated";
         this.alertType = "success";
@@ -600,9 +675,14 @@ export default {
         this.alertMsg = this.getLang === 'gr' ? "Κάποιο λάθος συνέβη ενημερώνοντας τα στοιχεία σας" : "An error occured updating your personal details";
         this.alertType = "error";
       }
+      const that = this
+      function clearAlert() {
+        that.alert = false
+      }
+      this.alert = true;
+      setTimeout(clearAlert, 6000)
     },
     setAlertRole(type) {
-      this.alertRole = true;
       if (type == "success") {
         this.alertRoleMsg = this.getLang === 'gr' ? "Ο ρόλος σας ενημερώθηκε" : "Your role has been updated";
         this.alertRoleType = "success";
@@ -610,6 +690,12 @@ export default {
         this.alertRoleMsg = this.getLang === 'gr' ? "Κάποιο λάθος συνέβη ενημερώνοντας το ρόλο σας" : "An error occured updating your role";
         this.alertRoleType = "error";
       }
+      const that = this
+      function clearAlert() {
+        that.alertRole = false
+      }
+      this.alertRole = true;
+      setTimeout(clearAlert, 6000)
     },
      clearUser() {
       if (this.$auth.user) {
@@ -648,7 +734,7 @@ export default {
     },
     clearRole() {
       if (this.getUserRole()) {
-        this.role = getc || null
+        this.role = this.getUserRoleName() || null
       } else {
         this.role = null
       }
@@ -717,6 +803,25 @@ export default {
     },
     changeProfilePic(value) {
         //console.log(value)
+    },
+    resetPasswordEmail() {
+        this.pwDialog.toggle = false
+        this.$auth.resetPassword()
+        .then(res => {
+            this.pwDialog.emailText.en = 'An email with instructions will be sent shortly to ' + this.$auth.user.email
+            this.pwDialog.emailText.gr = 'Ένα email με πληροφορίες θα σταλεί σε λίγο στην διεύθυνση ' + this.$auth.user.email
+            this.pwDialog.emailSent = true
+        }).catch(err => {
+            console.log(err)
+            this.pwDialog.emailText.en = 'An error has occured'
+            this.pwDialog.emailText.gr = 'Κάποιο σφάλμα προέκυψε'
+            this.pwDialog.emailSent = true
+        })
+    },
+    unsetPwDialogEmail() {
+        this.pwDialog.emailSent = false
+        this.pwDialog.emailText.en = ''
+        this.pwDialog.emailText.gr = ''
     }
   },
   metaInfo () {

@@ -200,13 +200,10 @@ let auth = new Vue({
                     // success
                     if (200 == res.status) {
                         if (!res.data || res.data.length == 0) {
-                            // Assign default user
-                            this.assignUserRole("user")
-                            .then((roleObj) => resolve(roleObj))
-                            .catch(err => reject(err))
+                            resolve(null)
                         } else {
                             this.userRole = res.data
-                            resolve()
+                            resolve(res.data)
                         }
                     } else {
                         reject(res.status)
@@ -291,7 +288,6 @@ let auth = new Vue({
                 axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/auth0-update-user-role',
                     {
                         user_id: this.user.sub,
-                        remove_role_id: this.userRole[0].name,
                         add_role_id: newRole,
                         token: process.env.GRIDSOME_AUTH0_MASTER_TOKEN,
                     },
