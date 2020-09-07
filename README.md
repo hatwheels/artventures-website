@@ -5,8 +5,8 @@
 
 ### 1. Tools
 
-1. Jamstack framework: Gridsome
-2. Jamstack Baas: Netlify
+1. __Jamstack framework__: `Gridsome`
+2. __Jamstack BaaS__: `Netlify`
 3. ...
 
 This is the project you get when you run `gridsome create new-project`.
