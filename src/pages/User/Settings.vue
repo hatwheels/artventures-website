@@ -417,7 +417,7 @@ export default {
     nickname: { required },
     email: { required, email },
   },
-  mounted () {
+  created () {
     if (this.$auth.user) {
         this.firstName = this.$auth.user.given_name || null
         this.lastName = this.$auth.user.family_name || null
@@ -426,8 +426,8 @@ export default {
         this.pic = this.$auth.user.picture || null
     }
     this.provider = this.$auth.provider || null
-    if (userRole) {
-        this.role = this.getUserRoleName()
+    if (this.getUserRole()) {
+        this.role = this.getUserRoleName() || null
     }
     this.chosenLanguage = this.getLang
   },
@@ -648,7 +648,7 @@ export default {
     },
     clearRole() {
       if (this.getUserRole()) {
-        this.role = getc || null
+        this.role = this.getUserRoleName() || null
       } else {
         this.role = null
       }
