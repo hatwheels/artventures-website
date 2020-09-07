@@ -395,8 +395,24 @@
                     </v-row>
                 </v-col>
             </v-row>
-            <v-alert class="mt-2 settings-alert-block" :type='alertType' v-model="alert" dismissible>{{ alertMsg }}</v-alert>
-            <v-alert class="mt-1 settings-alert-block" :type='alertRoleType' v-model="alertRole" dismissible>{{ alertRoleMsg }}</v-alert>
+            <v-alert
+                class="mt-2 settings-alert-block"
+                :type='alertType'
+                v-model="alert"
+                dismissible
+                transition="slide-x-transition"
+            >
+                {{ alertMsg }}
+            </v-alert>
+            <v-alert
+                class="mt-1 settings-alert-block"
+                :type='alertRoleType'
+                v-model="alertRole"
+                dismissible
+                transition="slide-x-transition"
+            >
+                {{ alertRoleMsg }}
+            </v-alert>
         </v-container>
       </v-main>
     </UserLayout>
@@ -592,7 +608,6 @@ export default {
   methods: {
     ...mapMutations(['setLang']),
     setAlert(type) {
-      this.alert = true;
       if (type == "success") {
         this.alertMsg = this.getLang === 'gr' ? "Τα στοιχεία σας ενημερώθηκαν" : "Your personal details have been updated";
         this.alertType = "success";
@@ -600,9 +615,14 @@ export default {
         this.alertMsg = this.getLang === 'gr' ? "Κάποιο λάθος συνέβη ενημερώνοντας τα στοιχεία σας" : "An error occured updating your personal details";
         this.alertType = "error";
       }
+      const that = this
+      function clearAlert() {
+        that.alert = false
+      }
+      this.alert = true;
+      setTimeout(clearAlert, 6000)
     },
     setAlertRole(type) {
-      this.alertRole = true;
       if (type == "success") {
         this.alertRoleMsg = this.getLang === 'gr' ? "Ο ρόλος σας ενημερώθηκε" : "Your role has been updated";
         this.alertRoleType = "success";
@@ -610,6 +630,12 @@ export default {
         this.alertRoleMsg = this.getLang === 'gr' ? "Κάποιο λάθος συνέβη ενημερώνοντας το ρόλο σας" : "An error occured updating your role";
         this.alertRoleType = "error";
       }
+      const that = this
+      function clearAlert() {
+        that.alertRole = false
+      }
+      this.alertRole = true;
+      setTimeout(clearAlert, 6000)
     },
      clearUser() {
       if (this.$auth.user) {

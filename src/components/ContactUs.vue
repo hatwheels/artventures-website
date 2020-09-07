@@ -108,7 +108,15 @@
       </form>
     </v-col>
   </v-row>
-  <v-alert class="contact-block" :type='alertType' v-model="alert" dismissible>{{ alertMsg }}</v-alert>
+  <v-alert
+    class="contact-block"
+    :type='alertType'
+    v-model="alert"
+    dismissible
+    transition="slide-x-transition"
+  >
+    {{ alertMsg }}
+  </v-alert>
   </div>
 </template>
 
@@ -253,7 +261,6 @@ export default {
   },
   methods: {
     setAlert(type) {
-      this.alert = true;
       if (type == "success") {
         this.alertMsg = this.getLang === 'gr' ? "Το μήνυμα σας εστάλη" : "Your message has been sent";
         this.alertType = "success";
@@ -261,6 +268,12 @@ export default {
         this.alertMsg = this.getLang === 'gr' ? "Κάποιο λάθος συνέβη" : "An error occured";
         this.alertType = "error";
       }
+      const that = this
+      function clearAlert() {
+        that.alert = false
+      }
+      this.alert = true;
+      setTimeout(clearAlert, 6000)
     },
     clearFields() {
       this.fields = {};
