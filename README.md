@@ -1,6 +1,5 @@
 # Artventures Website & Webapp
 
-### 0. Build Status
 [![Artventures Status](https://api.netlify.com/api/v1/badges/537af7ed-704d-4057-9cbd-1b727804cfbe/deploy-status)](https://app.netlify.com/sites/flamboyant-stonebraker-6fe6d3/deploys)
 
 ### 1. Tools
