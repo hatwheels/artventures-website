@@ -1,22 +1,31 @@
-# Default starter for Gridsome
+# Artventures Website & Webapp
+
+### 0. Build Status
+[![Artventures Status](https://api.netlify.com/api/v1/badges/537af7ed-704d-4057-9cbd-1b727804cfbe/deploy-status)](https://app.netlify.com/sites/flamboyant-stonebraker-6fe6d3/deploys)
+
+### 1. Tools
+
+1. Jamstack framework: Gridsome
+2. Jamstack Baas: Netlify
+3. ...
 
 This is the project you get when you run `gridsome create new-project`.
 
-### 1. Install Gridsome CLI tool if you don't have
+### 2. Install Gridsome CLI tool if you don't have
 
 `npm install --global @gridsome/cli`
 
-### 2. Create a Gridsome project
+### 3. Create a Gridsome project
 
 1. `gridsome create my-gridsome-site` to install default starter
 2. `cd my-gridsome-site` to open the folder
 3. `gridsome develop` to start a local dev server at `http://localhost:8080`
 4. Happy coding 🎉🙌
 
-### 3. Integrate with Netlify for deployment
+### 4. Integrate with Netlify for deployment
  - TODO readme
 
-### 4. Create .env.development for local environment variables
+### 5. Create .env.development for local environment variables
 
 1. `GRIDSOME_BUILD`
 2. `GRIDSOME_SITE_URL`
