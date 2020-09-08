@@ -188,34 +188,36 @@ export default {
     },
   },
   created () {
-    this.$imgdb.retrieveArtworks(this.$auth.user.sub)
-    .then(found => { 
-      if (found.total_count > 0) {
-        this.currentImageCount = found.total_count
-        found.resources.forEach(resource => {
-          var folder = resource.folder.replace('artwork/' + this.$auth.user.sub + '/', '')
-          switch (folder) {
-            case 'inprocess':
-              this.allArtworks[0].push( { title: resource.filename.replace('_', ' '), img: resource.secure_url } )
-              break;
-            case 'approved':
-              this.allArtworks[1].push( { title: resource.filename.replace('_', ' '), img: resource.secure_url } )
-              break;
-            case 'rejected':
-              this.allArtworks[2].push( { title: resource.filename.replace('_', ' '), img: resource.secure_url } )
-              break;
-            default:
-              break;
-          }
+    if (process.isClient && this.$auth.user) {
+      this.$imgdb.retrieveArtworks(this.$auth.user.sub)
+      .then(found => {
+        if (found.total_count > 0) {
+          this.currentImageCount = found.total_count
+          found.resources.forEach(resource => {
+            var folder = resource.folder.replace('artwork/' + this.$auth.user.sub + '/', '')
+            switch (folder) {
+              case 'inprocess':
+                this.allArtworks[0].push( { title: resource.filename.replace('_', ' '), img: resource.secure_url } )
+                break;
+              case 'approved':
+                this.allArtworks[1].push( { title: resource.filename.replace('_', ' '), img: resource.secure_url } )
+                break;
+              case 'rejected':
+                this.allArtworks[2].push( { title: resource.filename.replace('_', ' '), img: resource.secure_url } )
+                break;
+              default:
+                break;
+            }
+          });
+        }
+      })
+      .catch(err => {
+        this.$router.replace({
+          path: '/user/profile',
+          force: true
         });
-      }
-    })
-    .catch(err => {
-      this.$router.replace({
-        path: '/user/profile',
-        force: true
-      });
-    })
+      })
+    }
   },
   directives: {
     swiper: directive
@@ -403,24 +405,33 @@ export default {
         if (this.imageToUploadBase64) {
           this.isLoading = true;
 
-          this.$imgdb.uploadArtwork(this.$auth.user.sub, trimmedTitle, this.imageToUploadBase64)
-          .then(secureUrl => {
-            this.allArtworks[0].push({ title: this.title, img: secureUrl })
-            this.title = null
-            this.imageToUploadBase64 = null
-            this.dialogPortfolio.text.en = "Your Artwork has been successfully uploaded. Please wait for our approval."
-            this.dialogPortfolio.text.gr = "το Έργο σας στάλθηκε επιτυχώς. Παρακαλώ περιμένετε για την έγκριση μας"
-            this.dialogPortfolio.toggle = true
-            this.isLoading = false;
-          })
-          .catch(err => { 
+          if (process.isClient && this.$auth.user) {
+            this.$imgdb.uploadArtwork(this.$auth.user.sub, trimmedTitle, this.imageToUploadBase64)
+            .then(secureUrl => {
+              this.allArtworks[0].push({ title: this.title, img: secureUrl })
+              this.title = null
+              this.imageToUploadBase64 = null
+              this.dialogPortfolio.text.en = "Your Artwork has been successfully uploaded. Please wait for our approval."
+              this.dialogPortfolio.text.gr = "το Έργο σας στάλθηκε επιτυχώς. Παρακαλώ περιμένετε για την έγκριση μας"
+              this.dialogPortfolio.toggle = true
+              this.isLoading = false;
+            })
+            .catch(err => { 
+              this.title = null
+              this.imageToUploadBase64 = null
+              this.dialogPortfolio.text.en = "Unfortunately an error occured. Please try again later."
+              this.dialogPortfolio.text.gr = "Δυστηχώς κάποιο σφάλμα προέκυψε. Παρακαλώ δοκιμάστε ξανά αργότερα."
+              this.dialogPortfolio.toggle = true
+              this.isLoading = false;
+            })
+          } else {
             this.title = null
             this.imageToUploadBase64 = null
             this.dialogPortfolio.text.en = "Unfortunately an error occured. Please try again later."
             this.dialogPortfolio.text.gr = "Δυστηχώς κάποιο σφάλμα προέκυψε. Παρακαλώ δοκιμάστε ξανά αργότερα."
             this.dialogPortfolio.toggle = true
             this.isLoading = false;
-          })
+          }
         } else {
           this.title = null
           this.imageToUploadBase64 = null
