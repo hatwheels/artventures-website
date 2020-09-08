@@ -46,7 +46,7 @@
                     <div class="swiper-wrapper">
                       <div class="swiper-slide"
                         v-for="(artwork, i ) in artworksInSection" :key="tabs.swipers.desktop[i] + '-art-' + i">
-                        <g-image :src="artwork" style="width: 100%; height: 100%" fit="contain" />
+                        <g-image :src="artwork" style="width: 100%;" fit="contain" />
                       </div>
                     </div>
                   </div>
@@ -91,7 +91,7 @@
                     class="artwork-btn white--text text-capitalize py-1 pl-2 pr-4 text-center"
                     for="artwork-image"
                 >
-                    <v-icon class="white--text pr-2 pb-1">mdi-image</v-icon>{{ artworkForm.btn[getLang] }}
+                  <v-icon class="white--text pr-2 pb-1">mdi-image</v-icon>{{ artworkForm.btn[getLang] }}
                 </label>
                 <input
                   id="artwork-image"
@@ -100,20 +100,34 @@
                   accept="image/png, image/jpeg, image/bmp"
                   type="file"
                   required
+                  @change="getImage"
                 >
+                <v-row class="pb-2" justify="center" align="center">
+                  <g-image v-if="imageToUploadBase64" :src="imageToUploadBase64" style="width: 20vw" />
+                </v-row>
                 <v-row justify="center" align="center">
                   <v-btn
                     :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
                     class="text-capitalize white--text"
                     color="#333333"
                     type="submit"
-                    disabled
+                    :disabled="$v.$invalid || !imageToUploadBase64"
                     v-html="artworkForm.submit[getLang]"
                   />
                 </v-row>
               </form>
             </v-col>
           </v-row>
+          <!-- Alerts -->
+          <v-alert
+              class="mt-2 portfolio-alert-block"
+              type='error'
+              v-model="alert"
+              dismissible
+              transition="slide-x-transition"
+          >
+              {{ getLang == 'gr' ? 'Το μέγεθος της εικόνας είναι πάνω από 50 MB' : 'Image size is over 50 MB' }}
+          </v-alert>
 
         </v-container>
       </v-main>
@@ -124,29 +138,49 @@
 import { mapGetters } from 'vuex'
 import { directive } from 'vue-awesome-swiper'
 import { validationMixin } from "vuelidate";
-import { required } from "vuelidate/lib/validators";
+import { required, maxLength, minLength } from "vuelidate/lib/validators";
+
+const touchMap = new WeakMap();
 
 export default {
   mixins: [validationMixin],
   validations: {
-    title: { required },
+    title: {
+      required,
+      minLength: minLength(3),
+      maxLength: maxLength(30)
+    },
   },
-  mounted () {
-    // this.allArtworks = [
-    //   null,
-    //   ['https://picsum.photos/500/300?image=7', 'https://picsum.photos/500/300?image=8', 'https://picsum.photos/500/300?image=9',
-    //     'https://picsum.photos/500/300?image=12', 'https://picsum.photos/500/300?image=11', 'https://picsum.photos/500/300?image=10'
-    //   ],
-    //   ['https://picsum.photos/500/300?image=13', 'https://picsum.photos/500/300?image=16', 'https://picsum.photos/500/300?image=17',
-    //     'https://picsum.photos/500/300?image=14', 'https://picsum.photos/500/300?image=15', 'https://picsum.photos/500/300?image=18'
-    //   ]
-    // ]
+  created () {
+    this.$imgdb.retrieveArtworks(this.$auth.user.sub)
+    .then(found => { 
+      if (found.total_count > 0) {
+        found.resources.forEach(resource => {
+          var folder = resource.folder.replace('artwork/' + this.$auth.user.sub + '/', '')
+          switch (folder) {
+            case 'inprocess':
+              this.allArtworks[0].push(resource.secure_url)
+              break;
+            case 'approved':
+              this.allArtworks[1].push(resource.secure_url)
+              break;
+            case 'rejected':
+              this.allArtworks[2].push(resource.secure_url)
+              break;
+            default:
+              break;
+          }
+        });
+      }
+    })
+    .catch(err => {})
   },
   directives: {
     swiper: directive
   },
   data () {
     return {
+      alert: false,
       tabs: {
         currentTab: null,
         titles: [
@@ -180,10 +214,10 @@ export default {
           en: 'No Artwork'
         }
       },
-      allArtworks: [null, null, null],
+      allArtworks: [[], [], []],
       swiperDesktopOption: {
         lazy: true,
-        loop: true,
+        loop: false,
         slidesPerView: 3,
         spaceBetween: 30,
         setWrapperSize: true,
@@ -235,12 +269,21 @@ export default {
         },
         errors: {
           title: {
-            gr: 'O Τίτλος Εργου είναι υποχρεωτικός',
+            gr: 'O Τίτλος Έργου είναι υποχρεωτικός',
             en: 'Artwork Title is required'
-          }
+          },
+          minLength: {
+            gr: "Ο Τίτλος Έργου πρέπει να' χει τουλάχιστον 3 χαρακτήρες",
+            en: 'Artwork title must have at least 3 characters'
+          },
+          maxLength: {
+            gr: "Ο Τίτλος Έργου δεν πρέπει να' χει πάνω από 30 χαρακτήρες",
+            en: 'Artwork title cannot have more than 30 characters'
+          },
         }
       },
-      title: '',
+      title: null,
+      imageToUploadBase64: null,
     }
   },
   computed: {
@@ -248,12 +291,66 @@ export default {
     titleErrors() {
       const errors = [];
       if (!this.$v.title.$dirty) return errors;
-      !this.$v.title.required && errors.push(this.form.errors.firstName[this.getLang]);
+      !this.$v.title.required && errors.push(this.artworkForm.errors.title[this.getLang]);
+      !this.$v.title.minLength && errors.push(this.artworkForm.errors.minLength[this.getLang]);
+      !this.$v.title.maxLength && errors.push(this.artworkForm.errors.maxLength[this.getLang]);
       return errors;
     },
   },
   methods: {
+  setAlert(type) {
+    const that = this
+    function clearAlert() {
+      that.alert = false
+    }
+    this.alert = true;
+    setTimeout(clearAlert, 3000)
+  },
+  getImage(e) {
+      const file = e.target.files[0]
+      if (file) {
+        var reader = new FileReader();
+        if (file.size > 50 * 1024 * 1024) {
+        }
+        // Define a callback function to run, when FileReader finishes its job
+        reader.readAsDataURL(file);
+        reader.onload = (e) => {
+            // Note: arrow function used here, so that "this.this.imageToUploadBase64" refers to the this.imageToUploadBase64 of Vue component
+            // Read image as base64 and set to this.imageToUploadBase64
+            this.imageToUploadBase64 = e.target.result
+        }
+      }
+    },
     submit() {
+      this.$v.$touch();
+      if (!this.$v.$invalid) {
+        var trimmed_title = this.title.replace(/ /g,"_")
+        if (this.imageToUploadBase64) {
+          this.$imgdb.uploadArtwork(this.$auth.user.sub, trimmed_title, this.imageToUploadBase64)
+          .then(res => {
+            this.title = null
+            this.imageToUploadBase64 = null
+            console.log(res)
+            // this.allArtworks[0].push()
+          })
+          .catch(err => { 
+            this.title = null
+            this.imageToUploadBase64 = null
+            console.log(err)
+          })
+        } else {
+          this.title = null
+          this.imageToUploadBase64 = null
+          console.log(err)
+        }
+      }
+    },
+    delayTouch($v) {
+      $v.$reset();
+      if (touchMap.has($v)) {
+        clearTimeout(touchMap.get($v));
+      }
+      touchMap.set($v, setTimeout($v.$touch, 1000));
     },
   },
   metaInfo () {
@@ -273,5 +370,13 @@ export default {
     cursor: pointer;
     border: outset #333333;
     background-color: #333333;
+}
+.portfolio-alert-block {
+  width: 50vw;
+  margin-right: 25vw;
+  margin-left: 25vw;
+}
+.swiper-slide {
+  height: auto;
 }
 </style>

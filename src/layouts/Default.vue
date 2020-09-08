@@ -29,7 +29,7 @@
     <v-app-bar v-show="getViewSize === 'desktop'" flat class="px-11" app absolute color="#e8e8e8" height="76px">
 
       <v-btn width="185" color="transparent" text icon to="/">/
-        <g-image :src="logo[0]" style="widht: 100%" />
+        <g-image :src="logo[0]" style="width: 100%" />
       </v-btn>
 
       <v-spacer />
