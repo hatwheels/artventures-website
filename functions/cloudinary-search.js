@@ -30,7 +30,7 @@ exports.handler = async (event, context) => {
         var xpr = 'resource_type:image AND folder:' + data.folder
 
         return cloudinary.search.expression(xpr)
-        .sort_by('public_id', 'asc')
+        .sort_by('public_id', 'desc')
         .execute()
         .then(res => {
             var reply = JSON.stringify(res)

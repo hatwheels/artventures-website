@@ -34,7 +34,7 @@
                 transition="fade-transition"
                 reverse-transition="fade-transition"
               >
-                <v-card v-if="!artworksInSection" height="300px" flat color="#FAFAFA">
+                <v-card v-if="artworksInSection.length === 0" height="300px" flat color="#FAFAFA">
                   <v-card-text
                     style="padding-top: 140px;"
                     :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
@@ -46,7 +46,8 @@
                     <div class="swiper-wrapper">
                       <div class="swiper-slide"
                         v-for="(artwork, i ) in artworksInSection" :key="tabs.swipers.desktop[i] + '-art-' + i">
-                        <g-image :src="artwork" style="width: 100%;" fit="contain" />
+                        <g-image :src="artwork.img" style="width: 100%" fit="contain" />
+                        <div class="raleway-28-400">{{ artwork.title }}</div>
                       </div>
                     </div>
                   </div>
@@ -54,7 +55,8 @@
                     <div class="swiper-wrapper">
                       <div class="swiper-slide"
                         v-for="(artwork, i ) in artworksInSection" :key="tabs.swipers.mobile[i] + '-art-' + i">
-                        <g-image :src="artwork" style="width: 250px" fit="contain" />
+                        <g-image :src="artwork.img" style="width: 250px" fit="contain" />
+                        <div class="raleway-28-400">{{ artwork.title }}</div>
                       </div>
                     </div>
                   </div>
@@ -104,6 +106,9 @@
                 >
                 <v-row class="pb-2" justify="center" align="center">
                   <g-image v-if="imageToUploadBase64" :src="imageToUploadBase64" style="width: 20vw" />
+                  <div v-else>
+                    <img v-show="showImageLoader" src="../../../static/loading.svg" width="300vw" alt="Loading">
+                  </div>
                 </v-row>
                 <v-row justify="center" align="center">
                   <v-btn
@@ -112,8 +117,10 @@
                     color="#333333"
                     type="submit"
                     :disabled="$v.$invalid || !imageToUploadBase64"
-                    v-html="artworkForm.submit[getLang]"
-                  />
+                  >
+                    {{ artworkForm.submit[getLang] }}
+                    <span v-show="isLoading" class="px-1 lds-ring"><div></div><div></div><div></div><div></div></span>
+                  </v-btn>
                 </v-row>
               </form>
             </v-col>
@@ -128,7 +135,36 @@
           >
               {{ getLang == 'gr' ? 'Το μέγεθος της εικόνας είναι πάνω από 50 MB' : 'Image size is over 50 MB' }}
           </v-alert>
-
+          <v-alert
+              class="mt-2 portfolio-alert-block"
+              type='error'
+              v-model="alertImage"
+              dismissible
+              transition="slide-x-transition"
+          >
+              {{ getLang == 'gr' ? 'Το μέγεθος της εικόνας είναι πάνω από 50 MB' : 'Image size is over 50 MB' }}
+          </v-alert>
+          <!-- Dialog -->
+          <v-dialog v-model="dialogPortfolio.toggle" persistent max-width="290" overlay-color="transparent">
+            <v-card>
+                <v-card-text
+                  class="px-3 pt-2 pb-4"
+                  :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
+                >
+                  {{ dialogPortfolio.text[getLang] }}
+                </v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                        class="white--text"
+                        :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
+                        color="#333333" @click="clearDialogPortfolio()"
+                    >
+                      OK
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+          </v-dialog>
         </v-container>
       </v-main>
     </UserLayout>
@@ -155,17 +191,18 @@ export default {
     this.$imgdb.retrieveArtworks(this.$auth.user.sub)
     .then(found => { 
       if (found.total_count > 0) {
+        this.currentImageCount = found.total_count
         found.resources.forEach(resource => {
           var folder = resource.folder.replace('artwork/' + this.$auth.user.sub + '/', '')
           switch (folder) {
             case 'inprocess':
-              this.allArtworks[0].push(resource.secure_url)
+              this.allArtworks[0].push( { title: resource.filename.replace('_', ' '), img: resource.secure_url } )
               break;
             case 'approved':
-              this.allArtworks[1].push(resource.secure_url)
+              this.allArtworks[1].push( { title: resource.filename.replace('_', ' '), img: resource.secure_url } )
               break;
             case 'rejected':
-              this.allArtworks[2].push(resource.secure_url)
+              this.allArtworks[2].push( { title: resource.filename.replace('_', ' '), img: resource.secure_url } )
               break;
             default:
               break;
@@ -173,7 +210,12 @@ export default {
         });
       }
     })
-    .catch(err => {})
+    .catch(err => {
+      this.$router.replace({
+        path: '/user/profile',
+        force: true
+      });
+    })
   },
   directives: {
     swiper: directive
@@ -181,6 +223,14 @@ export default {
   data () {
     return {
       alert: false,
+      alertImage: false,
+      dialogPortfolio: {
+        toggle: false,
+        text: {
+          gr: '',
+          en: '',
+        }
+      },
       tabs: {
         currentTab: null,
         titles: [
@@ -284,6 +334,9 @@ export default {
       },
       title: null,
       imageToUploadBase64: null,
+      currentImageCount: 0,
+      showImageLoader: false,
+      isLoading: false,
     }
   },
   computed: {
@@ -298,7 +351,7 @@ export default {
     },
   },
   methods: {
-  setAlert(type) {
+  setAlert() {
     const that = this
     function clearAlert() {
       that.alert = false
@@ -306,43 +359,73 @@ export default {
     this.alert = true;
     setTimeout(clearAlert, 3000)
   },
+  setAlertImage() {
+    const that = this
+    function clearAlert() {
+      that.alertImage = false
+    }
+    this.alertImage = true;
+    setTimeout(clearAlert, 3000)
+  },
+  clearDialogPortfolio() {
+    this.dialogPortfolio.toggle = false
+    this.dialogPortfolio.text.en = ""
+    this.dialogPortfolio.text.gr = ""
+  },
   getImage(e) {
+    this.imageToUploadBase64 = null
+      if (this.currentImageCount > 30) {
+        this.setAlertImage()
+        return
+      }
       const file = e.target.files[0]
       if (file) {
-        var reader = new FileReader();
         if (file.size > 50 * 1024 * 1024) {
+          this.setAlert()
+          return
         }
+        var reader = new FileReader();
         // Define a callback function to run, when FileReader finishes its job
         reader.readAsDataURL(file);
+        this.showImageLoader = true
         reader.onload = (e) => {
             // Note: arrow function used here, so that "this.this.imageToUploadBase64" refers to the this.imageToUploadBase64 of Vue component
             // Read image as base64 and set to this.imageToUploadBase64
             this.imageToUploadBase64 = e.target.result
+            this.showImageLoader = false
         }
       }
     },
     submit() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
-        var trimmed_title = this.title.replace(/ /g,"_")
+        var trimmedTitle = this.title.replace(/ /g,"_")
         if (this.imageToUploadBase64) {
-          this.$imgdb.uploadArtwork(this.$auth.user.sub, trimmed_title, this.imageToUploadBase64)
-          .then(res => {
+          this.isLoading = true;
+
+          this.$imgdb.uploadArtwork(this.$auth.user.sub, trimmedTitle, this.imageToUploadBase64)
+          .then(secureUrl => {
+            this.allArtworks[0].push({ title: this.title, img: secureUrl })
             this.title = null
             this.imageToUploadBase64 = null
-            console.log(res)
-            // this.allArtworks[0].push()
+            this.dialogPortfolio.text.en = "Your Artwork has been successfully uploaded. Please wait for our approval."
+            this.dialogPortfolio.text.gr = "το Έργο σας στάλθηκε επιτυχώς. Παρακαλώ περιμένετε για την έγκριση μας"
+            this.dialogPortfolio.toggle = true
+            this.isLoading = false;
           })
           .catch(err => { 
             this.title = null
             this.imageToUploadBase64 = null
-            console.log(err)
+            this.dialogPortfolio.text.en = "Unfortunately an error occured. Please try again later."
+            this.dialogPortfolio.text.gr = "Δυστηχώς κάποιο σφάλμα προέκυψε. Παρακαλώ δοκιμάστε ξανά αργότερα."
+            this.dialogPortfolio.toggle = true
+            this.isLoading = false;
           })
         } else {
           this.title = null
           this.imageToUploadBase64 = null
-          console.log(err)
         }
+        this.$v.$reset();
       }
     },
     delayTouch($v) {

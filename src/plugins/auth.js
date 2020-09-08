@@ -251,6 +251,9 @@ let auth = new Vue({
                         if (data.hasOwnProperty('verify_email')) {
                             this.user.verify_email = data.verify_email
                         }
+                        if (data.hasOwnProperty('picture')) {
+                            this.user.picture = data.picture
+                        }
                         resolve()
                     } else {
                         reject(res.status)

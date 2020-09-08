@@ -162,7 +162,7 @@
                             :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
                             accept="image/png, image/jpeg, image/bmp"
                             type="file"
-                            @input="changeProfilePic"
+                            @change="changeProfilePic"
                         >
                     </v-row>
                     <v-row class="pt-8" justify="start" align="start">
@@ -242,7 +242,7 @@
                             style="opacity: 0;"
                             accept="image/png, image/jpeg, image/bmp"
                             type="file"
-                            @input="changeProfilePic"
+                            @change="changeProfilePic"
                         >
                     </v-row>
                     <v-row class="pt-6" justify="center" align="center">
@@ -396,6 +396,51 @@
                 </v-col>
             </v-row>
             <!-- Dialogs -->
+            <v-dialog v-model="picDialog.toggle" persistent max-width="290" overlay-color="transparent">
+                <v-card>
+                    <v-card-text
+                        class="px-3 pt-2 pb-4"
+                        :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'">
+                        {{ picDialog.text[getLang] }}
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn
+                            class="black--text"
+                            :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
+                            color="#FAFAFA" @click="uploadProfilePic()"
+                        >
+                            {{ getLang === 'gr' ? 'Ναι' : 'Yes' }}
+                        </v-btn>
+                        <v-btn
+                            class="white--text"
+                            :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
+                            color="#333333" @click="cancelUploadProfilePic()"
+                        >
+                            {{ getLang === 'gr' ? 'Όχι' : 'No' }}
+                        </v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
+            <v-dialog v-model="picUploadDialog.toggle" persistent max-width="290" overlay-color="transparent">
+                <v-card>
+                    <v-card-text
+                        class="px-3 pt-2 pb-4"
+                        :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'">
+                        {{ picUploadDialog.text[getLang] }}
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn
+                            class="white--text"
+                            :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
+                            color="#333333" @click="picUploadDialog.toggle = false"
+                        >
+                            OK
+                        </v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
             <v-dialog v-model="pwDialog.toggle" persistent max-width="290" overlay-color="transparent">
                 <v-card>
                     <v-card-text
@@ -634,7 +679,21 @@ export default {
                 en: '',
             }
         },
-        
+        picDialog: {
+            toggle: false,
+            text: {
+                gr: 'Είστε σίγουροι ότι θέλετε να αλλάξετε το εικόνα προφίλ;',
+                en: 'Are you sure you want to change your profile pic?'
+            }
+        },
+        picToUploadBase64: null,
+        picUploadDialog: {
+            toggle: false,
+            text: {
+                gr: '',
+                en: ''
+            }
+        }
     }
   },
   computed: {
@@ -801,8 +860,51 @@ export default {
       }
       touchMap.set($v, setTimeout($v.$touch, 1000));
     },
-    changeProfilePic(value) {
-        //console.log(value)
+    changeProfilePic(e) {
+        const file = e.target.files[0]
+        if (file) {
+            var reader = new FileReader();
+            // Define a callback function to run, when FileReader finishes its job
+            reader.readAsDataURL(file);
+            reader.onload = (e) => {
+                // Note: arrow function used here, so that "this.this.imageToUploadBase64" refers to the this.imageToUploadBase64 of Vue component
+                // Read image as base64 and set to this.imageToUploadBase64
+                this.picToUploadBase64 = e.target.result
+                this.picDialog.toggle = true
+            }
+        }
+    },
+    uploadProfilePic() {
+        this.picDialog.toggle = false
+        this.$imgdb.updateProfilePic(this.$auth.user.sub, this.picToUploadBase64)
+        .then(secureUrl => {
+            this.$auth.updateUser({ picture: secureUrl })
+            .then(() => {
+                this.picToUploadBase64 = null
+                this.pic = secureUrl
+                if (process.isClient) {
+                    var getUser = JSON.parse(localStorage.getItem('user'))
+                    getUser.picture = this.pic
+                    localStorage.setItem('user', JSON.stringify(getUser))
+                }
+                this.picUploadDialog.text.en = "Your profile pic has been succesfully changed"
+                this.picUploadDialog.text.gr = "Η εικόνα προφίλ σας ενημερώθηκε επιτυχώς"
+                this.picUploadDialog.toggle = true
+            })
+            .catch(() => {
+                this.picToUploadBase64 = null
+                this.picUploadDialog.text.en = "An error occured while changing your profile pic. Please try again later"
+                this.picUploadDialog.text.gr = "Κάποιο σφάλμα προέκυψε ενημερώνοντας την εικόνα προφίλ σας. Παρακαλώ προσπαθήστε ξανά αργότερα"
+                this.picUploadDialog.toggle = true
+            })
+        })
+        .catch(err => {
+            this.picToUploadBase64 = null
+        })
+    },
+    cancelUploadProfilePic() {
+        this.picDialog.toggle = false
+        this.picToUploadBase64 = null
     },
     resetPasswordEmail() {
         this.pwDialog.toggle = false

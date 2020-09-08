@@ -41,7 +41,7 @@ exports.handler = async (event, context) => {
         console.log("Path: " + data.path)
         console.log("Public ID: " + data.id)
 
-        return cloudinary.uploader.upload(data.path , { public_id:  data.id})
+        return cloudinary.uploader.upload(data.path , { public_id:  data.id })
         .then(res => {
             var reply = JSON.stringify(res)
 
@@ -50,7 +50,7 @@ exports.handler = async (event, context) => {
 
             return {
                 statusCode: 200,
-                body: reply
+                body: res.secure_url
             }
         })
         .catch(err => {

@@ -264,7 +264,9 @@ export default {
     },
     userPicture () {
       if (this.$auth.user) {
-        return this.$auth.user.picture
+        // return this.$auth.user.picture
+        var user = JSON.parse(localStorage.getItem('user'))
+        return user.picture
       }
       return null
     }

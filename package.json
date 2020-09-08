@@ -22,7 +22,7 @@
     "gridsome-plugin-robots-txt": "^1.0.2",
     "mailgun.js": "^2.0.1",
     "md5": "^2.2.1",
-    "netlify-cli": "^2.33.0",
+    "netlify-cli": "^2.60.0",
     "netlify-cms": "^2.10.47",
     "swiper": "^5.3.6",
     "vue-awesome-swiper": "^4.1.0",
