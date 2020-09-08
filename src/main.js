@@ -12,6 +12,7 @@ import axios from 'axios'
 import VueWaypoint from "vue-waypoint"
 import goTo from 'vuetify/es5/services/goto'
 import AuthPlugin from './plugins/auth'
+import ImgdbPlugin from './plugins/imgdb'
 
 export default function (Vue, { appOptions, router, head, isClient }) {
   head.link.push({
@@ -209,6 +210,8 @@ export default function (Vue, { appOptions, router, head, isClient }) {
   Vue.use(VueWaypoint)
 
   Vue.use(AuthPlugin)
+
+  Vue.use(ImgdbPlugin)
 
   Vue.mixin({
     computed: {

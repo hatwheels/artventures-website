@@ -68,6 +68,9 @@ exports.handler = async (event, context) => {
                     filteredUser.email_verified = user.email_verified
                     filteredUser.verify_email = user.verify_email
                 }
+                if (data.hasOwnProperty('picture')) {
+                    filteredUser.picture = user.picture
+                }
 
                 console.log(filteredUser)
                 console.log("### END ###")
