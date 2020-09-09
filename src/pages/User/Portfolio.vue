@@ -35,7 +35,15 @@
                 reverse-transition="fade-transition"
               >
                 <v-card v-if="artworksInSection.length === 0" height="300px" flat color="#FAFAFA">
+                  <v-card-text>
+                    <img
+                      v-show="isFetchingImages"
+                      src="../../../static/loading.svg"
+                      alt="Loading"
+                    />
+                  </v-card-text>
                   <v-card-text
+                    v-show="!isFetchingImages"
                     style="padding-top: 140px;"
                     :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
                     v-html="tabs.emptySection[getLang]"
@@ -189,8 +197,10 @@ export default {
   },
   created () {
     if (process.isClient && this.$auth.user) {
+      this.isFetchingImages = true
       this.$imgdb.retrieveArtworks(this.$auth.user.sub)
       .then(found => {
+        this.isFetchingImages = false
         if (found.total_count > 0) {
           this.currentImageCount = found.total_count
           found.resources.forEach(resource => {
@@ -339,6 +349,7 @@ export default {
       currentImageCount: 0,
       showImageLoader: false,
       isLoading: false,
+      isFetchingImages: false,
     }
   },
   computed: {
@@ -414,7 +425,8 @@ export default {
               this.dialogPortfolio.text.en = "Your Artwork has been successfully uploaded. Please wait for our approval."
               this.dialogPortfolio.text.gr = "το Έργο σας στάλθηκε επιτυχώς. Παρακαλώ περιμένετε για την έγκριση μας"
               this.dialogPortfolio.toggle = true
-              this.isLoading = false;
+              this.isLoading = false
+              this.currentImageCount++
             })
             .catch(err => { 
               this.title = null
