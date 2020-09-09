@@ -624,7 +624,7 @@ export default {
                 en: 'Last Name',
             },
             nickname: {
-                gr: 'Ψευδόνυμο',
+                gr: 'Ψευδώνυμο',
                 en: 'Nickname',
             },
             email: {
