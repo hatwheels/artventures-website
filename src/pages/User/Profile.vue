@@ -16,16 +16,18 @@
                                 <g-image
                                     v-if="userPicture"
                                     :src="userPicture"
-                                    style="height: 200px;width: 200px;"
-                                    fit="contain"
+                                    style="height: 200px;"
+                                    fit="cover"
+                                    alt="profile pic"
                                 />
                             </div>
                             <div v-show="getViewSize === 'mobile'">
                                 <g-image
                                     v-if="userPicture"
                                     :src="userPicture"
-                                    style="height: 100px;width: 100px;"
-                                    fit="contain"
+                                    style="height: 100px;"
+                                    fit="cover"
+                                    alt="profile pic"
                                 />
                             </div>
                         </td>

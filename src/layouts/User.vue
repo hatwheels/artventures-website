@@ -58,7 +58,7 @@
           <template v-slot:activator="{ on }" :ripple="false">
             <v-btn class="px-2" text v-on="on" color="transparent" :ripple="false">
               <v-avatar>
-                <g-image v-if="userPicture" style="width: 100%" :src="userPicture" />
+                <v-img v-if="userPicture" :src="userPicture" alt="nav" />
               </v-avatar>
               <v-icon color="#333333" right large>mdi-menu-down</v-icon>
             </v-btn>

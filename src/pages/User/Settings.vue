@@ -145,7 +145,7 @@
                         />
                     </v-row>
                     <v-row>
-                        <g-image style="width: 200px; height: 200px" :src="pic" />
+                        <g-image style="width: 200px;" :src="pic" fit="cover" />
                     </v-row>
                     <v-row class="pt-2">
                         <label
@@ -225,7 +225,7 @@
                         />
                     </v-row>
                     <v-row  justify="center" align="center">
-                        <g-image style="width: 150px; height: 150px" :src="pic" />
+                        <g-image style="width: 150px;" :src="pic" fit="cover" />
                     </v-row>
                     <v-row class="pt-2" justify="center" align="center">
                         <label
