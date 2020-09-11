@@ -14,7 +14,7 @@
                         <td class="border px-4 py-2">
                             <div v-show="getViewSize === 'desktop'">
                                 <g-image
-                                    v-if="userPicture"
+                                    v-if="userPicture.length > 0"
                                     :src="userPicture"
                                     style="height: 200px;"
                                     fit="cover"
@@ -23,7 +23,7 @@
                             </div>
                             <div v-show="getViewSize === 'mobile'">
                                 <g-image
-                                    v-if="userPicture"
+                                    v-if="userPicture.length > 0"
                                     :src="userPicture"
                                     style="height: 100px;"
                                     fit="cover"
@@ -88,23 +88,23 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  mounted () {
+  created() {
     if (this.$auth.user) {
-        this.userPicture = this.$auth.user.picture || null
-        this.userGivenName = this.$auth.user.given_name || null
-        this.userFamilyName = this.$auth.user.family_name || null
-        this.userNickname = this.$auth.user.nickname || null
-        this.userEmail = this.$auth.user.email || null
+        this.userPicture = this.$auth.user.picture || ''
+        this.userGivenName = this.$auth.user.given_name || ''
+        this.userFamilyName = this.$auth.user.family_name || ''
+        this.userNickname = this.$auth.user.nickname || ''
+        this.userEmail = this.$auth.user.email || ''
     }
   },
   data() {
     return {
         // auth0
-        userPicture: null,
-        userGivenName: null,
-        userFamilyName: null,
-        userNickname: null,
-        userEmail: null,
+        userPicture: '',
+        userGivenName: '',
+        userFamilyName: '',
+        userNickname: '',
+        userEmail: '',
         availableRoles: {
             admin: {
                 gr: 'Διαχειριστής',

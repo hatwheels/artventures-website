@@ -487,4 +487,72 @@ collections:
             fields:
               - {label: english, name: en, widget: markdown}
               - {label: greek, name: gr, widget: markdown}
+  # Terms
+  - name: "terms"
+    label: "Terms"
+    files:
+      # Artists Contract
+      - label: "Artists Contract"
+        name: "artistscontract"
+        file: "content/terms/contract.md"
+        extension: 'md'
+        fields:
+          - label: Title
+            name: title
+            widget: object
+            fields:
+              - {label: english, name: en, widget: string}
+              - {label: greek, name: gr, widget: string}
+          - label: Date
+            name: data
+            widget: string
+            fields:
+              - {label: english, name: en, widget: string}
+              - {label: greek, name: gr, widget: string}
+          - label: Chapters
+            name: chapters
+            widget: list
+            fields:
+              - label: Title
+                name: title
+                fields:
+                  - {label: english, name: en, widget: string}
+                  - {label: greek, name: gr, widget: string}
+              - label: Text
+                name: text
+                fields:
+                  - {label: english, name: en, widget: markdown}
+                  - {label: greek, name: gr, widget: markdown}
+      # Artists Contract
+      - label: "Artists Submission"
+        name: "artistssubmission"
+        file: "content/terms/submission.md"
+        extension: 'md'
+        fields:
+          - label: Title
+            name: title
+            widget: object
+            fields:
+              - {label: english, name: en, widget: string}
+              - {label: greek, name: gr, widget: string}
+          - label: Date
+            name: data
+            widget: string
+            fields:
+              - {label: english, name: en, widget: string}
+              - {label: greek, name: gr, widget: string}
+          - label: Chapters
+            name: chapters
+            widget: list
+            fields:
+              - label: Title
+                name: title
+                fields:
+                  - {label: english, name: en, widget: string}
+                  - {label: greek, name: gr, widget: string}
+              - label: Text
+                name: text
+                fields:
+                  - {label: english, name: en, widget: markdown}
+                  - {label: greek, name: gr, widget: markdown}
 

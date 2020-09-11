@@ -25,12 +25,13 @@ export default function (Vue, { appOptions, router, head, isClient }) {
   })
   head.link.push({
     rel: 'stylesheet',
-    href: 'https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/css/swiper.css'
+    href: 'https://cdnjs.cloudflare.com/ajax/libs/Swiper/5.4.5/css/swiper.min.css'
+           
   })
   head.link.push({
     rel: 'stylesheet',
     type: "text/css",
-    href: 'https://unpkg.com/vue-cookie-accept-decline@5.3.1/dist/vue-cookie-accept-decline.css'
+    href: 'https://cdn.jsdelivr.net/npm/vue-cookie-accept-decline@5.3.1/dist/vue-cookie-accept-decline.css'
   })
 
   const vuetifyOpts = {

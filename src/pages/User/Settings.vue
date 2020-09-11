@@ -148,13 +148,22 @@
                         <g-image style="width: 200px;" :src="pic" fit="cover" />
                     </v-row>
                     <v-row class="pt-2">
-                        <label
-                            :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
-                            class="pic-btn white--text text-capitalize py-1 pl-2 pr-4 text-center"
-                            for="pic_profile"
-                        >
-                            <v-icon class="pb-1 white--text pr-2">mdi-pencil</v-icon>{{ buttons.pic[getLang] }}
-                        </label>
+                        <v-tooltip right :max-width="getLang === 'en' ? '200px' : '170px'">
+                            <template v-slot:activator="{ on, attrs }">
+                                <label
+                                    :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
+                                    class="pic-btn white--text text-capitalize py-1 pl-2 pr-4 text-center"
+                                    for="pic_profile"
+                                    v-bind="attrs"
+                                    v-on="on"
+                                >
+                                    <v-icon class="pb-1 white--text pr-2">mdi-pencil</v-icon>{{ buttons.pic[getLang] }}
+                                </label>
+                            </template>
+                            <span :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'">
+                                {{ getLang === 'en' ? 'Preferably small & square' : "Κατά προτίμηση μικρή & τετράγωνη" }}
+                            </span>
+                        </v-tooltip>
                         <input
                             id="pic_profile"
                             name="pic_profile"
@@ -418,6 +427,25 @@
                             color="#333333" @click="cancelUploadProfilePic()"
                         >
                             {{ getLang === 'gr' ? 'Όχι' : 'No' }}
+                        </v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
+            <v-dialog v-model="picTooBigDialog.toggle" persistent max-width="290" overlay-color="transparent">
+                <v-card>
+                    <v-card-text
+                        class="px-3 pt-2 pb-4"
+                        :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'">
+                        {{ picTooBigDialog.text[getLang] }}
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn
+                            class="white--text"
+                            :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
+                            color="#333333" @click="picTooBigDialog.toggle = false"
+                        >
+                            OK
                         </v-btn>
                     </v-card-actions>
                 </v-card>
@@ -693,6 +721,13 @@ export default {
                 gr: '',
                 en: ''
             }
+        },
+        picTooBigDialog: {
+            toggle: false,
+            text: {
+                gr: 'Η επιλεγμένη εικόνα προφίλ είναι πάνω από 500 MB.',
+                en: 'The profile picture you selected is over 500 MB.'
+            }
         }
     }
   },
@@ -863,6 +898,10 @@ export default {
     changeProfilePic(e) {
         const file = e.target.files[0]
         if (file) {
+            if (file.size > 512 * 1024) {
+                this.picTooBigDialog.toggle = true
+                return
+            }
             var reader = new FileReader();
             // Define a callback function to run, when FileReader finishes its job
             reader.readAsDataURL(file);
