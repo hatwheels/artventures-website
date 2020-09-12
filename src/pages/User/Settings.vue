@@ -594,23 +594,23 @@ export default {
     bio: { maxLength: maxLength(500) }
   },
   mounted () {
-    if (process.isClient) {
-        if (this.$auth.user) {
-            this.firstName = this.$auth.user.given_name || ''
-            this.lastName = this.$auth.user.family_name || ''
-            this.nickname = this.$auth.user.nickname || ''
-            this.email = this.$auth.user.email || ''
-            this.pic = this.$auth.user.picture || ''
-            var userMetadata = this.getUserMetadata()
-            if (userMetadata) {
-                this.bio = userMetadata.bio
-            }
-        }
-        this.provider = this.$auth.provider || ''
-        if (this.getUserRole()) {
-            this.role = this.getUserRoleName() || ''
-        }
-    }
+    // if (process.isClient) {
+    //     if (this.$auth.user) {
+    //         this.firstName = this.$auth.user.given_name || ''
+    //         this.lastName = this.$auth.user.family_name || ''
+    //         this.nickname = this.$auth.user.nickname || ''
+    //         this.email = this.$auth.user.email || ''
+    //         this.pic = this.$auth.user.picture || ''
+    //         var userMetadata = this.getUserMetadata()
+    //         if (userMetadata) {
+    //             this.bio = userMetadata.bio
+    //         }
+    //     }
+    //     this.provider = this.$auth.provider || ''
+    //     if (this.getUserRole()) {
+    //         this.role = this.getUserRoleName() || ''
+    //     }
+    // }
     this.chosenLanguage = this.getLang
   },
   data() {
@@ -1079,7 +1079,6 @@ export default {
 .pic-btn {
     border-radius: 4px;
     cursor: pointer;
-    border: outset #333333;
     background-color: #333333;
 }
 .settings-form-btn {
