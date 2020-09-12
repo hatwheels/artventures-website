@@ -35,25 +35,6 @@
       <v-spacer />
 
       <v-toolbar-items class="pa-0">
-        <!-- <v-menu open-on-hover bottom :offset-y="true" transition="slide-y-transition">
-          <template v-slot:activator="{ on }">
-            <v-btn class="px-2" text color="transparent" v-on="on" :ripple="false">
-              <div
-                class="color-333333 nunito-15-600"
-                v-html="getLang"
-              />
-              <v-icon color="#333333" right>mdi-menu-down</v-icon>
-            </v-btn>
-          </template>
-          <v-list flat color="#e8e8e8">
-            <v-list-item v-for="(language, i) in getLanguages" :key="'lang-' + i" @click="setLang(language)">
-              <v-list-item-title
-                class="color-333333 text-center text-uppercase nunito-15-600"
-                v-html="language"
-              />
-            </v-list-item>
-          </v-list>
-        </v-menu> -->
        <v-menu bottom :offset-y="true" transition="slide-y-transition">
           <template v-slot:activator="{ on }" :ripple="false">
             <v-btn class="px-2" text v-on="on" color="transparent" :ripple="false">
@@ -201,6 +182,17 @@ import Newsletter from '~/components/Newsletter.vue'
 export default {
   components: {
     Newsletter,
+  },
+  created () {
+    if (process.isClient) {
+      var lang = localStorage.getItem('lang')
+      
+      if (lang && lang.length > 0) {
+        this.setLang(lang)
+      } else {
+        localStorage.setItem('lang', this.getLang)
+      }
+    }
   },
   mounted () {
     if (!this.$auth.isAuthenticated())

@@ -86,23 +86,25 @@
                   class="color-1a1a1a"
                   v-html="artworkForm.title[getLang]"
                 />
-                <v-text-field
-                    v-model.trim="title"
-                    background-color="#FAFAFA"
-                    color="#1A1A1A"
-                    :error-messages="titleErrors"
-                    outlined
-                    required
-                    @input="delayTouch($v.title)"
-                    @blur="$v.title.$touch()"
-                ></v-text-field>
-                <label
-                    :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
-                    class="artwork-btn white--text text-capitalize py-1 pl-2 pr-4 text-center"
+                <div class="d-flex">
+                  <v-text-field
+                      v-model.trim="title"
+                      background-color="#FAFAFA"
+                      color="#1A1A1A"
+                      :error-messages="titleErrors"
+                      outlined
+                      required
+                      @input="delayTouch($v.title)"
+                      @blur="$v.title.$touch()"
+                  ></v-text-field>
+                  <label
                     for="artwork-image"
-                >
-                  <v-icon class="white--text pr-2 pb-1">mdi-image</v-icon>{{ artworkForm.btn[getLang] }}
-                </label>
+                    class="pl-2"
+                    style="cursor: pointer"
+                  >
+                    <v-icon  class="mt-2" x-large color="#333333">mdi-image-plus</v-icon>
+                  </label>
+                </div>
                 <input
                   id="artwork-image"
                   name="artwork-image"
@@ -321,10 +323,6 @@ export default {
           gr: 'Τίτλος Εργου',
           en: 'Artwork Title ',
         },
-        btn: {
-          gr: 'Επέλεξε το Εργο σου',
-          en: 'Choose your Artwork'
-        },
         submit: {
           gr: 'Υποβολή',
           en: 'Submit'
@@ -471,12 +469,6 @@ export default {
 </script>
 
 <style>
-.artwork-btn {
-    border-radius: 4px;
-    cursor: pointer;
-    border: outset #333333;
-    background-color: #333333;
-}
 .portfolio-alert-block {
   width: 50vw;
   margin-right: 25vw;

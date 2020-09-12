@@ -488,13 +488,13 @@ collections:
               - {label: english, name: en, widget: markdown}
               - {label: greek, name: gr, widget: markdown}
   # Terms
-  - name: "terms"
-    label: "Terms"
-    files:
+  # - name: "terms"
+  #   label: "Terms"
+  #   files:
       # Artists Contract
       - label: "Artists Contract"
         name: "artistscontract"
-        file: "content/terms/contract.md"
+        file: "content/pages/artists-contract.md"
         extension: 'md'
         fields:
           - label: Title
@@ -504,8 +504,8 @@ collections:
               - {label: english, name: en, widget: string}
               - {label: greek, name: gr, widget: string}
           - label: Date
-            name: data
-            widget: string
+            name: date
+            widget: object
             fields:
               - {label: english, name: en, widget: string}
               - {label: greek, name: gr, widget: string}
@@ -515,18 +515,20 @@ collections:
             fields:
               - label: Title
                 name: title
+                widget: object
                 fields:
                   - {label: english, name: en, widget: string}
                   - {label: greek, name: gr, widget: string}
               - label: Text
                 name: text
+                widget: object
                 fields:
                   - {label: english, name: en, widget: markdown}
                   - {label: greek, name: gr, widget: markdown}
-      # Artists Contract
+      # Artists Submission
       - label: "Artists Submission"
         name: "artistssubmission"
-        file: "content/terms/submission.md"
+        file: "content/pages/artists-submission.md"
         extension: 'md'
         fields:
           - label: Title
@@ -536,8 +538,8 @@ collections:
               - {label: english, name: en, widget: string}
               - {label: greek, name: gr, widget: string}
           - label: Date
-            name: data
-            widget: string
+            name: date
+            widget: object
             fields:
               - {label: english, name: en, widget: string}
               - {label: greek, name: gr, widget: string}
@@ -547,11 +549,13 @@ collections:
             fields:
               - label: Title
                 name: title
+                widget: object
                 fields:
                   - {label: english, name: en, widget: string}
                   - {label: greek, name: gr, widget: string}
               - label: Text
                 name: text
+                widget: object
                 fields:
                   - {label: english, name: en, widget: markdown}
                   - {label: greek, name: gr, widget: markdown}

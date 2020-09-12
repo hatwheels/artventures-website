@@ -100,6 +100,24 @@
                                 <label
                                     :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
                                     class="color-1a1a1a"
+                                >
+                                    {{ form.bio[getLang] }}
+                                </label>
+                                <v-textarea
+                                    outlined
+                                    counter='300'
+                                    height="20vh"
+                                    color="#1A1A1A"
+                                    :placeholder="getLang === 'en' ? 'Tell us about yourself...' : 'Πείτε μας κάποια λόγια για τον εαυτό σας...'"
+                                >
+                                </v-textarea>
+                            </v-col>
+                        </v-row>
+                        <v-row justify="start" align="center">
+                            <v-col cols="10">
+                                <label
+                                    :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
+                                    class="color-1a1a1a"
                                     v-html="form.role[getLang]"
                                 />
                                 <v-radio-group v-model="role" row :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'">
@@ -217,7 +235,7 @@
                                 v-model="chosenLanguage"
                                 :items="getLanguages"
                                 color="#333333"
-                                @change="setLang(chosenLanguage)"
+                                @change="setLanguage(chosenLanguage)"
                             />
                         </v-col>
                     </v-row>
@@ -288,12 +306,12 @@
                         />
                     </v-row>
                     <v-row justify="center" align="center">
-                        <v-col cols="3">
+                        <v-col cols="4">
                             <v-select
                                 v-model="chosenLanguage"
                                 :items="getLanguages"
                                 color="#333333"
-                                @change="setLang(chosenLanguage)"
+                                @change="setLanguage(chosenLanguage)"
                             />
                         </v-col>
                     </v-row>
@@ -367,6 +385,18 @@
                                 @input="delayTouch($v.email)"
                                 @blur="$v.email.$touch()"
                             ></v-text-field>
+                            <label
+                                :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
+                                class="color-1a1a1a"
+                            >
+                                {{ form.bio[getLang] }}
+                            </label>
+                            <v-textarea
+                                outlined
+                                counter='300'
+                                height="20vh"
+                                :placeholder="getLang === 'en' ? 'Some Information about yourself...' : 'Πείτε μας κάποια λόγια για τον εαυτό σας...'"
+                            ></v-textarea>
                             <label
                                 :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
                                 class="color-1a1a1a"
@@ -663,6 +693,10 @@ export default {
                     en: 'Cannot change your email as you login via '
                 }
             },
+            bio: {
+                gr: 'Βιογραφικό',
+                en: 'Biography'
+            },
             role: {
                 gr: 'Ρόλος',
                 en: 'Role'
@@ -761,6 +795,12 @@ export default {
   },
   methods: {
     ...mapMutations(['setLang']),
+    setLanguage(lang) {
+        this.setLang(lang)
+        if (process.isClient) {
+            localStorage.setItem('lang', lang)
+        }
+    },
     setAlert(type) {
       if (type == "success") {
         this.alertMsg = this.getLang === 'gr' ? "Τα στοιχεία σας ενημερώθηκαν" : "Your personal details have been updated";

@@ -103,7 +103,7 @@
             </v-btn>
           </template>
           <v-list flat color="#e8e8e8">
-            <v-list-item v-for="(language, i) in getLanguages" :key="'lang-' + i" @click="setLang(language)">
+            <v-list-item v-for="(language, i) in getLanguages" :key="'lang-' + i" @click="setLanguage(language)">
               <v-list-item-title
                 class="color-333333 text-center text-uppercase nunito-15-600"
                 v-html="language"
@@ -240,7 +240,7 @@
                     </v-list-item>
                     <v-list-item
                       class="pb-5 px-0" v-for="(language, i) in getLanguages" :key="'lang-small-' + i"
-                      @click="modalMenu = false; setLang(language);"
+                      @click="modalMenu = false; setLanguage(language);"
                     >
                       <v-list-item-title :class="getLang === 'gr' ? 'noto-28-400' : 'raleway-28-400'">
                         <div class="color-333333 text-capitalize" v-html="langChoices[language][getLang]" />
@@ -362,6 +362,17 @@ export default {
   components: {
     Newsletter,
   },
+  created () {
+    if (process.isClient) {
+      var lang = localStorage.getItem('lang')
+      
+      if (lang && lang.length > 0) {
+        this.setLang(lang)
+      } else {
+        localStorage.setItem('lang', this.getLang)
+      }
+    }
+  },
   mounted () {
     this.isAuthenticated = this.$auth.isAuthenticated();
     if (process.isClient) {
@@ -463,6 +474,12 @@ export default {
   },
   methods: {
     ...mapMutations(['setLang', 'setCookieRedirect']),
+    setLanguage(lang) {
+        this.setLang(lang)
+        if (process.isClient) {
+            localStorage.setItem('lang', lang)
+        }
+    },
     // Go To anchor tag with smooth scrolling
     goTo(tag) {
       // Hack to reach id if page too long
