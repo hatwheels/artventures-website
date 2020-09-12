@@ -614,7 +614,6 @@ export default {
   },
   data() {
     return {
-        provider: null,
         availableProviders: {
             auth0: "Auth0",
             "google-oauth2": "Google",
@@ -732,6 +731,7 @@ export default {
         bio: '',
         role: '',
         pic: '',
+        provider: '',
         buttons: {
             form: {
                 gr: 'Επικαιροποίηση προφίλ',
