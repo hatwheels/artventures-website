@@ -167,7 +167,7 @@
                         />
                     </v-row>
                     <v-row>
-                        <g-image style="width: 200px;" :src="pic" fit="cover" />
+                        <g-image v-if="pic.length > 0" style="width: 200px;" :src="pic" fit="cover" />
                     </v-row>
                     <v-row class="pt-2">
                         <v-tooltip right :max-width="getLang === 'en' ? '200px' : '170px'">
@@ -263,13 +263,13 @@
                             :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
                             class="pic-btn white--text text-capitalize py-1 pl-2 pr-4 mt-2 text-center center-label"
                             style="pos"
-                            for="pic_profile"
+                            for="pic_profile_mobile"
                         >
                             <v-icon class="pb-1 white--text pr-2">mdi-pencil</v-icon>{{ buttons.pic[getLang] }}
                         </label>
                         <input
-                            id="pic_profile"
-                            name="pic_profile"
+                            id="pic_profile_mobile"
+                            name="pic_profile_mobile"
                             style="opacity: 0;"
                             accept="image/png, image/jpeg, image/bmp"
                             type="file"
@@ -537,7 +537,8 @@
                 <v-card>
                     <v-card-text
                         class="px-3 pt-2 pb-4"
-                        :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'">
+                        :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
+                    >
                         {{ pwDialog.emailText[getLang] }}
                     </v-card-text>
                     <v-card-actions>
@@ -595,19 +596,19 @@ export default {
   mounted () {
     if (process.isClient) {
         if (this.$auth.user) {
-            this.firstName = this.$auth.user.given_name || null
-            this.lastName = this.$auth.user.family_name || null
-            this.nickname = this.$auth.user.nickname || null
-            this.email = this.$auth.user.email || null
-            this.pic = this.$auth.user.picture || null
+            this.firstName = this.$auth.user.given_name || ''
+            this.lastName = this.$auth.user.family_name || ''
+            this.nickname = this.$auth.user.nickname || ''
+            this.email = this.$auth.user.email || ''
+            this.pic = this.$auth.user.picture || ''
             var userMetadata = this.getUserMetadata()
             if (userMetadata) {
                 this.bio = userMetadata.bio
             }
         }
-        this.provider = this.$auth.provider || null
+        this.provider = this.$auth.provider || ''
         if (this.getUserRole()) {
-            this.role = this.getUserRoleName() || null
+            this.role = this.getUserRoleName() || ''
         }
     }
     this.chosenLanguage = this.getLang
@@ -859,22 +860,22 @@ export default {
     },
      clearUser() {
       if (process.isClient && this.$auth.user) {
-        this.firstName = this.$auth.user.given_name || null
-        this.lastName = this.$auth.user.family_name || null
-        this.nickname = this.$auth.user.nickname || null
-        this.email = this.$auth.user.email || null
+        this.firstName = this.$auth.user.given_name || ''
+        this.lastName = this.$auth.user.family_name || ''
+        this.nickname = this.$auth.user.nickname || ''
+        this.email = this.$auth.user.email || ''
         var userMetadata = this.getUserMetadata()
         if (userMetadata) {
-            this.bio = userMetadata.bio || null
+            this.bio = userMetadata.bio || ''
         } else {
-            this.bio = null
+            this.bio = ''
         }
       } else {
-        this.firstName = null
-        this.lastName = null
-        this.nickname = null
-        this.email = null
-        this.bio = null
+        this.firstName = ''
+        this.lastName = ''
+        this.nickname = ''
+        this.email = ''
+        this.bio = ''
       }
       this.isLoading = false
     },
@@ -882,7 +883,7 @@ export default {
         if (process.isClient) {
             return JSON.parse(localStorage.getItem('user_metadata'))
         } else {
-            return null
+            return {}
         }
     },
     setUserRole(roleObj) {
@@ -895,7 +896,7 @@ export default {
         if (process.isClient) {
             return JSON.parse(localStorage.getItem('userRole'))
         } else {
-            return null
+            return {}
         }
     },
     getUserRoleName() {
@@ -903,14 +904,14 @@ export default {
             var roles = JSON.parse(localStorage.getItem('userRole'))
             return roles[0].name
         } else {
-            return null
+            return ''
         }
     },
     clearRole() {
       if (this.getUserRole()) {
-        this.role = this.getUserRoleName() || null
+        this.role = this.getUserRoleName() || ''
       } else {
-        this.role = null
+        this.role = ''
       }
       this.isLoading = false
     },
@@ -1041,8 +1042,8 @@ export default {
         if (process.isClient) {
             this.$auth.resetPassword()
             .then(res => {
-                this.pwDialog.emailText.en = 'An email with instructions will be sent shortly to ' + this.$auth.user.email
-                this.pwDialog.emailText.gr = 'Ένα email με πληροφορίες θα σταλεί σε λίγο στην διεύθυνση ' + this.$auth.user.email
+                this.pwDialog.emailText.en = 'An email with instructions will be sent shortly to ' + this.email
+                this.pwDialog.emailText.gr = 'Ένα email με πληροφορίες θα σταλεί σε λίγο στην διεύθυνση ' + this.email
                 this.pwDialog.emailSent = true
             }).catch(err => {
                 console.log(err)
