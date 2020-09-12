@@ -901,7 +901,7 @@ export default {
     },
     getUserRoleName() {
         if (process.isClient) {
-            var roles = JSON.parse(localStorage.getItem('userRole'))
+            var roles = JSON.parse(localStorage.getItem('userRole')) || []
             return roles[0].name
         } else {
             return ''
