@@ -36,7 +36,7 @@
 
       <v-toolbar-items class="pa-0">
        <v-menu bottom :offset-y="true" transition="slide-y-transition">
-          <template v-slot:activator="{ on }" :ripple="false">
+          <template v-slot:activator="{ on }">
             <v-btn class="px-2" text v-on="on" color="transparent" :ripple="false">
               <v-avatar>
                 <v-img v-if="userPicture" :src="userPicture" alt="nav" />
