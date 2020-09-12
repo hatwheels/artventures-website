@@ -68,13 +68,13 @@
                             {{ userEmail }}
                         </td>
                     </tr>
-                    <tr v-if="$auth.userRole">
+                    <tr v-if="userRole">
                         <td  class="border px-4 py-2">{{ role.title[getLang] }}</td>
                         <td
                             class="border px-4 py-2"
                             :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
                         >
-                            {{ availableRoles[$auth.userRole[0].name][getLang] }}
+                            {{ availableRoles[userRole[0].name][getLang] }}
                         </td>
                     </tr>
                 </tbody>
@@ -89,22 +89,24 @@ import { mapGetters } from 'vuex'
 
 export default {
   created() {
-    if (this.$auth.user) {
-        this.userPicture = this.$auth.user.picture || ''
-        this.userGivenName = this.$auth.user.given_name || ''
-        this.userFamilyName = this.$auth.user.family_name || ''
-        this.userNickname = this.$auth.user.nickname || ''
-        this.userEmail = this.$auth.user.email || ''
+    if (process.isClient && this.$auth.user) {
+        this.userPicture = this.$auth.user.picture || null
+        this.userGivenName = this.$auth.user.given_name || null
+        this.userFamilyName = this.$auth.user.family_name || null
+        this.userNickname = this.$auth.user.nickname || null
+        this.userEmail = this.$auth.user.email || null
+        this.userRole = this.$auth.userRole || null
     }
   },
   data() {
     return {
         // auth0
-        userPicture: '',
-        userGivenName: '',
-        userFamilyName: '',
-        userNickname: '',
-        userEmail: '',
+        userPicture: null,
+        userGivenName: null,
+        userFamilyName: null,
+        userNickname: null,
+        userEmail: null,
+        userRole: null,
         availableRoles: {
             admin: {
                 gr: 'Διαχειριστής',

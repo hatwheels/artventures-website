@@ -584,16 +584,18 @@ export default {
     email: { required, email },
   },
   created () {
-    if (this.$auth.user) {
-        this.firstName = this.$auth.user.given_name || null
-        this.lastName = this.$auth.user.family_name || null
-        this.nickname = this.$auth.user.nickname || null
-        this.email = this.$auth.user.email || null
-        this.pic = this.$auth.user.picture || null
-    }
-    this.provider = this.$auth.provider || null
-    if (this.getUserRole()) {
-        this.role = this.getUserRoleName() || null
+    if (process.isClient) {
+        if (this.$auth.user) {
+            this.firstName = this.$auth.user.given_name || null
+            this.lastName = this.$auth.user.family_name || null
+            this.nickname = this.$auth.user.nickname || null
+            this.email = this.$auth.user.email || null
+            this.pic = this.$auth.user.picture || null
+        }
+        this.provider = this.$auth.provider || null
+        if (this.getUserRole()) {
+            this.role = this.getUserRoleName() || null
+        }
     }
     this.chosenLanguage = this.getLang
   },
@@ -832,7 +834,7 @@ export default {
       setTimeout(clearAlert, 6000)
     },
      clearUser() {
-      if (this.$auth.user) {
+      if (process.isClient && this.$auth.user) {
         this.firstName = this.$auth.user.given_name || null
         this.lastName = this.$auth.user.family_name || null
         this.nickname = this.$auth.user.nickname || null
@@ -882,48 +884,50 @@ export default {
     submit() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
-        if (this.$auth.user) {
-            var data = {}
-            var nameUpdate = false
-            if (this.firstName !== this.$auth.user.given_name) {
-                data['given_name'] = this.firstName
-                nameUpdate = true
+        if (process.isClient) {
+            if (this.$auth.user) {
+                var data = {}
+                var nameUpdate = false
+                if (this.firstName !== this.$auth.user.given_name) {
+                    data['given_name'] = this.firstName
+                    nameUpdate = true
+                }
+                if (this.lastName !== this.$auth.user.family_name) {
+                    data['family_name'] = this.lastName
+                    nameUpdate = true
+                }
+                if (this.nickname !== this.$auth.user.nickname) {
+                    data['nickname'] = this.nickname
+                }
+                if (this.email !== this.$auth.user.email) {
+                    data['email'] = this.email
+                    data['email_verified'] = false
+                    data['verify_email'] = true
+                }
+                if (nameUpdate) {
+                    data['name'] = this.firstName + ' ' + this.lastName
+                }
+                if (Object.keys(data).length !== 0 && obj.constructor === Object) {
+                    this.isLoading = true;
+                    this.$auth.updateUser(data).then(() => {
+                        this.clearUser()
+                        this.setAlert('success')
+                    }).catch(err => {
+                        this.clearUser()
+                        this.setAlert('error')
+                    })
+                }
             }
-            if (this.lastName !== this.$auth.user.family_name) {
-                data['family_name'] = this.lastName
-                nameUpdate = true
-            }
-            if (this.nickname !== this.$auth.user.nickname) {
-                data['nickname'] = this.nickname
-            }
-            if (this.email !== this.$auth.user.email) {
-                data['email'] = this.email
-                data['email_verified'] = false
-                data['verify_email'] = true
-            }
-            if (nameUpdate) {
-                data['name'] = this.firstName + ' ' + this.lastName
-            }
-            if (Object.keys(data).length !== 0 && obj.constructor === Object) {
+            if (this.getUserRole() && this.role !== this.getUserRoleName()) {
                 this.isLoading = true;
-                this.$auth.updateUser(data).then(() => {
-                    this.clearUser()
-                    this.setAlert('success')
+                this.$auth.updateUserRole(this.role).then((roleObj) => {
+                    this.setAlertRole('success')
+                    this.updateRole(roleObj)
                 }).catch(err => {
-                    this.clearUser()
-                    this.setAlert('error')
+                    this.clearRole()
+                    this.setAlertRole('error')
                 })
             }
-        }
-        if (this.getUserRole() && this.role !== this.getUserRoleName()) {
-            this.isLoading = true;
-            this.$auth.updateUserRole(this.role).then((roleObj) => {
-                this.setAlertRole('success')
-                this.updateRole(roleObj)
-            }).catch(err => {
-                this.clearRole()
-                this.setAlertRole('error')
-            })
         }
         this.$v.$reset()
       }
@@ -955,31 +959,33 @@ export default {
     },
     uploadProfilePic() {
         this.picDialog.toggle = false
-        this.$imgdb.updateProfilePic(this.$auth.user.sub, this.picToUploadBase64)
-        .then(secureUrl => {
-            this.$auth.updateUser({ picture: secureUrl })
-            .then(() => {
-                this.picToUploadBase64 = null
-                this.pic = secureUrl
-                if (process.isClient) {
-                    var getUser = JSON.parse(localStorage.getItem('user'))
-                    getUser.picture = this.pic
-                    localStorage.setItem('user', JSON.stringify(getUser))
-                }
-                this.picUploadDialog.text.en = "Your profile pic has been succesfully changed"
-                this.picUploadDialog.text.gr = "Η εικόνα προφίλ σας ενημερώθηκε επιτυχώς"
-                this.picUploadDialog.toggle = true
+        if (process.isClient) {
+            this.$imgdb.updateProfilePic(this.$auth.user.sub, this.picToUploadBase64)
+            .then(secureUrl => {
+                this.$auth.updateUser({ picture: secureUrl })
+                .then(() => {
+                    this.picToUploadBase64 = null
+                    this.pic = secureUrl
+                    if (process.isClient) {
+                        var getUser = JSON.parse(localStorage.getItem('user'))
+                        getUser.picture = this.pic
+                        localStorage.setItem('user', JSON.stringify(getUser))
+                    }
+                    this.picUploadDialog.text.en = "Your profile pic has been succesfully changed"
+                    this.picUploadDialog.text.gr = "Η εικόνα προφίλ σας ενημερώθηκε επιτυχώς"
+                    this.picUploadDialog.toggle = true
+                })
+                .catch(() => {
+                    this.picToUploadBase64 = null
+                    this.picUploadDialog.text.en = "An error occured while changing your profile pic. Please try again later"
+                    this.picUploadDialog.text.gr = "Κάποιο σφάλμα προέκυψε ενημερώνοντας την εικόνα προφίλ σας. Παρακαλώ προσπαθήστε ξανά αργότερα"
+                    this.picUploadDialog.toggle = true
+                })
             })
-            .catch(() => {
+            .catch(err => {
                 this.picToUploadBase64 = null
-                this.picUploadDialog.text.en = "An error occured while changing your profile pic. Please try again later"
-                this.picUploadDialog.text.gr = "Κάποιο σφάλμα προέκυψε ενημερώνοντας την εικόνα προφίλ σας. Παρακαλώ προσπαθήστε ξανά αργότερα"
-                this.picUploadDialog.toggle = true
             })
-        })
-        .catch(err => {
-            this.picToUploadBase64 = null
-        })
+        }
     },
     cancelUploadProfilePic() {
         this.picDialog.toggle = false
@@ -987,17 +993,19 @@ export default {
     },
     resetPasswordEmail() {
         this.pwDialog.toggle = false
-        this.$auth.resetPassword()
-        .then(res => {
-            this.pwDialog.emailText.en = 'An email with instructions will be sent shortly to ' + this.$auth.user.email
-            this.pwDialog.emailText.gr = 'Ένα email με πληροφορίες θα σταλεί σε λίγο στην διεύθυνση ' + this.$auth.user.email
-            this.pwDialog.emailSent = true
-        }).catch(err => {
-            console.log(err)
-            this.pwDialog.emailText.en = 'An error has occured'
-            this.pwDialog.emailText.gr = 'Κάποιο σφάλμα προέκυψε'
-            this.pwDialog.emailSent = true
-        })
+        if (process.isClient) {
+            this.$auth.resetPassword()
+            .then(res => {
+                this.pwDialog.emailText.en = 'An email with instructions will be sent shortly to ' + this.$auth.user.email
+                this.pwDialog.emailText.gr = 'Ένα email με πληροφορίες θα σταλεί σε λίγο στην διεύθυνση ' + this.$auth.user.email
+                this.pwDialog.emailSent = true
+            }).catch(err => {
+                console.log(err)
+                this.pwDialog.emailText.en = 'An error has occured'
+                this.pwDialog.emailText.gr = 'Κάποιο σφάλμα προέκυψε'
+                this.pwDialog.emailSent = true
+            })
+        }
     },
     unsetPwDialogEmail() {
         this.pwDialog.emailSent = false
