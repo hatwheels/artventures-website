@@ -102,6 +102,21 @@ let auth = new Vue({
                 }
             }
         },
+        user_metadata: {
+            get: function() {
+                if (process.isClient) {
+                    return JSON.parse(localStorage.getItem('user_metadata'))
+                }
+                else {
+                    return null;
+                }
+            },
+            set: function(user_metadata) {
+                if (process.isClient) {
+                    localStorage.setItem('user_metadata', JSON.stringify(user_metadata))
+                }
+            }
+        },
     },
     methods: {
         login() {
@@ -115,6 +130,7 @@ let auth = new Vue({
                 localStorage.removeItem('user')
                 localStorage.removeItem('userRole')
                 localStorage.removeItem('provider')
+                localStorage.removeItem('user_metadata')
                 webAuth.logout({
                     returnTo: process.env.GRIDSOME_SITE_URL,
                     clientID: process.env.GRIDSOME_AUTH0_CLIENT_ID,
@@ -156,7 +172,7 @@ let auth = new Vue({
                 });
             })
         },
-        getProvider() {
+        getUser() {
             return new Promise((resolve, reject) => {
                 axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/auth0-get-user',
                     {
@@ -173,6 +189,7 @@ let auth = new Vue({
                 ).then(res => {
                     if (200 == res.status) {
                         this.provider = res.data.identities[0].provider
+                        this.user_metadata = res.data.user_metadata || {}
                         resolve()
                     } else {
                         reject(res.status)
@@ -253,6 +270,9 @@ let auth = new Vue({
                         }
                         if (data.hasOwnProperty('picture')) {
                             this.user.picture = data.picture
+                        }
+                        if (data.hasOwnProperty('user_metadata')) {
+                            this.user_metadata = data.user_metadata
                         }
                         resolve()
                     } else {

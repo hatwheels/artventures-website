@@ -52,7 +52,7 @@ export default {
           if (roleObj == null) {
             this.dialog = true
           } else {
-            this.$auth.getProvider()
+            this.$auth.getUser()
             .then(() => {
               if (roleObj[0].name == 'artist')
                 this.$router.push({ path: '/user/portfolio' })
@@ -72,7 +72,7 @@ export default {
     createRoleForUser(role) {
       this.$auth.assignUserRole(role)
       .then((roleObj) => {
-        this.$auth.getProvider()
+        this.$auth.getUser()
         .then(() => {
           if (roleObj[0].name == 'artist')
             this.$router.push({ path: '/user/portfolio' })

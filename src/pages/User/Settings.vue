@@ -104,11 +104,15 @@
                                     {{ form.bio[getLang] }}
                                 </label>
                                 <v-textarea
+                                    v-model="bio"
+                                    :error-messages="bioErrors"
                                     outlined
-                                    counter='300'
-                                    height="20vh"
+                                    counter='500'
+                                    height="30vh"
                                     color="#1A1A1A"
                                     :placeholder="getLang === 'en' ? 'Tell us about yourself...' : 'Πείτε μας κάποια λόγια για τον εαυτό σας...'"
+                                    @input="delayTouch($v.bio)"
+                                    @blur="$v.bio.$touch()"
                                 >
                                 </v-textarea>
                             </v-col>
@@ -392,10 +396,14 @@
                                 {{ form.bio[getLang] }}
                             </label>
                             <v-textarea
+                                v-model="bio"
+                                :error-messages="bioErrors"
                                 outlined
-                                counter='300'
-                                height="20vh"
+                                counter='500'
+                                height="30vh"
                                 :placeholder="getLang === 'en' ? 'Some Information about yourself...' : 'Πείτε μας κάποια λόγια για τον εαυτό σας...'"
+                                @input="delayTouch($v.bio)"
+                                @blur="$v.bio.$touch()"
                             ></v-textarea>
                             <label
                                 :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
@@ -571,7 +579,7 @@
 <script>
 import { mapGetters, mapMutations } from 'vuex'
 import { validationMixin } from "vuelidate";
-import { required, email, alpha } from "vuelidate/lib/validators";
+import { required, email, alpha, maxLength } from "vuelidate/lib/validators";
 
 const touchMap = new WeakMap();
 
@@ -582,8 +590,9 @@ export default {
     lastName: { required, alpha },
     nickname: { required },
     email: { required, email },
+    bio: { maxLength: maxLength(500) }
   },
-  created () {
+  mounted () {
     if (process.isClient) {
         if (this.$auth.user) {
             this.firstName = this.$auth.user.given_name || null
@@ -591,6 +600,9 @@ export default {
             this.nickname = this.$auth.user.nickname || null
             this.email = this.$auth.user.email || null
             this.pic = this.$auth.user.picture || null
+            if (this.$auth.user_metadata) {
+                this.bio = this.$auth.user_metadata.bio || null
+            }
         }
         this.provider = this.$auth.provider || null
         if (this.getUserRole()) {
@@ -674,6 +686,10 @@ export default {
                         en: 'Email is required.'
                     },
                 },
+                bio: {
+                    gr: "Το βιογραφικό σας δεν πρέπει να' χει πάνω από 500 χαρακτήρες",
+                    en: 'Your biography cannot have more than 500 characters'
+                }
             },
             firstName: {
                 gr: 'Όνομα',
@@ -712,6 +728,7 @@ export default {
         lastName: '',
         nickname: '',
         email: '',
+        bio: '',
         role: '',
         pic: '',
         buttons: {
@@ -794,6 +811,12 @@ export default {
       !this.$v.email.required && errors.push(this.form.errors.email.missing[this.getLang]);
       return errors;
     },
+    bioErrors() {
+        const errors = [];
+        if (!this.$v.bio.$dirty) return errors;
+        !this.$v.bio.maxLength && errors.push(this.form.errors.bio[this.getLang]);
+        return errors;
+    }
   },
   methods: {
     ...mapMutations(['setLang']),
@@ -839,13 +862,27 @@ export default {
         this.lastName = this.$auth.user.family_name || null
         this.nickname = this.$auth.user.nickname || null
         this.email = this.$auth.user.email || null
+        var userMetadata = this.getUserMetadata()
+        if (userMetadata) {
+            this.bio = userMetadata.bio || null
+        } else {
+            this.bio = null
+        }
       } else {
         this.firstName = null
         this.lastName = null
         this.nickname = null
         this.email = null
+        this.bio = null
       }
       this.isLoading = false
+    },
+    getUserMetadata() {
+        if (process.isClient) {
+            return JSON.parse(localStorage.getItem('user_metadata'))
+        } else {
+            return null
+        }
     },
     setUserRole(roleObj) {
         if (process.isClient) {
@@ -885,8 +922,8 @@ export default {
       this.$v.$touch();
       if (!this.$v.$invalid) {
         if (process.isClient) {
+            var data = {}
             if (this.$auth.user) {
-                var data = {}
                 var nameUpdate = false
                 if (this.firstName !== this.$auth.user.given_name) {
                     data['given_name'] = this.firstName
@@ -907,16 +944,23 @@ export default {
                 if (nameUpdate) {
                     data['name'] = this.firstName + ' ' + this.lastName
                 }
-                if (Object.keys(data).length !== 0 && obj.constructor === Object) {
-                    this.isLoading = true;
-                    this.$auth.updateUser(data).then(() => {
-                        this.clearUser()
-                        this.setAlert('success')
-                    }).catch(err => {
-                        this.clearUser()
-                        this.setAlert('error')
-                    })
+            }
+            if (!this.$auth.user_metadata || this.bio !== this.$auth.user_metadata.bio) {
+                if (!data.hasOwnProperty('user_metadata')) {
+                    data['user_metadata'] = {}
                 }
+                data['user_metadata']['bio'] = this.bio
+            }
+            if (Object.keys(data).length !== 0 && data.constructor === Object) {
+                this.isLoading = true;
+                this.$auth.updateUser(data).then(() => {
+                    console.log(data)
+                    this.clearUser()
+                    this.setAlert('success')
+                }).catch(err => {
+                    this.clearUser()
+                    this.setAlert('error')
+                })
             }
             if (this.getUserRole() && this.role !== this.getUserRoleName()) {
                 this.isLoading = true;

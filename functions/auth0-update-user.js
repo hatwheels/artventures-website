@@ -71,6 +71,9 @@ exports.handler = async (event, context) => {
                 if (data.hasOwnProperty('picture')) {
                     filteredUser.picture = user.picture
                 }
+                if (data.hasOwnProperty('user_metadata')) {
+                    filteredUser.user_metadata = user.user_metadata
+                }
 
                 console.log(filteredUser)
                 console.log("### END ###")

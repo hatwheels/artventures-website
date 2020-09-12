@@ -68,6 +68,16 @@
                             {{ userEmail }}
                         </td>
                     </tr>
+                    <tr>
+                        <td class="border px-4 py-2">{{ bio[getLang] }}</td>
+                        <td
+                            style="display: block; width: 20vw"
+                            class="border px-4 py-2"
+                            :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                        >
+                            {{ userBio }}
+                        </td>
+                    </tr>
                     <tr v-if="userRole">
                         <td  class="border px-4 py-2">{{ role.title[getLang] }}</td>
                         <td
@@ -88,14 +98,20 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  created() {
-    if (process.isClient && this.$auth.user) {
-        this.userPicture = this.$auth.user.picture || null
-        this.userGivenName = this.$auth.user.given_name || null
-        this.userFamilyName = this.$auth.user.family_name || null
-        this.userNickname = this.$auth.user.nickname || null
-        this.userEmail = this.$auth.user.email || null
-        this.userRole = this.$auth.userRole || null
+  mounted() {
+    if (process.isClient) {
+        if (this.$auth.user) {
+            this.userPicture = this.$auth.user.picture || null
+            this.userGivenName = this.$auth.user.given_name || null
+            this.userFamilyName = this.$auth.user.family_name || null
+            this.userNickname = this.$auth.user.nickname || null
+            this.userEmail = this.$auth.user.email || null
+            this.userRole = this.$auth.userRole || null
+        }
+        var userMetadata = this.getUserMetadata()
+        if (userMetadata) {
+            this.userBio = userMetadata.bio
+        }
     }
   },
   data() {
@@ -107,6 +123,7 @@ export default {
         userNickname: null,
         userEmail: null,
         userRole: null,
+        userBio: null,
         availableRoles: {
             admin: {
                 gr: 'Διαχειριστής',
@@ -141,6 +158,10 @@ export default {
             gr: 'Ηλεκτρονική διεύθυνση',
             en: 'Email',
         },
+        bio: {
+            gr: "Βιογραφία",
+            en: "Biography"
+        },
         role: {
             title: {
                 gr: 'Ρόλος',
@@ -151,6 +172,15 @@ export default {
   },
   computed: {
     ...mapGetters(['getLang', 'getLanguages']),
+  },
+  methods: {
+    getUserMetadata() {
+        if (process.isClient) {
+            return JSON.parse(localStorage.getItem('user_metadata'))
+        } else {
+            return null
+        }
+    },
   },
   metaInfo () {
     return {
