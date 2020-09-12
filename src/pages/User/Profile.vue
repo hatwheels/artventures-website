@@ -14,7 +14,7 @@
                         <td class="border px-4 py-2">
                             <div v-show="getViewSize === 'desktop'">
                                 <g-image
-                                    v-if="userPicture.length > 0"
+                                    v-if="userPicture"
                                     :src="userPicture"
                                     style="height: 200px;"
                                     fit="cover"
@@ -23,7 +23,7 @@
                             </div>
                             <div v-show="getViewSize === 'mobile'">
                                 <g-image
-                                    v-if="userPicture.length > 0"
+                                    v-if="userPicture"
                                     :src="userPicture"
                                     style="height: 100px;"
                                     fit="cover"
