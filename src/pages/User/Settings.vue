@@ -8,7 +8,7 @@
                 v-html="getLang === 'gr' ? 'Οι Ρυθμίσεις μου' : 'My Settings'"
             />
             <!-- Desktop -->
-            <v-row v-if="getViewSize === 'desktop'" justify="center" align="start">
+            <v-row v-show="getViewSize === 'desktop'" justify="center" align="start">
                 <v-col offset="2" cols="4">
                     <form lazy-validation @submit.prevent="submit()">
                         <v-row justify="start" align="center">
@@ -246,7 +246,7 @@
                 </v-col>
             </v-row>
             <!-- Mobile -->
-            <v-row v-else-if="getViewSize === 'mobile'" justify="center" align="start">
+            <v-row v-show="getViewSize === 'mobile'" justify="center" align="start">
                 <v-col cols="10">
                     <v-row justify="center" align="center">
                         <label
@@ -600,8 +600,9 @@ export default {
             this.nickname = this.$auth.user.nickname || null
             this.email = this.$auth.user.email || null
             this.pic = this.$auth.user.picture || null
-            if (this.$auth.user_metadata) {
-                this.bio = this.$auth.user_metadata.bio || null
+            var userMetadata = this.getUserMetadata()
+            if (userMetadata) {
+                this.bio = userMetadata.bio
             }
         }
         this.provider = this.$auth.provider || null

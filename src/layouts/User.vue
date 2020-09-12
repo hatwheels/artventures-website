@@ -154,27 +154,6 @@
   </v-app>
 </template>
 
-<page-query>
-query {
-  privacypolicy: allPages(filter: { path: { eq: "/content/pages/privacypolicy/" }}) {
-  	edges {
-  		node {
-        id
-        path
-        title {
-          en
-          gr
-        }
-        text {
-          en
-          gr
-        }
-      }
-    }
-  }
-}
-</page-query>
-
 <script>
 import { mapGetters, mapMutations } from 'vuex'
 import Newsletter from '~/components/Newsletter.vue'

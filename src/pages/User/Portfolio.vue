@@ -78,7 +78,7 @@
             class="pt-12 my-0 text-center"
             v-html="getLang === 'gr' ? 'Υπέβαλε Εργο Τέχνης' : 'Submit Artwork'"
           />
-          <v-row class="pt-8" justify="center" align="center">
+          <v-row class="pt-8 pb-12" justify="center" align="center">
             <v-col :cols='getViewSize === "desktop" ? "3" : "8"'>
               <form lazy-validation @submit.prevent="submit()">
                 <label
@@ -133,6 +133,26 @@
                   </v-btn>
                 </v-row>
               </form>
+            </v-col>
+          </v-row>
+          <v-row class="pt-12" justify="center" align="center">
+            <v-col class="text-center" :cols='getViewSize === "desktop" ? "2" : "7"'>
+              <g-link
+                :class="getLang === 'gr' ? 'noto-18-600' : 'raleway-18-600'"
+                style="color: #1A1A1A;"
+                to="/terms/artists/contract"
+              >
+                {{ terms.contract[getLang] }}
+              </g-link>
+            </v-col>
+            <v-col class="text-center" :cols='getViewSize === "desktop" ? "2" : "7"'>
+              <g-link
+                :class="getLang === 'gr' ? 'noto-18-600' : 'raleway-18-600'"
+                style="color: #1A1A1A;"
+                to="/terms/artists/submission"
+              >
+                {{ terms.submission[getLang] }}
+              </g-link>
             </v-col>
           </v-row>
           <!-- Alerts -->
@@ -348,6 +368,16 @@ export default {
       showImageLoader: false,
       isLoading: false,
       isFetchingImages: false,
+      terms: {
+        contract: {
+          gr: 'Όροι Πωλητή',
+          en: 'Seller Terms',
+        },
+        submission: {
+          gr: 'Όροι Υποβολής',
+          en: 'Submission Terms',
+        }
+      }
     }
   },
   computed: {
