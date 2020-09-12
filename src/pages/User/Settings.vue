@@ -442,7 +442,7 @@
                     </v-row>
                 </v-col>
             </v-row>
-            <!-- Dialogs -->
+            <!-- Dialogs
             <v-dialog v-model="picDialog.toggle" persistent max-width="290" overlay-color="transparent">
                 <v-card>
                     <v-card-text
@@ -553,7 +553,7 @@
                     </v-card-actions>
                 </v-card>
             </v-dialog>
-            <!-- Alerts -->
+            Alerts
             <v-alert
                 class="mt-2 settings-alert-block"
                 :type='alertType'
@@ -571,7 +571,7 @@
                 transition="slide-x-transition"
             >
                 {{ alertRoleMsg }}
-            </v-alert>
+            </v-alert> -->
         </v-container>
       </v-main>
     </UserLayout>
