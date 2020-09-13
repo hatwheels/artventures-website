@@ -12,7 +12,8 @@
                     <tr>
                         <td class="border px-4 py-2">{{ pic[getLang] }}</td>
                         <td class="border px-4 py-2">
-                            <div v-show="getViewSize === 'desktop'">
+                            <!-- Desktop -->
+                            <div v-show="!$vuetify.breakpoint.mobile">
                                 <g-image
                                     v-if="userPicture"
                                     :src="userPicture"
@@ -21,7 +22,8 @@
                                     alt="profile pic"
                                 />
                             </div>
-                            <div v-show="getViewSize === 'mobile'">
+                            <!-- Mobile -->
+                            <div v-show="$vuetify.breakpoint.mobile">
                                 <g-image
                                     v-if="userPicture"
                                     :src="userPicture"

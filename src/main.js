@@ -214,17 +214,6 @@ export default function (Vue, { appOptions, router, head, isClient }) {
 
   Vue.use(ImgdbPlugin)
 
-  Vue.mixin({
-    computed: {
-      getViewSize() {
-        if (this.$vuetify.breakpoint.mobile) {
-          return 'mobile'
-        }
-        return 'desktop'
-      }
-    }
-  })
-
   // Set default layout as a global component
   Vue.component('Layout', DefaultLayout)
   Vue.component('UserLayout', UserLayout)

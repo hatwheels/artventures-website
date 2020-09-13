@@ -84,7 +84,7 @@ export default {
   },
   metaInfo () {
     return {
-      titleTemplate: this.getLang === 'gr' ?  "Submission Terms — Artventures" : 'Όροι Υποβολής — Artventures' ,
+      titleTemplate: this.getLang === 'en' ?  "Submission Terms — Artventures" : 'Όροι Υποβολής — Artventures' ,
       meta: [
         { name: 'description', content: 'Landing page' },
       ],

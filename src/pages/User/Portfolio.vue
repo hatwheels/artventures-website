@@ -14,7 +14,7 @@
               class="text-capitalize px-8"
               background-color="rgba(250, 250, 250, 1)"
               color="black"
-              :vertical="getViewSize === 'desktop' ? false : true"
+              :vertical="$vuetify.breakpoint.mobile"
             >
               <v-tab
                 v-for="(title, i) in tabs.titles" :key="'tab-title-' + i"
@@ -25,7 +25,7 @@
             <v-tabs-items
               v-model="tabs.currentTab"
               class="background-color-fafafa px-8"
-              :touchless="getViewSize === 'desktop' ? false : true"
+              :touchless="$vuetify.breakpoint.mobile"
             >
               <v-tab-item
                 v-for="(artworksInSection, i) in allArtworks"
@@ -50,7 +50,8 @@
                   />
                 </v-card>
                 <div v-else class="swiper-container">
-                  <div v-show="getViewSize === 'desktop'" class="pt-12" v-swiper:[tabs.swipers.desktop[i]]="swiperDesktopOption">
+                  <!-- Desktop -->
+                  <div v-show="!$vuetify.breakpoint.mobile" class="pt-12" v-swiper:[tabs.swipers.desktop[i]]="swiperDesktopOption">
                     <div class="swiper-wrapper">
                       <div class="swiper-slide"
                         v-for="(artwork, i ) in artworksInSection" :key="tabs.swipers.desktop[i] + '-art-' + i">
@@ -59,7 +60,8 @@
                       </div>
                     </div>
                   </div>
-                  <div v-show="getViewSize === 'mobile'" class="pt-12" v-swiper:[tabs.swipers.mobile[i]]="swiperMobileOption">
+                  <!-- Mobile -->
+                  <div v-show="$vuetify.breakpoint.mobile" class="pt-12" v-swiper:[tabs.swipers.mobile[i]]="swiperMobileOption">
                     <div class="swiper-wrapper">
                       <div class="swiper-slide"
                         v-for="(artwork, i ) in artworksInSection" :key="tabs.swipers.mobile[i] + '-art-' + i">
@@ -79,7 +81,7 @@
             v-html="getLang === 'gr' ? 'Υπέβαλε Εργο Τέχνης' : 'Submit Artwork'"
           />
           <v-row class="pt-8 pb-12" justify="center" align="center">
-            <v-col :cols='getViewSize === "desktop" ? "3" : "8"'>
+            <v-col :cols='$vuetify.breakpoint.mobile ? "8" : "3"'>
               <form lazy-validation @submit.prevent="submit()">
                 <label
                   :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
@@ -136,20 +138,22 @@
             </v-col>
           </v-row>
           <v-row class="pt-12" justify="center" align="center">
-            <v-col class="text-center" :cols='getViewSize === "desktop" ? "2" : "7"'>
+            <v-col class="text-center" :cols='$vuetify.breakpoint.mobile ? "7" : "2"'>
               <g-link
                 :class="getLang === 'gr' ? 'noto-18-600' : 'raleway-18-600'"
                 style="color: #1A1A1A;"
                 to="/terms/artists/contract"
+                target="_blank"
               >
                 {{ terms.contract[getLang] }}
               </g-link>
             </v-col>
-            <v-col class="text-center" :cols='getViewSize === "desktop" ? "2" : "7"'>
+            <v-col class="text-center" :cols='$vuetify.breakpoint.mobile ? "7" : "2"'>
               <g-link
                 :class="getLang === 'gr' ? 'noto-18-600' : 'raleway-18-600'"
                 style="color: #1A1A1A;"
                 to="/terms/artists/submission"
+                target="_blank"
               >
                 {{ terms.submission[getLang] }}
               </g-link>

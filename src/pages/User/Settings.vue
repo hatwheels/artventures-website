@@ -8,7 +8,7 @@
                 v-html="getLang === 'gr' ? 'Οι Ρυθμίσεις μου' : 'My Settings'"
             />
             <!-- Desktop -->
-            <v-row v-show="getViewSize === 'desktop'" justify="center" align="start">
+            <v-row v-show="!$vuetify.breakpoint.mobile" justify="center" align="start">
                 <v-col offset="2" cols="4">
                     <form lazy-validation @submit.prevent="submit()">
                         <v-row justify="start" align="center">
@@ -262,7 +262,7 @@
                 </v-col>
             </v-row>
             <!-- Mobile -->
-            <v-row v-show="getViewSize === 'mobile'" justify="center" align="start">
+            <v-row v-show="$vuetify.breakpoint.mobile" justify="center" align="start">
                 <v-col cols="10">
                     <v-row justify="center" align="center">
                         <label

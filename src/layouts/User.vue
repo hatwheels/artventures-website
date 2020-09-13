@@ -97,7 +97,8 @@
       <div class="hidden-md-and-up pb-6"></div>
 
       <div class="d-flex flex-column align-center">
-        <div v-show="getViewSize === 'desktop'" class="pb-1">
+        <!-- Desktop -->
+        <div v-show="!$vuetify.breakpoint.mobile" class="pb-1">
           <a class="px-1" style="text-decoration: none;" href="https://www.facebook.com/artventures.me">
             <v-icon large class="black--text">mdi-facebook-box</v-icon>
           </a>
@@ -111,7 +112,8 @@
             <v-icon large class="black--text">mdi-linkedin-box</v-icon>
           </a>
         </div>
-        <div v-show="getViewSize === 'mobile'" class="pb-1">
+        <!-- Mobile -->
+        <div v-show="$vuetify.breakpoint.mobile" class="pb-1">
           <a class="px-2" style="text-decoration: none;" href="https://www.facebook.com/artventures.me">
             <v-icon class="black--text" small>mdi-facebook-box</v-icon>
           </a>
@@ -126,13 +128,15 @@
           </a>
         </div>
         <div class="pt-1">
-          <div v-show="getViewSize === 'mobile'" class="raleway-16-600 black-text">
+          <!-- Mobile -->
+          <div v-show="$vuetify.breakpoint.mobile" class="raleway-16-600 black-text">
             Artventures
             <span class="color-757575">
               &copy; 2020
             </span>
           </div>
-          <div v-show="getViewSize === 'desktop'" class="raleway-18-600 black-text">
+          <!-- Desktop -->
+          <div v-show="!$vuetify.breakpoint.mobile" class="raleway-18-600 black-text">
             Artventures
             <span class="color-757575">
               &copy; 2020

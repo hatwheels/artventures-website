@@ -1,6 +1,7 @@
 <template>
   <Layout>
-    <div v-show="getViewSize === 'desktop'">
+    <!-- Desktop -->
+    <div v-show="!$vuetify.breakpoint.mobile">
       <v-navigation-drawer
         class="ml-4 mr-4"
         mini-variant-width="120px"
@@ -234,7 +235,8 @@
     </v-main>
   </div>
 
-  <div v-show="getViewSize === 'mobile'">
+  <!-- Mobile -->
+  <div v-show="$vuetify.breakpoint.mobile">
     <v-main class="background-color-dddddd">
       <v-container class="py-0 px-0 background-color-white">
 

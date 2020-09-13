@@ -1,6 +1,7 @@
 <template>
   <Layout>
-    <v-main v-show="getViewSize === 'desktop'">
+    <!-- Desktop -->
+    <v-main v-show="!$vuetify.breakpoint.mobile">
       <v-container class="pa-0 background-color-fafafa" fluid>
 
         <!-- spacer -->
@@ -104,7 +105,8 @@
       </v-container>
     </v-main>
 
-    <v-main v-show="getViewSize === 'mobile'">
+    <!-- Mobile -->
+    <v-main v-show="$vuetify.breakpoint.mobile">
       <v-container class="pa-0 background-color-fafafa" fluid>
 
         <!-- main -->

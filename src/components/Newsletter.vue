@@ -1,13 +1,15 @@
 <template>
   <div>
+    <!-- Desktop -->
     <div
-      v-show="getViewSize === 'desktop'"
+      v-show="!$vuetify.breakpoint.mobile"
       class="pb-4"
       :class="getLang === 'gr' ? 'noto-25-600' : 'playfair-25-600'"
       v-html="title[getLang]"
     />
+    <!-- Mobile -->
     <div
-      v-show="getViewSize === 'mobile'"
+      v-show="$vuetify.breakpoint.mobile"
       class="pb-4"
       :class="getLang === 'gr' ? 'noto-18-600 text-center' : 'playfair-18-600 text-center'"
       v-html="title[getLang]"
@@ -26,8 +28,9 @@
         :placeholder="emailPlaceholder[getLang]"
         color="black"
       />
+      <!-- Desktop -->
       <button
-        v-show="getViewSize === 'desktop'"
+        v-show="!$vuetify.breakpoint.mobile"
         :class="getLang === 'gr' ? 'noto-18-400' : 'raleway-18-400'"
         class="newsletter-btn white--text text-capitalize mx-2 py-1 px-4 text-center"
         :disabled="btnLoading"
@@ -37,8 +40,9 @@
         {{ emailText[getLang] }}
         <span v-show="btnLoading" class="px-1 lds-ring"><div></div><div></div><div></div><div></div></span>
       </button>
+      <!-- Mobile -->
       <button
-        v-show="getViewSize === 'mobile'"
+        v-show="$vuetify.breakpoint.mobile"
         :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
         class="newsletter-btn white--text text-capitalize mx-2 py-1 px-4 text-center"
         :disabled="btnLoading"

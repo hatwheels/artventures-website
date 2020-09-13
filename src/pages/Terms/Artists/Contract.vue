@@ -53,7 +53,7 @@ export default {
   },
   metaInfo () {
     return {
-      titleTemplate: this.getLang === 'gr' ?  "Seller Terms — Artventures" : 'Όροι Πωλητή — Artventures' ,
+      titleTemplate: this.getLang === 'en' ?  "Seller Terms — Artventures" : 'Όροι Πωλητή — Artventures' ,
       meta: [
         { name: 'description', content: 'Landing page' },
       ],
