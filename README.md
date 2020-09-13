@@ -6,23 +6,28 @@
 
 1. __Jamstack framework__: `Gridsome`
 2. __Jamstack BaaS__: `Netlify`
-3. ...
+3. __UI Library__: `Vuetify`
+4. __CMS__: `Netlify CMS`
+5. __Auth Service__: `Auth0`
+6. __Marketing Service__: `Mailchimp`
+7. __Image DB__: `Cloudinary`
 
-This is the project you get when you run `gridsome create new-project`.
+### 2. Configure Project
 
-### 2. Install Gridsome CLI tool if you don't have
+1. Clone project
+2. Go to path via command line
+3. Run `yarn install` to install all node modules
 
-`npm install --global @gridsome/cli`
+### 3. Integrate with Netlify for local deployment
+1. netlify CLI already installed
+2. Simply run `netlify dev` in command line to locally test site generator, API integrations, serverless functions.
 
-### 3. Create a Gridsome project
+### 4. Local development
 
-1. `gridsome create my-gridsome-site` to install default starter
-2. `cd my-gridsome-site` to open the folder
-3. `gridsome develop` to start a local dev server at `http://localhost:8080`
-4. Happy coding 🎉🙌
-
-### 4. Integrate with Netlify for deployment
- - TODO readme
+1. Instead of `gridsome develop` run `netlify dev` as stated.
+2. The default port will be 8888, as such by default the local deployment is at `localhost:8888`.
+2. Happy coding 🎉🙌
+ 
 
 ### 5. Create .env.development for local environment variables
 
