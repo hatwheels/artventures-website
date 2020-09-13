@@ -1067,10 +1067,14 @@ export default {
                     this.picUploadDialog.text.en = "An error occured while changing your profile pic. Please try again later"
                     this.picUploadDialog.text.gr = "Κάποιο σφάλμα προέκυψε ενημερώνοντας την εικόνα προφίλ σας. Παρακαλώ προσπαθήστε ξανά αργότερα"
                     this.picUploadDialog.toggle = true
+                    // Should retry maybe to update profile pic url to auth0.
                 })
             })
             .catch(err => {
                 this.picToUploadBase64 = null
+                this.picUploadDialog.text.en = "An error occured while changing your profile pic. Please try again later"
+                this.picUploadDialog.text.gr = "Κάποιο σφάλμα προέκυψε ενημερώνοντας την εικόνα προφίλ σας. Παρακαλώ προσπαθήστε ξανά αργότερα"
+                this.picUploadDialog.toggle = true
             })
         }
     },

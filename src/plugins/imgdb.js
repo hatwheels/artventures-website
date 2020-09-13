@@ -79,9 +79,6 @@ let imgdb = new Vue({
                 }).catch(err => reject(err))
             })
         },
-        deleteArtwork() {
-
-        }
     }
 })
 
