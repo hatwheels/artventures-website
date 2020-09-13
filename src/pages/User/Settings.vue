@@ -9,7 +9,7 @@
             />
             <!-- Desktop -->
             <v-row v-show="getViewSize === 'desktop'" justify="center" align="start">
-                <!-- <v-col offset="2" cols="4">
+                <v-col offset="2" cols="4">
                     <form lazy-validation @submit.prevent="submit()">
                         <v-row justify="start" align="center">
                             <v-col cols="10">
@@ -157,9 +157,9 @@
                             </v-btn>
                         </v-row>
                     </form>
-                </v-col> -->
+                </v-col>
                 <v-col cols="3">
-                    <!-- <v-row justify="start" align="center">
+                    <v-row justify="start" align="center">
                         <label
                             :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
                             class="color-1a1a1a"
@@ -242,7 +242,7 @@
                                 @change="setLanguage(chosenLanguage)"
                             />
                         </v-col>
-                    </v-row> -->
+                    </v-row>
                 </v-col>
             </v-row>
             <!-- Mobile -->
