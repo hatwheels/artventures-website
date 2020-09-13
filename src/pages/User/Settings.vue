@@ -8,8 +8,8 @@
                 v-html="getLang === 'gr' ? 'Οι Ρυθμίσεις μου' : 'My Settings'"
             />
             <!-- Desktop -->
-            <!-- <v-row v-show="getViewSize === 'desktop'" justify="center" align="start">
-                <v-col offset="2" cols="4">
+            <v-row v-show="getViewSize === 'desktop'" justify="center" align="start">
+                <!-- <v-col offset="2" cols="4">
                     <form lazy-validation @submit.prevent="submit()">
                         <v-row justify="start" align="center">
                             <v-col cols="10">
@@ -157,9 +157,9 @@
                             </v-btn>
                         </v-row>
                     </form>
-                </v-col>
+                </v-col> -->
                 <v-col cols="3">
-                    <v-row justify="start" align="center">
+                    <!-- <v-row justify="start" align="center">
                         <label
                             :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
                             class="color-1a1a1a"
@@ -242,9 +242,9 @@
                                 @change="setLanguage(chosenLanguage)"
                             />
                         </v-col>
-                    </v-row>
+                    </v-row> -->
                 </v-col>
-            </v-row> -->
+            </v-row>
             <!-- Mobile -->
             <v-row v-show="getViewSize === 'mobile'" justify="center" align="start">
                 <v-col cols="10">
@@ -410,7 +410,7 @@
                                 class="color-1a1a1a"
                                 v-html="form.role[getLang]"
                             />
-                            <!-- <v-radio-group v-model="role" required row :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'">
+                            <v-radio-group v-model="role" required row :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'">
                                 <v-radio
                                     v-if="getUserRoleName() === 'admin'"
                                     color="rgba(26,26,26,1)"
@@ -427,7 +427,7 @@
                                     :label="availableRoles['user'][getLang]"
                                     value="user">
                                 </v-radio>
-                            </v-radio-group> -->
+                            </v-radio-group>
                             <v-btn
                                 :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
                                 class="text-capitalize white--text"
