@@ -217,13 +217,10 @@ export default function (Vue, { appOptions, router, head, isClient }) {
   Vue.mixin({
     computed: {
       getViewSize() {
-        switch (this.$vuetify.breakpoint.name) {
-          case 'xs':
-          case 'sm':
-            return 'mobile'
-          default:
-            return 'desktop'
+        if (this.$vuetify.breakpoint.mobile) {
+          return 'mobile'
         }
+        return 'desktop'
       }
     }
   })
