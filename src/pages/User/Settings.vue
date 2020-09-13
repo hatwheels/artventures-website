@@ -124,13 +124,29 @@
                                     class="color-1a1a1a"
                                     v-html="form.role[getLang]"
                                 />
-                                <v-radio-group v-model="role" row :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'">
+                                <v-radio-group
+                                    v-if="getUserRoleName() === 'admin'"
+                                    v-model="role"
+                                    row
+                                    :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
+                                >
                                     <v-radio
-                                        v-show="getUserRoleName() === 'admin'"
                                         color="rgba(26,26,26,1)"
                                         :label="availableRoles.admin[getLang]"
                                         value="admin">
                                     </v-radio>
+                                    <v-radio
+                                        color="rgba(26,26,26,1)"
+                                        :label="availableRoles.artist[getLang]"
+                                        value="artist">
+                                    </v-radio>
+                                    <v-radio
+                                        color="rgba(26,26,26,1)"
+                                        :label="availableRoles.user[getLang]"
+                                        value="user">
+                                    </v-radio>
+                                </v-radio-group>
+                                <v-radio-group v-else v-model="role" row :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'">
                                     <v-radio
                                         color="rgba(26,26,26,1)"
                                         :label="availableRoles.artist[getLang]"
@@ -410,13 +426,36 @@
                                 class="color-1a1a1a"
                                 v-html="form.role[getLang]"
                             />
-                            <v-radio-group v-model="role" required row :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'">
+                            <v-radio-group
+                                v-if="getUserRoleName() === 'admin'" 
+                                v-model="role"
+                                required
+                                row
+                                :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
+                            >
                                 <v-radio
-                                    v-show="getUserRoleName() === 'admin'"
                                     color="rgba(26,26,26,1)"
                                     :label="availableRoles.admin[getLang]"
                                     value="admin">
                                 </v-radio>
+                                <v-radio
+                                    color="rgba(26,26,26,1)"
+                                    :label="availableRoles.artist[getLang]"
+                                    value="artist">
+                                </v-radio>
+                                <v-radio
+                                    color="rgba(26,26,26,1)"
+                                    :label="availableRoles.user[getLang]"
+                                    value="user">
+                                </v-radio>
+                            </v-radio-group>
+                            <v-radio-group
+                                v-else
+                                v-model="role"
+                                required
+                                row
+                                :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
+                            >
                                 <v-radio
                                     color="rgba(26,26,26,1)"
                                     :label="availableRoles.artist[getLang]"
