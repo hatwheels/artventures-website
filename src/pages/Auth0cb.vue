@@ -63,7 +63,7 @@ export default {
           }
         })
         .catch(err => this.$auth.logout())
-    })
+    }).catch(err => {})
   },
   computed: {
     ...mapGetters(["getLang"]),
