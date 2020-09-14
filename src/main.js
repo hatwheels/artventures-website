@@ -52,8 +52,7 @@ export default function (Vue, { appOptions, router, head, isClient }) {
   appOptions.vuetify = new Vuetify(vuetifyOpts)
 
   router.options.scrollBehavior = function(to, from, savedPosition) {
-    console.log(to)
-    if (to.hash && to.path !== '/auth0cb') {
+    if (to.hash && to.path !== '/auth0cb' && to.path !== '/auth0cb/') {
       // Go To anchor tag with smooth scrolling
       // Hack to reach id if page too long
       goTo(to.hash, {
