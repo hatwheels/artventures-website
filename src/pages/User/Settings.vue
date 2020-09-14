@@ -632,7 +632,7 @@ export default {
     email: { required, email },
     bio: { maxLength: maxLength(500) }
   },
-  created () {
+  mounted () {
     if (process.isClient) {
         if (this.$auth.user) {
             this.firstName = this.$auth.user.given_name || ''
@@ -997,7 +997,6 @@ export default {
             if (Object.keys(data).length !== 0 && data.constructor === Object) {
                 this.isLoading = true;
                 this.$auth.updateUser(data).then(() => {
-                    console.log(data)
                     this.clearUser()
                     this.setAlert('success')
                 }).catch(err => {
