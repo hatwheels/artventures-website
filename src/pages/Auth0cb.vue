@@ -45,7 +45,7 @@ export default {
       },
     }
   },
-  mounted() {
+  created() {
     this.$auth.handleAuthentication().then((data) => {
       this.$auth.getUserRole()
         .then((roleObj) => {
