@@ -70,7 +70,6 @@ export default function (Vue, { appOptions, router, head, isClient }) {
     }
   }
   router.beforeEach((to, from, next) => {
-    console.log(from);
     switch (to.path) {
       case '/user/profile':
       case '/user/settings':
