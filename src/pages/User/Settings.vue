@@ -632,7 +632,7 @@ export default {
     email: { required, email },
     bio: { maxLength: maxLength(500) }
   },
-  mounted () {
+  beforeMount() {
     if (process.isClient) {
         if (this.$auth.user) {
             this.firstName = this.$auth.user.given_name || ''

@@ -100,7 +100,7 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  mounted() {
+  beforeMount() {
     if (process.isClient) {
         if (this.$auth.user) {
             this.userPicture = this.$auth.user.picture || null
