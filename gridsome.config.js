@@ -7,9 +7,6 @@
 module.exports = {
   siteName: 'Artventures',
   siteUrl: process.env.GRIDSOME_SITE_URL,
-  chainWebpack (config) {
-    config.mode('development')
-  },
   plugins: [
     {
       use: 'gridsome-plugin-robots-txt'

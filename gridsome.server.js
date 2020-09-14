@@ -18,6 +18,10 @@ module.exports = function (api) {
   //   }
   // })
   api.chainWebpack((config, { isServer }) => {
+    if( process.env.GRIDSOME_NODE_ENV === 'development')
+    {
+      config.devtool = 'source-map'
+    }
     config.plugin('vuetify-loader').use(VuetifyLoaderPlugin);
   });
 
