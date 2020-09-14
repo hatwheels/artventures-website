@@ -32,13 +32,16 @@ exports.handler = async (event, context) => {
             }
         }
 
-        var auth0 = new ManagementClient({
-            token: process.env.GRIDSOME_AUTH0_MANAGEMENT_API_TOKEN,
+        const options = {
             domain: process.env.GRIDSOME_AUTH0_DOMAIN,
             clientId: process.env.AUTH0_MAPI_CLIENT_ID,
             clientSecret: process.env.AUTH0_MAPI_CLIENT_SECRET,
             headers : headers,
-        });
+        }
+        if (process.env.GRIDSOME_BUILD === 'dev') {
+            options.token = process.env.GRIDSOME_AUTH0_MANAGEMENT_API_TOKEN
+        }
+        var auth0 = new ManagementClient(options);
 
         return await auth0.users.getRoles({ id: data.user_id })
             .then(roles => {

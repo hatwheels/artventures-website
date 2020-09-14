@@ -279,31 +279,31 @@
         <!-- Desktop -->
         <div v-show="!$vuetify.breakpoint.mobile" class="pb-1">
           <a class="px-1" style="text-decoration: none;" href="https://www.facebook.com/artventures.me">
-            <v-icon large class="black--text">mdi-facebook-box</v-icon>
+            <v-icon large class="black--text">mdi-facebook</v-icon>
           </a>
           <a class="px-1" style="text-decoration: none;" href="https://www.instagram.com/artventures.me/">
             <v-icon large class="black--text">mdi-instagram</v-icon>
           </a>
           <a class="px-1" style="text-decoration: none;" href="https://twitter.com/Artventures6">
-            <v-icon large class="black--text">mdi-twitter-box</v-icon>
+            <v-icon large class="black--text">mdi-twitter</v-icon>
           </a>
           <a class="px-1" style="text-decoration: none;" href="https://www.linkedin.com/company/artventuresco">
-            <v-icon large class="black--text">mdi-linkedin-box</v-icon>
+            <v-icon large class="black--text">mdi-linkedin</v-icon>
           </a>
         </div>
         <!-- Mobile -->
         <div v-show="$vuetify.breakpoint.mobile" class="pb-1">
           <a class="px-2" style="text-decoration: none;" href="https://www.facebook.com/artventures.me">
-            <v-icon class="black--text" small>mdi-facebook-box</v-icon>
+            <v-icon class="black--text" small>mdi-facebook</v-icon>
           </a>
           <a class="px-2" style="text-decoration: none;" href="https://www.instagram.com/artventures.me/">
             <v-icon class="black--text" small>mdi-instagram</v-icon>
           </a>
           <a class="px-2" style="text-decoration: none;" href="https://twitter.com/Artventures6">
-            <v-icon class="black--text" small>mdi-twitter-box</v-icon>
+            <v-icon class="black--text" small>mdi-twitter</v-icon>
           </a>
           <a class="px-2" style="text-decoration: none;" href="https://www.linkedin.com/company/artventuresco">
-            <v-icon class="black--text" small>mdi-linkedin-box</v-icon>
+            <v-icon class="black--text" small>mdi-linkedin</v-icon>
           </a>
         </div>
 
