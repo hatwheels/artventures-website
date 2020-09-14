@@ -26,6 +26,10 @@ export default function (Vue, { appOptions, router, head, isClient }) {
   })
   head.link.push({
     rel: 'stylesheet',
+    href: 'https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900',
+  });
+  head.link.push({
+    rel: 'stylesheet',
     type: "text/css",
     href: 'https://cdnjs.cloudflare.com/ajax/libs/Swiper/5.4.5/css/swiper.min.css'
     // latest swiper is 6.x.x but hasn't been incorporated into vue-awesome-swiper yet
