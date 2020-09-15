@@ -107,10 +107,10 @@ export default function (Vue, { appOptions, router, head, isClient }) {
   const vuexOpts = {
     actions: {
       async mcSubscribe({commit}, params) {
-        return await axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/newsletter',
+        return await axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/mailchimp-subscribe',
           {
-            email: params.email,
-            tag: params.tag,
+            email_address: params.email,
+            tags: [params.tag],
           },
           {
             headers: {

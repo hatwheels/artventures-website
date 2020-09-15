@@ -7,8 +7,8 @@ const headers = {
 
 exports.handler = async (event, context) => {
   try {
-    const data = JSON.parse(event.body)
-    if (!data.email) {
+    let data = JSON.parse(event.body)
+    if (!data.email_address) {
       return {
         statusCode: 400,
         headers,
@@ -16,23 +16,13 @@ exports.handler = async (event, context) => {
       }
     }
 
-    if (!data.tag) {
-      return {
-        statusCode: 400,
-        headers,
-        body: 'tag query parameter required'
-      };
-    }
+    data.status = 'subscribed'
 
     return axios({
       method: 'post',
       url: apiRoot,
       headers: headers,
-      data:{
-        email_address:data.email,
-        status:'subscribed',
-        tags: [data.tag],
-      },
+      data: data,
       auth: {
         'username': 'petrosArt',
         'password': process.env.MC_API
