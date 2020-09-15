@@ -1,28 +1,27 @@
 // This is the main.js file. Import global CSS and scripts here.
 // The Client API can be used here. Learn more: gridsome.org/docs/client-api
-import Vuetify from 'vuetify/lib/framework';
-// import Vuetify from 'vuetify'
+import Vuetify from 'vuetify/lib/framework' //treeshaking
+import goTo from 'vuetify/es5/services/goto'
+import 'vuetify/dist/vuetify.min.css'
 import Vuex from 'vuex'
 import Vuelidate from 'vuelidate'
-import './assets/style/index.scss'
 import DefaultLayout from '~/layouts/Default.vue'
 import UserLayout from '~/layouts/User.vue'
 import VoidLayout from '~/layouts/Void.vue'
 import VueCookieAcceptDecline from 'vue-cookie-accept-decline'
 import axios from 'axios'
 import VueWaypoint from "vue-waypoint"
-import goTo from 'vuetify/es5/services/goto'
 import AuthPlugin from './plugins/auth'
 import ImgdbPlugin from './plugins/imgdb'
 
 export default function (Vue, { appOptions, router, head, isClient }) {
   head.link.push({
     rel: 'stylesheet',
-    href: 'https://fonts.googleapis.com/icon?family=Material+Icons',
+    href: 'https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css',
   })
   head.link.push({
     rel: 'stylesheet',
-    href: 'https://fonts.googleapis.com/css?family=Nunito:400,600|Playfair+Display:400,600,700|Raleway:400,600,700|Montserrat:400,600,700|Noto+Sans:400,600,700&display=swap'
+    href: 'https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|family=Nunito:400,600|Playfair+Display:400,600,700|Raleway:400,600,700|Montserrat:400,600,700|Noto+Sans:400,600,700&display=swap'
   })
   head.link.push({
     rel: 'stylesheet',

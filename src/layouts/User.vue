@@ -15,13 +15,13 @@
       @clicked-accept="cookieClickedAccept"
       @clicked-decline="cookieClickedDecline"
     >
-      <div slot="message" class="messageText" :class="getLang === 'gr' ? 'noto-16-500' : 'nunito-18-600'">
+      <div slot="message" class="messageText" :class="getLang === 'gr' ? 'noto-16-500' : 'nunito-18-400'">
         {{ cookieTxt[getLang] }}
       </div>
-      <div slot="declineContent" :class="getLang === 'gr' ? 'noto-16-500' : 'nunito-18-600'">
+      <div slot="declineContent" :class="getLang === 'gr' ? 'noto-16-500' : 'nunito-18-400'">
         {{ declineCookies[getLang] }}
       </div>
-      <div slot="acceptContent" :class="getLang === 'gr' ? 'noto-16-500' : 'nunito-18-600'">
+      <div slot="acceptContent" :class="getLang === 'gr' ? 'noto-16-500' : 'nunito-18-400'">
         {{ allowCookies[getLang] }}
         </div>
     </vue-cookie-accept-decline>
@@ -396,10 +396,10 @@ export default {
   font-weight: 700 !important;
 }
 /* Nunito */
-.nunito-18-600 {
+.nunito-18-400 {
   font-family: 'Nunito', sans-serif !important;
   font-size: 18px !important;
-  font-weight: 600 !important;
+  font-weight: 400 !important;
 }
 /* Raleway */
 .raleway-13-400 {

@@ -14,13 +14,13 @@
       @clicked-accept="cookieClickedAccept"
       @clicked-decline="cookieClickedDecline"
     >
-      <div slot="message" class="messageText" :class="getLang === 'gr' ? 'noto-16-500' : 'nunito-18-600'">
+      <div slot="message" class="messageText" :class="'nunito-18-400'">
         {{ cookieTxt[getLang] }}
       </div>
-      <div slot="declineContent" :class="getLang === 'gr' ? 'noto-16-500' : 'nunito-18-600'">
+      <div slot="declineContent" :class="'nunito-18-400'">
         {{ declineCookies[getLang] }}
       </div>
-      <div slot="acceptContent" :class="getLang === 'gr' ? 'noto-16-500' : 'nunito-18-600'">
+      <div slot="acceptContent" :class="'nunito-18-400'">
         {{ allowCookies[getLang] }}
         </div>
     </vue-cookie-accept-decline>
@@ -36,7 +36,7 @@
 
       <v-toolbar-items class="pa-0">
         <v-btn
-          :class="getLang === 'gr' ? 'noto-16-500' : 'nunito-18-600'"
+          :class="'nunito-18-400'"
           class="px-2"
           text color="transparent"
           to="/"
@@ -46,7 +46,7 @@
           <template v-slot:activator="{ on }">
             <v-btn class="px-2" text color="transparent" v-on="on" :ripple="false">
               <div
-                :class="getLang === 'gr' ? 'noto-16-500' : 'nunito-18-600'"
+                :class="'nunito-18-400'"
                 class="color-333333"
                 v-html="routes.explore[getLang]"
               />
@@ -54,19 +54,19 @@
           </template>
           <v-list flat color="#e8e8e8">
             <v-list-item v-for="(route, i) in routes.explore.routes" :key="'route-' + i" :to="route.route">
-              <v-list-item-title :class="getLang === 'gr' ? 'noto-16-500' : 'nunito-18-600'" v-html="route[getLang]" />
+              <v-list-item-title :class="getLang === 'gr' ? 'noto-16-500' : 'nunito-18-400'" v-html="route[getLang]" />
             </v-list-item>
           </v-list>
         </v-menu>
         <v-btn
-          :class="getLang === 'gr' ? 'noto-16-500' : 'nunito-18-600'"
+          :class="'nunito-18-400'"
           class="px-2"
           text color="transparent"
           to="/artists"
           v-html="routes.forArtists[getLang]"
         />
         <v-btn
-          :class="getLang === 'gr' ? 'noto-16-500' : 'nunito-18-600'"
+          :class="'nunito-18-400'"
           class="px-2"
           text color="transparent"
           to="/faq"
@@ -75,7 +75,7 @@
         <div class="my-5 mx-2">
           <v-btn
             v-if="$route.path == '/'"
-            :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
+            :class="'raleway-18-400'"
             style="border-radius: 8px;"
             depressed
             color="#333333"
@@ -84,7 +84,7 @@
           />
           <v-btn
             v-else
-            :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
+            :class="'raleway-18-400'"
             style="border-radius: 8px;"
             depressed
             color="#333333"
@@ -96,7 +96,7 @@
           <template v-slot:activator="{ on }">
             <v-btn class="px-2" text color="transparent" v-on="on" :ripple="false">
               <div
-                class="color-333333 nunito-15-600"
+                class="color-333333 nunito-18-400"
                 v-html="getLang"
               />
               <v-icon color="#333333" right>mdi-menu-down</v-icon>
@@ -105,14 +105,14 @@
           <v-list flat color="#e8e8e8">
             <v-list-item v-for="(language, i) in getLanguages" :key="'lang-' + i" @click="setLanguage(language)">
               <v-list-item-title
-                class="color-333333 text-center text-uppercase nunito-15-600"
+                class="color-333333 text-center text-uppercase nunito-18-400"
                 v-html="language"
               />
             </v-list-item>
           </v-list>
         </v-menu>
         <v-btn
-          :class="getLang === 'gr' ? 'noto-16-500' : 'nunito-18-600'"
+          :class="'nunito-18-400'"
           class="px-2"
           text color="transparent"
           to="/user/profile"
@@ -679,10 +679,10 @@ export default {
   font-size: 15px !important;
   font-weight: 600 !important;
 }
-.nunito-18-600 {
+.nunito-18-400 {
   font-family: 'Nunito', sans-serif !important;
   font-size: 18px !important;
-  font-weight: 600 !important;
+  font-weight: 400 !important;
 }
 /* Raleway */
 .raleway-13-400 {
