@@ -39,14 +39,13 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import WpTransition from '~/components/WpTransition.vue'
 
 export default {
   computed: {
     ...mapGetters(['getLang']),
   },
   components: {
-    WpTransition,
+    WpTransition: () => import('~/components/WpTransition.vue'),
   },
   metaInfo () {
     return {
