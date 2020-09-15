@@ -29,7 +29,7 @@
 2. Happy coding 🎉🙌
  
 
-### 5. Create .env.development for local environment variables
+### 5. Create `.env.development` file for local environment variables
 
 1. `GRIDSOME_BUILD`
 2. `GRIDSOME_SITE_URL`
