@@ -1,96 +1,107 @@
 <template>
     <UserLayout>
       <v-main>
-        <v-container class="px-0 py-12" fluid>
+        <v-container class="px-4 py-12" fluid>
             <div
                 :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
-                class="pb-10 my-0 text-center"
+                class="pb-10 my-0 mx-1 text-center"
                 v-html="getLang === 'gr' ? 'Το Προφίλ μου' : 'My Profile'"
             />
-            <table class="table-auto mx-auto mb-4">
-                <tbody :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'">
-                    <tr>
-                        <td class="border px-4 py-2">{{ pic[getLang] }}</td>
-                        <td class="border px-4 py-2">
-                            <!-- Desktop -->
-                            <div v-show="!$vuetify.breakpoint.mobile">
-                                <g-image
-                                    v-if="userPicture"
-                                    :src="userPicture"
-                                    style="height: 200px;"
-                                    fit="cover"
-                                    alt="profile pic"
-                                />
-                            </div>
-                            <!-- Mobile -->
-                            <div v-show="$vuetify.breakpoint.mobile">
-                                <g-image
-                                    v-if="userPicture"
-                                    :src="userPicture"
-                                    style="height: 100px;"
-                                    fit="cover"
-                                    alt="profile pic"
-                                />
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="border px-4 py-2">{{ firstName[getLang] }}</td>
-                        <td 
-                            class="border px-4 py-2"
-                            :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                        >
-                            {{ userGivenName }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="border px-4 py-2">{{ lastName[getLang] }}</td>
-                        <td
-                            class="border px-4 py-2"
-                            :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                        >
-                            {{ userFamilyName }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="border px-4 py-2">{{ nickname[getLang] }}</td>
-                        <td
-                            class="border px-4 py-2"
-                            :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                        >
-                            {{ userNickname }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="border px-4 py-2">{{ email[getLang] }}</td>
-                        <td
-                            class="border px-4 py-2"
-                            :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                        >
-                            {{ userEmail }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="border px-4 py-2">{{ bio[getLang] }}</td>
-                        <td
-                            style="display: block; width: 20vw"
-                            class="border px-4 py-2"
-                            :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                        >
-                            {{ userBio }}
-                        </td>
-                    </tr>
-                    <tr v-if="userRole">
-                        <td  class="border px-4 py-2">{{ role.title[getLang] }}</td>
-                        <td
-                            class="border px-4 py-2"
-                            :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                        >
-                            {{ availableRoles[userRole[0].name][getLang] }}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+
+            <v-row justify="center" align="center">
+                <v-col md="4" lg="2" xl="2">
+                    <div :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'">{{ pic[getLang] }}</div>
+                </v-col>
+                <v-col md="4" lg="2" xl="2">
+                    <!-- Desktop -->
+                    <div v-if="!$vuetify.breakpoint.mobile">
+                        <g-image
+                            v-if="userPicture"
+                            :src="userPicture"
+                            style="height: 200px;"
+                            fit="cover"
+                            alt="profile pic"
+                        />
+                    </div>
+                    <!-- Mobile -->
+                    <div v-else-if="$vuetify.breakpoint.mobile">
+                        <g-image
+                            v-if="userPicture"
+                            :src="userPicture"
+                            style="height: 100px;"
+                            fit="cover"
+                            alt="profile pic"
+                        />
+                    </div>
+                </v-col>
+            </v-row>
+
+            <v-row justify="center" align="center">
+                <v-col md="4" lg="2" xl="2">
+                    <div :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'">{{ firstName[getLang] }}</div>
+                </v-col>
+                <v-col md="4" lg="2" xl="2">
+                    <div :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'">
+                        {{ userGivenName }}
+                    </div>
+                </v-col>
+            </v-row>
+
+            <v-row justify="center" align="center">
+                <v-col md="4" lg="2" xl="2">
+                    <div :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'">{{ lastName[getLang] }}</div>
+                </v-col>
+                <v-col md="4" lg="2" xl="2">
+                    <div :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'">
+                        {{ userFamilyName }}
+                    </div>
+                </v-col>
+            </v-row>
+
+            <v-row justify="center" align="center">
+                <v-col md="4" lg="2" xl="2">
+                    <div :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'">{{ nickname[getLang] }}</div>
+                </v-col>
+                <v-col md="4" lg="2" xl="2">
+                    <div :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'">
+                    {{ userNickname }}
+                    </div>
+                </v-col>
+            </v-row>
+
+            <v-row justify="center" align="center">
+                <v-col md="4" lg="2" xl="2">
+                    <div :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'">{{ email[getLang] }}</div>
+                </v-col>
+                <v-col md="4" lg="2" xl="2">
+                    <div :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'">
+                        {{ userEmail }}
+                    </div>
+                </v-col>
+            </v-row>
+
+            <v-row v-if="bio" justify="center" align="center">
+                <v-col offset-xl="4" offset-lg="4" offset-md="2" xl="2" lg="2" md="4">
+                    <div :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'">{{ bio[getLang] }}</div>
+                </v-col>
+                <v-col>
+                    <div :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'">
+                        {{ userBio }}
+                    </div>
+                </v-col>
+            </v-row>
+
+            <v-row v-if="userRole" justify="center" align="center">
+                <v-col md="4" lg="2" xl="2">
+                    <div :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'" >{{ role.title[getLang] }}</div>
+                </v-col>
+                <v-col md="4" lg="2" xl="2">
+                    <div :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'">
+                        {{ availableRoles[userRole[0].name][getLang] }}
+                    </div>
+                </v-col>
+            </v-row>
+
         </v-container>
       </v-main>
     </UserLayout>

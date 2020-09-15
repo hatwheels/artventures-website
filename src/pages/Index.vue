@@ -921,4 +921,9 @@ query {
   font-size: 11.5px !important;
   font-weight: 600 !important;
 }
+.noto-44-700 {
+  font-family: 'Noto Sans', sans-serif !important;
+  font-size: 44px !important;
+  font-weight: 700 !important;
+}
 </style>

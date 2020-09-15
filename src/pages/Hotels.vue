@@ -402,4 +402,12 @@ query {
   max-width: 30%;
   flex-basis: 30%;
 }
+
+/* Local Fonts */
+.playfair-30-700-1p2 {
+  font-family: 'Playfair Display', serif !important;
+  font-size: 30px !important;
+  font-weight: 700 !important;
+  line-height: 1.2em !important;
+}
 </style>

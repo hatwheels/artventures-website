@@ -651,11 +651,6 @@ export default {
   font-size: 32px !important;
   font-weight: 700 !important;
 }
-.noto-44-700 {
-  font-family: 'Noto Sans', sans-serif !important;
-  font-size: 44px !important;
-  font-weight: 700 !important;
-}
 .noto-1p312vw-400 {
   font-family: 'Noto Sans', sans-serif !important;
   font-size: 1.312vw !important;
@@ -796,12 +791,6 @@ export default {
   font-size: 30px !important;
   font-weight: 700 !important;
 }
-.playfair-30-700-1p2 {
-  font-family: 'Playfair Display', serif !important;
-  font-size: 30px !important;
-  font-weight: 700 !important;
-  line-height: 1.2em !important;
-}
 .playfair-32-700 {
   font-family: 'Playfair Display', serif !important;
   font-size: 32px !important;
@@ -813,7 +802,7 @@ export default {
   font-weight: 700 !important;
 }
 .cookie__bar__buttons__button--accept {
-        background: #525252 !important;
+  background: #525252 !important;
 
 }
 </style>

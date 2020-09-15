@@ -332,21 +332,6 @@ export default {
   font-size: 13px !important;
   font-weight: 400 !important;
 }
-.noto-13-600 {
-  font-family: 'Noto Sans', sans-serif !important;
-  font-size: 13px !important;
-  font-weight: 600 !important;
-}
-.noto-15-400 {
-  font-family: 'Noto Sans', sans-serif !important;
-  font-size: 15px !important;
-  font-weight: 400 !important;
-}
-.noto-15-600 {
-  font-family: 'Noto Sans', sans-serif !important;
-  font-size: 15px !important;
-  font-weight: 600 !important;
-}
 .noto-15-600-1p5 {
   font-family: 'Noto Sans', sans-serif !important;
   font-size: 15px !important;
@@ -379,6 +364,11 @@ export default {
   font-size: 18px !important;
   font-weight: 400 !important;
 }
+.noto-16-600 {
+  font-family: 'Noto Sans', sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+}
 .noto-18-400-1p4em {
   font-family: 'Noto Sans', sans-serif !important;
   font-size: 18px !important;
@@ -390,31 +380,10 @@ export default {
   font-size: 18px !important;
   font-weight: 600 !important;
 }
-.noto-25-400 {
-  font-family: 'Noto Sans', sans-serif !important;
-  font-size: 25px !important;
-  font-weight: 400 !important;
-}
 .noto-25-600 {
   font-family: 'Noto Sans', serif !important;
   font-size: 25px !important;
   font-weight: 600 !important;
-}
-.noto-28-400 {
-  font-family: 'Noto Sans', sans-serif !important;
-  font-size: 28px !important;
-  font-weight: 400 !important;
-}
-.noto-30-700 {
-  font-family: 'Noto Sans', sans-serif !important;
-  font-size: 30px !important;
-  font-weight: 700 !important;
-}
-.noto-30-700-1p2 {
-  font-family: 'Noto Sans', sans-serif !important;
-  font-size: 30px !important;
-  font-weight: 700 !important;
-  line-height: 1.2em !important;
 }
 .noto-38-700 {
   font-family: 'Noto Sans', sans-serif !important;
@@ -426,39 +395,7 @@ export default {
   font-size: 32px !important;
   font-weight: 700 !important;
 }
-.noto-44-700 {
-  font-family: 'Noto Sans', sans-serif !important;
-  font-size: 44px !important;
-  font-weight: 700 !important;
-}
-.noto-1p312vw-400 {
-  font-family: 'Noto Sans', sans-serif !important;
-  font-size: 1.312vw !important;
-  font-weight: 400 !important;
-}
-.noto-1p312vw-600 {
-  font-family: 'Noto Sans', sans-serif !important;
-  font-size: 1.312vw !important;
-  font-weight: 700 !important;
-  letter-spacing: 1.5px !important;
-}
-.noto-3p28vw-600-1p2em {
-  font-family: 'Noto Sans', sans-serif !important;
-  font-size: 3.28vw !important;
-  font-weight: 600 !important;
-  line-height: 1.2em !important;
-}
 /* Nunito */
-.nunito-15-400 {
-  font-family: 'Nunito', sans-serif !important;
-  font-size: 15px !important;
-  font-weight: 400 !important;
-}
-.nunito-15-600 {
-  font-family: 'Nunito', sans-serif !important;
-  font-size: 15px !important;
-  font-weight: 600 !important;
-}
 .nunito-18-600 {
   font-family: 'Nunito', sans-serif !important;
   font-size: 18px !important;
@@ -469,17 +406,6 @@ export default {
   font-family: 'Raleway', sans-serif !important;
   font-size: 13px !important;
   font-weight: 400 !important;
-}
-.raleway-13-600 {
-  font-family: 'Raleway', sans-serif !important;
-  font-size: 13px !important;
-  font-weight: 600 !important;
-}
-.raleway-15-600-1p5 {
-  font-family: 'Raleway', sans-serif !important;
-  font-size: 15px !important;
-  font-weight: 600 !important;
-  letter-spacing: 1.5px !important;
 }
 .raleway-15-700 {
   font-family: "Raleway", sans-serif !important;
@@ -512,50 +438,7 @@ export default {
   font-size: 18px !important;
   font-weight: 600 !important;
 }
-.raleway-25-400 {
-  font-family: 'Raleway', sans-serif !important;
-  font-size: 25px !important;
-  font-weight: 400 !important;
-}
-.raleway-28-400 {
-  font-family: 'Raleway', sans-serif !important;
-  font-size: 28px !important;
-  font-weight: 400 !important;
-}
-.raleway-30-700 {
-  font-family: 'Raleway', sans-serif !important;
-  font-size: 30px !important;
-  font-weight: 700 !important;
-}
-.raleway-44-700 {
-  font-family: 'Raleway', sans-serif !important;
-  font-size: 44px !important;
-  font-weight: 700 !important;
-}
-.raleway-1p312vw-400 {
-  font-family: 'Raleway', sans-serif !important;
-  font-size: 1.312vw !important;
-  font-weight: 400 !important;
-}
-.raleway-1p312vw-600 {
-  font-family: 'Raleway', sans-serif !important;
-  font-size: 1.312vw !important;
-  font-weight: 700 !important;
-  letter-spacing: 1.5px !important;
-}
-.raleway-3p28vw-600-1p2em {
-  font-family: 'Raleway', sans-serif !important;
-  font-size: 3.28vw !important;
-  font-weight: 600 !important;
-  line-height: 1.2em !important;
-}
 /* Playfair Display */
-.playfair-18-400-1p4em {
-  font-family: 'Playfair Display', serif !important;
-  font-size: 18px !important;
-  font-weight: 400 !important;
-  line-height: 1.4em !important;
-}
 .playfair-18-600 {
   font-family: 'Playfair Display', serif !important;
   font-size: 18px !important;
@@ -565,17 +448,6 @@ export default {
   font-family: 'Playfair Display', serif !important;
   font-size: 25px !important;
   font-weight: 600 !important;
-}
-.playfair-30-700 {
-  font-family: 'Playfair Display', serif !important;
-  font-size: 30px !important;
-  font-weight: 700 !important;
-}
-.playfair-30-700-1p2 {
-  font-family: 'Playfair Display', serif !important;
-  font-size: 30px !important;
-  font-weight: 700 !important;
-  line-height: 1.2em !important;
 }
 .playfair-32-700 {
   font-family: 'Playfair Display', serif !important;

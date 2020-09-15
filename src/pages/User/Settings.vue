@@ -191,7 +191,7 @@
                                 <label
                                     :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
                                     class="pic-btn white--text text-capitalize py-1 pl-2 pr-4 text-center"
-                                    for="pic_profile"
+                                    for="pic_profile_desktop"
                                     v-bind="attrs"
                                     v-on="on"
                                 >
@@ -203,13 +203,14 @@
                             </span>
                         </v-tooltip>
                         <input
-                            id="pic_profile"
-                            name="pic_profile"
+                            id="pic_profile_desktop"
+                            ref="picProfileDesktop"
+                            name="pic_profile_desktop"
                             style="opacity: 0;"
                             :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
                             accept="image/png, image/jpeg, image/bmp"
                             type="file"
-                            @change="changeProfilePic"
+                            @change="changeProfilePicDesktop"
                         >
                     </v-row>
                     <v-row class="pt-8" justify="start" align="start">
@@ -285,11 +286,12 @@
                         </label>
                         <input
                             id="pic_profile_mobile"
+                            ref="picProfileMobile"
                             name="pic_profile_mobile"
                             style="opacity: 0;"
                             accept="image/png, image/jpeg, image/bmp"
                             type="file"
-                            @change="changeProfilePic"
+                            @change="changeProfilePicMobile"
                         >
                     </v-row>
                     <v-row class="pt-6" justify="center" align="center">
@@ -300,23 +302,25 @@
                         />
                     </v-row>
                     <v-row class="pt-2" justify="center" align="center">
-                        <v-btn
-                            dark
-                            color="#333333"
-                            v-if="provider === 'auth0'"
-                            :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
-                            class="text-capitalize"
-                            v-html="pw.reset[getLang]"
-                            @click="pwDialog.toggle = true"
-                        />
-                        <div
-                            v-else
-                            :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
-                        >
-                            {{ pw.text3rd['1st'][getLang] }}
-                            <span class='raleway-16-600'>{{ availableProviders[provider] }}</span>
-                            {{ pw.text3rd['2nd'][getLang] }}
-                        </div>
+                        <v-col md="8" sm="9">
+                            <v-btn
+                                dark
+                                color="#333333"
+                                v-if="provider === 'auth0'"
+                                :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
+                                class="text-capitalize"
+                                v-html="pw.reset[getLang]"
+                                @click="pwDialog.toggle = true"
+                            />
+                            <div
+                                v-else
+                                :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
+                            >
+                                {{ pw.text3rd['1st'][getLang] }}
+                                <span class='raleway-16-600'>{{ availableProviders[provider] }}</span>
+                                {{ pw.text3rd['2nd'][getLang] }}
+                            </div>
+                        </v-col>
                     </v-row>
                     <v-row class="pt-6" justify="center" align="center">
                         <label
@@ -326,7 +330,7 @@
                         />
                     </v-row>
                     <v-row justify="center" align="center">
-                        <v-col cols="4">
+                        <v-col cols="4" sm="3" md="2">
                             <v-select
                                 v-model="chosenLanguage"
                                 :items="getLanguages"
@@ -819,8 +823,8 @@ export default {
         picTooBigDialog: {
             toggle: false,
             text: {
-                gr: 'Η επιλεγμένη εικόνα προφίλ είναι πάνω από 500 MB.',
-                en: 'The profile picture you selected is over 500 MB.'
+                gr: 'Η επιλεγμένη εικόνα προφίλ είναι πάνω από 500 KB.',
+                en: 'The profile picture you selected is over 500 KB.'
             }
         }
     }
@@ -1025,11 +1029,15 @@ export default {
       }
       touchMap.set($v, setTimeout($v.$touch, 1000));
     },
-    changeProfilePic(e) {
+    changeProfilePicWrapper(e, ref) {
         const file = e.target.files[0]
+
         if (file) {
             if (file.size > 512 * 1024) {
+                // Size is bigger than 500 KB
                 this.picTooBigDialog.toggle = true
+                // clear input
+                ref.value = ''
                 return
             }
             var reader = new FileReader();
@@ -1040,9 +1048,18 @@ export default {
                 // Read image as base64 and set to this.imageToUploadBase64
                 this.picToUploadBase64 = e.target.result
                 this.picDialog.toggle = true
+                // clear input
+                ref.value = ''
             }
         }
     },
+    changeProfilePicDesktop(e) {
+        this.changeProfilePicWrapper(e, this.$refs.picProfileDesktop)
+    },
+    changeProfilePicMobile(e) {
+        this.changeProfilePicWrapper(e, this.$refs.picProfileMobile)
+    },
+
     uploadProfilePic() {
         this.picDialog.toggle = false
         if (process.isClient) {

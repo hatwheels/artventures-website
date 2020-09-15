@@ -77,7 +77,7 @@
 
           <div
             :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
-            class="pt-12 my-0 text-center"
+            class="pt-12 my-0 mx-1 text-center"
             v-html="getLang === 'gr' ? 'Υπέβαλε Εργο Τέχνης' : 'Submit Artwork'"
           />
           <v-row class="pt-8 pb-12" justify="center" align="center">
@@ -109,6 +109,7 @@
                 </div>
                 <input
                   id="artwork-image"
+                  ref="artworkImage"
                   name="artwork-image"
                   style="opacity: 0"
                   accept="image/png, image/jpeg, image/bmp"
@@ -121,6 +122,27 @@
                   <div v-else>
                     <img v-show="showImageLoader" src="../../../static/loading.svg" width="300vw" alt="Loading">
                   </div>
+                </v-row>
+                <!-- Alerts -->
+                <v-row class="pb-2" justify="center" align="center">
+                  <v-alert
+                      class="mt-2"
+                      type='error'
+                      v-model="alert"
+                      dismissible
+                      transition="slide-x-transition"
+                  >
+                    {{ getLang == 'gr' ? 'Το μέγεθος της εικόνας είναι πάνω από 10 MB' : 'Image size is over 10 MB' }}
+                  </v-alert>
+                  <v-alert
+                      class="mt-2"
+                      type='error'
+                      v-model="alertImage"
+                      dismissible
+                      transition="slide-x-transition"
+                  >
+                    {{ getLang == 'gr' ? 'Έχετε φτάσει το όριο των 30 έργων τέχνης' : 'You have reached the limit of 30 artworks' }}
+                  </v-alert>
                 </v-row>
                 <v-row justify="center" align="center">
                   <v-btn
@@ -159,25 +181,6 @@
               </g-link>
             </v-col>
           </v-row>
-          <!-- Alerts -->
-          <v-alert
-              class="mt-2 portfolio-alert-block"
-              type='error'
-              v-model="alert"
-              dismissible
-              transition="slide-x-transition"
-          >
-              {{ getLang == 'gr' ? 'Το μέγεθος της εικόνας είναι πάνω από 50 MB' : 'Image size is over 50 MB' }}
-          </v-alert>
-          <v-alert
-              class="mt-2 portfolio-alert-block"
-              type='error'
-              v-model="alertImage"
-              dismissible
-              transition="slide-x-transition"
-          >
-              {{ getLang == 'gr' ? 'Το μέγεθος της εικόνας είναι πάνω από 50 MB' : 'Image size is over 50 MB' }}
-          </v-alert>
           <!-- Dialog -->
           <v-dialog v-model="dialogPortfolio.toggle" persistent max-width="290" overlay-color="transparent">
             <v-card>
@@ -211,6 +214,7 @@ import { validationMixin } from "vuelidate";
 import { required, maxLength, minLength } from "vuelidate/lib/validators";
 
 const touchMap = new WeakMap();
+let timeoutSize = null;
 
 export default {
   mixins: [validationMixin],
@@ -396,21 +400,23 @@ export default {
     },
   },
   methods: {
+  // Alert for image size
   setAlert() {
     const that = this
     function clearAlert() {
       that.alert = false
     }
     this.alert = true;
-    setTimeout(clearAlert, 3000)
+    setTimeout(clearAlert, 4000)
   },
+  // Alert for image limit
   setAlertImage() {
     const that = this
     function clearAlert() {
       that.alertImage = false
     }
     this.alertImage = true;
-    setTimeout(clearAlert, 3000)
+    setTimeout(clearAlert, 4000)
   },
   clearDialogPortfolio() {
     this.dialogPortfolio.toggle = false
@@ -420,13 +426,19 @@ export default {
   getImage(e) {
     this.imageToUploadBase64 = null
       if (this.currentImageCount > 30) {
+        // Max uploaded images (30) reached
         this.setAlertImage()
+        this.$refs.artworkImage.value = ''
         return
       }
       const file = e.target.files[0]
+      console.log(file.size)
       if (file) {
-        if (file.size > 50 * 1024 * 1024) {
+        if (file.size > 5 * 1024 * 1024) {
+          // Size is bigger than 5 MB
           this.setAlert()
+          // clear input
+          this.$refs.artworkImage.value = ''
           return
         }
         var reader = new FileReader();
@@ -438,6 +450,8 @@ export default {
             // Read image as base64 and set to this.imageToUploadBase64
             this.imageToUploadBase64 = e.target.result
             this.showImageLoader = false
+            // clear input
+            this.$refs.artworkImage.value = ''
         }
       }
     },
@@ -504,11 +518,17 @@ export default {
 
 <style>
 .portfolio-alert-block {
-  width: 50vw;
-  margin-right: 25vw;
-  margin-left: 25vw;
+  width: 40vw;
+  margin-right: 30vw;
+  margin-left: 30vw;
 }
 .swiper-slide {
   height: auto;
+}
+/* Local fonts */
+.raleway-28-400 {
+  font-family: 'Raleway', sans-serif !important;
+  font-size: 28px !important;
+  font-weight: 400 !important;
 }
 </style>
