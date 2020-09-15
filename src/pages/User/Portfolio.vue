@@ -432,7 +432,6 @@ export default {
         return
       }
       const file = e.target.files[0]
-      console.log(file.size)
       if (file) {
         if (file.size > 5 * 1024 * 1024) {
           // Size is bigger than 5 MB
