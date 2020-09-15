@@ -256,6 +256,7 @@
                                 v-model="chosenLanguage"
                                 :items="getLanguages"
                                 color="#333333"
+                                item-color="#333333"
                                 @change="setLanguage(chosenLanguage)"
                             />
                         </v-col>
@@ -335,6 +336,7 @@
                                 v-model="chosenLanguage"
                                 :items="getLanguages"
                                 color="#333333"
+                                item-color="#333333"
                                 @change="setLanguage(chosenLanguage)"
                             />
                         </v-col>
