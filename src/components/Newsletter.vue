@@ -131,42 +131,67 @@ export default {
     },
   },
   methods: {
+    subscribe() {
+      this.$store
+        .dispatch("mcSubscribe", { email: this.email, tag: this.getLang })
+        .then(res => {
+          if (200 === res.status) {
+            // subscribed
+            this.dialogText.en = "You've subscribed to our newsletter!";
+            this.dialogText.gr = "Εγγραφήκατε στο newsletter μας!";
+            this.btnLoading = false;
+            this.dialog = true;
+            this.email = ''
+          } else {
+            // subscribing failed
+            this.dialogText.en = "Unfortunately we couldn't subscribe you. Please try again later.";
+            this.dialogText.gr = "Δυστυχώς η εγγραφή απέτυχε. Παρκαλώ δοκιμάστε αργότερα.";
+            this.btnLoading = false;
+            this.dialog = true;
+            this.email = ''
+          }
+        })
+        .catch(err => {
+          // server-side error
+          this.dialogText.en = "An internal error has occured!";
+          this.dialogText.gr = "Κάποιο σφάλμα προέκυψε!";
+          this.btnLoading = false;
+          this.dialog = true;
+          this.email = ''
+        })
+    },
     // Form
     submit() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
         // no errors
         this.btnLoading = true;
+        // check if member exists first
         this.$store
-          .dispatch("mcSubscribe", { email: this.email, tag: this.getLang })
+          .dispatch("mcGetMember", { email: this.email })
           .then(res => {
-            if (200 == res.status) {
-              // success
-              this.dialogText.en = "You've subscribed to our newsletter!";
-              this.dialogText.gr = "Εγγραφήκατε στο newsletter μας!";
-            }
-            this.btnLoading = false;
-            this.dialog = true;
-          })
-          .catch(err => {
-            // server-side error
-            if (err) {
-              if ("Member Exists" == err.response.data.title) {
+            if (200 === res.status) {
+              if ('subscribed' === res.data.status) {
+                // already subscribed
                 this.dialogText.en = "You're already subscribed!";
                 this.dialogText.gr = "Είστε ήδη εγγεγραμμένοι!";
+                this.btnLoading = false;
+                this.dialog = true;
+                this.email = "";
               } else {
-                this.dialogText.en = "An internal error has occured!";
-                this.dialogText.gr = "Κάποιο σφάλμα προέκυψε!";
+                // member exists, but not subscribed
+                this.subscribe();
               }
             } else {
-              this.dialogText.en = "An internal error has occured!";
-              this.dialogText.gr = "Κάποιο σφάλμα προέκυψε!";
+              // member does not exist, add him as subscriber
+              this.subscribe()
             }
-            this.btnLoading = false;
-            this.dialog = true;
-          });
+          })
+          .catch(() => {
+            // member does not exist, add him as subscriber
+            this.subscribe()
+          })
         this.$v.$reset();
-        this.email = "";
       }
     },
     // Dialog

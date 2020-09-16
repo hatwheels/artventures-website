@@ -106,11 +106,25 @@ export default function (Vue, { appOptions, router, head, isClient }) {
 
   const vuexOpts = {
     actions: {
-      async mcSubscribe({commit}, params) {
-        return await axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/mailchimp-subscribe',
+      async mcGetMember({commit}, params) {
+        return await axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/mailchimp-get-user',
           {
             email_address: params.email,
-            tags: [params.tag],
+          },
+          {
+            headers: {
+              "Content-Type": "application/json"
+            }
+          }
+        )
+      },
+      async mcSubscribe({commit}, params) {
+        return await axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/mailchimp-put-user',
+          {
+            email_address: params.email,
+            status_if_new: 'subscribed',
+            status: 'subscribed',
+            tags: [params.tag]
           },
           {
             headers: {
@@ -120,13 +134,17 @@ export default function (Vue, { appOptions, router, head, isClient }) {
         )
       },
       async mcMessage({commit}, params) {
-        return await axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/message',
+        return await axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/mailchimp-put-user',
           {
-            email: params.email,
-            firstname: params.name,
-            lastname: params.lastName,
-            subject: params.subject,
-            message: params.msg,
+            email_address: params.email,
+            status_if_new:'transactional',
+            status: 'transactional',
+            merge_fields: {
+                'FNAME': params.name,
+                'LNAME': params.lastName,
+                'SUBJECT': params.subject,
+                'MESSAGE': params.msg,
+            },
           },
           {
             headers: {
@@ -136,13 +154,15 @@ export default function (Vue, { appOptions, router, head, isClient }) {
         )
       },
       async mcNewMessage({commit}, params) {
-        return await axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/newmessage',
+        return await axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/mailchimp-put-user',
           {
-            email: params.email,
-            firstname: params.name,
-            lastname: params.lastName,
-            subject: params.subject,
-            message: params.msg,
+            email_address: params.email,
+            merge_fields: {
+                'FNAME': params.name,
+                'LNAME': params.lastName,
+                'SUBJECT': params.subject,
+                'MESSAGE': params.msg,
+            },
           },
           {
             headers: {
@@ -152,7 +172,7 @@ export default function (Vue, { appOptions, router, head, isClient }) {
         )
       },
       mgSend({commit}, params) {
-        axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/mg_send',
+        axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/mailgun_send',
           {
             email: params.email,
             firstname: params.name,

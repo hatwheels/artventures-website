@@ -297,31 +297,22 @@ export default {
         };
         this.isLoading = true;
         this.$store
-          .dispatch("mcMessage", this.fields)
+          .dispatch("mcGetMember", { email: this.email })
           .then(res => {
-            // success
+            // member found
             if (200 == res.status) {
-              this.$store.dispatch("mgSend", this.fields) // send to us message from user
-              this.clearFields()
-              this.setAlert('success')
-            } else {
-              this.clearFields()
-              this.setAlert('error')
-            }
-          })
-          .catch(err => {
-            // server-side error
-            if (err) {
-              if ("Member Exists" == err.response.data.title) {
-                this.$store.
-                  dispatch('mcNewMessage', this.fields)
+              // subscribed, keep him subscribed
+              if ("subscribed" === res.data.status || "pending" === res.data.status) {
+                this.$store
+                  .dispatch("mcNewMessage", this.fields)
                   .then(res => {
-                    // success
-                    if (200 == res.status) {
-                      this.$store.dispatch("mgSend", this.fields) // send to us message from user
+                    if (200 === res.status) {
+                      // success
+                      // this.$store.dispatch("mgSend", this.fields) // send to us message from user
                       this.clearFields()
                       this.setAlert('success')
                     } else {
+                      // error
                       this.clearFields()
                       this.setAlert('error')
                     }
@@ -330,16 +321,56 @@ export default {
                     // server-side error
                     this.clearFields()
                     this.setAlert('error')
-                  });
-              } else {
-                this.clearFields()
-                this.setAlert('error')
+                  })
+              } else { // not subscribed, make him transactional
+                this.$store
+                  .dispatch("mcMessage", this.fields)
+                  .then(res => {
+                    if (200 === res.status) {
+                      // success
+                      // this.$store.dispatch("mgSend", this.fields) // send to us message from user
+                      this.clearFields()
+                      this.setAlert('success')
+                    } else {
+                      // error
+                      this.clearFields()
+                      this.setAlert('error')
+                    }
+                  })
+                  .catch(err => {
+                    // server-side error
+                    this.clearFields()
+                    this.setAlert('error')
+                  })
               }
             } else {
+              // error
               this.clearFields()
               this.setAlert('error')
             }
-          });
+          })
+          .catch(() => {
+            // member does not exist, make him transactional
+            this.$store
+              .dispatch("mcMessage", this.fields)
+              .then(res => {
+                if (200 === res.status) {
+                  // success
+                  // this.$store.dispatch("mgSend", this.fields) // send to us message from user
+                  this.clearFields()
+                  this.setAlert('success')
+                } else {
+                  // error
+                  this.clearFields()
+                  this.setAlert('error')
+                }
+              })
+              .catch(() => {
+                // server-side error
+                this.clearFields()
+                this.setAlert('error')
+              })
+          })
       }
     },
     delayTouch($v) {
