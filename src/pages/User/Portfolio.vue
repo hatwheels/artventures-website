@@ -449,8 +449,6 @@ export default {
             // Read image as base64 and set to this.imageToUploadBase64
             this.imageToUploadBase64 = e.target.result
             this.showImageLoader = false
-            // clear input
-            this.$refs.artworkImage.value = ''
         }
       }
     },
@@ -472,6 +470,7 @@ export default {
               this.dialogPortfolio.toggle = true
               this.isLoading = false
               this.currentImageCount++
+              this.$refs.artworkImage.value = ''
             })
             .catch(err => { 
               this.title = null
@@ -480,6 +479,7 @@ export default {
               this.dialogPortfolio.text.gr = "Δυστηχώς κάποιο σφάλμα προέκυψε. Παρακαλώ δοκιμάστε ξανά αργότερα."
               this.dialogPortfolio.toggle = true
               this.isLoading = false;
+              this.$refs.artworkImage.value = ''
             })
           } else {
             this.title = null
@@ -488,10 +488,12 @@ export default {
             this.dialogPortfolio.text.gr = "Δυστηχώς κάποιο σφάλμα προέκυψε. Παρακαλώ δοκιμάστε ξανά αργότερα."
             this.dialogPortfolio.toggle = true
             this.isLoading = false;
+            this.$refs.artworkImage.value = ''
           }
         } else {
           this.title = null
           this.imageToUploadBase64 = null
+          this.$refs.artworkImage.value = ''
         }
         this.$v.$reset();
       }
