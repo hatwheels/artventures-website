@@ -433,7 +433,7 @@ export default {
       }
       const file = e.target.files[0]
       if (file) {
-        if (file.size > 5 * 1024 * 1024) {
+        if (file.size > 10 * 1024 * 1024) {
           // Size is bigger than 5 MB
           this.setAlert()
           // clear input
