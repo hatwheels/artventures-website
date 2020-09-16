@@ -132,7 +132,7 @@
                       dismissible
                       transition="slide-x-transition"
                   >
-                    {{ getLang == 'gr' ? 'Το μέγεθος της εικόνας είναι πάνω από 10 MB' : 'Image size is over 10 MB' }}
+                    {{ getLang == 'gr' ? 'Το μέγεθος της εικόνας είναι πάνω από 5 MB' : 'Image size is over 5 MB' }}
                   </v-alert>
                   <v-alert
                       class="mt-2"
@@ -433,7 +433,7 @@ export default {
       }
       const file = e.target.files[0]
       if (file) {
-        if (file.size > 10 * 1024 * 1024) {
+        if (file.size > 5 * 1024 * 1024) {
           // Size is bigger than 5 MB
           this.setAlert()
           // clear input
@@ -445,7 +445,7 @@ export default {
         reader.readAsDataURL(file);
         this.showImageLoader = true
         reader.onload = (e) => {
-            // Note: arrow function used here, so that "this.this.imageToUploadBase64" refers to the this.imageToUploadBase64 of Vue component
+            // Note: arrow function used here, so that "this.imageToUploadBase64" refers to the this.imageToUploadBase64 of Vue component
             // Read image as base64 and set to this.imageToUploadBase64
             this.imageToUploadBase64 = e.target.result
             this.showImageLoader = false
