@@ -295,6 +295,7 @@ export default {
               'LNAME': this.lastName,
               'SUBJECT': this.subject,
               'MESSAGE': this.message,
+              'ROLE': 'user'
           },
         };
         this.isLoading = true;
