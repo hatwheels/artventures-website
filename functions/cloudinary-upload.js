@@ -38,30 +38,27 @@ exports.handler = async (event, context) => {
             api_secret: process.env.CLOUDINARY_API_SECRET 
         });
 
-        console.log("Path: " + data.path)
         console.log("Public ID: " + data.id)
-
         return cloudinary.uploader.upload(data.path , { public_id:  data.id })
-        .then(res => {
-            var reply = JSON.stringify(res)
+            .then(res => {
 
-            console.log('Success uploading: ' + reply)
-            console.log("### END ###")
+                console.log('Success uploading: ' + res.secure_url)
+                console.log("### END ###")
 
-            return {
-                statusCode: 200,
-                body: res.secure_url
-            }
-        })
-        .catch(err => {
-            console.log(err)
-            console.log("### END ###")
+                return {
+                    statusCode: 200,
+                    body: res.secure_url
+                }
+            })
+            .catch(err => {
+                console.log(err.message)
+                console.log("### END ###")
 
-            return {
-                statusCode: err.statusCode,
-                body: err.message
-            }
-        })
+                return {
+                    statusCode: err.statusCode,
+                    body: JSON.stringify(err.message)
+                }
+            })
 
     } catch (err) {
         console.log("### END ###")

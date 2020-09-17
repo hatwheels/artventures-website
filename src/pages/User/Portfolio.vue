@@ -132,7 +132,7 @@
                       dismissible
                       transition="slide-x-transition"
                   >
-                    {{ getLang == 'gr' ? 'Το μέγεθος της εικόνας είναι πάνω από 10 MB' : 'Image size is over 10 MB' }}
+                    {{ getLang == 'gr' ? 'Το μέγεθος της εικόνας είναι πάνω από 5 MB' : 'Image size is over 5 MB' }}
                   </v-alert>
                   <v-alert
                       class="mt-2"
@@ -445,12 +445,10 @@ export default {
         reader.readAsDataURL(file);
         this.showImageLoader = true
         reader.onload = (e) => {
-            // Note: arrow function used here, so that "this.this.imageToUploadBase64" refers to the this.imageToUploadBase64 of Vue component
+            // Note: arrow function used here, so that "this.imageToUploadBase64" refers to the this.imageToUploadBase64 of Vue component
             // Read image as base64 and set to this.imageToUploadBase64
             this.imageToUploadBase64 = e.target.result
             this.showImageLoader = false
-            // clear input
-            this.$refs.artworkImage.value = ''
         }
       }
     },
@@ -472,6 +470,7 @@ export default {
               this.dialogPortfolio.toggle = true
               this.isLoading = false
               this.currentImageCount++
+              this.$refs.artworkImage.value = ''
             })
             .catch(err => { 
               this.title = null
@@ -480,6 +479,7 @@ export default {
               this.dialogPortfolio.text.gr = "Δυστηχώς κάποιο σφάλμα προέκυψε. Παρακαλώ δοκιμάστε ξανά αργότερα."
               this.dialogPortfolio.toggle = true
               this.isLoading = false;
+              this.$refs.artworkImage.value = ''
             })
           } else {
             this.title = null
@@ -488,10 +488,12 @@ export default {
             this.dialogPortfolio.text.gr = "Δυστηχώς κάποιο σφάλμα προέκυψε. Παρακαλώ δοκιμάστε ξανά αργότερα."
             this.dialogPortfolio.toggle = true
             this.isLoading = false;
+            this.$refs.artworkImage.value = ''
           }
         } else {
           this.title = null
           this.imageToUploadBase64 = null
+          this.$refs.artworkImage.value = ''
         }
         this.$v.$reset();
       }
