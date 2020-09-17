@@ -56,7 +56,7 @@ exports.handler = async (event, context) => {
 
                 return {
                     statusCode: err.statusCode,
-                    body: err.message
+                    body: JSON.stringify(err.message)
                 }
             })
 
