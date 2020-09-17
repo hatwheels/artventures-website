@@ -13,6 +13,8 @@ import axios from 'axios'
 import VueWaypoint from "vue-waypoint"
 import AuthPlugin from './plugins/auth'
 import ImgdbPlugin from './plugins/imgdb'
+import MarketingPlugin from './plugins/marketing'
+import AdminPlugin from './plugins/admin'
 
 export default function (Vue, { appOptions, router, head, isClient }) {
   head.link.push({
@@ -99,90 +101,8 @@ export default function (Vue, { appOptions, router, head, isClient }) {
         break;
     }
   })
-  // router.afterEach((to, from) => {
-  //   if (to.hash) {
-  //   }
-  // })
 
   const vuexOpts = {
-    actions: {
-      async mcGetMember({commit}, params) {
-        return await axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/mailchimp-get-user',
-          {
-            email_address: params.email,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json"
-            }
-          }
-        )
-      },
-      async mcSubscribe({commit}, params) {
-        return await axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/mailchimp-put-user',
-          {
-            email_address: params.email,
-            status_if_new: 'subscribed',
-            status: 'subscribed',
-            tags: [params.tag]
-          },
-          {
-            headers: {
-              "Content-Type": "application/json"
-            }
-          }
-        )
-      },
-      async mcMessage({commit}, params) {
-        return await axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/mailchimp-put-user',
-          {
-            email_address: params.email,
-            status_if_new:'transactional',
-            status: 'transactional',
-            merge_fields: {
-                'FNAME': params.name,
-                'LNAME': params.lastName,
-                'SUBJECT': params.subject,
-                'MESSAGE': params.msg,
-            },
-          },
-          {
-            headers: {
-              "Content-Type": "application/json"
-            }
-          }
-        )
-      },
-      async mcNewMessage({commit}, params) {
-        return await axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/mailchimp-put-user',
-          {
-            email_address: params.email,
-            merge_fields: {
-                'FNAME': params.name,
-                'LNAME': params.lastName,
-                'SUBJECT': params.subject,
-                'MESSAGE': params.msg,
-            },
-          },
-          {
-            headers: {
-              "Content-Type": "application/json"
-            }
-          }
-        )
-      },
-      mgSend({commit}, params) {
-        axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/mailgun_send',
-          {
-            email: params.email,
-            firstname: params.name,
-            lastname: params.lastName,
-            subject: params.subject,
-            message: params.msg,
-          }
-        )
-      }
-    },
     state: {
       lang: 'en',
       languages: ['en', 'gr'],
@@ -216,16 +136,20 @@ export default function (Vue, { appOptions, router, head, isClient }) {
       }
     }
   }
-  Vue.use(Vuex)
-  appOptions.store = new Vuex.Store(vuexOpts)
+  Vue.use(Vuex);
+  appOptions.store = new Vuex.Store(vuexOpts);
 
-  Vue.use(Vuelidate)
+  Vue.use(Vuelidate);
 
-  Vue.use(VueWaypoint)
+  Vue.use(VueWaypoint);
 
-  Vue.use(AuthPlugin)
+  Vue.use(AuthPlugin);
 
-  Vue.use(ImgdbPlugin)
+  Vue.use(ImgdbPlugin);
+
+  Vue.use(MarketingPlugin);
+
+  Vue.use(AdminPlugin);
 
   // Set default layout as a global component
   Vue.component('Layout', DefaultLayout)

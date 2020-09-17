@@ -131,9 +131,8 @@ export default {
     },
   },
   methods: {
-    subscribe() {
-      this.$store
-        .dispatch("mcSubscribe", { email: this.email, tag: this.getLang })
+    subscribe(data) {
+      this.$marketing.subscribe(data)
         .then(res => {
           if (200 === res.status) {
             // subscribed
@@ -167,8 +166,7 @@ export default {
         // no errors
         this.btnLoading = true;
         // check if member exists first
-        this.$store
-          .dispatch("mcGetMember", { email: this.email })
+        this.$marketing.getMember({ email_address: this.email })
           .then(res => {
             if (200 === res.status) {
               if ('subscribed' === res.data.status) {
@@ -180,16 +178,28 @@ export default {
                 this.email = "";
               } else {
                 // member exists, but not subscribed
-                this.subscribe();
+                this.subscribe({
+                  email_address: this.email,
+                  tags: [this.getLang],
+                  status: 'subscribed'
+                });
               }
             } else {
               // member does not exist, add him as subscriber
-              this.subscribe()
+              this.subscribe({
+                email_address: this.email,
+                tags: [this.getLang],
+                status_if_new: 'subscribed'
+              });
             }
           })
           .catch(() => {
             // member does not exist, add him as subscriber
-            this.subscribe()
+            this.subscribe({
+              email_address: this.email,
+              tags: [this.getLang],
+              status_if_new: 'subscribed'
+            });
           })
         this.$v.$reset();
       }
