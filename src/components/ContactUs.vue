@@ -289,61 +289,48 @@ export default {
       this.$v.$touch();
       if (!this.$v.$invalid) {
         this.fields = {
-          name: this.name,
-          lastName: this.lastName,
-          email: this.email,
-          subject: this.subject,
-          msg: this.message
+          email_address: this.email,
+          merge_fields: {
+              'FNAME': this.name,
+              'LNAME': this.lastName,
+              'SUBJECT': this.subject,
+              'MESSAGE': this.message,
+          },
         };
         this.isLoading = true;
-        this.$store
-          .dispatch("mcGetMember", { email: this.email })
+        this.$marketing.getMember({ email_address: this.email })
           .then(res => {
             // member found
             if (200 == res.status) {
               // subscribed, keep him subscribed
-              if ("subscribed" === res.data.status || "pending" === res.data.status) {
-                this.$store
-                  .dispatch("mcNewMessage", this.fields)
-                  .then(res => {
-                    if (200 === res.status) {
-                      // success
-                      // this.$store.dispatch("mgSend", this.fields) // send to us message from user
-                      this.clearFields()
-                      this.setAlert('success')
-                    } else {
-                      // error
-                      this.clearFields()
-                      this.setAlert('error')
-                    }
-                  })
-                  .catch(err => {
-                    // server-side error
-                    this.clearFields()
-                    this.setAlert('error')
-                  })
-              } else { // not subscribed, make him transactional
-                this.$store
-                  .dispatch("mcMessage", this.fields)
-                  .then(res => {
-                    if (200 === res.status) {
-                      // success
-                      // this.$store.dispatch("mgSend", this.fields) // send to us message from user
-                      this.clearFields()
-                      this.setAlert('success')
-                    } else {
-                      // error
-                      this.clearFields()
-                      this.setAlert('error')
-                    }
-                  })
-                  .catch(err => {
-                    // server-side error
-                    this.clearFields()
-                    this.setAlert('error')
-                  })
+              if ("subscribed" !== res.data.status && "pending" !== res.data.status && "transactional" !== res.data.status) {
+                this.fields.status = 'transactional'
               }
-            } else {
+              this.marketing.sendMsg(this.fields)
+                .then(res => {
+                  if (200 === res.status) {
+                    // success
+                    this.$admin.sendEmail({
+                      email: this.email,
+                      firstname: this.name,
+                      lastname: this.lastName,
+                      subject: this.subject,
+                      message: this.message
+                    }); // send to us message from user
+                    this.clearFields()
+                    this.setAlert('success')
+                  } else {
+                    // error
+                    this.clearFields()
+                    this.setAlert('error')
+                  }
+                })
+                .catch(err => {
+                  // server-side error
+                  this.clearFields()
+                  this.setAlert('error')
+                })
+              } else {
               // error
               this.clearFields()
               this.setAlert('error')
@@ -351,12 +338,18 @@ export default {
           })
           .catch(() => {
             // member does not exist, make him transactional
-            this.$store
-              .dispatch("mcMessage", this.fields)
+            this.fields.status_if_new = 'transactional'
+            this.$marketing.sendMsg(this.fields)
               .then(res => {
                 if (200 === res.status) {
                   // success
-                  // this.$store.dispatch("mgSend", this.fields) // send to us message from user
+                  this.$admin.sendEmail({
+                    email: this.email,
+                    firstname: this.name,
+                    lastname: this.lastName,
+                    subject: this.subject,
+                    message: this.message
+                  }); // send to us message from user
                   this.clearFields()
                   this.setAlert('success')
                 } else {
@@ -365,7 +358,7 @@ export default {
                   this.setAlert('error')
                 }
               })
-              .catch(() => {
+              .catch((err) => {
                 // server-side error
                 this.clearFields()
                 this.setAlert('error')
