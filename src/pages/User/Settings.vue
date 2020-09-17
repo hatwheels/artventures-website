@@ -22,6 +22,7 @@
                                     v-model.trim="firstName"
                                     background-color="#FAFAFA"
                                     color="#1A1A1A"
+                                    :placeholder="getLang === 'en' ? 'Your First Name...' : 'Το Όνομα σας...'"
                                     :error-messages="firstNameErrors"
                                     outlined
                                     required
@@ -41,6 +42,7 @@
                                     v-model.trim="lastName"
                                     background-color="#FAFAFA"
                                     color="#1A1A1A"
+                                    :placeholder="getLang === 'en' ? 'Your Last Name...' : 'Το Επίθετο σας...'"
                                     :error-messages="lastNameErrors"
                                     outlined
                                     required
@@ -60,6 +62,7 @@
                                     v-model.trim="nickname"
                                     background-color="#FAFAFA"
                                     color="#1A1A1A"
+                                    :placeholder="getLang === 'en' ? 'Your Nickname...' : 'Το Καλλιτεχνικό σας Όνομα...'"
                                     :error-messages="nicknameErrors"
                                     outlined
                                     required
@@ -86,6 +89,7 @@
                                     background-color="#FAFAFA"
                                     color="#1A1A1A"
                                     :error-messages="emailErrors"
+                                    :placeholder="getLang === 'en' ? 'Your Email...' : 'Το Email σας'"
                                     outlined
                                     required
                                     :disabled="provider !== 'auth0'"
@@ -352,6 +356,7 @@
                                 v-model.trim="firstName"
                                 background-color="#FAFAFA"
                                 color="#1A1A1A"
+                                :placeholder="getLang === 'en' ? 'Your First Name...' : 'Το Όνομα σας...'"
                                 :error-messages="firstNameErrors"
                                 outlined
                                 required
@@ -367,6 +372,7 @@
                                 v-model.trim="lastName"
                                 background-color="#FAFAFA"
                                 color="#1A1A1A"
+                                :placeholder="getLang === 'en' ? 'Your Last Name...' : 'Το Επίθετο σας...'"
                                 :error-messages="lastNameErrors"
                                 outlined
                                 required
@@ -382,6 +388,7 @@
                                 v-model.trim="nickname"
                                 background-color="#FAFAFA"
                                 color="#1A1A1A"
+                                :placeholder="getLang === 'en' ? 'Your Nickname...' : 'Το Καλλιτεχνικό σας Όνομα...'"
                                 :error-messages="nicknameErrors"
                                 outlined
                                 required
@@ -403,6 +410,7 @@
                                 v-model="email"
                                 background-color="#FAFAFA"
                                 color="#1A1A1A"
+                                :placeholder="getLang === 'en' ? 'Your Email...' : 'Το Email σας'"
                                 :error-messages="emailErrors"
                                 outlined
                                 required
@@ -423,7 +431,7 @@
                                 outlined
                                 counter='500'
                                 height="30vh"
-                                :placeholder="getLang === 'en' ? 'Some Information about yourself...' : 'Πείτε μας κάποια λόγια για τον εαυτό σας...'"
+                                :placeholder="getLang === 'en' ? 'Tell us about yourself...' : 'Πείτε μας κάποια λόγια για τον εαυτό σας...'"
                                 @input="delayTouch($v.bio)"
                                 @blur="$v.bio.$touch()"
                             ></v-textarea>
