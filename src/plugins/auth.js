@@ -246,34 +246,35 @@ let auth = new Vue({
                     // success
                     if (200 == res.status) {
                         const data = res.data
-
+                        let user = this.user;
                         if (data.hasOwnProperty('given_name')) {
-                            this.user.given_name = data.given_name
+                            user.given_name = data.given_name
                         }
                         if (data.hasOwnProperty('family_name')) {
-                            this.user.family_name = data.family_name
+                            user.family_name = data.family_name
                         }
                         if (data.hasOwnProperty('name')) {
-                            this.user.name = data.name
+                            user.name = data.name
                         }
                         if (data.hasOwnProperty('nickname')) {
-                            this.user.nickname = data.nickname
+                            user.nickname = data.nickname
                         }
                         if (data.hasOwnProperty('email')) {
-                            this.user.email = data.email
+                            user.email = data.email
                         }
                         if (data.hasOwnProperty('email_verified')) {
-                            this.user.email_verified = data.email_verified
+                            user.email_verified = data.email_verified
                         }
                         if (data.hasOwnProperty('verify_email')) {
-                            this.user.verify_email = data.verify_email
+                            user.verify_email = data.verify_email
                         }
                         if (data.hasOwnProperty('picture')) {
-                            this.user.picture = data.picture
+                            user.picture = data.picture
                         }
                         if (data.hasOwnProperty('user_metadata')) {
-                            this.user_metadata = data.user_metadata
+                            user_metadata = data.user_metadata
                         }
+                        this.user = user;
                         resolve()
                     } else {
                         reject(res.status)

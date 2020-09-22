@@ -88,6 +88,7 @@
           background-color="#FAFAFA"
           color="#1A1A1A"
           :error-messages="messageErrors"
+          :auto-grow="!$vuetify.breakpoint.mobile"
           outlined
           required
           @input="delayTouch($v.message)"
@@ -295,6 +296,7 @@ export default {
               'LNAME': this.lastName,
               'SUBJECT': this.subject,
               'MESSAGE': this.message,
+              'ROLE': 'user'
           },
         };
         this.isLoading = true;

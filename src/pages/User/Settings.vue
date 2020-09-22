@@ -22,6 +22,7 @@
                                     v-model.trim="firstName"
                                     background-color="#FAFAFA"
                                     color="#1A1A1A"
+                                    :placeholder="getLang === 'en' ? 'Your First Name...' : 'Το Όνομα σας...'"
                                     :error-messages="firstNameErrors"
                                     outlined
                                     required
@@ -41,6 +42,7 @@
                                     v-model.trim="lastName"
                                     background-color="#FAFAFA"
                                     color="#1A1A1A"
+                                    :placeholder="getLang === 'en' ? 'Your Last Name...' : 'Το Επίθετο σας...'"
                                     :error-messages="lastNameErrors"
                                     outlined
                                     required
@@ -60,6 +62,7 @@
                                     v-model.trim="nickname"
                                     background-color="#FAFAFA"
                                     color="#1A1A1A"
+                                    :placeholder="getLang === 'en' ? 'Your Nickname...' : 'Το Καλλιτεχνικό σας Όνομα...'"
                                     :error-messages="nicknameErrors"
                                     outlined
                                     required
@@ -86,6 +89,7 @@
                                     background-color="#FAFAFA"
                                     color="#1A1A1A"
                                     :error-messages="emailErrors"
+                                    :placeholder="getLang === 'en' ? 'Your Email...' : 'Το Email σας'"
                                     outlined
                                     required
                                     :disabled="provider !== 'auth0'"
@@ -108,7 +112,7 @@
                                     :error-messages="bioErrors"
                                     outlined
                                     counter='500'
-                                    height="30vh"
+                                    auto-grow
                                     color="#1A1A1A"
                                     :placeholder="getLang === 'en' ? 'Tell us about yourself...' : 'Πείτε μας κάποια λόγια για τον εαυτό σας...'"
                                     @input="delayTouch($v.bio)"
@@ -280,7 +284,6 @@
                         <label
                             :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
                             class="pic-btn white--text text-capitalize py-1 pl-2 pr-4 mt-2 text-center center-label"
-                            style="pos"
                             for="pic_profile_mobile"
                         >
                             <v-icon class="pb-1 white--text pr-2">mdi-pencil</v-icon>{{ buttons.pic[getLang] }}
@@ -352,6 +355,7 @@
                                 v-model.trim="firstName"
                                 background-color="#FAFAFA"
                                 color="#1A1A1A"
+                                :placeholder="getLang === 'en' ? 'Your First Name...' : 'Το Όνομα σας...'"
                                 :error-messages="firstNameErrors"
                                 outlined
                                 required
@@ -367,6 +371,7 @@
                                 v-model.trim="lastName"
                                 background-color="#FAFAFA"
                                 color="#1A1A1A"
+                                :placeholder="getLang === 'en' ? 'Your Last Name...' : 'Το Επίθετο σας...'"
                                 :error-messages="lastNameErrors"
                                 outlined
                                 required
@@ -382,6 +387,7 @@
                                 v-model.trim="nickname"
                                 background-color="#FAFAFA"
                                 color="#1A1A1A"
+                                :placeholder="getLang === 'en' ? 'Your Nickname...' : 'Το Καλλιτεχνικό σας Όνομα...'"
                                 :error-messages="nicknameErrors"
                                 outlined
                                 required
@@ -403,6 +409,7 @@
                                 v-model="email"
                                 background-color="#FAFAFA"
                                 color="#1A1A1A"
+                                :placeholder="getLang === 'en' ? 'Your Email...' : 'Το Email σας'"
                                 :error-messages="emailErrors"
                                 outlined
                                 required
@@ -422,8 +429,8 @@
                                 :error-messages="bioErrors"
                                 outlined
                                 counter='500'
-                                height="30vh"
-                                :placeholder="getLang === 'en' ? 'Some Information about yourself...' : 'Πείτε μας κάποια λόγια για τον εαυτό σας...'"
+                                color="#1A1A1A"
+                                :placeholder="getLang === 'en' ? 'Tell us about yourself...' : 'Πείτε μας κάποια λόγια για τον εαυτό σας...'"
                                 @input="delayTouch($v.bio)"
                                 @blur="$v.bio.$touch()"
                             ></v-textarea>
@@ -922,7 +929,6 @@ export default {
         this.email = ''
         this.bio = ''
       }
-      this.isLoading = false
     },
     getUserMetadata() {
         if (process.isClient) {
@@ -960,14 +966,12 @@ export default {
       } else {
         this.role = ''
       }
-      this.isLoading = false
     },
     updateRole(roleObj) {
         this.setUserRole(roleObj)
         this.role = roleObj[0].name
-        this.isLoading = false
     },
-    submit() {
+    async submit() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
         if (process.isClient) {
@@ -975,50 +979,128 @@ export default {
             if (this.$auth.user) {
                 var nameUpdate = false
                 if (this.firstName !== this.$auth.user.given_name) {
-                    data['given_name'] = this.firstName
+                    data.given_name = this.firstName
                     nameUpdate = true
                 }
                 if (this.lastName !== this.$auth.user.family_name) {
-                    data['family_name'] = this.lastName
+                    data.family_name = this.lastName
                     nameUpdate = true
                 }
                 if (this.nickname !== this.$auth.user.nickname) {
-                    data['nickname'] = this.nickname
+                    data.nickname = this.nickname
                 }
                 if (this.email !== this.$auth.user.email) {
-                    data['email'] = this.email
-                    data['email_verified'] = false
-                    data['verify_email'] = true
+                    data.email = this.email
+                    data.email_verified = false
+                    data.verify_email = true
                 }
                 if (nameUpdate) {
-                    data['name'] = this.firstName + ' ' + this.lastName
+                    data.name = this.firstName + ' ' + this.lastName
                 }
             }
             if (!this.$auth.user_metadata || this.bio !== this.$auth.user_metadata.bio) {
                 if (!data.hasOwnProperty('user_metadata')) {
-                    data['user_metadata'] = {}
+                    data.user_metadata = {}
                 }
-                data['user_metadata']['bio'] = this.bio
+                data.user_metadata.bio = this.bio
             }
-            if (Object.keys(data).length !== 0 && data.constructor === Object) {
+
+            var dataChanged = Object.keys(data).length !== 0 && data.constructor === Object;
+            var roleChanged = this.getUserRole() && this.role !== this.getUserRoleName();
+
+            if (dataChanged || roleChanged) { // check that at least one has changed
                 this.isLoading = true;
-                this.$auth.updateUser(data).then(() => {
-                    this.clearUser()
-                    this.setAlert('success')
-                }).catch(err => {
-                    this.clearUser()
-                    this.setAlert('error')
-                })
-            }
-            if (this.getUserRole() && this.role !== this.getUserRoleName()) {
-                this.isLoading = true;
-                this.$auth.updateUserRole(this.role).then((roleObj) => {
-                    this.setAlertRole('success')
-                    this.updateRole(roleObj)
-                }).catch(err => {
-                    this.clearRole()
-                    this.setAlertRole('error')
-                })
+                var dataUpdated = null;
+                // keep email in case it changed as after updateUser localStorage is updated!
+                var oldEmail = this.$auth.user.email;
+                var roleUpdated = { flag: null, obj: null };
+                
+                if (dataChanged) { // update if data changed
+                    await this.$auth.updateUser(data)
+                        .then(() =>  dataUpdated = true) // successfully updated data
+                        .catch(err => dataUpdated = false) // updating data failed
+                }
+                if (roleChanged) { // update if role changed
+                    await this.$auth.updateUserRole(this.role)
+                        .then((roleObj) => {
+                            roleUpdated.flag = true;
+                            roleUpdated.obj = roleObj;
+                        }) // successfully updated role
+                        .catch(err => roleUpdated.flag = false) // updating role failed
+                }
+
+                if (dataUpdated  === true || roleUpdated.flag  === true) { // one of them at least successfully updated
+                    var marketingData = {
+                        email_address: oldEmail,
+                        merge_fields: {}
+                    }; // init with current email and empty merge_fields object
+                    var status = ''; // status retrieved if member was found
+
+                    await this.$marketing.getMember({ email_address: oldEmail })
+                        .then(res => status = res.data.status) // member found
+                        .catch(() => {})
+
+                    if (status.length === 0) {
+                        // member not found, create with new email (if changed) and add
+                        // 'status_if_new' key with 'subscribed' value
+                        // also add tags and role
+                        marketingData.email_address = this.email; // different only if user changed it
+                        marketingData.status_if_new = 'subscribed';
+                        marketingData.tags = [this.getLang];
+                        marketingData.merge_fields['ROLE'] = this.role;
+                    }
+                    if (dataUpdated === true) { // updated in auth service, update in marketing service as well
+                        if (data.hasOwnProperty('given_name')) {
+                            marketingData.merge_fields['FNAME'] = data.given_name;
+                        }
+                        if (data.hasOwnProperty('family_name')) {
+                            marketingData.merge_fields['LNAME'] = data.family_name;
+                        }
+                        if (data.hasOwnProperty('email') && status.length > 0) {
+                            // request to change email only if member found
+                            marketingData.new_email_address = data.email; // == this.email
+                            // include status required to change email
+                            marketingData.status = status
+                        }
+                    } else if (dataUpdated === false) { // failed to update in auth service, alert
+                        this.clearUser()
+                        this.setAlert('error')
+                    }
+                    // updated in auth service, update in marketing service as well
+                    if (roleUpdated.flag === true) {
+                        marketingData.merge_fields['ROLE'] = this.role
+                    } else if (roleUpdated.flag === false) { // not updated in auth service, alert
+                        this.clearRole();
+                        this.setAlertRole('error');
+                    }
+                    // Delete 'merge_fields' key if empty.
+                    if (Object.keys(marketingData.merge_fields).length === 0) {
+                        delete marketingData.merge_fields;
+                    }
+                    // Make call to Marketing Service
+                    await this.$marketing.createOrUpdateMember(marketingData)
+                        .finally(() => { // we don't care to show to users whether marketing update succeeded or failed
+                            // show success
+                            if (dataUpdated === true) {
+                                this.clearUser()
+                                this.setAlert('success')
+                            }
+                            if (roleUpdated.flag === true) {
+                                this.updateRole(roleUpdated.obj)
+                                this.setAlertRole('success')
+                            }
+                        });
+                } else { // none of them updated 
+                    if (dataUpdated == false) { // data failed to update
+                        this.clearUser();
+                        this.setAlert('error');
+                    }
+                    if (roleUpdated.flag == false) { // role failed to update
+                        this.clearRole();
+                        this.setAlertRole('error');
+                    }
+                }
+                this.isLoading = false;
             }
         }
         this.$v.$reset()

@@ -50,16 +50,11 @@ export default {
       this.$auth.getUserRole()
         .then((roleObj) => {
           if (roleObj == null) {
-            this.dialog = true
+            this.dialog = true;
           } else {
             this.$auth.getUser()
-            .then(() => {
-              if (roleObj[0].name == 'artist')
-                this.$router.push({ path: '/user/portfolio' })
-              else
-                this.$router.push({ path: '/user/profile' })
-            })
-            .catch(err => this.$auth.logout())
+              .then(() => this.processMarketing(roleObj))
+              .catch(err => this.$auth.logout())
           }
         })
         .catch(err => this.$auth.logout())
@@ -70,20 +65,44 @@ export default {
   },
   methods: {
     createRoleForUser(role) {
+      this.dialog = false
       this.$auth.assignUserRole(role)
-      .then((roleObj) => {
-        this.$auth.getUser()
-        .then(() => {
+        .then((roleObj) => {
+          this.$auth.getUser()
+            .then(() => this.processMarketing(roleObj))
+            .catch(err => this.$auth.logout())
+        })
+        .catch(err => this.$auth.logout())
+    },
+    processMarketing(roleObj) {
+      // check if member is in Marketing Service (Mailchimp)
+      let user = JSON.parse(localStorage.getItem('user'))
+
+      this.$marketing.getMember({ email_address: user.email })
+        .then(() => { // member found. Don't subscribe her.
           if (roleObj[0].name == 'artist')
             this.$router.push({ path: '/user/portfolio' })
           else
             this.$router.push({ path: '/user/profile' })
         })
-        .catch(err => {
-          this.$auth.logout()
+        .catch(() => { // member not found, automatically subscribe her.
+          this.$marketing.subscribe({
+            email_address: user.email,
+            merge_fields: {
+              'FNAME': user.given_name,
+              'LNAME': user.family_name,
+              'ROLE': roleObj[0].name
+            },
+            tags: [this.getLang],
+            status_if_new: 'subscribed'
+          })
+            .finally(() => {
+              if (roleObj[0].name == 'artist')
+                this.$router.push({ path: '/user/portfolio' })
+              else
+                this.$router.push({ path: '/user/profile' })
+            })
         })
-      })
-      .catch(err => this.$auth.logout())
     }
   }
 }
