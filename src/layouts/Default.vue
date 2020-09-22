@@ -7,7 +7,7 @@
       :debug="false"
       :position="'bottom'"
       :type="'bar'"
-      :disableDecline="true"
+      :disableDecline="false"
       :transitionName="'slideFromBottom'"
       :showPostponeButton="true"
       @status="cookieStatus"
@@ -380,7 +380,7 @@ export default {
         en: 'Accept',
       },
       declineCookies: {
-        gr: 'Δεν Αποδέχομαι',
+        gr: 'Αρνούμαι',
         en: 'Decline',
       },
       logo: [
@@ -802,8 +802,12 @@ export default {
   font-weight: 700 !important;
 }
 .cookie__bar__buttons__button--accept {
+  border: 1px solid #525252 !important;
+  background: #F5F5F5 !important;
+  color: #525252 !important;
+}
+.cookie__bar__buttons__button--decline {
   background: #525252 !important;
-
 }
 </style>
 
