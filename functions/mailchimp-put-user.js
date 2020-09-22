@@ -5,7 +5,9 @@ exports.handler = async (event, context) => {
   try {
     console.log('######## START ##########')
     let data = JSON.parse(event.body);
-    console.log(data)
+
+    console.log('input data :');
+    console.log(data);
 
     if (!data.email_address) {
       var error = 'email_address parameter required'
@@ -27,7 +29,7 @@ exports.handler = async (event, context) => {
 
     const emailHash = md5(data.email_address.toLowerCase());
 
-    if (data.hasOwnProperty('new_email_adress')) {
+    if (data.hasOwnProperty('new_email_address')) {
         // Warning: when changing the email of a member, the status has to be provided
         // We hash the current email, but pass the new email in the 'email_address' field
       if (!data.hasOwnProperty('status')) {
@@ -44,6 +46,9 @@ exports.handler = async (event, context) => {
       data.email_address = data.new_email_address;
       delete data.new_email_address;
     }
+
+    console.log('data fed to setListMember: ');
+    console.log(data);
 
     const run = async () => {
       const response = await mailchimp.lists.setListMember(
