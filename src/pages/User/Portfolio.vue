@@ -78,7 +78,7 @@
           <div
             :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
             class="pt-12 my-0 mx-1 text-center"
-            v-html="getLang === 'gr' ? 'Υπέβαλε Εργο Τέχνης' : 'Submit Artwork'"
+            v-html="getLang === 'gr' ? 'Υπόβαλε Εργο Τέχνης' : 'Submit Artwork'"
           />
           <v-row class="pt-8 pb-12" justify="center" align="center">
             <v-col :cols='$vuetify.breakpoint.mobile ? "8" : "3"'>
