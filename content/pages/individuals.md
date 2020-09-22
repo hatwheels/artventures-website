@@ -57,22 +57,21 @@ advantages:
       en: Invest smart
       gr: Επενδύστε έξυπνα
     text:
-      en: >
-        Get to know young and talented artists before they even gain much
-        publicity, help those you value by trying out and / or purchasing their
-        artworks, promote those you believe are worth more, by giving them the
-        exposure they need. Start or increase your collection and give it good
-        value by supporting and discovering new, promising artists at the same
-        time.<br><br>Art Rentals for 50€ per month. Get original art in your
-        home for a fixed monthly fee. We ship each work ready to hang. And we
-        don’t believe in minimum terms or hidden costs, so there aren’t any.
-      gr: >
-        Γνωρίστε νέους και ταλαντούχους καλλιτέχνες πριν ακόμα αποκτήσουν μεγάλη
+      en: Get to know young and talented artists before they even gain much publicity,
+        help those you value by trying out and / or purchasing their artworks,
+        promote those you believe are worth more, by giving them the exposure
+        they need. Start or increase your collection and give it good value by
+        supporting and discovering established, great or even new, promising
+        artists at the same time.<br><br>Art Rentals for 50€ per month. Get
+        original art in your home for a fixed monthly fee. We ship each work
+        ready to hang. And we don’t believe in minimum terms or hidden costs, so
+        there aren’t any.
+      gr: Γνωρίστε νέους και ταλαντούχους καλλιτέχνες πριν ακόμα αποκτήσουν μεγάλη
         δημοσιότητα, βοηθήστε όσους εκτιμάτε δοκιμάζοντας ή και αγοράζοντας τα
         έργα τους, προωθήστε όσους πιστεύουν πως αξίζουν προσφέροντας τους την
         έκθεση που χρειάζονται. Ξεκινήστε ή αυξήστε την συλλογή σας και δώστε
-        της υπεραξία, στηρίζοντας και ανακαλύπτοντας ταυτόχρονα νέους,
-        υποσχόμενους καλλιτέχνες.
+        της υπεραξία, στηρίζοντας και ανακαλύπτοντας ταυτόχρονα έμπειρους,
+        καταξιωμένους ή ακόμα και νέους, υποσχόμενους καλλιτέχνες.
 rent:
   title:
     en: Why Rent Art?
