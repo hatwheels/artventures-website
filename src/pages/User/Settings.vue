@@ -284,7 +284,6 @@
                         <label
                             :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
                             class="pic-btn white--text text-capitalize py-1 pl-2 pr-4 mt-2 text-center center-label"
-                            style="pos"
                             for="pic_profile_mobile"
                         >
                             <v-icon class="pb-1 white--text pr-2">mdi-pencil</v-icon>{{ buttons.pic[getLang] }}
@@ -972,7 +971,7 @@ export default {
         this.setUserRole(roleObj)
         this.role = roleObj[0].name
     },
-    submit() {
+    async submit() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
         if (process.isClient) {
@@ -1012,40 +1011,44 @@ export default {
             if (dataChanged || roleChanged) { // check that at least one has changed
                 this.isLoading = true;
                 var dataUpdated = null;
+                // keep email in case it changed as after updateUser localStorage is updated!
+                var oldEmail = this.$auth.user.email;
                 var roleUpdated = { flag: null, obj: null };
                 
                 if (dataChanged) { // update if data changed
-                    this.$auth.updateUser(data)
+                    await this.$auth.updateUser(data)
                         .then(() =>  dataUpdated = true) // successfully updated data
-                        .catch(err => dataUpdated = false) // updating role failed
+                        .catch(err => dataUpdated = false) // updating data failed
                 }
                 if (roleChanged) { // update if role changed
-                    this.$auth.updateUserRole(this.role)
+                    await this.$auth.updateUserRole(this.role)
                         .then((roleObj) => {
                             roleUpdated.flag = true;
                             roleUpdated.obj = roleObj;
-
                         }) // successfully updated role
                         .catch(err => roleUpdated.flag = false) // updating role failed
                 }
 
                 if (dataUpdated  === true || roleUpdated.flag  === true) { // one of them at least successfully updated
                     var marketingData = {
-                        email_address: this.$auth.user.email,
+                        email_address: oldEmail,
                         merge_fields: {}
                     }; // init with current email and empty merge_fields object
                     var status = ''; // status retrieved if member was found
 
-                    this.$marketing.getMember({ email: this.$auth.user.email })
+                    await this.$marketing.getMember({ email_address: oldEmail })
                         .then(res => status = res.data.status) // member found
+                        .catch(() => {})
 
                     if (status.length === 0) {
                         // member not found, create with new email (if changed) and add
                         // 'status_if_new' key with 'subscribed' value
+                        // also add tags and role
                         marketingData.email_address = this.email; // different only if user changed it
                         marketingData.status_if_new = 'subscribed';
+                        marketingData.tags = [this.getLang];
+                        marketingData.merge_fields['ROLE'] = this.role;
                     }
-                    //
                     if (dataUpdated === true) { // updated in auth service, update in marketing service as well
                         if (data.hasOwnProperty('given_name')) {
                             marketingData.merge_fields['FNAME'] = data.given_name;
@@ -1055,7 +1058,7 @@ export default {
                         }
                         if (data.hasOwnProperty('email') && status.length > 0) {
                             // request to change email only if member found
-                            marketingData.new_email_address = data.email;
+                            marketingData.new_email_address = data.email; // == this.email
                             // include status required to change email
                             marketingData.status = status
                         }
@@ -1063,19 +1066,19 @@ export default {
                         this.clearUser()
                         this.setAlert('error')
                     }
-                    //
-                    if (roleUpdated.flag === true) {  // updated in auth service, update in marketing service as well
+                    // updated in auth service, update in marketing service as well
+                    if (roleUpdated.flag === true) {
                         marketingData.merge_fields['ROLE'] = this.role
                     } else if (roleUpdated.flag === false) { // not updated in auth service, alert
                         this.clearRole();
                         this.setAlertRole('error');
                     }
                     // Delete 'merge_fields' key if empty.
-                    if (Object.keys(marketingData.merge_fields).length === 0 && mergeField.constructor === Object) {
+                    if (Object.keys(marketingData.merge_fields).length === 0) {
                         delete marketingData.merge_fields;
                     }
                     // Make call to Marketing Service
-                    this.$marketing.createOrUpdateMember(marketingData)
+                    await this.$marketing.createOrUpdateMember(marketingData)
                         .finally(() => { // we don't care to show to users whether marketing update succeeded or failed
                             // show success
                             if (dataUpdated === true) {
