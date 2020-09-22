@@ -112,7 +112,7 @@
                                     :error-messages="bioErrors"
                                     outlined
                                     counter='500'
-                                    height="30vh"
+                                    auto-grow
                                     color="#1A1A1A"
                                     :placeholder="getLang === 'en' ? 'Tell us about yourself...' : 'Πείτε μας κάποια λόγια για τον εαυτό σας...'"
                                     @input="delayTouch($v.bio)"
@@ -430,7 +430,7 @@
                                 :error-messages="bioErrors"
                                 outlined
                                 counter='500'
-                                height="30vh"
+                                color="#1A1A1A"
                                 :placeholder="getLang === 'en' ? 'Tell us about yourself...' : 'Πείτε μας κάποια λόγια για τον εαυτό σας...'"
                                 @input="delayTouch($v.bio)"
                                 @blur="$v.bio.$touch()"
