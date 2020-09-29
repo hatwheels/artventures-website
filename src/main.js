@@ -1,16 +1,20 @@
 // This is the main.js file. Import global CSS and scripts here.
 // The Client API can be used here. Learn more: gridsome.org/docs/client-api
+// Front-End UI component
 import Vuetify from 'vuetify/lib/framework' //treeshaking
 import goTo from 'vuetify/es5/services/goto'
 import 'vuetify/dist/vuetify.min.css'
-import Vuex from 'vuex'
-import Vuelidate from 'vuelidate'
+// Layouts
 import DefaultLayout from '~/layouts/Default.vue'
 import UserLayout from '~/layouts/User.vue'
 import VoidLayout from '~/layouts/Void.vue'
-import VueCookieAcceptDecline from 'vue-cookie-accept-decline'
-import axios from 'axios'
+// Components
+import Vuex from 'vuex'
+import Vuelidate from 'vuelidate'
+const VueCookieAcceptDecline = require('vue-cookie-accept-decline');
 import VueWaypoint from "vue-waypoint"
+import ImageUploader from 'vue-image-upload-resize'
+// Plugins
 import AuthPlugin from './plugins/auth'
 import ImgdbPlugin from './plugins/imgdb'
 import MarketingPlugin from './plugins/marketing'
@@ -38,6 +42,7 @@ export default function (Vue, { appOptions, router, head, isClient }) {
     href: 'https://cdn.jsdelivr.net/npm/vue-cookie-accept-decline@5.3.1/dist/vue-cookie-accept-decline.css'
   })
 
+  // Register Front-End UI component (Vuetify)
   const vuetifyOpts = {
     icons: {
       iconfont: 'mdi',
@@ -102,6 +107,7 @@ export default function (Vue, { appOptions, router, head, isClient }) {
     }
   })
 
+  // Register Vue Router component (Vuex)
   const vuexOpts = {
     state: {
       lang: 'en',
@@ -139,21 +145,18 @@ export default function (Vue, { appOptions, router, head, isClient }) {
   Vue.use(Vuex);
   appOptions.store = new Vuex.Store(vuexOpts);
 
+  // Register components
   Vue.use(Vuelidate);
-
   Vue.use(VueWaypoint);
-
+  Vue.use(VueCookieAcceptDecline);
+  Vue.use(ImageUploader);
   Vue.use(AuthPlugin);
-
   Vue.use(ImgdbPlugin);
-
   Vue.use(MarketingPlugin);
-
   Vue.use(AdminPlugin);
 
-  // Set default layout as a global component
+  // Register layouts
   Vue.component('Layout', DefaultLayout)
   Vue.component('UserLayout', UserLayout)
   Vue.component('VoidLayout', VoidLayout)
-  Vue.component('vue-cookie-accept-decline', VueCookieAcceptDecline);
 }
