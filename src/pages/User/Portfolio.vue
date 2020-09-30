@@ -90,50 +90,50 @@
                 />
                 <div class="d-flex">
                   <v-text-field
-                      v-model.trim="title"
-                      background-color="#FAFAFA"
-                      color="#1A1A1A"
-                      :error-messages="titleErrors"
-                      outlined
-                      required
-                      @input="delayTouch($v.title)"
-                      @blur="$v.title.$touch()"
+                    v-model.trim="title"
+                    background-color="#FAFAFA"
+                    color="#1A1A1A"
+                    :error-messages="titleErrors"
+                    outlined
+                    required
+                    @input="delayTouch($v.title)"
+                    @blur="$v.title.$touch()"
                   ></v-text-field>
                   <label
-                    for="artwork-image"
-                    class="pl-2"
+                    for="fileInput"
+                    slot="upload-label"
                     style="cursor: pointer"
                   >
-                    <v-icon  class="mt-2" x-large color="#333333">mdi-image-plus</v-icon>
+                    <v-icon class="mt-2" x-large color="#333333">mdi-image-plus</v-icon>
                   </label>
                 </div>
-                <input
-                  id="artwork-image"
-                  ref="artworkImage"
-                  name="artwork-image"
-                  style="opacity: 0"
+                <image-uploader
+                  :preview="false"
+                  :className="['fileinput']"
+                  :maxWidth="1024"
+                  :maxHeight="1024"
+                  :quality="0.5"
                   accept="image/png, image/jpeg, image/bmp"
-                  type="file"
-                  required
-                  @change="getImage"
+                  outputFormat="string"
+                  @onUpload="imageToUploadBase64 = null; showImageLoader = true;"
+                  @onComplete="showImageLoader = false;"
+                  @input="getImage"
                 >
+                </image-uploader>
                 <v-row class="pb-2" justify="center" align="center">
                   <g-image v-if="imageToUploadBase64" :src="imageToUploadBase64" style="width: 20vw" />
-                  <div v-else>
-                    <img v-show="showImageLoader" src="../../../static/loading.svg" width="300vw" alt="Loading">
+                  <div v-else v-show="showImageLoader">
+                    <v-progress-circular
+                      class="py-12 my-12"
+                      :size="70"
+                      :width="7"
+                      color="black"
+                      indeterminate
+                    ></v-progress-circular>
                   </div>
                 </v-row>
                 <!-- Alerts -->
                 <v-row class="pb-2" justify="center" align="center">
-                  <v-alert
-                      class="mt-2"
-                      type='error'
-                      v-model="alert"
-                      dismissible
-                      transition="slide-x-transition"
-                  >
-                    {{ getLang == 'gr' ? 'Το μέγεθος της εικόνας είναι πάνω από 5 MB' : 'Image size is over 5 MB' }}
-                  </v-alert>
                   <v-alert
                       class="mt-2"
                       type='error'
@@ -225,6 +225,9 @@ export default {
       maxLength: maxLength(30)
     },
   },
+  components: {
+    ImageUploader: () => import('vue-image-upload-resize'),
+  },
   created () {
     if (process.isClient && this.$auth.user) {
       this.isFetchingImages = true
@@ -237,13 +240,13 @@ export default {
             var folder = resource.folder.replace('artwork/' + this.$auth.user.sub + '/', '')
             switch (folder) {
               case 'inprocess':
-                this.allArtworks[0].push( { title: resource.filename.replace('_', ' '), img: resource.secure_url } )
+                this.allArtworks[0].push( { title: resource.filename.replace(/_/g, ' '), img: resource.secure_url } )
                 break;
               case 'approved':
-                this.allArtworks[1].push( { title: resource.filename.replace('_', ' '), img: resource.secure_url } )
+                this.allArtworks[1].push( { title: resource.filename.replace(/_/g, ' '), img: resource.secure_url } )
                 break;
               case 'rejected':
-                this.allArtworks[2].push( { title: resource.filename.replace('_', ' '), img: resource.secure_url } )
+                this.allArtworks[2].push( { title: resource.filename.replace(/_/g, ' '), img: resource.secure_url } )
                 break;
               default:
                 break;
@@ -264,7 +267,6 @@ export default {
   },
   data () {
     return {
-      alert: false,
       alertImage: false,
       dialogPortfolio: {
         toggle: false,
@@ -400,57 +402,27 @@ export default {
     },
   },
   methods: {
-  // Alert for image size
-  setAlert() {
-    const that = this
-    function clearAlert() {
-      that.alert = false
-    }
-    this.alert = true;
-    setTimeout(clearAlert, 4000)
-  },
-  // Alert for image limit
-  setAlertImage() {
-    const that = this
-    function clearAlert() {
-      that.alertImage = false
-    }
-    this.alertImage = true;
-    setTimeout(clearAlert, 4000)
-  },
-  clearDialogPortfolio() {
-    this.dialogPortfolio.toggle = false
-    this.dialogPortfolio.text.en = ""
-    this.dialogPortfolio.text.gr = ""
-  },
-  getImage(e) {
-    this.imageToUploadBase64 = null
+    // Alert for image limit
+    setAlertImage() {
+      const that = this
+      function clearAlert() {
+        that.alertImage = false
+      }
+      this.alertImage = true;
+      setTimeout(clearAlert, 4000)
+    },
+    clearDialogPortfolio() {
+      this.dialogPortfolio.toggle = false
+      this.dialogPortfolio.text.en = ""
+      this.dialogPortfolio.text.gr = ""
+    },
+    getImage(output) {
       if (this.currentImageCount > 30) {
         // Max uploaded images (30) reached
         this.setAlertImage()
-        this.$refs.artworkImage.value = ''
-        return
+        return;
       }
-      const file = e.target.files[0]
-      if (file) {
-        if (file.size > 5 * 1024 * 1024) {
-          // Size is bigger than 5 MB
-          this.setAlert()
-          // clear input
-          this.$refs.artworkImage.value = ''
-          return
-        }
-        var reader = new FileReader();
-        // Define a callback function to run, when FileReader finishes its job
-        reader.readAsDataURL(file);
-        this.showImageLoader = true
-        reader.onload = (e) => {
-            // Note: arrow function used here, so that "this.imageToUploadBase64" refers to the this.imageToUploadBase64 of Vue component
-            // Read image as base64 and set to this.imageToUploadBase64
-            this.imageToUploadBase64 = e.target.result
-            this.showImageLoader = false
-        }
-      }
+      this.imageToUploadBase64 = output;
     },
     submit() {
       this.$v.$touch();
@@ -470,30 +442,26 @@ export default {
               this.dialogPortfolio.toggle = true
               this.isLoading = false
               this.currentImageCount++
-              this.$refs.artworkImage.value = ''
             })
             .catch(err => { 
               this.title = null
               this.imageToUploadBase64 = null
               this.dialogPortfolio.text.en = "Unfortunately an error occured. Please try again later."
-              this.dialogPortfolio.text.gr = "Δυστηχώς κάποιο σφάλμα προέκυψε. Παρακαλώ δοκιμάστε ξανά αργότερα."
+              this.dialogPortfolio.text.gr = "Δυστυχώς κάποιο σφάλμα προέκυψε. Παρακαλώ δοκιμάστε ξανά αργότερα."
               this.dialogPortfolio.toggle = true
               this.isLoading = false;
-              this.$refs.artworkImage.value = ''
             })
           } else {
             this.title = null
             this.imageToUploadBase64 = null
             this.dialogPortfolio.text.en = "Unfortunately an error occured. Please try again later."
-            this.dialogPortfolio.text.gr = "Δυστηχώς κάποιο σφάλμα προέκυψε. Παρακαλώ δοκιμάστε ξανά αργότερα."
+            this.dialogPortfolio.text.gr = "Δυστυχώς κάποιο σφάλμα προέκυψε. Παρακαλώ δοκιμάστε ξανά αργότερα."
             this.dialogPortfolio.toggle = true
             this.isLoading = false;
-            this.$refs.artworkImage.value = ''
           }
         } else {
           this.title = null
           this.imageToUploadBase64 = null
-          this.$refs.artworkImage.value = ''
         }
         this.$v.$reset();
       }
@@ -518,6 +486,9 @@ export default {
 </script>
 
 <style>
+#fileInput {
+  display: none;
+}
 .portfolio-alert-block {
   width: 40vw;
   margin-right: 30vw;

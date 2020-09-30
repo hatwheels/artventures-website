@@ -15,7 +15,7 @@ module.exports = {
     {
       use: '@gridsome/plugin-sitemap',
       options: {
-        exclude: ['/user/profile', 'user/settings'],
+        exclude: ['/user/profile', '/user/settings', '/user/portfolio'],
       }
     },
 
