@@ -229,6 +229,8 @@ export default {
     ImageUploader: () => {
       if (process.isClient) {
         import('vue-image-upload-resize');
+      } else {
+        null;
       }
     }
   },
