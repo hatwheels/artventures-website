@@ -26,7 +26,7 @@
         </div>
     </vue-cookie-accept-decline>
 
-    <v-app-bar app class="px-11" rounded elevation="5" absolute color="#e8e8e8" height="76px">
+    <v-app-bar app class="px-11 rounded-b-xl" outlined absolute color="#e8e8e8" height="76px">
 
       <v-btn width="185" color="transparent" text icon to="/">/
         <g-image style="width: 100%" :src="logo[0]" />
