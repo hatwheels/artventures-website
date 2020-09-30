@@ -13,7 +13,6 @@ import Vuex from 'vuex'
 import Vuelidate from 'vuelidate'
 const VueCookieAcceptDecline = require('vue-cookie-accept-decline');
 import VueWaypoint from "vue-waypoint"
-import ImageUploader from 'vue-image-upload-resize'
 // Plugins
 import AuthPlugin from './plugins/auth'
 import ImgdbPlugin from './plugins/imgdb'
@@ -149,7 +148,6 @@ export default function (Vue, { appOptions, router, head, isClient }) {
   Vue.use(Vuelidate);
   Vue.use(VueWaypoint);
   Vue.use(VueCookieAcceptDecline);
-  Vue.use(ImageUploader);
   Vue.use(AuthPlugin);
   Vue.use(ImgdbPlugin);
   Vue.use(MarketingPlugin);

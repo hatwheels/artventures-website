@@ -30,28 +30,28 @@ exports.handler = async (event, context) => {
         var xpr = 'resource_type:image AND folder:' + data.folder
 
         return cloudinary.search.expression(xpr)
-        .sort_by('public_id', 'desc')
-        .execute()
-        .then(res => {
-            var reply = JSON.stringify(res)
+            .sort_by('public_id', 'desc')
+            .execute()
+            .then(res => {
+                var reply = JSON.stringify(res)
 
-            console.log('Retrieved: ' + reply)
-            console.log("### END ###")
+                console.log('Retrieved: ' + reply)
+                console.log("### END ###")
 
-            return {
-                statusCode: 200,
-                body: reply
-            }
-        })
-        .catch(err => {
-            console.log(err)
-            console.log('### END ###')
+                return {
+                    statusCode: 200,
+                    body: reply
+                }
+            })
+            .catch(err => {
+                console.log(err)
+                console.log('### END ###')
 
-            return {
-                statusCode: err.statusCode,
-                body: err.message
-            }
-        })
+                return {
+                    statusCode: err.statusCode,
+                    body: err.message
+                }
+            })
 
     } catch (err) {
         console.log("### END ###")
