@@ -110,9 +110,9 @@
                 <image-uploader
                   :preview="false"
                   :className="['fileinput']"
-                  :maxWidth="512"
-                  :maxHeight="512"
-                  :quality="0.9"
+                  :maxWidth="1024"
+                  :maxHeight="1024"
+                  :quality="0.5"
                   accept="image/png, image/jpeg, image/bmp"
                   outputFormat="string"
                   @onUpload="imageToUploadBase64 = null; showImageLoader = true;"
