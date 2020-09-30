@@ -227,11 +227,9 @@ export default {
   },
   components: {
     ImageUploader: () => {
-      if (process.isClient) {
-        import('vue-image-upload-resize');
-      } else {
-        null;
-      }
+      import('vue-image-upload-resize')
+        .then(() => {})
+        .catch(() => {});
     }
   },
   created () {
