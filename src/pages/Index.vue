@@ -723,7 +723,7 @@ export default {
   },
   metaInfo () {
     return {
-      titleTemplate: 'Artventures',
+      titleTemplate: 'Artventures - Rent, Lease, Buy Works of Art',
       meta: [
         { name: 'description', content: 'Landing page' },
       ],
