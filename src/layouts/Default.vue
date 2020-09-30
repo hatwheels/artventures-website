@@ -26,7 +26,7 @@
     </vue-cookie-accept-decline>
 
     <!-- Desktop -->
-    <v-app-bar v-show="!$vuetify.breakpoint.mobile" flat class="px-11" app absolute color="#e8e8e8" height="76px">
+    <v-app-bar v-show="!$vuetify.breakpoint.mobile" app class="px-11" rounded elevation="5" absolute color="#e8e8e8" height="76px">
 
       <v-btn width="185" color="transparent" text icon to="/">/
         <g-image :src="logo[0]" style="width: 100%" />
