@@ -225,13 +225,6 @@ export default {
       maxLength: maxLength(30)
     },
   },
-  components: {
-    ImageUploader: () => {
-      import('vue-image-upload-resize')
-        .then(() => {})
-        .catch(() => {});
-    }
-  },
   created () {
     if (process.isClient && this.$auth.user) {
       this.isFetchingImages = true
