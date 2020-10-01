@@ -6,6 +6,7 @@ public_folder: "/images/uploads"
 publish_mode: editorial_workflow
 site_url: https://artventures.me
 display_url: https://artventures.me
+logo_url: https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto/v1583838043/artventures/artventures_logo.svg
 collections:
   # Homepage
   - name: "home"
