@@ -2,13 +2,13 @@
   <Layout>
 
     <!-- Desktop -->
-    <v-main v-show="!$vuetify.breakpoint.mobile">
+    <v-main class="hidden-sm-and-down">
       <v-container class="pa-0 background-color-fafafa" fluid>
 
         <!-- Main -->
         <v-row class="pt-12 pl-12 pr-10 pb-5" justify="space-between" align="center">
           <v-col class="pl-4 pr-0 col-artists-width">
-            <v-img contain :src="artists.img" :lazy-src="artists.lazy" />
+            <g-image style="width: 100%" fit="contain" :src="artists.img" alt="artists-main" />
           </v-col>
           <v-col class="pl-0 pr-5 col-artists-width">
             <wp-transition class="color-333333" :isActive="true" nm="slide" :dir="false">
@@ -40,7 +40,7 @@
         <div class="py-12">
           <v-row class="px-12 pb-3" justify="space-between">
             <v-col cols="4" v-for="(advantage, i) in advantages" :key="'advantage-img-' + i">
-              <v-img contain :src="advantage.img" :lazy-src="advantage.lazy" />
+              <g-image fit="contain" style="width: 100%" :src="advantage.img" :alt="'artists-advantages-' + i" />
             </v-col>
           </v-row>
           <v-row class="px-12 pt-3" justify="space-between">
@@ -163,13 +163,13 @@
     </v-main>
 
     <!-- Mobile -->
-    <v-main v-show="$vuetify.breakpoint.mobile">
+    <v-main class="hidden-md-and-up">
       <v-container class="pa-0 background-color-fafafa" fluid>
 
         <!-- Main -->
         <v-row justify="center" align="center">
           <v-col cols=11>
-            <v-img :src="artists.img" :lazy-src="artists.lazy" />
+            <g-image style="width: 100%" :src="artists.img" alt="artists-main" />
           </v-col>
         </v-row>
         <v-row justify="center" align="center">
@@ -200,7 +200,7 @@
         <div class="pt-12">
           <v-row justify="center" v-for="(advantage, i) in $page.artists.edges[0].node.advantages" :key="'adv-sm' + i">
             <v-col cols=11>
-              <v-img class="mb-4" :src="advantages[i].img" :lazy-src="advantages[i].lazy" />
+              <g-image class="mb-4" style="width: 100%" :src="advantages[i].img" :alt="'artists-advantages-' + i" />
               <wp-transition class="color-333333 pb-6" :isActive="wpActiveMob" nm="ride">
                 <div
                   :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"

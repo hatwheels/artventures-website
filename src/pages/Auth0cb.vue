@@ -1,7 +1,7 @@
 <template>
   <VoidLayout>
     <div class="spinner">
-      <img src="../../static/loading.svg" width="300vw" alt="Loading">
+      <img src="../../static/loading.svg" width="300vw" alt="loading">
     </div>
     <v-dialog v-model="dialog" max-width="290" overlay-color="transparent">
       <v-card>

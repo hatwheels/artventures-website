@@ -14,25 +14,23 @@
                 </v-col>
                 <v-col md="4" lg="2" xl="2">
                     <!-- Desktop -->
-                    <div v-if="!$vuetify.breakpoint.mobile">
-                        <g-image
-                            v-if="userPicture"
-                            :src="userPicture"
-                            style="height: 200px;"
-                            fit="cover"
-                            alt="profile pic"
-                        />
-                    </div>
+                    <g-image
+                        v-if="userPicture"
+                        class="hidden-sm-down"
+                        :src="userPicture"
+                        style="height: 200px;"
+                        fit="cover"
+                        alt="profile pic"
+                    />
                     <!-- Mobile -->
-                    <div v-else-if="$vuetify.breakpoint.mobile">
-                        <g-image
-                            v-if="userPicture"
-                            :src="userPicture"
-                            style="height: 100px;"
-                            fit="cover"
-                            alt="profile pic"
-                        />
-                    </div>
+                    <g-image
+                        v-if="userPicture"
+                        class="hidden-md-and-up"
+                        :src="userPicture"
+                        style="height: 100px;"
+                        fit="cover"
+                        alt="profile pic"
+                    />
                 </v-col>
             </v-row>
 

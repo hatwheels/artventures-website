@@ -1,7 +1,7 @@
 <template>
   <Layout>
     <!-- Desktop -->
-    <v-main v-show="!$vuetify.breakpoint.mobile">
+    <v-main class="hidden-sm-and-down">
       <v-container class="pa-0 background-color-fafafa" fluid>
 
         <!-- spacer -->
@@ -9,7 +9,7 @@
 
         <!-- main -->
         <div class="px-12 pt-12 pb-10 background-color-fafafa pos-rel">
-          <v-img width="69.84%" :src="main.img" :lazy="main.lazy" />
+          <g-image style="width: 69.84%" :src="main.img" alt="businesses-main" />
           <div class="biz-cross-main">
             <div
               :class="getLang === 'gr' ? 'noto-3p28vw-600-1p2em' : 'raleway-3p28vw-600-1p2em'"
@@ -39,7 +39,7 @@
         <div class="py-12">
           <v-row class="px-12 pb-3" justify="space-around">
             <v-col cols="4" v-for="(advantage, i) in advantages.content" :key="'advantage-' + i">
-              <v-img contain :src="advantage.img" :lazy-src="advantage.lazy" />
+              <g-image fit="contain" style="width: 100%" :src="advantage.img" :alt="'businesses-advantages-' + i" />
             </v-col>
           </v-row>
           <v-row class="px-12 pt-3" justify="space-around">
@@ -106,13 +106,13 @@
     </v-main>
 
     <!-- Mobile -->
-    <v-main v-show="$vuetify.breakpoint.mobile">
+    <v-main class="hidden-md-and-up">
       <v-container class="pa-0 background-color-fafafa" fluid>
 
         <!-- main -->
         <v-row justify="center">
           <v-col cols=11>
-            <v-img :src="main.img" :lazy="main.lazy" />
+            <g-image style="width: 100%" :src="main.img" alt="businesses-main" />
           </v-col>
           <v-col
             class="background-color-f5f5f5"
@@ -148,7 +148,7 @@
             :key="'adv-sm-' + i"
           >
             <v-col cols="11">
-              <v-img class="mb-4" :src="advantages.content[i].img" :lazy-src="advantages.content[i].lazy" />
+              <g-image class="mb-4" style="width: 100%" :src="advantages.content[i].img" :alt="'businesses-advatanges-' + i" />
               <wp-transition class="color-333333" :isActive="wpActiveMob" nm="ride">
                 <div
                   :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'"

@@ -31,8 +31,6 @@
                 v-for="(artworksInSection, i) in allArtworks"
                 :key="'artworks-' + i"
                 class="background-color-fafafa text-center"
-                transition="fade-transition"
-                reverse-transition="fade-transition"
               >
                 <v-card v-if="artworksInSection.length === 0" height="300px" flat color="#FAFAFA">
                   <v-card-text>
@@ -49,28 +47,19 @@
                     v-html="tabs.emptySection[getLang]"
                   />
                 </v-card>
-                <div v-else class="swiper-container">
-                  <!-- Desktop -->
-                  <div v-show="!$vuetify.breakpoint.mobile" class="pt-12" v-swiper:[tabs.swipers.desktop[i]]="swiperDesktopOption">
-                    <div class="swiper-wrapper">
-                      <div class="swiper-slide"
-                        v-for="(artwork, i ) in artworksInSection" :key="tabs.swipers.desktop[i] + '-art-' + i">
-                        <g-image :src="artwork.img" style="width: 100%" fit="contain" />
-                        <div class="raleway-28-400">{{ artwork.title }}</div>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Mobile -->
-                  <div v-show="$vuetify.breakpoint.mobile" class="pt-12" v-swiper:[tabs.swipers.mobile[i]]="swiperMobileOption">
-                    <div class="swiper-wrapper">
-                      <div class="swiper-slide"
-                        v-for="(artwork, i ) in artworksInSection" :key="tabs.swipers.mobile[i] + '-art-' + i">
-                        <g-image :src="artwork.img" style="width: 250px" fit="contain" />
-                        <div class="raleway-28-400">{{ artwork.title }}</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <v-container fluid>
+                  <v-row>
+                    <v-col
+                      v-for="(artwork, i ) in artworksInSection"
+                      :key="tabs.state[i] + '-art-' + i"
+                      cols="12"
+                      md="4"
+                    >
+                      <g-image style="width: 100%" :src="artwork.img" :alt="artwork.title" />
+                      <div class="raleway-28-400">{{ artwork.title }}</div>
+                    </v-col>
+                  </v-row>
+                </v-container>
               </v-tab-item>
             </v-tabs-items>
           </v-card>
@@ -81,7 +70,7 @@
             v-html="getLang === 'gr' ? 'Υπόβαλε Εργο Τέχνης' : 'Submit Artwork'"
           />
           <v-row class="pt-8 pb-12" justify="center" align="center">
-            <v-col :cols='$vuetify.breakpoint.mobile ? "8" : "3"'>
+            <v-col cols="8" md="3">
               <form lazy-validation @submit.prevent="submit()">
                 <label
                   :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
@@ -121,7 +110,7 @@
                 >
                 </image-uploader>
                 <v-row class="pb-2" justify="center" align="center">
-                  <g-image v-if="imageToUploadBase64" :src="imageToUploadBase64" style="width: 20vw" />
+                  <g-image v-if="imageToUploadBase64" :src="imageToUploadBase64" style="width: 20vw" alt="to-upload" />
                   <div v-else v-show="showImageLoader">
                     <v-progress-circular
                       class="py-12 my-12"
@@ -160,7 +149,7 @@
             </v-col>
           </v-row>
           <v-row class="pt-12" justify="center" align="center">
-            <v-col class="text-center" :cols='$vuetify.breakpoint.mobile ? "7" : "2"'>
+            <v-col class="text-center" cols="7" md="2">
               <g-link
                 :class="getLang === 'gr' ? 'noto-18-600' : 'raleway-18-600'"
                 style="color: #1A1A1A;"
@@ -170,7 +159,7 @@
                 {{ terms.contract[getLang] }}
               </g-link>
             </v-col>
-            <v-col class="text-center" :cols='$vuetify.breakpoint.mobile ? "7" : "2"'>
+            <v-col class="text-center" cols="7" md="2">
               <g-link
                 :class="getLang === 'gr' ? 'noto-18-600' : 'raleway-18-600'"
                 style="color: #1A1A1A;"
@@ -209,7 +198,6 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { directive } from 'vue-awesome-swiper'
 import { validationMixin } from "vuelidate";
 import { required, maxLength, minLength } from "vuelidate/lib/validators";
 
@@ -259,9 +247,6 @@ export default {
       })
     }
   },
-  directives: {
-    swiper: directive
-  },
   data () {
     return {
       alertImage: false,
@@ -288,63 +273,17 @@ export default {
             en: 'Rejected'
           }
         ],
-        swipers: {
-          desktop: [
-            'swiperDesktopInProcess',
-            'swiperDesktopApproved',
-            'swiperDesktopRejected'
-          ],
-          mobile: [
-            'swiperMobileInProcess',
-            'swiperMobileApproved',
-            'swiperMobileRejected'
-          ]
-        },
+        state: [
+          'inProcess',
+          'approved',
+          'rejected'
+        ],
         emptySection: {
           gr: 'Κανένα Εργο',
           en: 'No Artwork'
         }
       },
       allArtworks: [[], [], []],
-      swiperDesktopOption: {
-        lazy: true,
-        loop: false,
-        slidesPerView: 3,
-        spaceBetween: 30,
-        setWrapperSize: true,
-        pagination: {
-          el: '.swiper-pagination',
-          clickable: true
-        },
-        navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev'
-        },
-        autoplay: {
-          delay: 3000,
-          disableOnInteraction: false,
-        },
-      },
-      swiperMobileOption: {
-        lazy: true,
-        loop: true,
-        slidesPerView: 1,
-        spaceBetween: 30,
-        setWrapperSize: true,
-        centeredSlides: true,
-        pagination: {
-          el: '.swiper-pagination',
-          clickable: true
-        },
-        navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev'
-        },
-        autoplay: {
-          delay: 3000,
-          disableOnInteraction: false,
-        },
-      },
       artworkForm: {
         title: {
           gr: 'Τίτλος Εργου',
@@ -490,9 +429,6 @@ export default {
   width: 40vw;
   margin-right: 30vw;
   margin-left: 30vw;
-}
-.swiper-slide {
-  height: auto;
 }
 /* Local fonts */
 .raleway-28-400 {

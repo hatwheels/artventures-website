@@ -8,7 +8,7 @@
                 v-html="getLang === 'gr' ? 'Οι Ρυθμίσεις μου' : 'My Settings'"
             />
             <!-- Desktop -->
-            <v-row v-show="!$vuetify.breakpoint.mobile" justify="center" align="start">
+            <v-row class="hidden-sm-and-down" justify="center" align="start">
                 <v-col offset="2" cols="4">
                     <form lazy-validation @submit.prevent="submit()">
                         <v-row justify="start" align="center">
@@ -187,7 +187,7 @@
                         />
                     </v-row>
                     <v-row>
-                        <g-image v-if="pic.length > 0" style="width: 200px;" :src="pic" fit="cover" />
+                        <g-image v-if="pic.length > 0" style="width: 200px;" :src="pic" fit="cover" alt="profile pic" />
                     </v-row>
                     <v-row class="pt-2">
                         <v-tooltip right :max-width="getLang === 'en' ? '200px' : '170px'">
@@ -268,7 +268,7 @@
                 </v-col>
             </v-row>
             <!-- Mobile -->
-            <v-row v-show="$vuetify.breakpoint.mobile" justify="center" align="start">
+            <v-row class="hidden-md-and-up" justify="center" align="start">
                 <v-col cols="10">
                     <v-row justify="center" align="center">
                         <label
@@ -277,8 +277,8 @@
                             v-html="form.pic[getLang]"
                         />
                     </v-row>
-                    <v-row  justify="center" align="center">
-                        <g-image style="width: 150px;" :src="pic" fit="cover" />
+                    <v-row justify="center" align="center">
+                        <g-image v-if="pic.length > 0" style="width: 150px;" :src="pic" fit="cover" alt="profile pic" />
                     </v-row>
                     <v-row class="pt-2" justify="center" align="center">
                         <label
