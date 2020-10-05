@@ -155,7 +155,7 @@
         </div>
 
         <!-- Contact -->
-        <wp-transition :isActive="true" nm="surf">
+        <wp-transition :isActive="true" class="pb-12" nm="surf">
           <contact-us />
         </wp-transition>
 
