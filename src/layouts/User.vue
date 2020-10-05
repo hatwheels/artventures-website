@@ -25,11 +25,11 @@
         {{ allowCookies[getLang] }}
         </div>
     </vue-cookie-accept-decline>
-
-    <v-app-bar app class="px-11 rounded-b-xl" outlined absolute color="#e8e8e8" height="76px">
-
-      <v-btn width="185" color="transparent" text icon to="/">/
-        <g-image style="width: 100%" :src="logo[0]" />
+    
+    <!-- Desktop -->
+    <v-app-bar class="hidden-sm-and-down px-11 rounded-b-xl" app outlined absolute color="#e8e8e8" height="76px">
+      <v-btn width="185px" color="transparent" text icon to="/">
+        <g-image style="width: 100%" :src="logo[0]" alt="logo" />
       </v-btn>
 
       <v-spacer />
@@ -39,7 +39,60 @@
           <template v-slot:activator="{ on }">
             <v-btn class="px-2" text v-on="on" color="transparent" :ripple="false">
               <v-avatar>
-                <v-img v-if="userPicture" :src="userPicture" alt="nav" />
+                <v-img v-if="userPicture" :src="userPicture" alt="profile pic" />
+              </v-avatar>
+              <v-icon color="#333333" right large>mdi-menu-down</v-icon>
+            </v-btn>
+          </template>
+          <v-list flat color="#e8e8e8">
+            <v-list-item to="/user/profile">
+              <v-list-item-title
+                :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
+                color="#333333"
+                v-html="spa.profile[getLang]"
+              />
+            </v-list-item>
+            <v-list-item v-if="userRole === 'admin' || userRole === 'artist'" to="/user/portfolio">
+              <v-list-item-title
+                :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
+                color="#333333"
+                v-html="spa.portfolio[getLang]"
+              />
+            </v-list-item>
+            <v-list-item to="/user/settings">
+              <v-list-item-title
+                :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
+                color="#333333"
+                v-html="spa.settings[getLang]"
+              />
+            </v-list-item>
+            <v-list-item @click="logout">
+              <v-list-item-title
+                :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
+                color="#333333"
+                v-html="routes.logout[getLang]"
+              />
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </v-toolbar-items>
+
+    </v-app-bar>
+
+    <!-- Mobile -->
+    <v-app-bar class="hidden-md-and-up px-6 rounded-b-xl" app outlined absolute color="#e8e8e8" height="50px">
+      <v-btn width="122px" color="transparent" text icon to="/">
+        <g-image style="width: 100%" :src="logo[1]" alt="logo" />
+      </v-btn>
+
+      <v-spacer />
+
+      <v-toolbar-items class="pa-0">
+       <v-menu bottom :offset-y="true" transition="slide-y-transition">
+          <template v-slot:activator="{ on }">
+            <v-btn class="px-2" text v-on="on" color="transparent" :ripple="false">
+              <v-avatar size="40">
+                <v-img v-if="userPicture" :src="userPicture" alt="profile pic" />
               </v-avatar>
               <v-icon color="#333333" right large>mdi-menu-down</v-icon>
             </v-btn>
@@ -98,7 +151,7 @@
 
       <div class="d-flex flex-column align-center">
         <!-- Desktop -->
-        <div v-show="!$vuetify.breakpoint.mobile" class="pb-1">
+        <div class="hidden-sm-and-down pb-1">
           <a class="px-1" style="text-decoration: none;" href="https://www.facebook.com/artventures.me" target="_blank">
             <v-icon large class="black--text">mdi-facebook</v-icon>
           </a>
@@ -113,7 +166,7 @@
           </a>
         </div>
         <!-- Mobile -->
-        <div v-show="$vuetify.breakpoint.mobile" class="pb-1">
+        <div class="hidden-md-and-up pb-1">
           <a class="px-2" style="text-decoration: none;" href="https://www.facebook.com/artventures.me" target="_blank">
             <v-icon class="black--text" small>mdi-facebook</v-icon>
           </a>
@@ -128,15 +181,15 @@
           </a>
         </div>
         <div class="pt-1">
-          <!-- Mobile -->
-          <div v-show="$vuetify.breakpoint.mobile" class="raleway-16-600 black-text">
+          <!-- Desktop -->
+          <div class="hidden-sm-and-down raleway-18-600 black-text">
             Artventures
             <span class="color-757575">
               &copy; 2020
             </span>
           </div>
-          <!-- Desktop -->
-          <div v-show="!$vuetify.breakpoint.mobile" class="raleway-18-600 black-text">
+          <!-- Mobile -->
+          <div class="hidden-md-and-up raleway-16-600 black-text">
             Artventures
             <span class="color-757575">
               &copy; 2020

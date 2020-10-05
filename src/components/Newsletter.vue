@@ -2,15 +2,13 @@
   <div>
     <!-- Desktop -->
     <div
-      v-show="!$vuetify.breakpoint.mobile"
-      class="pb-4"
+      class="hidden-sm-and-down pb-4"
       :class="getLang === 'gr' ? 'noto-25-600' : 'playfair-25-600'"
       v-html="title[getLang]"
     />
     <!-- Mobile -->
     <div
-      v-show="$vuetify.breakpoint.mobile"
-      class="pb-4"
+      class="hidden-md-and-up pb-4"
       :class="getLang === 'gr' ? 'noto-18-600 text-center' : 'playfair-18-600 text-center'"
       v-html="title[getLang]"
     />
@@ -30,9 +28,8 @@
       />
       <!-- Desktop -->
       <button
-        v-show="!$vuetify.breakpoint.mobile"
+        class="hidden-sm-and-down newsletter-btn white--text text-capitalize mx-2 py-1 px-4 text-center"
         :class="getLang === 'gr' ? 'noto-18-400' : 'raleway-18-400'"
-        class="newsletter-btn white--text text-capitalize mx-2 py-1 px-4 text-center"
         :disabled="btnLoading"
         :loading="btnLoading"
         @click="submit"
@@ -42,14 +39,13 @@
       </button>
       <!-- Mobile -->
       <button
-        v-show="$vuetify.breakpoint.mobile"
+        class="hidden-md-and-up newsletter-btn white--text text-capitalize mx-2 py-1 px-4 text-center"
         :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
-        class="newsletter-btn white--text text-capitalize mx-2 py-1 px-4 text-center"
         :disabled="btnLoading"
         @click="submit"
       >
-        <div v-show="!btnLoading">{{ emailText[getLang] }}</div>
-        <div v-show="btnLoading" class="lds-ring"><div></div><div></div><div></div><div></div></div>
+        <div v-if="!btnLoading">{{ emailText[getLang] }}</div>
+        <div v-else class="lds-ring"><div></div><div></div><div></div><div></div></div>
       </button>
     </form>
 

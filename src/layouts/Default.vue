@@ -26,10 +26,14 @@
     </vue-cookie-accept-decline>
 
     <!-- Desktop -->
-    <v-app-bar v-show="!$vuetify.breakpoint.mobile" app class="px-11 rounded-b-xl" outlined absolute color="#e8e8e8" height="76px">
+    <v-app-bar
+      app outlined absolute
+      class="hidden-sm-and-down px-11 rounded-b-xl"
+      color="#e8e8e8" height="76px"
+    >
 
       <v-btn width="185" color="transparent" text icon to="/">/
-        <g-image :src="logo[0]" style="width: 100%" />
+        <g-image :src="logo[0]" style="width: 100%" alt="logo" />
       </v-btn>
 
       <v-spacer />
@@ -122,9 +126,13 @@
     </v-app-bar>
 
   <!-- Mobile -->
-    <v-app-bar v-show="$vuetify.breakpoint.mobile" class="px-3" app absolute color="#F7F7F7" height="50px">
+    <v-app-bar
+      app absolute
+      class="hidden-md-and-up px-3"
+      color="#F7F7F7" height="50px"
+    >
       <v-btn width="122px" color="transparent" text icon to="/">
-        <g-image style="width: 100%" :src="logo[1]" />
+        <g-image style="width: 100%" :src="logo[1]" alt="logo" />
       </v-btn>
 
       <v-spacer />
@@ -277,7 +285,7 @@
 
       <div class="d-flex flex-column align-center">
         <!-- Desktop -->
-        <div v-show="!$vuetify.breakpoint.mobile" class="pb-1">
+        <div class="hidden-sm-and-down pb-1">
           <a class="px-1" style="text-decoration: none;" href="https://www.facebook.com/artventures.me" target="_blank">
             <v-icon large class="black--text">mdi-facebook</v-icon>
           </a>
@@ -292,7 +300,7 @@
           </a>
         </div>
         <!-- Mobile -->
-        <div v-show="$vuetify.breakpoint.mobile" class="pb-1">
+        <div class="hidden-md-and-up pb-1">
           <a class="px-2" style="text-decoration: none;" href="https://www.facebook.com/artventures.me" target="_blank">
             <v-icon class="black--text" small>mdi-facebook</v-icon>
           </a>
@@ -308,15 +316,15 @@
         </div>
 
         <div class="pt-1">
-          <!-- Mobile -->
-          <div v-show="$vuetify.breakpoint.mobile" class="raleway-16-600 black-text">
+          <!-- Desktop -->
+          <div class="hidden-sm-and-down raleway-18-600 black-text">
             Artventures
             <span class="color-757575">
               &copy; 2020
             </span>
           </div>
-          <!-- Desktop -->
-          <div v-show="!$vuetify.breakpoint.mobile" class="raleway-18-600 black-text">
+          <!-- Mobile -->
+          <div class="hidden-md-and-up raleway-16-600 black-text">
             Artventures
             <span class="color-757575">
               &copy; 2020
