@@ -378,6 +378,16 @@ export default {
               this.dialogPortfolio.toggle = true
               this.isLoading = false
               this.currentImageCount++
+              if (process.env.GRIDSOME_BUILD === "prod") {
+                this.$admin.sendEmail({
+                  email: this.$auth.user.email,
+                  firstname: this.$auth.user.given_name,
+                  lastname: this.$auth.user.family_name,
+                  subject: "Uploaded Artwork",
+                  message: `title: ${this.title}
+                  url: ${secureUrl}`
+                });
+              }
             })
             .catch(err => { 
               this.title = null
