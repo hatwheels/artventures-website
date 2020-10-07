@@ -136,9 +136,11 @@ export default function (Vue, { appOptions, router, head, isClient }) {
   Vue.use(VueWaypoint);
   Vue.use(VueCookieAcceptDecline);
   if (isClient) {
-    const ImageUploader = require('vue-image-upload-resize');
+    const ImageUploader = require("vue-image-upload-resize");
     Vue.use(ImageUploader);
   }
+
+  // Register  plugins
   Vue.use(AuthPlugin);
   Vue.use(ImgdbPlugin);
   Vue.use(MarketingPlugin);
