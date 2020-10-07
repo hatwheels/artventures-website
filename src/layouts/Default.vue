@@ -73,6 +73,13 @@
           :class="'nunito-18-400'"
           class="px-2"
           text color="transparent"
+          to="/gallery"
+          v-html="routes.gallery[getLang]"
+        />
+        <v-btn
+          :class="'nunito-18-400'"
+          class="px-2"
+          text color="transparent"
           to="/faq"
           v-html="routes.faq[getLang]"
         />
@@ -151,7 +158,7 @@
                   <v-list color="#ffffff" class="px-9  py-9">
                     <v-list-item class="pb-5 px-0" to="/">
                       <v-list-item-title
-                        :class="getLang === 'gr' ? 'noto-28-400' : 'raleway-3-400'"
+                        :class="getLang === 'gr' ? 'noto-28-400' : 'raleway-28-400'"
                         v-html="routes.about[getLang]"
                       />
                     </v-list-item>
@@ -168,6 +175,12 @@
                       <v-list-item-title
                         :class="getLang === 'gr' ? 'noto-28-400' : 'raleway-28-400'"
                         v-html="routes.forArtists[getLang]"
+                      />
+                    </v-list-item>
+                    <v-list-item class="pb-5 px-0" to="/gallery">
+                      <v-list-item-title
+                        :class="getLang === 'gr' ? 'noto-28-400' : 'raleway-28-400'"
+                        v-html="routes.gallery[getLang]"
                       />
                     </v-list-item>
                     <v-list-item class="pb-5 px-0" to="/faq">
@@ -419,6 +432,10 @@ export default {
               route: '/hotels',
             }
           ]
+        },
+        gallery: {
+          gr: '<div class="color-333333 text-capitalize">Γκαλερί</div>', // Greek, raw html
+          en: '<div class="color-333333 text-capitalize">Gallery</div>', // English, raw html
         },
         forArtists: {
           gr: '<div class="color-333333 text-capitalize">Για Καλλιτέχνες</div>', // Greek, raw html

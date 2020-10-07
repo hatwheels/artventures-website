@@ -56,7 +56,7 @@
                       md="4"
                     >
                       <g-image style="width: 100%" :src="artwork.img" :alt="artwork.title" />
-                      <div class="raleway-28-400">{{ artwork.title }}</div>
+                      <div class="raleway-28-400 text-center text-capitalize">{{ artwork.title }}</div>
                     </v-col>
                   </v-row>
                 </v-container>
@@ -216,7 +216,7 @@ export default {
   created () {
     if (process.isClient && this.$auth.user) {
       this.isFetchingImages = true
-      this.$imgdb.retrieveArtworks(this.$auth.user.sub)
+      this.$imgdb.retrieveArtworks(this.$auth.user.sub, '*')
       .then(found => {
         this.isFetchingImages = false
         if (found.total_count > 0) {

@@ -57,9 +57,9 @@ let imgdb = new Vue({
                 }).catch(err => reject(err))
             })
         },
-        retrieveArtworks(user_id) {
+        retrieveArtworks(user_id, path) {
             return new Promise((resolve, reject) => {
-                let folder = 'artwork/' + user_id + '/*'
+                let folder = 'artwork/' + user_id + '/' + path;
 
                 axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/cloudinary-search',
                     {

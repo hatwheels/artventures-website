@@ -121,6 +121,7 @@ let auth = new Vue({
         },
     },
     methods: {
+        /* Authentication methods */
         login() {
             webAuth.authorize()
         },
@@ -174,6 +175,7 @@ let auth = new Vue({
                 });
             })
         },
+        /* Authenticated user methods */
         getUser() {
             return new Promise((resolve, reject) => {
                 axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/auth0-get-user',
@@ -330,6 +332,39 @@ let auth = new Vue({
                     resolve(roleObj)
                 }).catch(err => {
                     reject(err)
+                })
+            })
+        },
+        /* Management methods */
+        getUsersInRole(roleName) {
+            return new Promise((resolve, reject) => {
+                axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/auth0-get-role-id',
+                    {
+                        role_name: roleName
+                    },
+                    {
+                        headers: {
+                            "Access-Control-Allow-Origin": "*",
+                            "Access-Control-Allow-Headers": "Content-Type",
+                            "Content-Type": "application/json"
+                        }
+                    }
+                ).then(res => {
+                    const roleId = res.data;
+                    axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/auth0-get-users-in-role-id',
+                        {
+                            role_id: roleId
+                        },
+                        {
+                            headers: {
+                                "Access-Control-Allow-Origin": "*",
+                                "Access-Control-Allow-Headers": "Content-Type",
+                                "Content-Type": "application/json"
+                            }
+                        }
+                    ).then(res => resolve(res.data))
+                }).catch(err => {
+                    reject(err);
                 })
             })
         }
