@@ -532,13 +532,11 @@
 <script>
 import { mapGetters } from "vuex";
 import { directive } from "vue-awesome-swiper";
-import ContactUs from "~/components/ContactUs.vue";
-import WpTransition from "~/components/WpTransition.vue";
 
 export default {
   components: {
-    ContactUs,
-    WpTransition,
+    ContactUs: () => import("~/components/ContactUs.vue"),
+    WpTransition: () => import("~/components/WpTransition.vue"),
   },
   directives: {
     swiper: directive,

@@ -223,12 +223,11 @@
 </template>
 
 <script>
-import WpTransition from '~/components/WpTransition.vue'
 import { mapGetters } from "vuex"
 
 export default {
   components: {
-    WpTransition,
+    WpTransition: () => import('~/components/WpTransition.vue'),
   },
   mounted () {
     setTimeout( () => this.wpActiveMob = true, 1000)

@@ -12,19 +12,11 @@ chapters:
     text:
       en: >
         This document (the Artist Submission Terms) contains important legal terms which are additional to the Terms & Conditions relating to the use of
-        the Artventures.me website (the Website) operated by Artventures Ltd (Artventures or we). These Artist Submission Terms apply to you if you submit
-        art for consideration to be featured and showcased by Artventures. You are referred to in these Artist Submission Terms as the Artist or as you
-        <br><br> You should read these Artist Submission Terms carefully, and we advise you to print and retain a copy for your reference.<br><br>By
-        submitting your work of art (Your Work) to the Website for consideration you accept these Artist Submission Terms. If you do not agree with these
-        Artist Submission Terms then you must not submit Your Work to the Website.<br><br>These Artist Submission Terms and the Terms and Conditions
-        relating to the use of the Website constitute the entire agreement between you and Artventures in relation to the initial submission of Your Work
-        and they supersede all other agreements, statements, letters and other arrangements made between the parties. If Your Work is short listed for
-        selection as featured art by Artventures you will also be required to sign-up to some additional terms which will confirm the basis upon which
-        Artventures will be entitled to use your Work.<br><br>These Artist Submission Terms and any matter arising out of the subject matter of these
+        the Artventures.me website (the Website) operated by Artventures Ltd (“Artventures” or “we”). These Artist Submission Terms apply to you if you submit art for consideration to be featured and showcased by Artventures. You are referred to in these Artist Submission Terms as the “Artist” or as “you”.<br><br> You should read these Artist Submission Terms carefully, and we advise you to print and retain a copy for your reference.<br><br>By submitting your work of art (Your Work) to the Website for consideration you accept these Artist Submission Terms. If you do not agree with these Artist Submission Terms then you must not submit Your Work to the Website.<br><br>These Artist Submission Terms and the Terms and Conditions relating to the use of the Website constitute the entire agreement between you and Artventures in relation to the initial submission of Your Work and they supersede all other agreements, statements, letters and other arrangements made between the parties. If Your Work is short listed for selection as featured art by Artventures you will also be required to sign-up to some additional terms which will confirm the basis upon which Artventures will be entitled to use your Work.<br><br>These Artist Submission Terms and any matter arising out of the subject matter of these
         Artist Submission Terms shall be governed by English law and you agree to submit to the non-exclusive jurisdiction of the courts of England and
         Wales.
       gr: >
-        Αυτό το έγγραφο (οι Όροι Υποβολής Καλλιτέχνη ) περιέχει σημαντικούς νομικούς όρους που είναι επιπρόσθετοι στους Όρους και Προϋποθέσεις που
+        Αυτό το έγγραφο (οι Όροι Υποβολής Καλλιτέχνη) περιέχει σημαντικούς νομικούς όρους που είναι επιπρόσθετοι στους Όρους και Προϋποθέσεις που
         σχετίζονται με τη χρήση του ιστότοπου Artventures.me (ο ιστότοπος) που διαχειρίζεται η Artventures Ltd (Artventures ή εμείς). Αυτοί οι Όροι
         Υποβολής Καλλιτέχνη ισχύουν για εσάς εάν υποβάλετε τέχνη για να προβληθεί και να προβληθεί από την Artventures . Αναφέρεστε σε αυτούς τους Όρους
         Υποβολής Καλλιτέχνη ως Καλλιτέχνης ή ως εσείς.<br><br>Θα πρέπει να διαβάσετε προσεκτικά αυτούς τους Όρους Υποβολής Καλλιτέχνη και σας συμβουλεύουμε

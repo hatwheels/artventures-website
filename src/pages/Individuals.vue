@@ -183,11 +183,10 @@
 
 <script>
 import { mapGetters } from "vuex"
-import WpTransition from '~/components/WpTransition.vue'
 
 export default {
   components: {
-    WpTransition,
+    WpTransition: () => import('~/components/WpTransition.vue'),
   },
   mounted () {
     setTimeout( () => this.wpActiveMob = true, 1000)

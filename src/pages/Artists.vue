@@ -321,16 +321,14 @@
 
 <script>
 import { mapGetters } from "vuex"
-import ContactUs from '~/components/ContactUs.vue'
-import WpTransition from '~/components/WpTransition.vue'
 
 export default {
   mounted () {
     setTimeout( () => this.wpActiveMob = true, 1000)
   },
   components: {
-    ContactUs,
-    WpTransition,
+    ContactUs: () => import('~/components/ContactUs.vue'),
+    WpTransition: () => import('~/components/WpTransition.vue'),
   },
   data () {
     return {
