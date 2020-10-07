@@ -91,7 +91,7 @@ export default {
                         }
                     })
                     .catch(err => console.error(err))
-            })).finally(()=> {this.fetched = true; console.log(this.artists);})
+            })).finally(()=> this.fetched = true)
         })
         .catch(err => console.error(err))
   },
