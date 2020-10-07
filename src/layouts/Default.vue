@@ -347,11 +347,10 @@
 
 <script>
 import { mapGetters, mapMutations } from 'vuex'
-import Newsletter from '~/components/Newsletter.vue'
 
 export default {
   components: {
-    Newsletter,
+    Newsletter: () => import("~/components/Newsletter.vue"),
   },
   created () {
     if (process.isClient) {
