@@ -1,3 +1,5 @@
+/* User Authentication plugin */
+
 import auth0 from 'auth0-js'
 import axios from 'axios'
 import Vue from 'vue'

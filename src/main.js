@@ -10,8 +10,8 @@ import UserLayout from '~/layouts/User.vue'
 import VoidLayout from '~/layouts/Void.vue'
 // Components
 import Vuex from 'vuex'
-import Vuelidate from 'vuelidate'
 const VueCookieAcceptDecline = require('vue-cookie-accept-decline');
+import 'vue-cookie-accept-decline/dist/vue-cookie-accept-decline.css'
 import VueWaypoint from "vue-waypoint"
 // Plugins
 import AuthPlugin from './plugins/auth'
@@ -27,11 +27,6 @@ export default function (Vue, { appOptions, router, head, isClient }) {
   head.link.push({
     rel: 'stylesheet',
     href: 'https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|family=Nunito:400,600|Playfair+Display:400,600,700|Raleway:400,600,700|Montserrat:400,600,700|Noto+Sans:400,600,700&display=swap'
-  })
-  head.link.push({
-    rel: 'stylesheet',
-    type: "text/css",
-    href: 'https://cdn.jsdelivr.net/npm/vue-cookie-accept-decline@5.3.1/dist/vue-cookie-accept-decline.css'
   })
 
   // Register Front-End UI component (Vuetify)
@@ -138,7 +133,6 @@ export default function (Vue, { appOptions, router, head, isClient }) {
   appOptions.store = new Vuex.Store(vuexOpts);
 
   // Register components
-  Vue.use(Vuelidate);
   Vue.use(VueWaypoint);
   Vue.use(VueCookieAcceptDecline);
   if (isClient) {

@@ -1,3 +1,5 @@
+/* Marketing service plugin */
+
 import axios from 'axios'
 import Vue from 'vue'
 
