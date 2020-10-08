@@ -104,7 +104,6 @@ export default {
     getRef(user_id) {
       this.$db.getRef(user_id)
         .then(ref => {
-          console.log(ref);
           this.$db.getUserId(ref)
             .then(id => console.log(id))
             .catch(err => console.error(err))
