@@ -10,12 +10,11 @@ mainartists:
       photographers, illustrators, sculptors, and installation artists to
       provide our clients with collections of artwork that are engaging and
       personal.
-    gr: >
-      Artventures brings artwork from today’s most talented artists into
-      businesses and real estate nationwide. We work with painters,
-      photographers, illustrators, sculptors, and installation artists to
-      provide our clients with collections of artwork that are engaging and
-      personal.
+    gr: H Artventures φέρνει έργα τέχνης από τους πιο ταλαντούχους καλλιτέχνες του
+      σήμερα σε επιχειρήσεις και ακίνητα σε όλη τη χώρα. Συνεργαζόμαστε με
+      ζωγράφους, φωτογράφους, εικονογράφους, γλύπτες και installation artists
+      για να παρέχουμε στους πελάτες μας συλλογές έργων τέχνης που είναι
+      ελκυστικές και προσωπικές.
   button:
     en: Show us your Art
     gr: Δειξε μας την Τεχνη σου
@@ -28,10 +27,10 @@ advantages:
         The Artventures Artist Team is ready to help with anything you may need,
         so never hesitate to be in touch. We’re artists ourselves, and we’re
         dedicated to your happiness and success.
-      gr: >
-        The Artventures Artist Team is ready to help with anything you may need,
-        so never hesitate to be in touch. We’re artists ourselves, and we’re
-        dedicated to your happiness and success.
+      gr: Η ομάδα καλλιτεχνών της Artventures είναι έτοιμη να σας βοηθήσει με
+        οτιδήποτε χρειαστείτε, οπότε μην διστάσετε να επικοινωνήσετε μαζί μας.
+        Είμαστε οι ίδιοι καλλιτέχνες και είμαστε αφοσιωμένοι στην ευτυχία και
+        την επιτυχία σας.
   - title:
       en: Grow Your Audience
       gr: Αύξησε το Κοινο σου
