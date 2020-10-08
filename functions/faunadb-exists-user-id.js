@@ -30,13 +30,13 @@ exports.handler = async (event, context) => {
             q.Paginate(q.Match(q.Index('id'), data.user_id))
           )
           .then(ret => {
-            const user_id = JSON.stringify(ret.data[0][1].id);
-            console.log(user_id);
-            console.log("### END ###")
+            found = ret.data.length > 0 ? "true" : "false";
+            console.log(found);
+            console.log("### END ###");
 
             return {
                 statusCode: 200,
-                body: user_id
+                body: found
             };
       })
       .catch(err => {

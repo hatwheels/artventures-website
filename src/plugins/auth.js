@@ -152,11 +152,11 @@ let auth = new Vue({
                         this.accessToken = authResult.accessToken
                         this.token = authResult.idToken
                         this.user = authResult.idTokenPayload
-                        resolve()
+                        resolve(this.user.sub);
                     }
                     else if (err) {
-                        this.logout()
-                        reject(err)
+                        this.logout();
+                        reject(err);
                     }
                 })
             })
