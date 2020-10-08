@@ -103,7 +103,12 @@ export default {
   methods: {
     getRef(user_id) {
       this.$db.getRef(user_id)
-        .then(res => console.log(res.data))
+        .then(ref => {
+          console.log(ref);
+          this.$db.getUserId(ref)
+            .then(id => console.log(id))
+            .catch(err => console.error(err))
+        })
         .catch(err => console.error(err))
     }
   },
