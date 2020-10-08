@@ -24,7 +24,7 @@
                       :key="'artwork-' + i"
                       cols="4"
                     >
-                      <g-image style="width: 90%" :src="artwork.url" :alt="artwork.title" />
+                      <g-image style="width: 90%" :src="artwork.url" :alt="artwork.title" @click="getRef(artwork.user_id)" />
                       <div class="raleway-28-400 text-center text-capitalize">{{ artwork.title }}</div>
                     </v-col>
                   </v-row>
@@ -49,7 +49,7 @@
                       :key="'artwork-' + i"
                       cols="12"
                     >
-                      <g-image style="width: 90%" :src="artwork.url" :alt="artwork.title" />
+                      <g-image style="width: 90%" :src="artwork.url" :alt="artwork.title" @click="getRef(artwork.user_id)" />
                       <div class="raleway-28-400 text-center text-capitalize">{{ artwork.title }}</div>
                     </v-col>
                   </v-row>
@@ -65,9 +65,7 @@
 import { mapGetters } from "vuex";
 
 export default {
-  created() {
-  },
-  async mounted () {
+  async created () {
     this.$auth.getUsersInRole('artist')
         .then(artists => {
             Promise.all(artists.map(async (artist) => {
@@ -83,7 +81,7 @@ export default {
                             });
                             found.resources.forEach(resource => {
                                 this.gallery.push({
-                                    user_id: artist.id,
+                                    user_id: artist.user_id,
                                     url: resource.secure_url,
                                     title: resource.filename.replace(/_/g, ' ')
                                 });
@@ -103,6 +101,11 @@ export default {
       }
   },
   methods: {
+    getRef(user_id) {
+      this.$db.getRef(user_id)
+        .then(res => console.log(res.data))
+        .catch(err => console.error(err))
+    }
   },
   metaInfo() {
     return {

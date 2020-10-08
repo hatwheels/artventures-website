@@ -15,6 +15,7 @@ import 'vue-cookie-accept-decline/dist/vue-cookie-accept-decline.css'
 import VueWaypoint from "vue-waypoint"
 // Plugins
 import AuthPlugin from './plugins/auth'
+import DbPlugin from './plugins/db'
 import ImgdbPlugin from './plugins/imgdb'
 import MarketingPlugin from './plugins/marketing'
 import AdminPlugin from './plugins/admin'
@@ -142,6 +143,7 @@ export default function (Vue, { appOptions, router, head, isClient }) {
 
   // Register  plugins
   Vue.use(AuthPlugin);
+  Vue.use(DbPlugin);
   Vue.use(ImgdbPlugin);
   Vue.use(MarketingPlugin);
   Vue.use(AdminPlugin);
