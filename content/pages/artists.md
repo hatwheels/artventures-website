@@ -10,12 +10,11 @@ mainartists:
       photographers, illustrators, sculptors, and installation artists to
       provide our clients with collections of artwork that are engaging and
       personal.
-    gr: >
-      Artventures brings artwork from today’s most talented artists into
-      businesses and real estate nationwide. We work with painters,
-      photographers, illustrators, sculptors, and installation artists to
-      provide our clients with collections of artwork that are engaging and
-      personal.
+    gr: H Artventures φέρνει έργα τέχνης από τους πιο ταλαντούχους καλλιτέχνες του
+      σήμερα σε επιχειρήσεις και ακίνητα σε όλη τη χώρα. Συνεργαζόμαστε με
+      ζωγράφους, φωτογράφους, εικονογράφους, γλύπτες και installation artists
+      για να παρέχουμε στους πελάτες μας συλλογές έργων τέχνης που είναι
+      ελκυστικές και προσωπικές.
   button:
     en: Show us your Art
     gr: Δειξε μας την Τεχνη σου
@@ -28,10 +27,10 @@ advantages:
         The Artventures Artist Team is ready to help with anything you may need,
         so never hesitate to be in touch. We’re artists ourselves, and we’re
         dedicated to your happiness and success.
-      gr: >
-        The Artventures Artist Team is ready to help with anything you may need,
-        so never hesitate to be in touch. We’re artists ourselves, and we’re
-        dedicated to your happiness and success.
+      gr: Η ομάδα καλλιτεχνών της Artventures είναι έτοιμη να σας βοηθήσει με
+        οτιδήποτε χρειαστείτε, οπότε μην διστάσετε να επικοινωνήσετε μαζί μας.
+        Είμαστε οι ίδιοι καλλιτέχνες και είμαστε αφοσιωμένοι στην ευτυχία και
+        την επιτυχία σας.
   - title:
       en: Grow Your Audience
       gr: Αύξησε το Κοινο σου
@@ -42,12 +41,11 @@ advantages:
         photographers, illustrators, sculptors, and installation artists to
         provide our clients with collections of artwork that are engaging and
         personal.
-      gr: >
-        Artventures brings artwork from today’s most talented artists into
-        businesses and real estate nationwide. We work with painters,
-        photographers, illustrators, sculptors, and installation artists to
-        provide our clients with collections of artwork that are engaging and
-        personal.
+      gr: H Artventures φέρνει έργα τέχνης από τους πιο ταλαντούχους καλλιτέχνες του
+        σήμερα σε επιχειρήσεις και ακίνητα σε όλη τη χώρα. Συνεργαζόμαστε με
+        ζωγράφους, φωτογράφους, εικονογράφους, γλύπτες και installation artists
+        για να παρέχουμε στους πελάτες μας συλλογές έργων τέχνης που είναι
+        ελκυστικές και προσωπικές.
   - title:
       en: Focus On Your Art
       gr: Επικεντρώσου στην Τέχνη
@@ -57,11 +55,10 @@ advantages:
         Dashboard, our team finds the right spaces for your work. We’ll take
         care of all of the details in marketing, sales, and logistics to free up
         your time to focus in the studio.
-      gr: >
-        Using the inventory information, you’ve provided through your Artist
-        Dashboard, our team finds the right spaces for your work. We’ll take
-        care of all of the details in marketing, sales, and logistics to free up
-        your time to focus in the studio.
+      gr: Χρησιμοποιώντας τις πληροφορίες που έχετε παράσχει μέσω του Πίνακα ελέγχου
+        καλλιτέχνη, η ομάδα μας βρίσκει τους κατάλληλους χώρους για τα έργα σας.
+        Θα φροντίσουμε όλες τις λεπτομέρειες στο μάρκετινγκ, τις πωλήσεις και τα
+        διαδικαστικά για να έχετε περισσότερο χρόνο στο στούντιο σας.
 earnings:
   title:
     en: Three Ways To Earn
@@ -91,8 +88,8 @@ earnings:
       par:
         en: |
           Earn revenue on site specific and commissioned client projects.
-        gr: |
-          Earn revenue on site specific and commissioned client projects.
+        gr: Κερδίστε περισσότερα έσοδα από συγκεκριμένες αναθέσεις έργων από τους
+          πελάτες μας.
 button:
   title:
     en: Join the Artventures team
@@ -136,11 +133,10 @@ artisttestimonials:
           “I couldn’t ask for a better service or help for an artist.
           Artventures is an amazing idea and the people behind it are even more
           special”
-        gr: >
-          “I couldn’t ask for a better service or help for an artist.
-          Artventures is an amazing idea and the people behind it are even more
-          special”
+        gr: «Δεν θα μπορούσα να ζητήσω καλύτερη υπηρεσία ή βοήθεια για έναν καλλιτέχνη.
+          Το Artventures είναι μια καταπληκτική ιδέα και οι άνθρωποι πίσω από
+          αυτό είναι ακόμα πιο ξεχωριστοί»
       author:
-        en: — Babis Melikidis
-        gr: — Μπάπμης Μελικίδης
+        en: — Christos Kourtoglou
+        gr: — Χρήστος Κούρτογλου
 ---
