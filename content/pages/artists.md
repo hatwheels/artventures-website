@@ -121,13 +121,12 @@ artisttestimonials:
           “I’m very happy to be a part of the Artventures since the beginning.
           They’re kind, helpful and trustworthy. And most of all they’re great
           guys and take care of my work.”
-        gr: >
-          “Είμαι πολύ χαρούμενος που είμαι μέλος της Artventures από την αρχή.
-          Είναι ευγενικοί, εξυπηρετικοί και αξιόπιστοι. Και πάνω απ' όλα είναι
+        gr: “Είμαι πολύ χαρούμενη που είμαι μέλος της Artventures από την αρχή. Είναι
+          ευγενικοί, εξυπηρετικοί και αξιόπιστοι. Και πάνω απ' όλα είναι
           απίθανοι τύποι και φροντίζουν για την δουλειά μου.”
       author:
-        en: — Yorgis Yerolymbos
-        gr: — Γιώργης Γερόλυμπος
+        en: — Alexandra Dohmen
+        gr: — Αλεξάντρα Ντόμεν
     - quote:
         en: >
           “I couldn’t ask for a better service or help for an artist.
