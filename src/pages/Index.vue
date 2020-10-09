@@ -61,7 +61,7 @@
           >
             <v-row justify="space-between" align="center">
               <v-col cols="5">
-                <g-image fit="contain" style="width: 42vw" :src="about.img" alt="about" />
+                <g-image fit="contain" style="width: 42vw; min-height: 50vh;" :src="about.img" alt="about" />
               </v-col>
               <v-col class="pl-2 pr-12" cols="6">
                 <wp-transition
@@ -116,6 +116,7 @@
                   :src="explore.images[i].img"
                   :lazy-src="explore.images[i].lazy"
                   :alt="'explore-' + i"
+                  min-height="66.64vh"
                 >
                   <div
                     style="height: 100%"
@@ -160,7 +161,7 @@
               align="center"
             >
               <v-col class="pl-4 pr-0 col-artists-width">
-                <g-image style="width: 100%" fit="contain" :src="artists.img" alt="artists" />
+                <g-image style="width: 100%; min-height: 30vh;" fit="contain" :src="artists.img" alt="artists" />
               </v-col>
               <v-col class="pl-0 pr-5 col-artists-width">
                 <wp-transition class="color-333333" :isActive="true" nm="slide">
@@ -224,7 +225,7 @@
                   :key="'benefit-img-' + i"
                 >
                   <g-image
-                    style="width: 100%"
+                    style="width: 100%; min-height: 35vh;"
                     fit="contain"
                     :src="benefit.img"
                     :alt="'benefits-' + i"
@@ -326,7 +327,7 @@
         <div id="about-small" class="pt-6">
           <v-row justify="center" align="center">
             <v-col cols="11">
-              <g-image style="width: 100%" :src="about.img" alt="about" />
+              <g-image style="width: 100%; min-height: 60vh;" :src="about.img" alt="about" />
             </v-col>
           </v-row>
           <v-row justify="center" align="center">
@@ -371,6 +372,7 @@
                 :src="explore.images[i].img"
                 :lazy-src="explore.images[i].lazy"
                 :alt="'explore-' + i"
+                min-height="30vh"
               >
                 <div
                   style="height: 100%"
@@ -401,7 +403,7 @@
           <div>
             <v-row justify="center" align="center">
               <v-col cols="11">
-                <g-image :src="artists.img" style="width: 100%" alt="artists" />
+                <g-image :src="artists.img" style="width: 100%; min-height: 30vh;" alt="artists" />
               </v-col>
             </v-row>
             <v-row justify="center" align="center">
@@ -466,7 +468,7 @@
             <v-col cols="11">
               <g-image
                 class="mb-4"
-                style="width: 100%"
+                style="width: 100%; min-height: 40vh;"
                 :src="benefits[i].img"
                 :alt="'benefits-' + i"
               />
