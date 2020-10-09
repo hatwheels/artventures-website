@@ -23,3 +23,9 @@
   to = "https://artventures.me/:splat"
   status = 301
   force = true
+
+[[redirects]]
+  from = "/artist/*"
+  to = "/artist/_id.html"
+  status = 200
+  force = true

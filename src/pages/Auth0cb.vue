@@ -45,19 +45,21 @@ export default {
       },
     }
   },
-  created() {
-    this.$auth.handleAuthentication().then((data) => {
-      this.$auth.getUserRole()
-        .then((roleObj) => {
-          if (roleObj == null) {
-            this.dialog = true;
+  async created() {
+    this.$auth.handleAuthentication().then((user_id) => {
+      this.$db.existsUserId(user_id)
+        .then(found => {
+          if (found) {
+            // user_id already in DB
+            this.processUser();
           } else {
-            this.$auth.getUser()
-              .then(() => this.processMarketing(roleObj))
+            // not in DB, add it
+            this.$db.addUserId(user_id)
+              .then(() => this.processUser())
               .catch(err => this.$auth.logout())
           }
         })
-        .catch(err => this.$auth.logout())
+        .catch((err) => this.$auth.logout())
     }).catch(err => {})
   },
   computed: {
@@ -71,6 +73,19 @@ export default {
           this.$auth.getUser()
             .then(() => this.processMarketing(roleObj))
             .catch(err => this.$auth.logout())
+        })
+        .catch(err => this.$auth.logout())
+    },
+    processUser() {
+      this.$auth.getUserRole()
+        .then((roleObj) => {
+          if (roleObj == null) {
+            this.dialog = true;
+          } else {
+            this.$auth.getUser()
+              .then(() => this.processMarketing(roleObj))
+              .catch(err => this.$auth.logout())
+          }
         })
         .catch(err => this.$auth.logout())
     },
