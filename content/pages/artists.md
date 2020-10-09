@@ -136,6 +136,6 @@ artisttestimonials:
           Το Artventures είναι μια καταπληκτική ιδέα και οι άνθρωποι πίσω από
           αυτό είναι ακόμα πιο ξεχωριστοί»
       author:
-        en: — Christos Kourtoglou
-        gr: — Χρήστος Κούρτογλου
+        en: — Yorgis Yerolymbos
+        gr: — Γιώργης Γερόλυμπος
 ---
