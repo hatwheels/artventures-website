@@ -26,8 +26,8 @@ testimonials:
         μια σπάνια ομάδα με φανταστικούς, ενθουσιώδεις ανθρώπους που αγαπάνε την
         Τέχνη και τους καλλιτέχνες και κάνουν τα πάντα για να μας βοηθήσουν.”
     author:
-      en: — Kostas Vaviloussakis
-      gr: — Κώστας Βαβιλουσσάκης
+      en: — Babis Melikidis
+      gr: — Μπάμπης Μελικίδης
   - quote:
       en: >
         “I’m very happy to be a part of the Artventures since the beginning.
