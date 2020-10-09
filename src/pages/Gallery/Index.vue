@@ -160,7 +160,8 @@
                 <div class="py-4" />
             </div>
         </v-container>
-        <v-overlay class="hidden-sm-and-down" :value="overlayDektop">
+        <!-- Desktop Overlay -->
+        <v-overlay class="hidden-sm-and-down" :value="overlayDesktop">
           <v-row no-gutters>
             <v-col>
               <g-image
@@ -178,7 +179,7 @@
                     icon
                     v-on="on"
                     v-bind="attrs"
-                    @click="enlargedImg.url = ''; enlargedImg.title = ''; overlayDektop = false;"
+                    @click="enlargedImg.url = ''; enlargedImg.title = ''; overlayDesktop = false;"
                   >
                     <v-icon>mdi-close</v-icon>
                   </v-btn>
@@ -188,6 +189,7 @@
             </v-col>
           </v-row>
         </v-overlay>
+        <!-- Mobile Overlay -->
         <v-dialog class="hidden-md-and-up" v-model="overlayMobile" fullscreen persistent hide-overlay no-click-animation>
           <div style="width: 100vw; height: 100vh">
             <g-image
@@ -260,7 +262,7 @@ export default {
         artists: [],
         gallery: [],
         columns: [[], [], []],
-        overlayDektop: false,
+        overlayDesktop: false,
         overlayMobile: false,
         enlargedImg: {
           url: "",
