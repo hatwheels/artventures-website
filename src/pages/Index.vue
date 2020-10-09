@@ -114,6 +114,7 @@
                 <v-img
                   gradient="to top right, rgba(0,0,0,.15), rgba(0,0,0,.15)"
                   :src="explore.images[i].img"
+                  :lazy-src="explore.images[i].lazy"
                   :alt="'explore-' + i"
                 >
                   <div
@@ -368,6 +369,7 @@
               <v-img
                 gradient="to top right, rgba(0,0,0,.15), rgba(0,0,0,.15)"
                 :src="explore.images[i].img"
+                :lazy-src="explore.images[i].lazy"
                 :alt="'explore-' + i"
               >
                 <div
@@ -648,8 +650,8 @@ export default {
             route: "/businesses",
           },
           {
-            img: "https://res.cloudinary.com/de1jgt6c5/image/upload/g_center,ar_1:1,c_fill/v1585320144/artventures/img24.jpg",
-            lazy: "https://res.cloudinary.com/de1jgt6c5/image/upload/g_center,ar_1:1,c_fill,w_100,h_100/v1585320139/artventures/img24.jpg",
+            img: "https://res.cloudinary.com/artventures/image/upload/g_center,ar_1:1,c_fill/v1602236645/site/hotels.jpg",
+            lazy: "https://res.cloudinary.com/artventures/image/upload/g_center,ar_1:1,c_fill,w_100,h_100/v1602236645/site/hotels.jpg",
             route: "/hotels",
           },
         ],
