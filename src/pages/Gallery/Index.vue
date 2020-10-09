@@ -18,16 +18,26 @@
                     </v-row>
                 </div>
                 <div v-else>
-                  <v-row class="px-12" justify="center" align="center">
-                    <v-col
-                      v-for="(artwork, i ) in gallery"
-                      :key="'artwork-' + i"
-                      cols="4"
-                    >
-                      <g-image style="width: 90%" :src="artwork.url" :alt="artwork.title" @click="getRef(artwork.user_id)" />
-                      <div class="raleway-28-400 text-center text-capitalize">{{ artwork.title }}</div>
-                    </v-col>
-                  </v-row>
+                  <div v-if="gallery.length > 0">
+                    <v-row class="px-12" justify="center" align="center">
+                      <v-col
+                        v-for="(artwork, i ) in gallery"
+                        :key="'artwork-' + i"
+                        cols="4"
+                      >
+                        <g-image
+                          style="width: 90%"
+                          :src="artwork.url"
+                          :alt="artwork.title"
+                          @click="getRef(artwork.user_id)"
+                        />
+                        <div class="raleway-28-400 text-center text-capitalize">{{ artwork.title }}</div>
+                      </v-col>
+                    </v-row>
+                  </div>
+                  <div v-else>
+
+                  </div>
                 </div>
                 <div class="py-10" />
             </div>
@@ -43,16 +53,26 @@
                     </v-row>
                 </div>
                 <div v-else>
+                  <div v-if="gallery.length > 0">
                     <v-row class="px-12" justify="center" align="center">
-                    <v-col
-                      v-for="(artwork, i ) in gallery"
-                      :key="'artwork-' + i"
-                      cols="12"
-                    >
-                      <g-image style="width: 90%" :src="artwork.url" :alt="artwork.title" @click="getRef(artwork.user_id)" />
-                      <div class="raleway-28-400 text-center text-capitalize">{{ artwork.title }}</div>
-                    </v-col>
-                  </v-row>
+                      <v-col
+                        v-for="(artwork, i ) in gallery"
+                        :key="'artwork-' + i"
+                        cols="12"
+                      >
+                        <g-image
+                          style="width: 90%"
+                          :src="artwork.url"
+                          :alt="artwork.title"
+                          @click="getRef(artwork.user_id)"
+                        />
+                        <div class="raleway-28-400 text-center text-capitalize">{{ artwork.title }}</div>
+                      </v-col>
+                    </v-row>
+                  </div>
+                  <div v-else>
+                    
+                  </div>
                 </div>
                 <div class="py-4" />
             </div>

@@ -4,13 +4,20 @@
 
 ### 1. Tools
 
+#### 1.1. List
+
 1. __Jamstack framework__: `Gridsome`
 2. __Jamstack BaaS__: `Netlify`
 3. __UI Library__: `Vuetify`
 4. __CMS__: `Netlify CMS`
-5. __Auth Service__: `Auth0`
-6. __Marketing Service__: `Mailchimp`
-7. __Image DB__: `Cloudinary`
+5. __Database__: `FaunaDB`
+6. __Image Database__: `Cloudinary`
+7. __Auth Service__: `Auth0`
+8. __Marketing Service__: `Mailchimp`
+
+#### 1.2. Used Tiers
+
+`TODO`
 
 ### 2. Configure Project
 
