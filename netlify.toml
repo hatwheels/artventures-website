@@ -26,6 +26,6 @@
 
 [[redirects]]
   from = "/artist/*"
-  to = "/artist/_id.html"
+  to = "/artist/_id"
   status = 200
   force = true

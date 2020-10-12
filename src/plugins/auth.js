@@ -336,7 +336,7 @@ let auth = new Vue({
             })
         },
         /* Management methods */
-        getUsersInRole(roleName) {
+        getMgUsersInRole(roleName) {
             return new Promise((resolve, reject) => {
                 axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/auth0-get-role-id',
                     {
@@ -363,6 +363,55 @@ let auth = new Vue({
                             }
                         }
                     ).then(res => resolve(res.data))
+                }).catch(err => {
+                    reject(err);
+                })
+            })
+        },
+        getMgUser(userId, roleName="artist") {
+            return new Promise((resolve, reject) => {
+                axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/auth0-get-user-role',
+                    {
+                        token: process.env.GRIDSOME_AUTH0_MASTER_TOKEN,
+                        user_id: userId
+                    },
+                    {
+                        headers: {
+                            "Access-Control-Allow-Origin": "*",
+                            "Access-Control-Allow-Headers": "Content-Type",
+                            "Content-Type": "application/json"
+                        }
+                    }
+                ).then(res => {
+                    if (200 === res.status) {
+                        if (res.hasOwnProperty("data") && res.data.length > 0 && res.data[0].name === roleName) {
+                            axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/auth0-get-user',
+                                {
+                                    user_id: userId,
+                                    token: process.env.GRIDSOME_AUTH0_MASTER_TOKEN
+                                },
+                                {
+                                    headers: {
+                                        "Access-Control-Allow-Origin": "*",
+                                        "Access-Control-Allow-Headers": "Content-Type",
+                                        "Content-Type": "application/json"
+                                    }
+                                }
+                            ).then(res => {
+                                if (200 === res.status) {
+                                    resolve(res.data);
+                                } else {
+                                    reject(res.status);
+                                }
+                            }).catch(err => {
+                                reject(err);
+                            })
+                        } else {
+                            reject(404);
+                        }
+                    } else {
+                        reject(res.status);
+                    }
                 }).catch(err => {
                     reject(err);
                 })
