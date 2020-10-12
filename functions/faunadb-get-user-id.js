@@ -39,11 +39,11 @@ exports.handler = async (event, context) => {
                 };
           })
           .catch(err => {
-            console.log(JSON.stringify(err));
+            console.log(err);
             console.log("### END ###")
 
             return {
-                statusCode: err.statusCode,
+                statusCode: err.requestResult.statusCode,
                 body: err.message
             };
           })

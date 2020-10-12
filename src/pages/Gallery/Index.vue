@@ -2,9 +2,11 @@
   <Layout>
     <v-main>
         <v-container class="pa-0 background-color-fafafa" fluid>
+            <div class="py-10" />
+            <div class="playfair-38-700 text-center">Gallery</div>
+            <div class="py-4" />
             <!-- Desktop -->
             <div class="hidden-sm-and-down">
-                <div class="py-10" />
                 <div v-if="!fetched">
                     <v-row class="px-12 mx-12" justify="center" align="center">
                         <v-col><v-skeleton-loader type="card" /></v-col>
@@ -52,8 +54,7 @@
                               </v-tooltip>
                               <v-tooltip top color="black">
                                 <template v-slot:activator="{ on, attrs }">
-                                  <!-- <v-btn icon @click="getRef(artwork.user_id)"> -->
-                                  <v-btn icon v-bind="attrs" v-on="on">
+                                  <v-btn icon v-bind="attrs" v-on="on" @click="getRef(artwork.user_id)">
                                     <v-icon>mdi-link</v-icon>
                                   </v-btn>
                                 </template>
@@ -80,85 +81,82 @@
                     </v-row>
                   </div>
                 </div>
-                <div class="py-10" />
             </div>
             <!-- Mobile -->
             <div class="hidden-md-and-up py-4">
-                <div class="py-4" />
-                <div v-if="!fetched">
-                    <v-row class="px-4" justify="center" align="center">
-                        <v-col><v-skeleton-loader type="card" /></v-col>
-                    </v-row>
-                    <v-row class="px-4" justify="center" align="center">
-                        <v-col><v-skeleton-loader  type="card" /></v-col>
-                    </v-row>
-                </div>
-                <div v-else>
-                  <div v-if="gallery.length > 0">
-                    <v-row class="px-12" justify="center" align="center">
-                      <v-col v-for="(artwork, i ) in gallery" :key="'artwork-' + i" cols="12">
-                        <v-card>
-                          <g-image
-                            :src="artwork.url"
-                            :alt="artwork.title"
-                            fit="contain"
-                            style="width: 100%"
-                          />
-                          <div class="d-flex justify-space-between">
-                            <div>
-                              <v-card-title
-                                class="raleway-28-400 text-capitalize"
-                                v-text="artwork.title" />
-                              <v-card-subtitle
-                                class="raleway-25-400 text-capitalize text-start"
-                                v-text="artwork.artist_name" />
-                            </div>
-                            <v-card-actions>
-                              <v-tooltip top color="black">
-                                <template v-slot:activator="{ on, attrs }">
-                                  <v-btn
-                                    icon
-                                    v-bind="attrs"
-                                    v-on="on"
-                                    @click="overlayMobile = true; enlargedImg.url = artwork.url; enlargedImg.title = artwork.title"
-                                  >
-                                    <v-icon>mdi-fullscreen</v-icon>
-                                  </v-btn>
-                                </template>
-                                <span>{{ getLang === 'gr' ? 'Μεγέθυνση' : 'Enlarge' }}</span>
-                              </v-tooltip>
-                              <v-tooltip top color="black">
-                                <template v-slot:activator="{ on, attrs }">
-                              <!-- <v-btn icon @click="getRef(artwork.user_id)"> -->
-                                  <v-btn icon v-bind="attrs" v-on="on">
-                                    <v-icon>mdi-link</v-icon>
-                                  </v-btn>
-                                </template>
-                                <span>{{ getLang === 'gr' ? 'Σελίδα καλλιτέχνη' : "Artist's page" }}</span>
-                              </v-tooltip>
-                            </v-card-actions>
+              <div v-if="!fetched">
+                  <v-row class="px-4" justify="center" align="center">
+                      <v-col><v-skeleton-loader type="card" /></v-col>
+                  </v-row>
+                  <v-row class="px-4" justify="center" align="center">
+                      <v-col><v-skeleton-loader  type="card" /></v-col>
+                  </v-row>
+              </div>
+              <div v-else>
+                <div v-if="gallery.length > 0">
+                  <v-row class="px-12" justify="center" align="center">
+                    <v-col v-for="(artwork, i ) in gallery" :key="'artwork-' + i" cols="12">
+                      <v-card>
+                        <g-image
+                          :src="artwork.url"
+                          :alt="artwork.title"
+                          fit="contain"
+                          style="width: 100%"
+                        />
+                        <div class="d-flex justify-space-between">
+                          <div>
+                            <v-card-title
+                              class="raleway-18-400 text-capitalize"
+                              v-text="artwork.title" />
+                            <v-card-subtitle
+                              class="raleway-16-400 text-capitalize text-start"
+                              v-text="artwork.artist_name" />
                           </div>
-                        </v-card>
-                      </v-col>
-                    </v-row>
-                  </div>
-                  <div v-else class="center-viewport">
-                    <v-row style="height: 100%;" justify="center" align="center">
-                      <v-col>
-                        <p
-                          class="text-center"
-                          :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                        >{{ 
-                            getLang === 'gr' ?
-                            'Ωχ, κάτι πήγε στραβά. Παρακαλώ προσπαθήστε αργότερα' :
-                            'Oops, something went wrong. Please reload the page later.'
-                          }}</p>
-                      </v-col>
-                    </v-row>
-                  </div>
+                          <v-card-actions>
+                            <v-tooltip top color="black">
+                              <template v-slot:activator="{ on, attrs }">
+                                <v-btn
+                                  icon
+                                  v-bind="attrs"
+                                  v-on="on"
+                                  @click="overlayMobile = true; enlargedImg.url = artwork.url; enlargedImg.title = artwork.title"
+                                >
+                                  <v-icon>mdi-fullscreen</v-icon>
+                                </v-btn>
+                              </template>
+                              <span>{{ getLang === 'gr' ? 'Μεγέθυνση' : 'Enlarge' }}</span>
+                            </v-tooltip>
+                            <v-tooltip top color="black">
+                              <template v-slot:activator="{ on, attrs }">
+                                <v-btn icon v-bind="attrs" v-on="on" @click="getRef(artwork.user_id)">
+                                  <v-icon>mdi-link</v-icon>
+                                </v-btn>
+                              </template>
+                              <span>{{ getLang === 'gr' ? 'Σελίδα καλλιτέχνη' : "Artist's page" }}</span>
+                            </v-tooltip>
+                          </v-card-actions>
+                        </div>
+                      </v-card>
+                    </v-col>
+                  </v-row>
                 </div>
-                <div class="py-4" />
+                <div v-else class="center-viewport">
+                  <v-row style="height: 100%;" justify="center" align="center">
+                    <v-col>
+                      <p
+                        class="text-center"
+                        :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                      >{{ 
+                          getLang === 'gr' ?
+                          'Ωχ, κάτι πήγε στραβά. Παρακαλώ προσπαθήστε αργότερα' :
+                          'Oops, something went wrong. Please reload the page later.'
+                        }}</p>
+                    </v-col>
+                  </v-row>
+                </div>
+              </div>
             </div>
+            <div class="py-4" />
         </v-container>
         <!-- Desktop Overlay -->
         <v-overlay class="hidden-sm-and-down" :value="overlayDesktop">
@@ -201,6 +199,10 @@
             />
           </div>
         </v-dialog>
+        <!-- Wait routing to artist's page -->
+        <v-overlay :value="goToArtist" color="#FAFAFA" opacity="0.70">
+          <img src="../../../static/loading.svg" width="300vw" alt="loading">
+        </v-overlay>
     </v-main>
   </Layout>
 </template>
@@ -210,7 +212,7 @@ import { mapGetters } from "vuex";
 
 export default {
   async created () {
-    this.$auth.getUsersInRole('artist')
+    this.$auth.getMgUsersInRole('artist')
         .then(artists => {
             Promise.all(artists.map(async (artist) => {
                 await this.$imgdb.retrieveArtworks(artist.user_id, 'approved')
@@ -249,7 +251,6 @@ export default {
                     break;
                 }
                 count = (count + 1) % 3;
-                
               });
               this.fetched = true;
             })
@@ -268,21 +269,26 @@ export default {
           url: "",
           title: ""
         },
+        goToArtist: false
       }
   },
   computed: {
     ...mapGetters(['getLang']),
   },
   methods: {
-    // getRef(user_id) {
-    //   this.$db.getRef(user_id)
-    //     .then(ref => {
-    //       this.$db.getUserId(ref)
-    //         .then(id => console.log(id))
-    //         .catch(err => console.error(err))
-    //     })
-    //     .catch(err => console.error(err))
-    // }
+    getRef(user_id) {
+      this.goToArtist = true;
+      this.$db.getRef(user_id)
+        .then(ref => {
+          // Fetched artist's reference, go to artist's page.
+          this.$router.push({ path: 'artist/' + ref });
+          this.goToArtist = false;
+        })
+        .catch(err => {
+          console.error(err);
+          this.goToArtist = false;
+        })
+    }
   },
   metaInfo() {
     return {
@@ -296,7 +302,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .center-viewport {
   position: fixed;
   top: 50%;
