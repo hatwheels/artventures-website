@@ -298,31 +298,33 @@
                             @change="changeProfilePicMobile"
                         >
                     </v-row>
-                    <v-row class="pt-6" justify="center" align="center">
+                    <v-row class="pt-9" justify="center" align="center">
                         <div
                             :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
                             class="color-1a1a1a"
                             v-html="pw.title[getLang]"
                         />
                     </v-row>
-                    <v-row class="pt-2" justify="center" align="center">
-                        <v-col md="8" sm="9">
-                            <v-btn
-                                dark
-                                color="#333333"
-                                v-if="provider === 'auth0'"
-                                :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
-                                class="text-capitalize"
-                                v-html="pw.reset[getLang]"
-                                @click="pwDialog.toggle = true"
-                            />
-                            <div
-                                v-else
-                                :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
-                            >
-                                {{ pw.text3rd['1st'][getLang] }}
-                                <span class='raleway-16-600'>{{ availableProviders[provider] }}</span>
-                                {{ pw.text3rd['2nd'][getLang] }}
+                    <v-row justify="center" align="center">
+                        <v-col>
+                            <div class="text-center">
+                                <v-btn
+                                    dark
+                                    color="#333333"
+                                    v-if="provider === 'auth0'"
+                                    :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
+                                    class="text-capitalize"
+                                    v-html="pw.reset[getLang]"
+                                    @click="pwDialog.toggle = true"
+                                />
+                                <div
+                                    v-else
+                                    :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
+                                >
+                                    {{ pw.text3rd['1st'][getLang] }}
+                                    <span class='raleway-16-600'>{{ availableProviders[provider] }}</span>
+                                    {{ pw.text3rd['2nd'][getLang] }}
+                                </div>
                             </div>
                         </v-col>
                     </v-row>
@@ -335,162 +337,166 @@
                     </v-row>
                     <v-row justify="center" align="center">
                         <v-col cols="4" sm="3" md="2">
-                            <v-select
-                                v-model="chosenLanguage"
-                                :items="getLanguages"
-                                color="#333333"
-                                item-color="#333333"
-                                @change="setLanguage(chosenLanguage)"
-                            />
+                            <div class="text-center">
+                                <v-select
+                                    v-model="chosenLanguage"
+                                    :items="getLanguages"
+                                    color="#333333"
+                                    item-color="#333333"
+                                    @change="setLanguage(chosenLanguage)"
+                                />
+                            </div>
                         </v-col>
                     </v-row>
-                    <v-row class="pt-12" justify="center" align="center">
-                        <form lazy-validation @submit.prevent="submit()">
-                            <label
-                                :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
-                                class="color-1a1a1a"
-                                v-html="form.firstName[getLang]"
-                            />
-                            <v-text-field
-                                v-model.trim="firstName"
-                                background-color="#FAFAFA"
-                                color="#1A1A1A"
-                                :placeholder="getLang === 'en' ? 'Your First Name...' : 'Το Όνομα σας...'"
-                                :error-messages="firstNameErrors"
-                                outlined
-                                required
-                                @input="delayTouch($v.firstName)"
-                                @blur="$v.firstName.$touch()"
-                            ></v-text-field>
-                            <label
-                                :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
-                                class="color-1a1a1a"
-                                v-html="form.lastName[getLang]"
-                            />
-                            <v-text-field
-                                v-model.trim="lastName"
-                                background-color="#FAFAFA"
-                                color="#1A1A1A"
-                                :placeholder="getLang === 'en' ? 'Your Last Name...' : 'Το Επίθετο σας...'"
-                                :error-messages="lastNameErrors"
-                                outlined
-                                required
-                                @input="delayTouch($v.lastName)"
-                                @blur="$v.lastName.$touch()"
-                            ></v-text-field>
-                            <label
-                                :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
-                                class="color-1a1a1a"
-                                v-html="form.nickname[getLang]"
-                            />
-                            <v-text-field
-                                v-model.trim="nickname"
-                                background-color="#FAFAFA"
-                                color="#1A1A1A"
-                                :placeholder="getLang === 'en' ? 'Your Nickname...' : 'Το Καλλιτεχνικό σας Όνομα...'"
-                                :error-messages="nicknameErrors"
-                                outlined
-                                required
-                                @input="delayTouch($v.nickname)"
-                                @blur="$v.nickname.$touch()"
-                            ></v-text-field>
-                            <label
-                                :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
-                                class="color-1a1a1a"
-                            >
-                                {{ form.email[getLang] }}
-                                <span
-                                    v-if="provider !== 'auth0'"
-                                    :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'">
-                                        {{ form.email.readonly[getLang] }} {{ availableProviders[provider] }}.
-                                </span>
-                            </label>
-                            <v-text-field
-                                v-model="email"
-                                background-color="#FAFAFA"
-                                color="#1A1A1A"
-                                :placeholder="getLang === 'en' ? 'Your Email...' : 'Το Email σας'"
-                                :error-messages="emailErrors"
-                                outlined
-                                required
-                                :disabled="provider !== 'auth0'"
-                                :readonly="provider !== 'auth0'"
-                                @input="delayTouch($v.email)"
-                                @blur="$v.email.$touch()"
-                            ></v-text-field>
-                            <label
-                                :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
-                                class="color-1a1a1a"
-                            >
-                                {{ form.bio[getLang] }}
-                            </label>
-                            <v-textarea
-                                v-model="bio"
-                                :error-messages="bioErrors"
-                                outlined
-                                counter='500'
-                                color="#1A1A1A"
-                                :placeholder="getLang === 'en' ? 'Tell us about yourself...' : 'Πείτε μας κάποια λόγια για τον εαυτό σας...'"
-                                @input="delayTouch($v.bio)"
-                                @blur="$v.bio.$touch()"
-                            ></v-textarea>
-                            <label
-                                :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
-                                class="color-1a1a1a"
-                                v-html="form.role[getLang]"
-                            />
-                            <v-radio-group
-                                v-if="getUserRoleName() === 'admin'" 
-                                v-model="role"
-                                required
-                                row
-                                :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
-                            >
-                                <v-radio
-                                    color="rgba(26,26,26,1)"
-                                    :label="availableRoles.admin[getLang]"
-                                    value="admin">
-                                </v-radio>
-                                <v-radio
-                                    color="rgba(26,26,26,1)"
-                                    :label="availableRoles.artist[getLang]"
-                                    value="artist">
-                                </v-radio>
-                                <v-radio
-                                    color="rgba(26,26,26,1)"
-                                    :label="availableRoles.user[getLang]"
-                                    value="user">
-                                </v-radio>
-                            </v-radio-group>
-                            <v-radio-group
-                                v-else
-                                v-model="role"
-                                required
-                                row
-                                :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
-                            >
-                                <v-radio
-                                    color="rgba(26,26,26,1)"
-                                    :label="availableRoles.artist[getLang]"
-                                    value="artist">
-                                </v-radio>
-                                <v-radio
-                                    color="rgba(26,26,26,1)"
-                                    :label="availableRoles.user[getLang]"
-                                    value="user">
-                                </v-radio>
-                            </v-radio-group>
-                            <v-btn
-                                :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
-                                class="text-capitalize white--text"
-                                color="#333333"
-                                type="submit"
-                                :disabled="$v.$invalid"
-                            >
-                                {{ buttons.form[getLang] }}
-                                <span v-show="isLoading" class="px-1 lds-ring"><div></div><div></div><div></div><div></div></span>
-                            </v-btn>
-                        </form>
+                    <v-row class="pt-6" justify="center" align="center">
+                        <v-col>
+                            <form lazy-validation @submit.prevent="submit()">
+                                <label
+                                    :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
+                                    class="color-1a1a1a"
+                                    v-html="form.firstName[getLang]"
+                                />
+                                <v-text-field
+                                    v-model.trim="firstName"
+                                    background-color="#FAFAFA"
+                                    color="#1A1A1A"
+                                    :placeholder="getLang === 'en' ? 'Your First Name...' : 'Το Όνομα σας...'"
+                                    :error-messages="firstNameErrors"
+                                    outlined
+                                    required
+                                    @input="delayTouch($v.firstName)"
+                                    @blur="$v.firstName.$touch()"
+                                ></v-text-field>
+                                <label
+                                    :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
+                                    class="color-1a1a1a"
+                                    v-html="form.lastName[getLang]"
+                                />
+                                <v-text-field
+                                    v-model.trim="lastName"
+                                    background-color="#FAFAFA"
+                                    color="#1A1A1A"
+                                    :placeholder="getLang === 'en' ? 'Your Last Name...' : 'Το Επίθετο σας...'"
+                                    :error-messages="lastNameErrors"
+                                    outlined
+                                    required
+                                    @input="delayTouch($v.lastName)"
+                                    @blur="$v.lastName.$touch()"
+                                ></v-text-field>
+                                <label
+                                    :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
+                                    class="color-1a1a1a"
+                                    v-html="form.nickname[getLang]"
+                                />
+                                <v-text-field
+                                    v-model.trim="nickname"
+                                    background-color="#FAFAFA"
+                                    color="#1A1A1A"
+                                    :placeholder="getLang === 'en' ? 'Your Nickname...' : 'Το Καλλιτεχνικό σας Όνομα...'"
+                                    :error-messages="nicknameErrors"
+                                    outlined
+                                    required
+                                    @input="delayTouch($v.nickname)"
+                                    @blur="$v.nickname.$touch()"
+                                ></v-text-field>
+                                <label
+                                    :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
+                                    class="color-1a1a1a"
+                                >
+                                    {{ form.email[getLang] }}
+                                    <span
+                                        v-if="provider !== 'auth0'"
+                                        :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'">
+                                            {{ form.email.readonly[getLang] }} {{ availableProviders[provider] }}.
+                                    </span>
+                                </label>
+                                <v-text-field
+                                    v-model="email"
+                                    background-color="#FAFAFA"
+                                    color="#1A1A1A"
+                                    :placeholder="getLang === 'en' ? 'Your Email...' : 'Το Email σας'"
+                                    :error-messages="emailErrors"
+                                    outlined
+                                    required
+                                    :disabled="provider !== 'auth0'"
+                                    :readonly="provider !== 'auth0'"
+                                    @input="delayTouch($v.email)"
+                                    @blur="$v.email.$touch()"
+                                ></v-text-field>
+                                <label
+                                    :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
+                                    class="color-1a1a1a"
+                                >
+                                    {{ form.bio[getLang] }}
+                                </label>
+                                <v-textarea
+                                    v-model="bio"
+                                    :error-messages="bioErrors"
+                                    outlined
+                                    counter='500'
+                                    color="#1A1A1A"
+                                    :placeholder="getLang === 'en' ? 'Tell us about yourself...' : 'Πείτε μας κάποια λόγια για τον εαυτό σας...'"
+                                    @input="delayTouch($v.bio)"
+                                    @blur="$v.bio.$touch()"
+                                ></v-textarea>
+                                <label
+                                    :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
+                                    class="color-1a1a1a"
+                                    v-html="form.role[getLang]"
+                                />
+                                <v-radio-group
+                                    v-if="getUserRoleName() === 'admin'" 
+                                    v-model="role"
+                                    required
+                                    row
+                                    :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
+                                >
+                                    <v-radio
+                                        color="rgba(26,26,26,1)"
+                                        :label="availableRoles.admin[getLang]"
+                                        value="admin">
+                                    </v-radio>
+                                    <v-radio
+                                        color="rgba(26,26,26,1)"
+                                        :label="availableRoles.artist[getLang]"
+                                        value="artist">
+                                    </v-radio>
+                                    <v-radio
+                                        color="rgba(26,26,26,1)"
+                                        :label="availableRoles.user[getLang]"
+                                        value="user">
+                                    </v-radio>
+                                </v-radio-group>
+                                <v-radio-group
+                                    v-else
+                                    v-model="role"
+                                    required
+                                    row
+                                    :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
+                                >
+                                    <v-radio
+                                        color="rgba(26,26,26,1)"
+                                        :label="availableRoles.artist[getLang]"
+                                        value="artist">
+                                    </v-radio>
+                                    <v-radio
+                                        color="rgba(26,26,26,1)"
+                                        :label="availableRoles.user[getLang]"
+                                        value="user">
+                                    </v-radio>
+                                </v-radio-group>
+                                <v-btn
+                                    :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
+                                    class="text-capitalize white--text"
+                                    color="#333333"
+                                    type="submit"
+                                    :disabled="$v.$invalid"
+                                >
+                                    {{ buttons.form[getLang] }}
+                                    <span v-show="isLoading" class="px-1 lds-ring"><div></div><div></div><div></div><div></div></span>
+                                </v-btn>
+                            </form>
+                        </v-col>
                     </v-row>
                 </v-col>
             </v-row>

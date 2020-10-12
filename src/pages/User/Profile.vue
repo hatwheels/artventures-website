@@ -16,7 +16,7 @@
                     <!-- Desktop -->
                     <g-image
                         v-if="userPicture"
-                        class="hidden-sm-down"
+                        class="hidden-sm-and-down"
                         :src="userPicture"
                         style="height: 200px;"
                         fit="cover"
