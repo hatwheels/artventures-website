@@ -7,28 +7,19 @@
         <!-- Desktop -->
         <div class="hidden-sm-and-down py-12 px-12">
           <v-row justify="center" align="center">
-            <v-col cols="4">
-              <div class="d-flex">
-                <g-image
-                  class="mx-3 rounded"
-                  :src="artist.pic"
-                  alt="artist pic"
-                  fit="contain"
-                  style="height: 100px"
-                />
-                <div>
-                  <div class="raleway-30-700 text-uppercase">{{ artist.firstName }}</div>
-                  <div class="raleway-30-700 text-uppercase">{{ artist.lastName }}</div>
-                </div>
-              </div>
+            <v-col cols="auto">
+              <div class="raleway-30-700 text-uppercase">{{ artist.firstName }}</div>
+              <div class="raleway-30-700 text-uppercase">{{ artist.lastName }}</div>
             </v-col>
-            <v-col cols="4">
+            <v-col cols="auto">
               <div class="raleway-18-400">{{ artist.bio }}</div>
             </v-col>
           </v-row>
+          <div class="custom-divider background-color-dddddd"></div>
+
           <!-- Artworks -->
           <div
-            class="px-12 py-6 text-center playfair-38-700"
+            class="px-12 pb-6 pt-8 text-center playfair-38-700"
           >
             {{getLang === 'gr' ? 'Εργα Τέχνης' : 'Artworks'}}
           </div>
@@ -67,27 +58,17 @@
         <!-- Mobile -->
         <div class="hidden-md-and-up">
           <v-row class="pt-12 px-12" justify="center" align="center">
-            <v-col cols="auto">
-              <g-image
-                class="mx-3 rounded"
-                :src="artist.pic"
-                alt="artist pic"
-                fit="contain"
-                style="height: 100px;"
-              />
-            </v-col>
-          </v-row>
-          <v-row justify="center" align="center">
             <v-col class="text-center" cols="auto">
               <div class="raleway-30-700 text-uppercase">{{ artist.firstName }}</div>
               <div class="raleway-30-700 text-uppercase">{{ artist.lastName }}</div>
             </v-col>
           </v-row>
-          <v-row class="pb-12" justify="center" align="center">
+          <v-row class="pb-6" justify="center" align="center">
             <v-col class="text-center" cols="auto">
               <div class="raleway-18-400">{{ artist.bio }}</div>
             </v-col>
           </v-row>
+          <div class="text-center custom-divider-small background-color-dddddd"></div>
           <!-- Artworks -->
           <div
             class="px-12 py-6 text-center playfair-38-700"
@@ -312,5 +293,17 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.custom-divider {
+  height: 1px;
+  margin-right: 25vw;
+  margin-left: 25vw;
+}
+
+.custom-divider-small {
+  height: 1px;
+  margin-right: 10vw;
+  margin-left: 10vw;
 }
 </style>
