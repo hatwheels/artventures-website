@@ -255,7 +255,9 @@ export default {
               this.fetched = true;
             })
         })
-        .catch(err => console.error(err))
+        .catch(err => {
+          this.fetched = true; console.error(err);
+        })
   },
   data () {
       return {
