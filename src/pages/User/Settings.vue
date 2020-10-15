@@ -638,15 +638,16 @@
 <script>
 import { mapGetters, mapMutations } from 'vuex'
 import { validationMixin } from "vuelidate";
-import { required, email, alpha, maxLength } from "vuelidate/lib/validators";
+import { required, email, maxLength } from "vuelidate/lib/validators";
 
 const touchMap = new WeakMap();
+const alphaTick = (value) => /^[a-zA-Z-]*$/.test(value)
 
 export default {
   mixins: [validationMixin],
   validations: {
-    firstName: { required, alpha },
-    lastName: { required, alpha },
+    firstName: { required, alphaTick },
+    lastName: { required, alphaTick },
     nickname: { required },
     email: { required, email },
     bio: { maxLength: maxLength(500) }
@@ -724,12 +725,24 @@ export default {
         form: {
             errors: {
                 firstName: {
-                    gr: 'Το όνομα είναι υποχρεωτικό.',
-                    en: 'First Name is required.',
+                    invalid: {
+                        gr: 'Δεκτοί χαρακτρήρες είναι a-z, A-Z και "-".',
+                        en: 'Valid characters are a-z, A-Z and "-".',
+                    },
+                    missing: {
+                        gr: 'Το όνομα είναι υποχρεωτικό.',
+                        en: 'First Name is required.',
+                    }
                 },
                 lastName: {
-                    gr: 'Το επίθετο είναι υποχρεωτικό.',
-                    en: 'Last Name is required.',
+                    invalid: {
+                        gr: 'Δεκτοί χαρακτρήρες είναι a-z, A-Z και "-".',
+                        en: 'Valid characters are a-z, A-Z and "-".',
+                    },
+                    missing: {
+                        gr: 'Το επίθετο είναι υποχρεωτικό.',
+                        en: 'Last Name is required.',
+                    }
                 },
                 nickname: {
                     gr: 'Το ψευδώνυμο είναι υποχρεωτικό.',
@@ -849,13 +862,15 @@ export default {
     firstNameErrors() {
       const errors = [];
       if (!this.$v.firstName.$dirty) return errors;
-      !this.$v.firstName.required && errors.push(this.form.errors.firstName[this.getLang]);
+      !this.$v.firstName.alphaTick && errors.push(this.form.errors.firstName.invalid[this.getLang]);
+      !this.$v.firstName.required && errors.push(this.form.errors.firstName.missing[this.getLang]);
       return errors;
     },
     lastNameErrors() {
       const errors = [];
       if (!this.$v.lastName.$dirty) return errors;
-      !this.$v.lastName.required && errors.push(this.form.errors.lastName[this.getLang]);
+      !this.$v.lastName.alphaTick && errors.push(this.form.errors.lastName.invalid[this.getLang]);
+      !this.$v.lastName.required && errors.push(this.form.errors.lastName.missing[this.getLang]);
       return errors;
     },
     nicknameErrors() {
