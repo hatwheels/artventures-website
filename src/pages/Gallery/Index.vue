@@ -32,7 +32,7 @@
                           <div class="d-flex justify-space-between">
                             <div>
                               <v-card-title
-                                class="raleway-28-400 text-capitalize"
+                                class="raleway-25-400 text-capitalize text-start"
                                 v-text="artwork.title" />
                               <v-card-subtitle
                                 class="raleway-25-400 text-capitalize text-start"
@@ -106,7 +106,7 @@
                         <div class="d-flex justify-space-between">
                           <div>
                             <v-card-title
-                              class="raleway-18-400 text-capitalize"
+                              class="raleway-18-400 text-capitalize text-start"
                               v-text="artwork.title" />
                             <v-card-subtitle
                               class="raleway-16-400 text-capitalize text-start"
