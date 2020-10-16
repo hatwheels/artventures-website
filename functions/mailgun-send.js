@@ -4,39 +4,35 @@ const mg = mailgun.client({username: 'api', key: process.env.MG_PRV_KEY})
 exports.handler = (event, context) => {
     try {
         const data = JSON.parse(event.body)
+        console.log(data);
 
         if (!data.hasOwnProperty('firstname')) {
             return {
                 statusCode: 400,
-                headers,
                 body: 'firstname parameter required'
             }
         }
         if (!data.hasOwnProperty('lastname')) {
             return {
                 statusCode: 400,
-                headers,
                 body: 'lastname parameter required'
             }
         }
         if (!data.hasOwnProperty('email')) {
             return {
                 statusCode: 400,
-                headers,
                 body: 'email parameter required'
             }
         }
         if (!data.hasOwnProperty('subject')) {
             return {
                 statusCode: 400,
-                headers,
                 body: 'subject parameter required'
             }
         }
         if (!data.hasOwnProperty('message')) {
             return {
                 statusCode: 400,
-                headers,
                 body: 'message parameter required'
             }
         }
