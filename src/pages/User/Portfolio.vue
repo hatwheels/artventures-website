@@ -371,6 +371,16 @@ export default {
             this.$imgdb.uploadArtwork(this.$auth.user.sub, trimmedTitle, this.imageToUploadBase64)
             .then(secureUrl => {
               this.allArtworks[0].push({ title: this.title, img: secureUrl })
+              if (process.env.GRIDSOME_BUILD === "dev") {
+                let message = `title: ${this.title}, url: ${secureUrl}`
+                this.$admin.sendEmail({
+                  email: this.$auth.user.email,
+                  firstname: this.$auth.user.given_name,
+                  lastname: this.$auth.user.family_name,
+                  subject: "Uploaded Artwork",
+                  message: message
+                });
+              }
               this.title = null
               this.imageToUploadBase64 = null
               this.dialogPortfolio.text.en = "Your Artwork has been successfully uploaded. Please wait for our approval."
@@ -378,16 +388,6 @@ export default {
               this.dialogPortfolio.toggle = true
               this.isLoading = false
               this.currentImageCount++
-              if (process.env.GRIDSOME_BUILD === "prod") {
-                this.$admin.sendEmail({
-                  email: this.$auth.user.email,
-                  firstname: this.$auth.user.given_name,
-                  lastname: this.$auth.user.family_name,
-                  subject: "Uploaded Artwork",
-                  message: `title: ${this.title}
-                  url: ${secureUrl}`
-                });
-              }
             })
             .catch(err => { 
               this.title = null
