@@ -384,8 +384,7 @@ export default {
                   firstname: this.$auth.user.given_name,
                   lastname: this.$auth.user.family_name,
                   subject: "Uploaded Artwork",
-                  message: `title: ${this.title}
-                  url: ${secureUrl}`
+                  message: "title: "+ this.title + "\nurl: " + secureUrl
                 });
               }
             })
