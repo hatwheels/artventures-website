@@ -108,6 +108,8 @@
             </v-col>
           </v-row>
         </div>
+        <!-- Scroll to Top -->
+        <scroll-to-top />
 
         <!-- Desktop Overlay -->
         <v-overlay class="hidden-sm-and-down" :value="overlayDesktop">
@@ -185,6 +187,9 @@
 import { mapGetters } from "vuex";
 
 export default {
+  components: {
+    ScrollToTop: () => import("~/components/ScrollToTop.vue")
+  },
   data () {
     return {
       /*  -2: Error

@@ -20,7 +20,7 @@
                     </v-row>
                 </div>
                 <div v-else>
-                  <div v-if="gallery.length > 0">
+                  <div  v-if="gallery.length > 0">
                     <v-row class="px-12" justify="start" align="start">
                       <v-col class="pr-6" v-for="(column, j) in columns" :key="'column' + j" cols="4">
                         <v-card class="my-6 text-center" v-for="(artwork, i) in column" :key="'artwork-' + i">
@@ -157,6 +157,8 @@
               </div>
             </div>
             <div class="py-4" />
+            <!-- Scroll to Top -->
+            <scroll-to-top />
         </v-container>
         <!-- Desktop Overlay -->
         <v-overlay class="hidden-sm-and-down" :value="overlayDesktop">
@@ -211,6 +213,9 @@
 import { mapGetters } from "vuex";
 
 export default {
+  components: {
+    ScrollToTop: () => import("~/components/ScrollToTop.vue")
+  },
   async created () {
     this.$auth.getMgUsersInRole('artist')
         .then(artists => {
@@ -271,7 +276,7 @@ export default {
           url: "",
           title: ""
         },
-        goToArtist: false
+        goToArtist: false,
       }
   },
   computed: {
