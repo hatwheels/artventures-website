@@ -111,7 +111,7 @@
                                     v-model="bio"
                                     :error-messages="bioErrors"
                                     outlined
-                                    counter='500'
+                                    counter='5000'
                                     auto-grow
                                     color="#1A1A1A"
                                     :placeholder="getLang === 'en' ? 'Tell us about yourself...' : 'Πείτε μας κάποια λόγια για τον εαυτό σας...'"
@@ -433,7 +433,7 @@
                                     v-model="bio"
                                     :error-messages="bioErrors"
                                     outlined
-                                    counter='500'
+                                    counter='5000'
                                     color="#1A1A1A"
                                     :placeholder="getLang === 'en' ? 'Tell us about yourself...' : 'Πείτε μας κάποια λόγια για τον εαυτό σας...'"
                                     @input="delayTouch($v.bio)"
@@ -650,7 +650,7 @@ export default {
     lastName: { required, alphaTick },
     nickname: { required },
     email: { required, email },
-    bio: { maxLength: maxLength(500) }
+    bio: { maxLength: maxLength(5000) }
   },
   mounted () {
     if (process.isClient) {
@@ -759,8 +759,8 @@ export default {
                     },
                 },
                 bio: {
-                    gr: "Το βιογραφικό σας δεν πρέπει να' χει πάνω από 500 χαρακτήρες",
-                    en: 'Your biography cannot have more than 500 characters'
+                    gr: "Το βιογραφικό σας δεν πρέπει να' χει πάνω από 5000 χαρακτήρες",
+                    en: 'Your biography cannot have more than 5000 characters'
                 }
             },
             firstName: {

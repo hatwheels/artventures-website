@@ -248,7 +248,7 @@ let auth = new Vue({
                     }
                 ).then(res => {
                     // success
-                    if (200 == res.status) {
+                    if (200 === res.status) {
                         const data = res.data
                         let user = this.user;
                         if (data.hasOwnProperty('given_name')) {
@@ -276,7 +276,10 @@ let auth = new Vue({
                             user.picture = data.picture
                         }
                         if (data.hasOwnProperty('user_metadata')) {
-                            user_metadata = data.user_metadata
+                            this.user_metadata = data.user_metadata
+                            if (data.user_metadata.hasOwnProperty('bio')) {
+                                this.user_metadata.bio = data.user_metadata.bio
+                            }
                         }
                         this.user = user;
                         resolve()
