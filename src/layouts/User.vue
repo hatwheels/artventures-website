@@ -59,6 +59,13 @@
                 v-html="spa.portfolio[getLang]"
               />
             </v-list-item>
+            <v-list-item to="/gallery">
+              <v-list-item-title
+                :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
+                color="#333333"
+                v-html="spa.gallery[getLang]"
+              />
+            </v-list-item>
             <v-list-item to="/user/settings">
               <v-list-item-title
                 :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
@@ -277,7 +284,11 @@ export default {
         settings: {
           gr: '<div class="color-333333 text-capitalize">Ρυθμίσεις</div>', // Greek, raw html
           en: '<div class="color-333333 text-capitalize">Settings</div>', // English, raw html
-        }
+        },
+        gallery: {
+          gr: '<div class="color-333333 text-capitalize">Γκαλερί</div>', // Greek, raw html
+          en: '<div class="color-333333 text-capitalize">Gallery</div>', // English, raw html
+        },
       },
     }
   },

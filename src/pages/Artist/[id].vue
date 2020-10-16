@@ -33,7 +33,7 @@
                 />
                 <div class="d-flex justify-space-between">
                   <v-card-title
-                    class="raleway-28-400 text-capitalize"
+                    class="raleway-25-400 text-capitalize text-start"
                     v-text="artwork.title" />
                   <v-card-actions>
                     <v-tooltip top color="black">
@@ -86,7 +86,7 @@
                 />
                 <div class="d-flex justify-space-between">
                   <v-card-title
-                    class="raleway-18-400 text-capitalize"
+                    class="raleway-18-400 text-capitalize text-start"
                     v-text="artwork.title" />
                   <v-card-actions>
                     <v-tooltip top color="black">
@@ -108,6 +108,8 @@
             </v-col>
           </v-row>
         </div>
+        <!-- Scroll to Top -->
+        <scroll-to-top />
 
         <!-- Desktop Overlay -->
         <v-overlay class="hidden-sm-and-down" :value="overlayDesktop">
@@ -185,6 +187,9 @@
 import { mapGetters } from "vuex";
 
 export default {
+  components: {
+    ScrollToTop: () => import("~/components/ScrollToTop.vue")
+  },
   data () {
     return {
       /*  -2: Error
