@@ -8,14 +8,19 @@
         <div class="hidden-sm-and-down py-12 px-12">
           <v-row justify="center" align="center">
             <v-col cols="auto">
-              <div class="raleway-30-700 text-uppercase">{{ artist.firstName }}</div>
-              <div class="raleway-30-700 text-uppercase">{{ artist.lastName }}</div>
-            </v-col>
-            <v-col cols="auto">
-              <div class="raleway-18-400">{{ artist.bio }}</div>
+              <div class="raleway-30-700 text-uppercase">{{ artist.firstName + ' ' + artist.lastName }}</div>
             </v-col>
           </v-row>
-          <div class="custom-divider background-color-dddddd"></div>
+          <v-row justify="center" align="center">
+            <v-col cols="8">
+              <div class="raleway-18-400 text-justify">{{ artist.bio }}</div>
+            </v-col>
+          </v-row>
+          <v-row justify="center" align="center">
+            <v-col cols="8">
+              <v-divider></v-divider>
+            </v-col>
+          </v-row>
 
           <!-- Artworks -->
           <div
@@ -64,11 +69,13 @@
             </v-col>
           </v-row>
           <v-row class="pb-6" justify="center" align="center">
-            <v-col class="text-center" cols="auto">
+            <v-col class="text-justify" cols="10">
               <div class="raleway-18-400">{{ artist.bio }}</div>
             </v-col>
+            <v-col cols="10">
+              <v-divider></v-divider>
+            </v-col>
           </v-row>
-          <div class="text-center custom-divider-small background-color-dddddd"></div>
           <!-- Artworks -->
           <div
             class="px-12 py-6 text-center playfair-38-700"
