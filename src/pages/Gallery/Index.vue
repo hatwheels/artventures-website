@@ -288,7 +288,7 @@ export default {
       this.$db.getRef(user_id)
         .then(ref => {
           // Fetched artist's reference, go to artist's page.
-          this.$router.push({ path: 'artist/' + ref });
+          this.$router.push({ path: '/artist/' + ref });
           this.goToArtist = false;
         })
         .catch(err => {
