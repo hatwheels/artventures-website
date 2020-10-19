@@ -4,7 +4,6 @@ const mg = mailgun.client({username: 'api', key: process.env.MG_PRV_KEY})
 exports.handler = (event, context) => {
     try {
         const data = JSON.parse(event.body)
-        console.log(data);
 
         if (!data.hasOwnProperty('firstname')) {
             return {
