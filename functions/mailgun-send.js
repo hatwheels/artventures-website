@@ -37,10 +37,10 @@ exports.handler = (event, context) => {
         }
 
         let content = {
-            from: data.firstname + ' ' + data.lastname + ' <' +  data.email + '>',
-            to: ['pdemertzis@gmail.com', 'kmarko1385@gmail.com'],
+            from: 'Petros Demertzis <pdemertzis@gmail.com>',
+            to: ['pdemertzis@gmail.com', 'kmarko1385@gmail.com', 'mail@artventures.me'],
             subject: data.subject,
-            text: data.message,
+            text: 'Firstname: ' + data.firstname + '\nLast Name: ' + data.lastname + '\nEmail: ' + data.email + '\n\n' + data.message,
         }
         return mg.messages.create(process.env.MG_DOMAIN, content)
             .then(msg => {
