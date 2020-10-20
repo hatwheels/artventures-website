@@ -38,7 +38,7 @@ exports.handler = (event, context) => {
 
         let content = {
             from: data.firstname + ' ' + data.lastname + ' <' +  data.email + '>',
-            to: ['pdemertzis@gmail.com', 'kmarko1385@gmail.com'],
+            to: ['pdemertzis@gmail.com', 'kmarko1385@gmail.com', 'mail@artventures.me'],
             subject: data.subject,
             text: data.message,
         }
