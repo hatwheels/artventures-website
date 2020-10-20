@@ -26,17 +26,21 @@
                         <v-card class="my-6 text-center" v-for="(artwork, i) in column" :key="'artwork-' + i">
                           <g-image
                             :src="artwork.url"
-                            :alt="artwork.title"
+                            :alt="artwork.title || 'Untitled'"
                             style="width: 100%;"
                           />
                           <div class="d-flex justify-space-between">
                             <div>
-                              <v-card-title
+                              <v-card-title v-if="artwork.title"
                                 class="raleway-25-400 text-capitalize text-start"
                                 v-text="artwork.title" />
-                              <v-card-subtitle
+                              <v-card-subtitle v-if="artwork.artist_name"
                                 class="raleway-25-400 text-capitalize text-start"
                                 v-text="artwork.artist_name" />
+                              <v-card-text class="raleway-18-400 text-start">
+                                <div v-if="artwork.size" v-text="artwork.size" />
+                                <div v-if="artwork.type" v-text="artwork.type" />
+                              </v-card-text>
                             </div>
                             <v-card-actions>
                               <v-tooltip top color="black">
@@ -99,18 +103,22 @@
                       <v-card>
                         <g-image
                           :src="artwork.url"
-                          :alt="artwork.title"
+                          :alt="artwork.title || 'Untitled'"
                           fit="contain"
                           style="width: 100%"
                         />
                         <div class="d-flex justify-space-between">
                           <div>
-                            <v-card-title
+                            <v-card-title v-if="artwork.title"
                               class="raleway-18-400 text-capitalize text-start"
                               v-text="artwork.title" />
-                            <v-card-subtitle
+                            <v-card-subtitle v-if="artwork.artist_name"
                               class="raleway-16-400 text-capitalize text-start"
                               v-text="artwork.artist_name" />
+                            <v-card-text class="raleway-13-400 text-start">
+                              <div v-if="artwork.type" v-text="artwork.type" />
+                              <div v-if="artwork.size" v-text="artwork.size" />
+                            </v-card-text>
                           </div>
                           <v-card-actions>
                             <v-tooltip top color="black">
@@ -167,7 +175,7 @@
               <g-image
                 class="rounded"
                 :src="enlargedImg.url"
-                :alt="enlargedImg.title"
+                :alt="enlargedImg.title || 'Untitled'"
                 style="max-height: 98vh; max-width 95vw;"
                 fit="contain"
               />
@@ -195,7 +203,7 @@
             <g-image
               class="rounded"
               :src="enlargedImg.url"
-              :alt="enlargedImg.title"
+              :alt="enlargedImg.title || 'Untitled'"
               fit="contain"
               @click="enlargedImg.url = ''; enlargedImg.title = ''; overlayMobile = false;"
             />
@@ -224,19 +232,46 @@ export default {
                     .then(found => {
                         if (found.total_count> 0) {
                             this.artists.push({
-                                email: artist.email,
-                                name: artist.name,
-                                picture: artist.picture,
-                                user_id: artist.user_id,
-                                resources: found.resources.map(resource => resource.secure_url)
+                              email: artist.email,
+                              name: artist.name,
+                              picture: artist.picture,
+                              user_id: artist.user_id,
+                              resources: found.resources.map(resource => resource.secure_url)
                             });
                             found.resources.forEach(resource => {
-                                this.gallery.push({
-                                    user_id: artist.user_id,
-                                    artist_name: artist.name,
-                                    url: resource.secure_url,
-                                    title: resource.filename.replace(/_/g, ' ')
-                                });
+                              var title = '';
+                              var size = '';
+                              var type = '';
+                              if (resource.hasOwnProperty('context')) {
+                                title = resource.context.caption;
+                                if (resource.context.hasOwnProperty('type') && resource.context.type === 'sculpture') {
+                                  // it's a sculpture
+                                  type = 'Sculpture'
+                                  if (resource.context.hasOwnProperty('dimension') &&
+                                      resource.context.hasOwnProperty('height') &&
+                                      resource.context.hasOwnProperty('width') &&
+                                      resource.context.hasOwnProperty('depth')) {
+                                    size = resource.context.height + ' x ' + resource.context.width + ' x ' +
+                                      resource.context.depth + ' ' + resource.context.dimension
+                                  }
+                                } else {
+                                  // it's a painting
+                                  if (resource.context.hasOwnProperty('dimension') &&
+                                      resource.context.hasOwnProperty('height') &&
+                                      resource.context.hasOwnProperty('width')) {
+                                    size = resource.context.height + ' x ' + resource.context.width + ' ' +
+                                      resource.context.dimension
+                                  }
+                                }
+                              }
+                              this.gallery.push({
+                                  user_id: artist.user_id,
+                                  artist_name: artist.name,
+                                  url: resource.secure_url,
+                                  title: title,
+                                  size: size,
+                                  type: type
+                              });
                             });
                         }
                     })

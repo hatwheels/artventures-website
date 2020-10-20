@@ -33,13 +33,19 @@
               <v-card class="my-6 text-center" v-for="(artwork, i) in column" :key="'artwork-' + i">
                 <g-image
                   :src="artwork.url"
-                  :alt="artwork.title"
+                  :alt="artwork.title || 'Untitled'"
                   style="width: 100%;"
                 />
                 <div class="d-flex justify-space-between">
-                  <v-card-title
-                    class="raleway-25-400 text-capitalize text-start"
-                    v-text="artwork.title" />
+                  <div>
+                    <v-card-title v-if="artwork.title"
+                      class="raleway-25-400 text-capitalize text-start"
+                      v-text="artwork.title" />
+                    <v-card-text class="raleway-18-400 text-start">
+                      <div v-if="artwork.size" v-text="artwork.size" />
+                      <div v-if="artwork.type" v-text="artwork.type" />
+                    </v-card-text>
+                  </div>
                   <v-card-actions>
                     <v-tooltip top color="black">
                       <template v-slot:activator="{ on, attrs }">
@@ -87,14 +93,20 @@
               <v-card>
                 <g-image
                   :src="artwork.url"
-                  :alt="artwork.title"
+                  :alt="artwork.title || 'Untitled'"
                   fit="contain"
                   style="width: 100%"
                 />
                 <div class="d-flex justify-space-between">
-                  <v-card-title
-                    class="raleway-18-400 text-capitalize text-start"
-                    v-text="artwork.title" />
+                  <div>
+                    <v-card-title v-if="artwork.title"
+                      class="raleway-18-400 text-capitalize text-start"
+                      v-text="artwork.title" />
+                    <v-card-text class="raleway-13-400 text-start">
+                      <div v-if="artwork.size" v-text="artwork.size" />
+                      <div v-if="artwork.type" v-text="artwork.type" />
+                    </v-card-text>
+                  </div>
                   <v-card-actions>
                     <v-tooltip top color="black">
                       <template v-slot:activator="{ on, attrs }">
@@ -125,7 +137,7 @@
               <g-image
                 class="rounded"
                 :src="enlargedImg.url"
-                :alt="enlargedImg.title"
+                :alt="enlargedImg.title || 'Untitled'"
                 style="max-height: 98vh; max-width 95vw;"
                 fit="contain"
               />
@@ -153,7 +165,7 @@
             <g-image
               class="rounded"
               :src="enlargedImg.url"
-              :alt="enlargedImg.title"
+              :alt="enlargedImg.title || 'Untitled'"
               fit="contain"
               @click="enlargedImg.url = ''; enlargedImg.title = ''; overlayMobile = false;"
             />
@@ -252,9 +264,36 @@ export default {
                   if (found.total_count> 0) {
                     // found approved artworks
                     found.resources.forEach(resource => {
+                      var title = '';
+                      var size = '';
+                      var type = '';
+                      if (resource.hasOwnProperty('context')) {
+                        title = resource.context.caption;
+                        if (resource.context.hasOwnProperty('type') && resource.context.type === 'sculpture') {
+                          // it's a sculpture
+                          type = 'Sculpture'
+                          if (resource.context.hasOwnProperty('dimension') &&
+                              resource.context.hasOwnProperty('height') &&
+                              resource.context.hasOwnProperty('width') &&
+                              resource.context.hasOwnProperty('depth')) {
+                            size = resource.context.height + ' x ' + resource.context.width + ' x ' +
+                              resource.context.depth + ' ' + resource.context.dimension
+                          }
+                        } else {
+                          // it's a painting
+                          if (resource.context.hasOwnProperty('dimension') &&
+                              resource.context.hasOwnProperty('height') &&
+                              resource.context.hasOwnProperty('width')) {
+                            size = resource.context.height + ' x ' + resource.context.width + ' ' +
+                              resource.context.dimension
+                          }
+                        }
+                      }
                       this.artist.gallery.push({
                         url: resource.secure_url,
-                        title: resource.filename.replace(/_/g, ' ')
+                        title: title,
+                        size: size,
+                        type: type
                       });
                     });
                     var count = 0;
