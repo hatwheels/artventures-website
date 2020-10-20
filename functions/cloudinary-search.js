@@ -31,6 +31,8 @@ exports.handler = async (event, context) => {
 
         return cloudinary.search.expression(xpr)
             .sort_by('public_id', 'desc')
+            .with_field('context')
+            .with_field('tags')
             .execute()
             .then(res => {
                 var reply = JSON.stringify(res)
