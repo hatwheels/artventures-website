@@ -308,7 +308,7 @@ export default {
               if ("subscribed" !== res.data.status && "pending" !== res.data.status && "transactional" !== res.data.status) {
                 this.fields.status = 'transactional'
               }
-              this.marketing.sendMsg(this.fields)
+              this.$marketing.sendMsg(this.fields)
                 .then(res => {
                   if (200 === res.status) {
                     // success
