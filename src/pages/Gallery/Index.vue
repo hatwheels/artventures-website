@@ -29,7 +29,7 @@
                             :alt="artwork.title || 'Untitled'"
                             style="width: 100%;"
                           />
-                          <div class="d-flex justify-space-between">
+                          <div class="d-flex justify-space-between align-start">
                             <div>
                               <v-card-title v-if="artwork.title"
                                 class="raleway-25-400 text-capitalize text-start"
@@ -38,33 +38,40 @@
                                 class="raleway-25-400 text-capitalize text-start"
                                 v-text="artwork.artist_name" />
                               <v-card-text class="raleway-18-400 text-start">
-                                <div v-if="artwork.size" v-text="artwork.size" />
-                                <div v-if="artwork.type" v-text="artwork.type" />
+                                <div>{{ artwork.type }}
+                                  <span v-if="artwork.size"> - {{ artwork.size }}</span>
+                                </div>
                               </v-card-text>
                             </div>
-                            <v-card-actions>
-                              <v-tooltip top color="black">
-                                <template v-slot:activator="{ on, attrs }">
-                                  <v-btn
-                                    icon
-                                    v-bind="attrs"
-                                    v-on="on"
-                                    @click="overlayDesktop = true; enlargedImg.url = artwork.url; enlargedImg.title = artwork.title"
-                                  >
-                                    <v-icon>mdi-fullscreen</v-icon>
-                                  </v-btn>
-                                </template>
-                                <span>{{ getLang === 'gr' ? 'Μεγέθυνση' : 'Enlarge' }}</span>
-                              </v-tooltip>
-                              <v-tooltip top color="black">
-                                <template v-slot:activator="{ on, attrs }">
-                                  <v-btn icon v-bind="attrs" v-on="on" @click="getRef(artwork.user_id)">
-                                    <v-icon>mdi-link</v-icon>
-                                  </v-btn>
-                                </template>
-                                <span>{{ getLang === 'gr' ? 'Σελίδα καλλιτέχνη' : "Artist's page" }}</span>
-                              </v-tooltip>
-                            </v-card-actions>
+                              <div class="d-flex flex-column align-end">
+                                <v-card-actions>
+                                  <v-tooltip top color="black">
+                                    <template v-slot:activator="{ on, attrs }">
+                                      <v-btn
+                                        icon
+                                        v-bind="attrs"
+                                        v-on="on"
+                                        @click="overlayDesktop = true; enlargedImg.url = artwork.url; enlargedImg.title = artwork.title"
+                                      >
+                                        <v-icon>mdi-fullscreen</v-icon>
+                                      </v-btn>
+                                    </template>
+                                    <span>{{ getLang === 'gr' ? 'Μεγέθυνση' : 'Enlarge' }}</span>
+                                  </v-tooltip>
+                                  <v-tooltip top color="black">
+                                    <template v-slot:activator="{ on, attrs }">
+                                      <v-btn icon v-bind="attrs" v-on="on" @click="getRef(artwork.user_id)">
+                                        <v-icon>mdi-link</v-icon>
+                                      </v-btn>
+                                    </template>
+                                    <span>{{ getLang === 'gr' ? 'Σελίδα καλλιτέχνη' : "Artist's page" }}</span>
+                                  </v-tooltip>
+                                </v-card-actions>
+                                <div class="pb-2 px-4 text-end">
+                                  <div class="raleway-18-400" v-if="artwork.salePrice">{{ artwork.salePrice }}€</div>
+                                  <div class="raleway-16-400" v-if="artwork.rentPrice">Rent for: {{ artwork.rentPrice }}€/m</div>
+                                </div>
+                              </div>
                           </div>
                         </v-card>
                       </v-col>
@@ -240,10 +247,22 @@ export default {
                             });
                             found.resources.forEach(resource => {
                               var title = '';
+                              var rentPrice = '100';
+                              var salePrice = '1000';
                               var size = '';
                               var type = '';
                               if (resource.hasOwnProperty('context')) {
-                                title = resource.context.caption;
+                                // Title
+                                if (resource.context.hasOwnProperty('caption')) {
+                                  title = resource.context.caption;
+                                }
+                                // Rent, Sale Price
+                                if (resource.context.hasOwnProperty('rent_price')) {
+                                  rentPrice = resource.context.rent_price
+                                }
+                                if (resource.context.hasOwnProperty('sale_price')) {
+                                  rentPrice = resource.context.sale_price
+                                }
                                 if (resource.context.hasOwnProperty('type') && resource.context.type === 'sculpture') {
                                   // it's a sculpture
                                   type = 'Sculpture'
@@ -256,6 +275,7 @@ export default {
                                   }
                                 } else {
                                   // it's a painting
+                                  type = 'Painting'
                                   if (resource.context.hasOwnProperty('dimension') &&
                                       resource.context.hasOwnProperty('height') &&
                                       resource.context.hasOwnProperty('width')) {
@@ -269,6 +289,8 @@ export default {
                                   artist_name: artist.name,
                                   url: resource.secure_url,
                                   title: title,
+                                  rentPrice: rentPrice,
+                                  salePrice: salePrice,
                                   size: size,
                                   type: type
                               });
