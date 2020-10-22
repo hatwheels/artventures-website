@@ -41,6 +41,21 @@
                                 <div>{{ artwork.type }}
                                   <span v-if="artwork.size"> - {{ artwork.size }}</span>
                                 </div>
+                                <v-row v-if="artwork.tags.length > 0"
+                                  class="pt-2"
+                                  no-gutters
+                                  justify="start"
+                                  align="start"
+                                  style="width: 100%"
+                                >
+                                  <v-col
+                                    class="nunito-12-400 text-capitalize pr-1"
+                                    cols="auto"
+                                    v-for="(tag, i) in artwork.tags" :key="'tag-' + i"
+                                  >
+                                    {{ tag }}<span v-if="i !== artwork.tags.length - 1">,</span>
+                                  </v-col>
+                                </v-row>
                               </v-card-text>
                             </div>
                               <div class="d-flex flex-column align-end">
@@ -247,10 +262,11 @@ export default {
                             });
                             found.resources.forEach(resource => {
                               var title = '';
-                              var rentPrice = '100';
-                              var salePrice = '1000';
+                              var rentPrice = '';
+                              var salePrice = '';
                               var size = '';
                               var type = '';
+                              var tags = resource.hasOwnProperty('tags') ? resource.tags : [];
                               if (resource.hasOwnProperty('context')) {
                                 // Title
                                 if (resource.context.hasOwnProperty('caption')) {
@@ -261,38 +277,41 @@ export default {
                                   rentPrice = resource.context.rent_price
                                 }
                                 if (resource.context.hasOwnProperty('sale_price')) {
-                                  rentPrice = resource.context.sale_price
+                                  salePrice = resource.context.sale_price
                                 }
-                                if (resource.context.hasOwnProperty('type') && resource.context.type === 'sculpture') {
-                                  // it's a sculpture
-                                  type = 'Sculpture'
-                                  if (resource.context.hasOwnProperty('dimension') &&
-                                      resource.context.hasOwnProperty('height') &&
-                                      resource.context.hasOwnProperty('width') &&
-                                      resource.context.hasOwnProperty('depth')) {
-                                    size = resource.context.height + ' x ' + resource.context.width + ' x ' +
-                                      resource.context.depth + ' ' + resource.context.dimension
-                                  }
-                                } else {
-                                  // it's a painting
-                                  type = 'Painting'
-                                  if (resource.context.hasOwnProperty('dimension') &&
-                                      resource.context.hasOwnProperty('height') &&
-                                      resource.context.hasOwnProperty('width')) {
-                                    size = resource.context.height + ' x ' + resource.context.width + ' ' +
-                                      resource.context.dimension
+                                if (resource.context.hasOwnProperty('type')) {
+                                  if (resource.context.type === 'sculpture') {
+                                    // it's a sculpture
+                                    type = 'Sculpture'
+                                    if (resource.context.hasOwnProperty('dimension') &&
+                                        resource.context.hasOwnProperty('height') &&
+                                        resource.context.hasOwnProperty('width') &&
+                                        resource.context.hasOwnProperty('depth')) {
+                                      size = resource.context.height + ' x ' + resource.context.width + ' x ' +
+                                        resource.context.depth + ' ' + resource.context.dimension
+                                    }
+                                  } else if (resource.context.type === 'painting') {
+                                    // it's a painting
+                                    type = 'Painting'
+                                    if (resource.context.hasOwnProperty('dimension') &&
+                                        resource.context.hasOwnProperty('height') &&
+                                        resource.context.hasOwnProperty('width')) {
+                                      size = resource.context.height + ' x ' + resource.context.width + ' ' +
+                                        resource.context.dimension
+                                    }
                                   }
                                 }
                               }
                               this.gallery.push({
-                                  user_id: artist.user_id,
-                                  artist_name: artist.name,
-                                  url: resource.secure_url,
-                                  title: title,
-                                  rentPrice: rentPrice,
-                                  salePrice: salePrice,
-                                  size: size,
-                                  type: type
+                                user_id: artist.user_id,
+                                artist_name: artist.name,
+                                url: resource.secure_url,
+                                title: title,
+                                type: type,
+                                rentPrice: rentPrice,
+                                salePrice: salePrice,
+                                size: size,
+                                tags: tags,
                               });
                             });
                         }

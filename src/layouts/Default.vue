@@ -693,6 +693,13 @@ export default {
   line-height: 1.2em !important;
 }
 /* Nunito */
+.nunito-12-400 {
+  font-family: 'Nunito', sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  font-style: italic;
+}
+
 .nunito-15-400 {
   font-family: 'Nunito', sans-serif !important;
   font-size: 15px !important;
