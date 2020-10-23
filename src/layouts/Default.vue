@@ -726,6 +726,11 @@ export default {
   font-size: 13px !important;
   font-weight: 600 !important;
 }
+.raleway-14-400 {
+  font-family: 'Raleway', sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+}
 .raleway-15-600-1p5 {
   font-family: 'Raleway', sans-serif !important;
   font-size: 15px !important;
@@ -762,6 +767,16 @@ export default {
   font-family: 'Raleway', sans-serif !important;
   font-size: 18px !important;
   font-weight: 600 !important;
+}
+.raleway-21-400 {
+  font-family: 'Raleway', sans-serif !important;
+  font-size: 21px !important;
+  font-weight: 400 !important;
+}
+.raleway-23-400 {
+  font-family: 'Raleway', sans-serif !important;
+  font-size: 23px !important;
+  font-weight: 400 !important;
 }
 .raleway-25-400 {
   font-family: 'Raleway', sans-serif !important;

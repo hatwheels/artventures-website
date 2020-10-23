@@ -35,12 +35,13 @@
                                 class="raleway-25-400 text-capitalize text-start"
                                 v-text="artwork.title" />
                               <v-card-subtitle v-if="artwork.artist_name"
-                                class="raleway-25-400 text-capitalize text-start"
+                                class="raleway-23-400 text-capitalize text-start"
                                 v-text="artwork.artist_name" />
                               <v-card-text class="raleway-18-400 text-start">
-                                <div>{{ artwork.type }}
-                                  <span v-if="artwork.size"> - {{ artwork.size }}</span>
+                                <div v-if="artwork.type" class="text-capitalize">{{ artwork.type }}
+                                  <span v-if="artwork.size" class="text-lowercase"> - {{ artwork.size }}</span>
                                 </div>
+                                <div v-else-if="artwork.size" class="text-lowercase">{{ artwork.size }}</div>
                                 <v-row v-if="artwork.tags.length > 0"
                                   class="pt-2"
                                   no-gutters
@@ -58,35 +59,40 @@
                                 </v-row>
                               </v-card-text>
                             </div>
-                              <div class="d-flex flex-column align-end">
-                                <v-card-actions>
-                                  <v-tooltip top color="black">
-                                    <template v-slot:activator="{ on, attrs }">
-                                      <v-btn
-                                        icon
-                                        v-bind="attrs"
-                                        v-on="on"
-                                        @click="overlayDesktop = true; enlargedImg.url = artwork.url; enlargedImg.title = artwork.title"
-                                      >
-                                        <v-icon>mdi-fullscreen</v-icon>
-                                      </v-btn>
-                                    </template>
-                                    <span>{{ getLang === 'gr' ? 'Μεγέθυνση' : 'Enlarge' }}</span>
-                                  </v-tooltip>
-                                  <v-tooltip top color="black">
-                                    <template v-slot:activator="{ on, attrs }">
-                                      <v-btn icon v-bind="attrs" v-on="on" @click="getRef(artwork.user_id)">
-                                        <v-icon>mdi-link</v-icon>
-                                      </v-btn>
-                                    </template>
-                                    <span>{{ getLang === 'gr' ? 'Σελίδα καλλιτέχνη' : "Artist's page" }}</span>
-                                  </v-tooltip>
-                                </v-card-actions>
-                                <div class="pb-2 px-4 text-end">
-                                  <div class="raleway-18-400" v-if="artwork.salePrice">{{ artwork.salePrice }}€</div>
-                                  <div class="raleway-16-400" v-if="artwork.rentPrice">Rent for: {{ artwork.rentPrice }}€/m</div>
+                            <div class="d-flex flex-column align-end">
+                              <v-card-actions>
+                                <v-tooltip top color="black">
+                                  <template v-slot:activator="{ on, attrs }">
+                                    <v-btn
+                                      icon
+                                      large
+                                      v-bind="attrs"
+                                      v-on="on"
+                                      @click="overlayDesktop = true; enlargedImg.url = artwork.url; enlargedImg.title = artwork.title"
+                                    >
+                                      <v-icon size="30">mdi-fullscreen</v-icon>
+                                    </v-btn>
+                                  </template>
+                                  <span>{{ plainText.artworkZoom[getLang] }}</span>
+                                </v-tooltip>
+                                <v-tooltip top color="black">
+                                  <template v-slot:activator="{ on, attrs }">
+                                    <v-btn icon v-bind="attrs" v-on="on" @click="getRef(artwork.user_id)">
+                                      <v-icon size="30">mdi-link</v-icon>
+                                    </v-btn>
+                                  </template>
+                                  <span>{{ plainText.artistPage[getLang] }}</span>
+                                </v-tooltip>
+                              </v-card-actions>
+                              <div class="pb-2 px-4 text-end">
+                                <div class="raleway-23-400" v-if="artwork.salePrice">{{ artwork.salePrice }}€</div>
+                                <div class="raleway-21-400" v-if="artwork.rentPrice">
+                                  <span class="pr-1">{{ plainText.rentFor[getLang] }}</span>
+                                  {{ artwork.rentPrice }}
+                                  <span>{{ plainText.rentPerMonth[getLang] }}</span>
                                 </div>
                               </div>
+                            </div>
                           </div>
                         </v-card>
                       </v-col>
@@ -98,11 +104,9 @@
                         <p
                           class="text-center"
                           :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                        >{{ 
-                            getLang === 'gr' ?
-                            'Ωχ, κάτι πήγε στραβά. Παρακαλώ προσπαθήστε αργότερα' :
-                            'Oops, something went wrong. Please reload the page later.'
-                          }}</p>
+                        >
+                          {{ plainText.error[getLang]}}
+                        </p>
                       </v-col>
                     </v-row>
                   </div>
@@ -138,33 +142,61 @@
                               class="raleway-16-400 text-capitalize text-start"
                               v-text="artwork.artist_name" />
                             <v-card-text class="raleway-13-400 text-start">
-                              <div v-if="artwork.type" v-text="artwork.type" />
-                              <div v-if="artwork.size" v-text="artwork.size" />
+                              <div v-if="artwork.type" class="text-capitalize">{{ artwork.type }}
+                                <span v-if="artwork.size" class="text-lowercase"> - {{ artwork.size }}</span>
+                              </div>
+                              <div v-else-if="artwork.size" class="text-lowercase">{{ artwork.size }}</div>
+                              <v-row v-if="artwork.tags.length > 0"
+                                class="pt-2"
+                                no-gutters
+                                justify="start"
+                                align="start"
+                                style="width: 100%"
+                              >
+                                <v-col
+                                  class="nunito-12-400 text-capitalize pr-1"
+                                  cols="auto"
+                                  v-for="(tag, i) in artwork.tags" :key="'tag-' + i"
+                                >
+                                  {{ tag }}<span v-if="i !== artwork.tags.length - 1">,</span>
+                                </v-col>
+                              </v-row>
                             </v-card-text>
                           </div>
-                          <v-card-actions>
-                            <v-tooltip top color="black">
-                              <template v-slot:activator="{ on, attrs }">
-                                <v-btn
-                                  icon
-                                  v-bind="attrs"
-                                  v-on="on"
-                                  @click="overlayMobile = true; enlargedImg.url = artwork.url; enlargedImg.title = artwork.title"
-                                >
-                                  <v-icon>mdi-fullscreen</v-icon>
-                                </v-btn>
-                              </template>
-                              <span>{{ getLang === 'gr' ? 'Μεγέθυνση' : 'Enlarge' }}</span>
-                            </v-tooltip>
-                            <v-tooltip top color="black">
-                              <template v-slot:activator="{ on, attrs }">
-                                <v-btn icon v-bind="attrs" v-on="on" @click="getRef(artwork.user_id)">
-                                  <v-icon>mdi-link</v-icon>
-                                </v-btn>
-                              </template>
-                              <span>{{ getLang === 'gr' ? 'Σελίδα καλλιτέχνη' : "Artist's page" }}</span>
-                            </v-tooltip>
-                          </v-card-actions>
+                          
+                          <div class="d-flex flex-column align-end">
+                            <v-card-actions>
+                              <v-tooltip top color="black">
+                                <template v-slot:activator="{ on, attrs }">
+                                  <v-btn
+                                    icon
+                                    v-bind="attrs"
+                                    v-on="on"
+                                    @click="overlayMobile = true; enlargedImg.url = artwork.url; enlargedImg.title = artwork.title"
+                                  >
+                                    <v-icon>mdi-fullscreen</v-icon>
+                                  </v-btn>
+                                </template>
+                                <span>{{ plainText.artworkZoom[getLang] }}</span>
+                              </v-tooltip>
+                              <v-tooltip top color="black">
+                                <template v-slot:activator="{ on, attrs }">
+                                  <v-btn icon v-bind="attrs" v-on="on" @click="getRef(artwork.user_id)">
+                                    <v-icon>mdi-link</v-icon>
+                                  </v-btn>
+                                </template>
+                                <span>{{ plainText.artistPage[getLang] }}</span>
+                              </v-tooltip>
+                            </v-card-actions>
+                            <div class="pb-2 px-4 text-end">
+                              <div class="raleway-16-400" v-if="artwork.salePrice">{{ artwork.salePrice }}€</div>
+                              <div class="raleway-14-400" v-if="artwork.rentPrice">
+                                <span class="pr-1">{{ plainText.rentFor[getLang] }}</span>
+                                {{ artwork.rentPrice }}
+                                <span>{{ plainText.rentPerMonth[getLang] }}</span>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </v-card>
                     </v-col>
@@ -176,11 +208,9 @@
                       <p
                         class="text-center"
                         :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
-                      >{{ 
-                          getLang === 'gr' ?
-                          'Ωχ, κάτι πήγε στραβά. Παρακαλώ προσπαθήστε αργότερα' :
-                          'Oops, something went wrong. Please reload the page later.'
-                        }}</p>
+                      >
+                        {{ plainText.error[getLang]}}
+                      </p>
                     </v-col>
                   </v-row>
                 </div>
@@ -214,7 +244,7 @@
                     <v-icon>mdi-close</v-icon>
                   </v-btn>
                 </template>
-                <span>{{ getLang === 'gr' ? 'Κλείσιμο' : "Close" }}</span>
+                <span>{{ plainText.close[getLang] }}</span>
               </v-tooltip>
             </v-col>
           </v-row>
@@ -280,9 +310,9 @@ export default {
                                   salePrice = resource.context.sale_price
                                 }
                                 if (resource.context.hasOwnProperty('type')) {
-                                  if (resource.context.type === 'sculpture') {
+                                  type = resource.context.type;
+                                  if (type === 'sculpture') {
                                     // it's a sculpture
-                                    type = 'Sculpture'
                                     if (resource.context.hasOwnProperty('dimension') &&
                                         resource.context.hasOwnProperty('height') &&
                                         resource.context.hasOwnProperty('width') &&
@@ -290,9 +320,8 @@ export default {
                                       size = resource.context.height + ' x ' + resource.context.width + ' x ' +
                                         resource.context.depth + ' ' + resource.context.dimension
                                     }
-                                  } else if (resource.context.type === 'painting') {
+                                  } else if (type === 'painting') {
                                     // it's a painting
-                                    type = 'Painting'
                                     if (resource.context.hasOwnProperty('dimension') &&
                                         resource.context.hasOwnProperty('height') &&
                                         resource.context.hasOwnProperty('width')) {
@@ -317,7 +346,7 @@ export default {
                         }
                     })
                     .catch(err => console.error(err))
-            })).finally(()=> {
+            })).finally(() => {
               var count = 0;
               this.gallery.forEach(artwork => {
                 switch (count) {
@@ -353,6 +382,32 @@ export default {
           title: ""
         },
         goToArtist: false,
+        plainText: {
+          artistPage: {
+            gr: 'Σελίδα καλλιτέχνη',
+            en: "Artist's page"
+          },
+          artworkZoom: {
+            gr: 'Μεγέθυνση',
+            en: 'Enlarge'
+          },
+          rentFor: {
+            gr: 'Ενοικιάστε με',
+            en: 'Rent for'
+          },
+          rentPerMonth: {
+            gr: '€/μή',
+            en: '€/mo'
+          },
+          close: {
+            gr: 'Κλείσιμο',
+            en: 'Close'
+          },
+          error: {
+            gr: 'Ωχ, κάτι πήγε στραβά. Παρακαλώ προσπαθήστε αργότερα.',
+            en: 'Oops, something went wrong. Please reload the page later.'
+          }
+        }
       }
   },
   computed: {
