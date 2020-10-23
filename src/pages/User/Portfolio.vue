@@ -195,20 +195,71 @@
               <form lazy-validation @submit.prevent="submit()">
                 <label
                   :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
+                  class="color-1a1a1a text-capitalize"
+                  v-html="artworkForm.type[getLang]"
+                />
+                <v-select
+                  v-model="type"
+                  :items="[
+                    {
+                      text: getLang === 'gr' ? 'Πίνακας' : 'Painting',
+                      value: 'painting'
+                    },
+                    {
+                      text: getLang === 'gr' ? 'Γλυπτό' : 'Sculpture',
+                      value: 'sculpture'
+                    }]"
+                  required
+                  background-color="#FAFAFA"
+                  color="#1A1A1A"
+                  :error-messages="typeErrors"
+                  outlined
+                  @input="delayTouch($v.type)"
+                  @blur="$v.type.$touch()"
+                ></v-select>
+                <label
+                  :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
                   class="color-1a1a1a"
                   v-html="artworkForm.title[getLang]"
                 />
+                <v-text-field
+                  v-model.trim="title"
+                  background-color="#FAFAFA"
+                  color="#1A1A1A"
+                  :error-messages="titleErrors"
+                  outlined
+                  @input="delayTouch($v.title)"
+                  @blur="$v.title.$touch()"
+                ></v-text-field>
+                <label
+                  :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
+                  class="color-1a1a1a"
+                  v-html="artworkForm.salePrice[getLang]"
+                />
+                <v-text-field
+                  v-model.trim="salePrice"
+                  background-color="#FAFAFA"
+                  color="#1A1A1A"
+                  :error-messages="salePriceErrors"
+                  prefix="€"
+                  @input="delayTouch($v.salePrice)"
+                  @blur="$v.salePrice.$touch()"
+                ></v-text-field>
+                <label
+                  :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
+                  class="color-1a1a1a"
+                  v-html="artworkForm.rentPrice[getLang]"
+                />
+                <v-text-field
+                  v-model.trim="rentPrice"
+                  background-color="#FAFAFA"
+                  color="#1A1A1A"
+                  :error-messages="rentPriceErrors"
+                  prefix="€"
+                  @input="delayTouch($v.rentPrice)"
+                  @blur="$v.rentPrice.$touch()"
+                ></v-text-field>
                 <div class="d-flex">
-                  <v-text-field
-                    v-model.trim="title"
-                    background-color="#FAFAFA"
-                    color="#1A1A1A"
-                    :error-messages="titleErrors"
-                    outlined
-                    required
-                    @input="delayTouch($v.title)"
-                    @blur="$v.title.$touch()"
-                  ></v-text-field>
                   <label
                     for="fileInput"
                     slot="upload-label"
@@ -366,7 +417,7 @@
 <script>
 import { mapGetters } from "vuex";
 import { validationMixin } from "vuelidate";
-import { required, maxLength, minLength } from "vuelidate/lib/validators";
+import { required, numeric, maxLength, minLength } from "vuelidate/lib/validators";
 
 const touchMap = new WeakMap();
 let timeoutSize = null;
@@ -377,10 +428,18 @@ export default {
   },
   mixins: [validationMixin],
   validations: {
+    type: {
+      required
+    },
     title: {
-      required,
       minLength: minLength(3),
       maxLength: maxLength(30)
+    },
+    salePrice: {
+      numeric
+    },
+    rentPrice: {
+      numeric
     },
   },
   created () {
@@ -554,26 +613,79 @@ export default {
           gr: 'Τίτλος Εργου',
           en: 'Artwork Title ',
         },
+        type: {
+          gr: 'είδος',
+          en: 'type'
+        },
+        unit: {
+          gr: 'μονάδα μέτρησης',
+          en: 'measurement unit'
+        },
+        height: {
+          gr: 'υψος',
+          en: 'height'
+        },
+        width: {
+          gr: 'πλάτος',
+          en: 'width'
+        },
+        depth: {
+          gr: 'βάθος',
+          en: 'depth'
+        },
+        salePrice: {
+          gr: 'Τιμή Πώλησης',
+          en: 'Sale Price'
+        },
+        rentPrice: {
+          gr: 'Τιμή Ενοικίασης (μηνιαίως)',
+          en: 'Rent Price (monthly)'
+        },
         submit: {
           gr: 'Υποβολή',
           en: 'Submit'
         },
         errors: {
           title: {
-            gr: 'O Τίτλος Έργου είναι υποχρεωτικός',
-            en: 'Artwork Title is required'
+            minLength: {
+              gr: "Ο Τίτλος Έργου πρέπει να' χει τουλάχιστον 3 χαρακτήρες",
+              en: 'Artwork title must have at least 3 characters'
+            },
+            maxLength: {
+              gr: "Ο Τίτλος Έργου δεν πρέπει να' χει πάνω από 30 χαρακτήρες",
+              en: 'Artwork title cannot have more than 30 characters'
+            }
           },
-          minLength: {
-            gr: "Ο Τίτλος Έργου πρέπει να' χει τουλάχιστον 3 χαρακτήρες",
-            en: 'Artwork title must have at least 3 characters'
+          type: {
+            required: {
+              gr: 'Το είδος έργου τέχνης είναι υποχρεωτικό',
+              en: 'The artwork type is required'
+            }
           },
-          maxLength: {
-            gr: "Ο Τίτλος Έργου δεν πρέπει να' χει πάνω από 30 χαρακτήρες",
-            en: 'Artwork title cannot have more than 30 characters'
+          salePrice: {
+            numeric: {
+              gr: 'Μόνο αριθμοί είναι δεκτοί',
+              en: 'Only numbers are allowed'
+            }
           },
+          rentPrice: {
+            numeric: {
+              gr: 'Μόνο αριθμοί είναι δεκτοί',
+              en: 'Only numbers are allowed'
+            }
+          }
         }
       },
+      // Artwork upload form data
       title: null,
+      type: null,
+      unit: null,
+      height: null,
+      width: null,
+      depth: null,
+      salePrice: null,
+      rentPrice: null,
+
       imageToUploadBase64: null,
       currentImageCount: 0,
       showImageLoader: false,
@@ -628,11 +740,28 @@ export default {
     titleErrors() {
       const errors = [];
       if (!this.$v.title.$dirty) return errors;
-      !this.$v.title.required && errors.push(this.artworkForm.errors.title[this.getLang]);
-      !this.$v.title.minLength && errors.push(this.artworkForm.errors.minLength[this.getLang]);
-      !this.$v.title.maxLength && errors.push(this.artworkForm.errors.maxLength[this.getLang]);
+      !this.$v.title.minLength && errors.push(this.artworkForm.errors.title.minLength[this.getLang]);
+      !this.$v.title.maxLength && errors.push(this.artworkForm.errors.title.maxLength[this.getLang]);
       return errors;
     },
+    typeErrors() {
+      const errors = [];
+      if (!this.$v.type.$dirty) return errors;
+      !this.$v.type.required && errors.push(this.artworkForm.errors.type.required[this.getLang]);
+      return errors;
+    },
+    salePriceErrors() {
+      const errors = [];
+      if (!this.$v.salePrice.$dirty) return errors;
+      !this.$v.salePrice.numeric && errors.push(this.artworkForm.errors.salePrice.numeric[this.getLang]);
+      return errors;
+    },
+    rentPriceErrors() {
+      const errors = [];
+      if (!this.$v.rentPrice.$dirty) return errors;
+      !this.$v.rentPrice.numeric && errors.push(this.artworkForm.errors.rentPrice.numeric[this.getLang]);
+      return errors;
+    }
   },
   methods: {
     // Alert for image limit
