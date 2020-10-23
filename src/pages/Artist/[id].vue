@@ -13,7 +13,7 @@
           </v-row>
           <v-row justify="center" align="center">
             <v-col cols="8">
-              <div class="raleway-18-400 text-justify text-center">{{ artist.bio }}</div>
+              <div class="raleway-18-400 text-center">{{ artist.bio }}</div>
             </v-col>
           </v-row>
           <v-row justify="center" align="center">

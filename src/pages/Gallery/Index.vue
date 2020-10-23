@@ -3,7 +3,7 @@
     <v-main>
         <v-container class="pa-0 background-color-fafafa" fluid>
             <div class="py-10" />
-            <div class="playfair-38-700 text-center">Gallery</div>
+            <div class="playfair-38-700 text-center">{{ plainText.gallery[getLang] }}</div>
             <div class="py-4" />
             <!-- Desktop -->
             <div class="hidden-sm-and-down">
@@ -382,6 +382,10 @@ export default {
         },
         goToArtist: false,
         plainText: {
+          gallery: {
+            gr: "Γκαλερί",
+            en: "Gallery"
+          },
           artistPage: {
             gr: 'Σελίδα καλλιτέχνη',
             en: "Artist's page"
