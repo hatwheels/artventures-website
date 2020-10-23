@@ -693,6 +693,13 @@ export default {
   line-height: 1.2em !important;
 }
 /* Nunito */
+.nunito-12-400 {
+  font-family: 'Nunito', sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  font-style: italic;
+}
+
 .nunito-15-400 {
   font-family: 'Nunito', sans-serif !important;
   font-size: 15px !important;
@@ -718,6 +725,11 @@ export default {
   font-family: 'Raleway', sans-serif !important;
   font-size: 13px !important;
   font-weight: 600 !important;
+}
+.raleway-14-400 {
+  font-family: 'Raleway', sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
 }
 .raleway-15-600-1p5 {
   font-family: 'Raleway', sans-serif !important;
@@ -755,6 +767,16 @@ export default {
   font-family: 'Raleway', sans-serif !important;
   font-size: 18px !important;
   font-weight: 600 !important;
+}
+.raleway-21-400 {
+  font-family: 'Raleway', sans-serif !important;
+  font-size: 21px !important;
+  font-weight: 400 !important;
+}
+.raleway-23-400 {
+  font-family: 'Raleway', sans-serif !important;
+  font-size: 23px !important;
+  font-weight: 400 !important;
 }
 .raleway-25-400 {
   font-family: 'Raleway', sans-serif !important;
