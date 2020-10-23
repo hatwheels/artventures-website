@@ -38,7 +38,7 @@
                                 class="raleway-23-400 text-capitalize text-start"
                                 v-text="artwork.artist_name" />
                               <v-card-text class="raleway-18-400 text-start">
-                                <div v-if="artwork.type" class="text-capitalize">{{ artwork.type }}
+                                <div v-if="artwork.type" class="text-capitalize">{{ artwork.type[getLang] }}
                                   <span v-if="artwork.size" class="text-lowercase"> - {{ artwork.size }}</span>
                                 </div>
                                 <div v-else-if="artwork.size" class="text-lowercase">{{ artwork.size }}</div>
@@ -142,7 +142,7 @@
                               class="raleway-16-400 text-capitalize text-start"
                               v-text="artwork.artist_name" />
                             <v-card-text class="raleway-13-400 text-start">
-                              <div v-if="artwork.type" class="text-capitalize">{{ artwork.type }}
+                              <div v-if="artwork.type" class="text-capitalize">{{ artwork.type[getLang] }}
                                 <span v-if="artwork.size" class="text-lowercase"> - {{ artwork.size }}</span>
                               </div>
                               <div v-else-if="artwork.size" class="text-lowercase">{{ artwork.size }}</div>
@@ -163,7 +163,6 @@
                               </v-row>
                             </v-card-text>
                           </div>
-                          
                           <div class="d-flex flex-column align-end">
                             <v-card-actions>
                               <v-tooltip top color="black">
@@ -310,7 +309,7 @@ export default {
                                   salePrice = resource.context.sale_price
                                 }
                                 if (resource.context.hasOwnProperty('type')) {
-                                  type = resource.context.type;
+                                  type = this.plainText.type[resource.context.type];
                                   if (type === 'sculpture') {
                                     // it's a sculpture
                                     if (resource.context.hasOwnProperty('dimension') &&
@@ -390,6 +389,16 @@ export default {
           artworkZoom: {
             gr: 'Μεγέθυνση',
             en: 'Enlarge'
+          },
+          type: {
+            painting: {
+              gr: "Πίνακας",
+              en: "Painting"
+            },
+            sculpture: {
+              gr: "Γλυπτό",
+              en: "Sculpture"
+            }
           },
           rentFor: {
             gr: 'Ενοικιάστε με',
