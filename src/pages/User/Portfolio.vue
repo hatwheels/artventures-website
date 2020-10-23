@@ -48,15 +48,136 @@
                   />
                 </v-card>
                 <v-container fluid>
-                  <v-row>
-                    <v-col
-                      v-for="(artwork, i ) in artworksInSection"
-                      :key="tabs.state[i] + '-art-' + i"
-                      cols="12"
-                      md="4"
-                    >
-                      <g-image style="width: 100%" :src="artwork.img" :alt="artwork.title" />
-                      <div class="raleway-28-400 text-center text-capitalize">{{ artwork.title }}</div>
+                  <!-- Desktop -->
+                  <v-row class="hidden-sm-and-down pb-12 px-12" justify="start" align="start">
+                    <v-col class="pr-6" v-for="(column, j) in columns[i]" :key="'column' + j" cols="4">
+                      <v-card class="my-6 text-center" v-for="(artwork, k) in column" :key="'artwork-' + k">
+                        <g-image
+                          :src="artwork.url"
+                          :alt="artwork.title || 'Untitled'"
+                          style="width: 100%;"
+                        />
+                        <div class="d-flex justify-space-between">
+                          <div>
+                            <v-card-title v-if="artwork.title"
+                              class="raleway-25-400 text-capitalize text-start"
+                              v-text="artwork.title" />
+                            <v-card-text class="raleway-18-400 text-start">
+                              <div v-if="artwork.type" class="text-capitalize">{{ artwork.type[getLang] }}
+                                <span v-if="artwork.size" class="text-lowercase"> - {{ artwork.size }}</span>
+                              </div>
+                              <div v-else-if="artwork.size" class="text-lowercase">{{ artwork.size }}</div>
+                              <v-row v-if="artwork.tags.length > 0"
+                                class="pt-2"
+                                no-gutters
+                                justify="start"
+                                align="start"
+                                style="width: 100%"
+                              >
+                                <v-col
+                                  class="nunito-12-400 text-capitalize pr-1"
+                                  cols="auto"
+                                  v-for="(tag, tagId) in artwork.tags" :key="'tag-' + tagId"
+                                >
+                                  {{ tag }}<span v-if="tagId !== artwork.tags.length - 1">,</span>
+                                </v-col>
+                              </v-row>
+                            </v-card-text>
+                          </div>
+                          <div class="d-flex flex-column align-end">
+                            <v-card-actions>
+                              <v-tooltip top color="black">
+                                <template v-slot:activator="{ on, attrs }">
+                                  <v-btn
+                                    icon
+                                    large
+                                    v-bind="attrs"
+                                    v-on="on"
+                                    @click="overlayDesktop = true; enlargedImg.url = artwork.url; enlargedImg.title = artwork.title"
+                                  >
+                                    <v-icon size="30">mdi-fullscreen</v-icon>
+                                  </v-btn>
+                                </template>
+                                <span>{{ plainText.artworkZoom[getLang] }}</span>
+                              </v-tooltip>
+                            </v-card-actions>
+                            <div class="pb-2 px-4 text-end">
+                              <div class="raleway-23-400" v-if="artwork.salePrice">{{ artwork.salePrice }}€</div>
+                              <div class="raleway-21-400" v-if="artwork.rentPrice">
+                                <span class="pr-1">{{ plainText.rentFor[getLang] }}</span>
+                                {{ artwork.rentPrice }}
+                                <span>{{ plainText.rentPerMonth[getLang] }}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </v-card>
+                    </v-col>
+                  </v-row>
+                  <!-- Mobile -->
+                  <v-row class="hidden-md-and-up px-12" justify="center" align="center">
+                    <v-col v-for="(artwork, i ) in artworksInSection" :key="'artwork-mobile-' + i" cols="12">
+                      <v-card>
+                        <g-image
+                          :src="artwork.url"
+                          :alt="artwork.title || 'Untitled'"
+                          fit="contain"
+                          style="width: 100%"
+                        />
+                        <div class="d-flex justify-space-between">
+                          <div>
+                            <v-card-title v-if="artwork.title"
+                              class="raleway-18-400 text-capitalize text-start"
+                              v-text="artwork.title" />
+                            <v-card-text class="raleway-13-400 text-start">
+                              <div v-if="artwork.type" class="text-capitalize">{{ artwork.type[getLang] }}
+                                <span v-if="artwork.size" class="text-lowercase"> - {{ artwork.size }}</span>
+                              </div>
+                              <div v-else-if="artwork.size" class="text-lowercase">{{ artwork.size }}</div>
+                              <v-row v-if="artwork.tags.length > 0"
+                                class="pt-2"
+                                no-gutters
+                                justify="start"
+                                align="start"
+                                style="width: 100%"
+                              >
+                                <v-col
+                                  class="nunito-12-400 text-capitalize pr-1"
+                                  cols="auto"
+                                  v-for="(tag, tagId) in artwork.tags" :key="'tag-mobile-' + tagId"
+                                >
+                                  {{ tag }}<span v-if="tagId !== artwork.tags.length - 1">,</span>
+                                </v-col>
+                              </v-row>
+                            </v-card-text>
+                          </div>
+                          <div class="d-flex flex-column align-end">
+                            <v-card-actions>
+                              <v-tooltip top color="black">
+                                <template v-slot:activator="{ on, attrs }">
+                                  <v-btn
+                                    icon
+                                    v-bind="attrs"
+                                    v-on="on"
+                                    @click="overlayMobile = true; enlargedImg.url = artwork.url; enlargedImg.title = artwork.title"
+                                  >
+                                    <v-icon>mdi-fullscreen</v-icon>
+                                  </v-btn>
+                                </template>
+                                <span>{{ plainText.artworkZoom[getLang] }}</span>
+                              </v-tooltip>
+                            </v-card-actions>
+                            <div class="pb-2 px-4 text-end">
+                              <div class="raleway-16-400" v-if="artwork.salePrice">{{ artwork.salePrice }}€</div>
+                              <div class="raleway-14-400" v-if="artwork.rentPrice">
+                                <span class="pr-1">{{ plainText.rentFor[getLang] }}</span>
+                                {{ artwork.rentPrice }}
+                                <span>{{ plainText.rentPerMonth[getLang] }}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </v-card>
                     </v-col>
                   </v-row>
                 </v-container>
@@ -130,7 +251,7 @@
                       dismissible
                       transition="slide-x-transition"
                   >
-                    {{ getLang == 'gr' ? 'Έχετε φτάσει το όριο των 30 έργων τέχνης' : 'You have reached the limit of 30 artworks' }}
+                    {{ plainText.max30[getLang] }}
                   </v-alert>
                 </v-row>
                 <v-row justify="center" align="center">
@@ -191,6 +312,52 @@
                 </v-card-actions>
             </v-card>
           </v-dialog>
+
+          <!-- Scroll to Top -->
+          <scroll-to-top />
+
+          <!-- Desktop Overlay -->
+          <v-overlay class="hidden-sm-and-down" :value="overlayDesktop">
+            <v-row no-gutters>
+              <v-col>
+                <g-image
+                  class="rounded"
+                  :src="enlargedImg.url"
+                  :alt="enlargedImg.title || 'Untitled'"
+                  style="max-height: 98vh; max-width 95vw;"
+                  fit="contain"
+                />
+              </v-col>
+              <v-col>
+                <v-tooltip right color="black">
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      icon
+                      v-on="on"
+                      v-bind="attrs"
+                      @click="enlargedImg.url = ''; enlargedImg.title = ''; overlayDesktop = false;"
+                    >
+                      <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>{{ plainText.close[getLang] }}</span>
+                </v-tooltip>
+              </v-col>
+            </v-row>
+          </v-overlay>
+          <!-- Mobile Overlay -->
+          <v-dialog class="hidden-md-and-up" v-model="overlayMobile" fullscreen persistent hide-overlay no-click-animation>
+            <div style="width: 100vw; height: 100vh">
+              <g-image
+                class="rounded"
+                :src="enlargedImg.url"
+                :alt="enlargedImg.title || 'Untitled'"
+                fit="contain"
+                @click="enlargedImg.url = ''; enlargedImg.title = ''; overlayMobile = false;"
+              />
+            </div>
+          </v-dialog>
+
         </v-container>
       </v-main>
     </UserLayout>
@@ -205,6 +372,9 @@ const touchMap = new WeakMap();
 let timeoutSize = null;
 
 export default {
+  components: {
+    ScrollToTop: () => import("~/components/ScrollToTop.vue")
+  },
   mixins: [validationMixin],
   validations: {
     title: {
@@ -222,24 +392,98 @@ export default {
         if (found.total_count > 0) {
           this.currentImageCount = found.total_count
           found.resources.forEach(resource => {
-            var folder = resource.folder.replace('artwork/' + this.$auth.user.sub + '/', '')
+            var folder = resource.folder.replace('artwork/' + this.$auth.user.sub + '/', '');
+            var title = '';
+            var rentPrice = '';
+            var salePrice = '';
+            var size = '';
+            var type = '';
+            var tags = resource.hasOwnProperty('tags') ? resource.tags : [];
+            if (resource.hasOwnProperty('context')) {
+              // Title
+              if (resource.context.hasOwnProperty('caption')) {
+                title = resource.context.caption;
+              }
+              // Rent, Sale Price
+              if (resource.context.hasOwnProperty('rent_price')) {
+                rentPrice = resource.context.rent_price
+              }
+              if (resource.context.hasOwnProperty('sale_price')) {
+                salePrice = resource.context.sale_price
+              }
+              if (resource.context.hasOwnProperty('type')) {
+                type = this.plainText.type[resource.context.type];
+                if (type === 'sculpture') {
+                  // it's a sculpture
+                  if (resource.context.hasOwnProperty('dimension') &&
+                      resource.context.hasOwnProperty('height') &&
+                      resource.context.hasOwnProperty('width') &&
+                      resource.context.hasOwnProperty('depth')) {
+                    size = resource.context.height + ' x ' + resource.context.width + ' x ' +
+                      resource.context.depth + ' ' + resource.context.dimension
+                  }
+                } else if (type === 'painting') {
+                  // it's a painting
+                  if (resource.context.hasOwnProperty('dimension') &&
+                      resource.context.hasOwnProperty('height') &&
+                      resource.context.hasOwnProperty('width')) {
+                    size = resource.context.height + ' x ' + resource.context.width + ' ' +
+                      resource.context.dimension
+                  }
+                }
+              }
+            }
             switch (folder) {
               case 'inprocess':
-                this.allArtworks[0].push( { title: resource.filename.replace(/_/g, ' '), img: resource.secure_url } )
+                this.allArtworks[0].push({
+                  url: resource.secure_url,
+                  title: title,
+                  type: type,
+                  rentPrice: rentPrice,
+                  salePrice: salePrice,
+                  size: size,
+                  tags: tags
+                })
                 break;
               case 'approved':
-                this.allArtworks[1].push( { title: resource.filename.replace(/_/g, ' '), img: resource.secure_url } )
+                this.allArtworks[1].push({
+                  url: resource.secure_url,
+                  title: title,
+                  type: type,
+                  rentPrice: rentPrice,
+                  salePrice: salePrice,
+                  size: size,
+                  tags: tags
+                })
                 break;
               case 'rejected':
-                this.allArtworks[2].push( { title: resource.filename.replace(/_/g, ' '), img: resource.secure_url } )
+                this.allArtworks[2].push({
+                  url: resource.secure_url,
+                  title: title,
+                  type: type,
+                  rentPrice: rentPrice,
+                  salePrice: salePrice,
+                  size: size,
+                  tags: tags
+                })
                 break;
               default:
                 break;
             }
           });
+          // Iterate over each state
+          this.allArtworks.forEach((state, index) => {
+            // Iterate over each artwork of the current state
+            var count = 0;
+            state.forEach(artwork => {
+              this.columns[index][count].push(artwork);
+              count = (count + 1) % 3;
+            })
+          })
         }
       })
       .catch(err => {
+        console.error(err);
         this.$router.replace({
           path: '/user/profile',
           force: true
@@ -249,6 +493,12 @@ export default {
   },
   data () {
     return {
+      overlayDesktop: false,
+      overlayMobile: false,
+      enlargedImg: {
+        url: "",
+        title: ""
+      },
       alertImage: false,
       dialogPortfolio: {
         toggle: false,
@@ -283,7 +533,22 @@ export default {
           en: 'No Artwork'
         }
       },
-      allArtworks: [[], [], []],
+      allArtworks: [
+        // inprocess
+        [],
+        // approved
+        [],
+        // rejected
+        []
+      ],
+      columns: [
+        // inprocess
+        [ [], [], [] ],
+        // approved
+        [ [], [], [] ],
+        // rejected
+        [ [], [], [] ],
+      ],
       artworkForm: {
         title: {
           gr: 'Τίτλος Εργου',
@@ -322,6 +587,38 @@ export default {
         submission: {
           gr: 'Όροι Υποβολής',
           en: 'Submission Terms',
+        }
+      },
+      plainText: {
+        artworkZoom: {
+          gr: 'Μεγέθυνση',
+          en: 'Enlarge'
+        },
+        type: {
+          painting: {
+            gr: "Πίνακας",
+            en: "Painting"
+          },
+          sculpture: {
+            gr: "Γλυπτό",
+            en: "Sculpture"
+          }
+        },
+        rentFor: {
+          gr: 'Ενοικιάστε με',
+          en: 'Rent for'
+        },
+        rentPerMonth: {
+          gr: '€/μή',
+          en: '€/mo'
+        },
+        close: {
+          gr: 'Κλείσιμο',
+          en: 'Close'
+        },
+        max30: {
+          gr: 'Έχετε φτάσει το όριο των 30 έργων τέχνης',
+          en: 'You have reached the limit of 30 artworks'
         }
       }
     }
@@ -370,7 +667,7 @@ export default {
           if (process.isClient && this.$auth.user) {
             this.$imgdb.uploadArtwork(this.$auth.user.sub, trimmedTitle, this.imageToUploadBase64)
             .then(secureUrl => {
-              this.allArtworks[0].push({ title: this.title, img: secureUrl })
+              this.allArtworks[0].push({ title: this.title, url: secureUrl })
               if (process.env.GRIDSOME_BUILD === "prod") {
                 let message = `title: ${this.title}, url: ${secureUrl}`
                 this.$admin.sendEmail({

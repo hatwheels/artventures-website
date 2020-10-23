@@ -52,9 +52,9 @@
                                   <v-col
                                     class="nunito-12-400 text-capitalize pr-1"
                                     cols="auto"
-                                    v-for="(tag, i) in artwork.tags" :key="'tag-' + i"
+                                    v-for="(tag, tagId) in artwork.tags" :key="'tag-' + tagId"
                                   >
-                                    {{ tag }}<span v-if="i !== artwork.tags.length - 1">,</span>
+                                    {{ tag }}<span v-if="tagId !== artwork.tags.length - 1">,</span>
                                   </v-col>
                                 </v-row>
                               </v-card-text>
@@ -125,7 +125,7 @@
               <div v-else>
                 <div v-if="gallery.length > 0">
                   <v-row class="px-12" justify="center" align="center">
-                    <v-col v-for="(artwork, i ) in gallery" :key="'artwork-' + i" cols="12">
+                    <v-col v-for="(artwork, i ) in gallery" :key="'artwork-mobile-' + i" cols="12">
                       <v-card>
                         <g-image
                           :src="artwork.url"
@@ -156,7 +156,7 @@
                                 <v-col
                                   class="nunito-12-400 text-capitalize pr-1"
                                   cols="auto"
-                                  v-for="(tag, i) in artwork.tags" :key="'tag-' + i"
+                                  v-for="(tag, i) in artwork.tags" :key="'tag-mobile-' + i"
                                 >
                                   {{ tag }}<span v-if="i !== artwork.tags.length - 1">,</span>
                                 </v-col>
@@ -339,7 +339,7 @@ export default {
                                 rentPrice: rentPrice,
                                 salePrice: salePrice,
                                 size: size,
-                                tags: tags,
+                                tags: tags
                               });
                             });
                         }

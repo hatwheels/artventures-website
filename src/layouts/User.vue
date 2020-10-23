@@ -459,6 +459,12 @@ export default {
   font-weight: 700 !important;
 }
 /* Nunito */
+.nunito-12-400 {
+  font-family: 'Nunito', sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  font-style: italic;
+}
 .nunito-18-400 {
   font-family: 'Nunito', sans-serif !important;
   font-size: 18px !important;
@@ -501,6 +507,22 @@ export default {
   font-size: 18px !important;
   font-weight: 600 !important;
 }
+.raleway-21-400 {
+  font-family: 'Raleway', sans-serif !important;
+  font-size: 21px !important;
+  font-weight: 400 !important;
+}
+.raleway-23-400 {
+  font-family: 'Raleway', sans-serif !important;
+  font-size: 23px !important;
+  font-weight: 400 !important;
+}
+.raleway-25-400 {
+  font-family: 'Raleway', sans-serif !important;
+  font-size: 25px !important;
+  font-weight: 400 !important;
+}
+
 /* Playfair Display */
 .playfair-18-600 {
   font-family: 'Playfair Display', serif !important;
