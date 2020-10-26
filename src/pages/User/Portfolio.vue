@@ -191,7 +191,7 @@
             v-html="getLang === 'gr' ? 'Υπόβαλε Εργο Τέχνης' : 'Submit Artwork'"
           />
           <v-row class="pt-8 pb-12" justify="center" align="center">
-            <v-col cols="8" md="3">
+            <v-col cols="10" md="4">
               <form lazy-validation @submit.prevent="submit()">
                 <label
                   :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
@@ -200,6 +200,7 @@
                 />
                 <v-select
                   v-model="type"
+                  class="pb-2"
                   :items="[
                     {
                       text: getLang === 'gr' ? 'Πίνακας' : 'Painting',
@@ -224,6 +225,7 @@
                 />
                 <v-text-field
                   v-model.trim="title"
+                  class="pb-2"
                   background-color="#FAFAFA"
                   color="#1A1A1A"
                   :error-messages="titleErrors"
@@ -234,10 +236,79 @@
                 <label
                   :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
                   class="color-1a1a1a"
+                  v-html="artworkForm.dimensions[getLang]"
+                />
+                <v-row class="pt-0 pb-3">
+                  <v-col cols="auto" class="pt-0">
+                    <v-select
+                      v-model="unit"
+                      :items="[
+                        {
+                          text: 'cm',
+                          value: 'cm'
+                        },
+                        {
+                          text: 'inches',
+                          value: 'in'
+                        }]"
+                      background-color="#FAFAFA"
+                      color="#1A1A1A"
+                      :hint="artworkForm.unit[getLang]"
+                      persistent-hint
+                    >
+                    </v-select>
+                  </v-col>
+                  <v-col class="pt-0">
+                    <v-text-field
+                      v-model="width"
+                      :disabled="!unit"
+                      background-color="#FAFAFA"
+                      color="#1A1A1A"
+                      :error-messages="widthErrors"
+                      :hint="artworkForm.width[getLang]"
+                      persistent-hint
+                      @input="delayTouch($v.width)"
+                      @blur="$v.width.$touch()"
+                    >
+                    </v-text-field>
+                  </v-col>
+                  <v-col class="pt-0">
+                    <v-text-field
+                      v-model="height"
+                      :disabled="!unit"
+                      background-color="#FAFAFA"
+                      color="#1A1A1A"
+                      :error-messages="heightErrors"
+                      :hint="artworkForm.height[getLang]"
+                      persistent-hint
+                      @input="delayTouch($v.height)"
+                      @blur="$v.height.$touch()"
+                    >
+                    </v-text-field>
+                  </v-col>
+                  <v-col v-if="type === 'sculpture'">
+                    <v-text-field
+                      v-model="depth"
+                      :disabled="!unit"
+                      background-color="#FAFAFA"
+                      color="#1A1A1A"
+                      :error-messages="depthErrors"
+                      :hint="artworkForm.depth[getLang]"
+                      persistent-hint
+                      @input="delayTouch($v.depth)"
+                      @blur="$v.depth.$touch()"
+                    >
+                    </v-text-field>
+                  </v-col>
+                </v-row>
+                <label
+                  :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
+                  class="color-1a1a1a"
                   v-html="artworkForm.salePrice[getLang]"
                 />
                 <v-text-field
                   v-model.trim="salePrice"
+                  class="pb-2"
                   background-color="#FAFAFA"
                   color="#1A1A1A"
                   :error-messages="salePriceErrors"
@@ -252,6 +323,7 @@
                 />
                 <v-text-field
                   v-model.trim="rentPrice"
+                  class="pb-2"
                   background-color="#FAFAFA"
                   color="#1A1A1A"
                   :error-messages="rentPriceErrors"
@@ -259,15 +331,15 @@
                   @input="delayTouch($v.rentPrice)"
                   @blur="$v.rentPrice.$touch()"
                 ></v-text-field>
-                <div class="d-flex">
-                  <label
-                    for="fileInput"
-                    slot="upload-label"
-                    style="cursor: pointer"
-                  >
-                    <v-icon class="mt-2" x-large color="#333333">mdi-image-plus</v-icon>
-                  </label>
-                </div>
+                <label
+                  class="raleway-16-400 px-2 py-2 rounded"
+                  for="fileInput"
+                  slot="upload-label"
+                  style="cursor: pointer; background-color: #333333; color: #FFFFFF"
+                >
+                <v-icon color="white">mdi-image-plus</v-icon>
+                <span class="pl-1">Choose Artwork...</span>
+                </label>
                 <image-uploader
                   :preview="false"
                   :className="['fileinput']"
@@ -281,7 +353,7 @@
                   @input="getImage"
                 >
                 </image-uploader>
-                <v-row class="pb-2" justify="center" align="center">
+                <v-row class="py-4" justify="center" align="center">
                   <g-image v-if="imageToUploadBase64" :src="imageToUploadBase64" style="width: 20vw" alt="to-upload" />
                   <div v-else v-show="showImageLoader">
                     <v-progress-circular
@@ -420,6 +492,7 @@ import { validationMixin } from "vuelidate";
 import { required, numeric, maxLength, minLength } from "vuelidate/lib/validators";
 
 const touchMap = new WeakMap();
+const alphaNumPlus = (value) => /^[a-zA-Z0-9- ]*$/.test(value)
 let timeoutSize = null;
 
 export default {
@@ -429,11 +502,21 @@ export default {
   mixins: [validationMixin],
   validations: {
     type: {
-      required
+      required,
     },
     title: {
       minLength: minLength(3),
-      maxLength: maxLength(30)
+      maxLength: maxLength(30),
+      alphaNumPlus
+    },
+    width: {
+      numeric
+    },
+    height: {
+      numeric
+    },
+    depth: {
+      numeric
     },
     salePrice: {
       numeric
@@ -442,113 +525,8 @@ export default {
       numeric
     },
   },
-  created () {
-    if (process.isClient && this.$auth.user) {
-      this.isFetchingImages = true
-      this.$imgdb.retrieveArtworks(this.$auth.user.sub, '*')
-      .then(found => {
-        this.isFetchingImages = false
-        if (found.total_count > 0) {
-          this.currentImageCount = found.total_count
-          found.resources.forEach(resource => {
-            var folder = resource.folder.replace('artwork/' + this.$auth.user.sub + '/', '');
-            var title = '';
-            var rentPrice = '';
-            var salePrice = '';
-            var size = '';
-            var type = '';
-            var tags = resource.hasOwnProperty('tags') ? resource.tags : [];
-            if (resource.hasOwnProperty('context')) {
-              // Title
-              if (resource.context.hasOwnProperty('caption')) {
-                title = resource.context.caption;
-              }
-              // Rent, Sale Price
-              if (resource.context.hasOwnProperty('rent_price')) {
-                rentPrice = resource.context.rent_price
-              }
-              if (resource.context.hasOwnProperty('sale_price')) {
-                salePrice = resource.context.sale_price
-              }
-              if (resource.context.hasOwnProperty('type')) {
-                type = this.plainText.type[resource.context.type];
-                if (type === 'sculpture') {
-                  // it's a sculpture
-                  if (resource.context.hasOwnProperty('dimension') &&
-                      resource.context.hasOwnProperty('height') &&
-                      resource.context.hasOwnProperty('width') &&
-                      resource.context.hasOwnProperty('depth')) {
-                    size = resource.context.height + ' x ' + resource.context.width + ' x ' +
-                      resource.context.depth + ' ' + resource.context.dimension
-                  }
-                } else if (type === 'painting') {
-                  // it's a painting
-                  if (resource.context.hasOwnProperty('dimension') &&
-                      resource.context.hasOwnProperty('height') &&
-                      resource.context.hasOwnProperty('width')) {
-                    size = resource.context.height + ' x ' + resource.context.width + ' ' +
-                      resource.context.dimension
-                  }
-                }
-              }
-            }
-            switch (folder) {
-              case 'inprocess':
-                this.allArtworks[0].push({
-                  url: resource.secure_url,
-                  title: title,
-                  type: type,
-                  rentPrice: rentPrice,
-                  salePrice: salePrice,
-                  size: size,
-                  tags: tags
-                })
-                break;
-              case 'approved':
-                this.allArtworks[1].push({
-                  url: resource.secure_url,
-                  title: title,
-                  type: type,
-                  rentPrice: rentPrice,
-                  salePrice: salePrice,
-                  size: size,
-                  tags: tags
-                })
-                break;
-              case 'rejected':
-                this.allArtworks[2].push({
-                  url: resource.secure_url,
-                  title: title,
-                  type: type,
-                  rentPrice: rentPrice,
-                  salePrice: salePrice,
-                  size: size,
-                  tags: tags
-                })
-                break;
-              default:
-                break;
-            }
-          });
-          // Iterate over each state
-          this.allArtworks.forEach((state, index) => {
-            // Iterate over each artwork of the current state
-            var count = 0;
-            state.forEach(artwork => {
-              this.columns[index][count].push(artwork);
-              count = (count + 1) % 3;
-            })
-          })
-        }
-      })
-      .catch(err => {
-        console.error(err);
-        this.$router.replace({
-          path: '/user/profile',
-          force: true
-        });
-      })
-    }
+  async created () {
+    await this.fetchArtistArtworks();
   },
   data () {
     return {
@@ -617,21 +595,25 @@ export default {
           gr: 'είδος',
           en: 'type'
         },
+        dimensions: {
+          gr: 'Διαστάσεις',
+          en: 'Dimensions'
+        },
         unit: {
-          gr: 'μονάδα μέτρησης',
-          en: 'measurement unit'
+          gr: 'Μονάδα Μέτρησης',
+          en: 'Measurement Unit'
         },
         height: {
-          gr: 'υψος',
-          en: 'height'
+          gr: 'Υψος',
+          en: 'Height'
         },
         width: {
-          gr: 'πλάτος',
-          en: 'width'
+          gr: 'Πλάτος',
+          en: 'Width'
         },
         depth: {
-          gr: 'βάθος',
-          en: 'depth'
+          gr: 'Βάθος',
+          en: 'Depth'
         },
         salePrice: {
           gr: 'Τιμή Πώλησης',
@@ -640,6 +622,10 @@ export default {
         rentPrice: {
           gr: 'Τιμή Ενοικίασης (μηνιαίως)',
           en: 'Rent Price (monthly)'
+        },
+        chooseArtwork: {
+          gr: "Επέλεξε Εργο Τέχνης...",
+          en: "Choose Artwork..."
         },
         submit: {
           gr: 'Υποβολή',
@@ -654,12 +640,34 @@ export default {
             maxLength: {
               gr: "Ο Τίτλος Έργου δεν πρέπει να' χει πάνω από 30 χαρακτήρες",
               en: 'Artwork title cannot have more than 30 characters'
+            },
+            alphaNumPlus: {
+              gr: "Δεκτοί χαρακτήρες είναι oι λατινικοί αλφαβητικοί χαρακτήρες, αριθμητικοί χαρακτήρες καθώς και το κενό και '-'.",
+              en: "Valid characters are latin alphabet characters, numbers as well whitespace and '-'.",
             }
           },
           type: {
             required: {
               gr: 'Το είδος έργου τέχνης είναι υποχρεωτικό',
               en: 'The artwork type is required'
+            }
+          },
+          width: {
+            numeric: {
+              gr: "Επιτρέπονται μόνο ακέραιοι αριθμοί",
+              en: "Only numerical values are allowed",
+            }
+          },
+          height: {
+            numeric: {
+              gr: "Επιτρέπονται μόνο ακέραιοι αριθμοί",
+              en: "Only numerical values are allowed",
+            }
+          },
+          depth: {
+            numeric: {
+              gr: "Επιτρέπονται μόνο ακέραιοι αριθμοί",
+              en: "Only numerical values are allowed",
             }
           },
           salePrice: {
@@ -740,6 +748,7 @@ export default {
     titleErrors() {
       const errors = [];
       if (!this.$v.title.$dirty) return errors;
+      !this.$v.title.alphaNumPlus && errors.push(this.artworkForm.errors.title.alphaNumPlus[this.getLang]);
       !this.$v.title.minLength && errors.push(this.artworkForm.errors.title.minLength[this.getLang]);
       !this.$v.title.maxLength && errors.push(this.artworkForm.errors.title.maxLength[this.getLang]);
       return errors;
@@ -748,6 +757,24 @@ export default {
       const errors = [];
       if (!this.$v.type.$dirty) return errors;
       !this.$v.type.required && errors.push(this.artworkForm.errors.type.required[this.getLang]);
+      return errors;
+    },
+    widthErrors() {
+      const errors = [];
+      if (!this.$v.width.$dirty) return errors;
+      !this.$v.width.numeric && errors.push(this.artworkForm.errors.width.numeric[this.getLang]);
+      return errors;
+    },
+    heightErrors() {
+      const errors = [];
+      if (!this.$v.height.$dirty) return errors;
+      !this.$v.height.numeric && errors.push(this.artworkForm.errors.height.numeric[this.getLang]);
+      return errors;
+    },
+    depthErrors() {
+      const errors = [];
+      if (!this.$v.depth.$dirty) return errors;
+      !this.$v.depth.numeric && errors.push(this.artworkForm.errors.depth.numeric[this.getLang]);
       return errors;
     },
     salePriceErrors() {
@@ -764,6 +791,115 @@ export default {
     }
   },
   methods: {
+    // Fetch artworks
+    async fetchArtistArtworks() {
+      if (process.isClient && this.$auth.user) {
+        this.isFetchingImages = true
+        this.$imgdb.retrieveArtworks(this.$auth.user.sub, '*')
+        .then(found => {
+          this.isFetchingImages = false
+          if (found.total_count > 0) {
+            this.currentImageCount = found.total_count
+            found.resources.forEach(resource => {
+              var folder = resource.folder.replace('artwork/' + this.$auth.user.sub + '/', '');
+              var title = '';
+              var rentPrice = '';
+              var salePrice = '';
+              var size = '';
+              var type = '';
+              var tags = resource.hasOwnProperty('tags') ? resource.tags : [];
+              if (resource.hasOwnProperty('context')) {
+                // Title
+                if (resource.context.hasOwnProperty('caption')) {
+                  title = resource.context.caption;
+                }
+                // Rent, Sale Price
+                if (resource.context.hasOwnProperty('rent_price')) {
+                  rentPrice = resource.context.rent_price
+                }
+                if (resource.context.hasOwnProperty('sale_price')) {
+                  salePrice = resource.context.sale_price
+                }
+                if (resource.context.hasOwnProperty('type')) {
+                  type = this.plainText.type[resource.context.type];
+                  if (type.en.toLowerCase() === 'sculpture') {
+                    // it's a sculpture
+                    if (resource.context.hasOwnProperty('dimension') &&
+                        resource.context.hasOwnProperty('height') &&
+                        resource.context.hasOwnProperty('width') &&
+                        resource.context.hasOwnProperty('depth')) {
+                      size = resource.context.height + ' x ' + resource.context.width + ' x ' +
+                        resource.context.depth + ' ' + resource.context.dimension
+                    }
+                  } else if (type.en.toLowerCase() === 'painting') {
+                    // it's a painting
+                    if (resource.context.hasOwnProperty('dimension') &&
+                        resource.context.hasOwnProperty('height') &&
+                        resource.context.hasOwnProperty('width')) {
+                      size = resource.context.height + ' x ' + resource.context.width + ' ' +
+                        resource.context.dimension
+                    }
+                  }
+                }
+              }
+              switch (folder) {
+                case 'inprocess':
+                  this.allArtworks[0].push({
+                    url: resource.secure_url,
+                    title: title,
+                    type: type,
+                    rentPrice: rentPrice,
+                    salePrice: salePrice,
+                    size: size,
+                    tags: tags
+                  })
+                  break;
+                case 'approved':
+                  this.allArtworks[1].push({
+                    url: resource.secure_url,
+                    title: title,
+                    type: type,
+                    rentPrice: rentPrice,
+                    salePrice: salePrice,
+                    size: size,
+                    tags: tags
+                  })
+                  break;
+                case 'rejected':
+                  this.allArtworks[2].push({
+                    url: resource.secure_url,
+                    title: title,
+                    type: type,
+                    rentPrice: rentPrice,
+                    salePrice: salePrice,
+                    size: size,
+                    tags: tags
+                  })
+                  break;
+                default:
+                  break;
+              }
+            });
+            // Iterate over each state
+            this.allArtworks.forEach((state, index) => {
+              // Iterate over each artwork of the current state
+              var count = 0;
+              state.forEach(artwork => {
+                this.columns[index][count].push(artwork);
+                count = (count + 1) % 3;
+              })
+            })
+          }
+        })
+        .catch(err => {
+          console.error(err);
+          this.$router.replace({
+            path: '/user/profile',
+            force: true
+          });
+        })
+      }
+    },
     // Alert for image limit
     setAlertImage() {
       const that = this
@@ -786,37 +922,108 @@ export default {
       }
       this.imageToUploadBase64 = output;
     },
-    submit() {
+    async submit() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
-        var trimmedTitle = this.title.replace(/ /g,"_")
         if (this.imageToUploadBase64) {
           this.isLoading = true;
 
           if (process.isClient && this.$auth.user) {
-            this.$imgdb.uploadArtwork(this.$auth.user.sub, trimmedTitle, this.imageToUploadBase64)
-            .then(secureUrl => {
-              this.allArtworks[0].push({ title: this.title, url: secureUrl })
+            // contextual metadata
+            var context = "type=" + String(this.type);
+            if (this.title) {
+              context += "|caption=" + String(this.title);
+            }
+            if (this.salePrice) {
+              context += "|sale_price=" + String(this.salePrice);
+            }
+            if (this.rentPrice) {
+              context += "|rent_price=" + String(this.rentPrice);
+            }
+            if (this.unit && this.width && this.height) {
+              switch (this.type) {
+                case 'sculpture':
+                  if (this.depth) {
+                    context += "|dimension=" + String(this.unit) + "|width=" + String(this.width) +
+                      "|height=" + String(this.height) + "|depth=" + String(this.depth);
+                  }
+                  break;
+                case 'painting':
+                  context += "|dimension=" + String(this.unit) + "|width=" + String(this.width) +
+                      "|height=" + String(this.height);
+              }
+            }
+
+            this.$imgdb.uploadArtwork(this.$auth.user.sub, this.imageToUploadBase64, context)
+            .then(async (response) => {
+              const contextObj = response.context.hasOwnProperty("custom") ? response.context.custom : response.context;
+              var size = '';
+              if (contextObj.type === 'painting') {
+                if (contextObj.hasOwnProperty('dimension') &&
+                    contextObj.hasOwnProperty('height') &&
+                    contextObj.hasOwnProperty('width')) {
+                  size = contextObj.height + ' x ' + contextObj.width + ' ' +
+                    contextObj.dimension
+                }
+              } else if (contextObj.type === 'sculpture') {
+                // it's a sculpture
+                if (contextObj.hasOwnProperty('dimension') &&
+                    contextObj.hasOwnProperty('height') &&
+                    contextObj.hasOwnProperty('width') &&
+                    contextObj.hasOwnProperty('depth')) {
+                  size = contextObj.height + ' x ' + contextObj.width + ' x ' +
+                    contextObj.depth + ' ' + contextObj.dimension
+                }
+              }
+              // update artworks 0 (in process)
+              this.allArtworks[0].push({
+                url: response.secure_url,
+                type: this.plainText.type[contextObj.type],
+                title: contextObj.hasOwnProperty("caption") ? contextObj.caption : '',
+                salePrice: contextObj.hasOwnProperty("sale_price") ? contextObj.sale_price : '',
+                rentPrice: contextObj.hasOwnProperty("rent_price") ? contextObj.rent_price : '',
+                size: size,
+                tags: ''
+              })
+              // update column 0 (in process)
+              this.columns[0] = [ [], [], [] ];
+              var count = 0;
+              this.allArtworks[0].forEach(artwork => {
+                this.columns[0][count].push(artwork);
+                count = (count + 1) % 3;
+              })
               if (process.env.GRIDSOME_BUILD === "prod") {
-                let message = `title: ${this.title}, url: ${secureUrl}`
+                let message = "url: "+ response.secure_url + "\n";
+                for (var key in contextObj) {
+                  if (contextObj.hasOwnProperty(key)) {
+                    message += key + ': ' + contextObj[key] +'\n'
+                  }
+                }
                 this.$admin.sendEmail({
                   email: this.$auth.user.email,
                   firstname: this.$auth.user.given_name,
                   lastname: this.$auth.user.family_name,
                   subject: "Uploaded Artwork",
-                  message: message
+                  message: message,
+                  to: 'all'
                 });
               }
-              this.title = null
-              this.imageToUploadBase64 = null
-              this.dialogPortfolio.text.en = "Your Artwork has been successfully uploaded. Please wait for our approval."
-              this.dialogPortfolio.text.gr = "το Έργο σας στάλθηκε επιτυχώς. Παρακαλώ περιμένετε για την έγκριση μας"
-              this.dialogPortfolio.toggle = true
-              this.isLoading = false
-              this.currentImageCount++
+              this.type = null;
+              this.title = null;
+              this.unit = this.width = this.height = this.depth = null;
+              this.salePrice = this.rentPrice = null;
+              this.imageToUploadBase64 = null;
+              this.dialogPortfolio.text.en = "Your Artwork has been successfully uploaded. Please wait for our approval.";
+              this.dialogPortfolio.text.gr = "το Έργο σας στάλθηκε επιτυχώς. Παρακαλώ περιμένετε για την έγκριση μας";
+              this.dialogPortfolio.toggle = true;
+              this.isLoading = false;
+              this.currentImageCount++;
             })
             .catch(err => { 
-              this.title = null
+              this.type = null;
+              this.title = null;
+              this.unit = this.width = this.height = this.depth = null;
+              this.salePrice = this.rentPrice = null;
               this.imageToUploadBase64 = null
               this.dialogPortfolio.text.en = "Unfortunately an error occured. Please try again later."
               this.dialogPortfolio.text.gr = "Δυστυχώς κάποιο σφάλμα προέκυψε. Παρακαλώ δοκιμάστε ξανά αργότερα."
@@ -824,7 +1031,10 @@ export default {
               this.isLoading = false;
             })
           } else {
-            this.title = null
+            this.type = null;
+            this.title = null;
+            this.unit = this.width = this.height = this.depth = null;
+            this.salePrice = this.rentPrice = null;
             this.imageToUploadBase64 = null
             this.dialogPortfolio.text.en = "Unfortunately an error occured. Please try again later."
             this.dialogPortfolio.text.gr = "Δυστυχώς κάποιο σφάλμα προέκυψε. Παρακαλώ δοκιμάστε ξανά αργότερα."
@@ -832,7 +1042,10 @@ export default {
             this.isLoading = false;
           }
         } else {
-          this.title = null
+          this.type = null;
+          this.title = null;
+          this.unit = this.width = this.height = this.depth = null;
+          this.salePrice = this.rentPrice = null;
           this.imageToUploadBase64 = null
         }
         this.$v.$reset();
@@ -845,6 +1058,9 @@ export default {
       }
       touchMap.set($v, setTimeout($v.$touch, 1000));
     },
+    notifyArtworkUpload() {
+
+    }
   },
   metaInfo () {
     return {

@@ -375,7 +375,7 @@ export default {
                         }
                         if (resource.context.hasOwnProperty('type')) {
                           type = this.plainText.type[resource.context.type];
-                          if (type === 'sculpture') {
+                          if (type.en.toLowerCase() === 'sculpture') {
                             // it's a sculpture
                             if (resource.context.hasOwnProperty('dimension') &&
                                 resource.context.hasOwnProperty('height') &&
@@ -384,7 +384,7 @@ export default {
                               size = resource.context.height + ' x ' + resource.context.width + ' x ' +
                                 resource.context.depth + ' ' + resource.context.dimension
                             }
-                          } else if (type === 'painting') {
+                          } else if (type.en.toLowerCase() === 'painting') {
                             // it's a painting
                             if (resource.context.hasOwnProperty('dimension') &&
                                 resource.context.hasOwnProperty('height') &&

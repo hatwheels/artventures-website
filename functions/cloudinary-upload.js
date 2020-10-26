@@ -21,8 +21,9 @@ exports.handler = async (event, context) => {
         }
 
         // id structure: '<profile or artwork>/<user-id>/<name without extension>'
-        if (!data.id) {
-            console.log('401: id query parameter required.')
+        // folder structure: '<artwork>/<user-id>/'
+        if (!data.id && !data.folder) {
+            console.log('401: id or folder query parameters required.')
             console.log("### END ###")
 
             return {
@@ -31,6 +32,11 @@ exports.handler = async (event, context) => {
                 body: 'Unauthorized Request'
             }
         }
+        // Both parameters cannot be passed
+        if (data.id && data.folder) {
+            console.log('401: id and folder query parameters cannot both be present.')
+            console.log("### END ###")
+        }
 
         cloudinary.config({ 
             cloud_name: process.env.CLOUDINARY_CLOUD_NAME, 
@@ -38,16 +44,29 @@ exports.handler = async (event, context) => {
             api_secret: process.env.CLOUDINARY_API_SECRET 
         });
 
-        console.log("Public ID: " + data.id)
-        return cloudinary.uploader.upload(data.path , { public_id:  data.id })
-            .then(res => {
+        var options = {};
+        if (data.id) {
+            console.log("Public ID: " + data.id);
+            options.public_id = data.id;
+        }
+        else if (data.folder) {
+            console.log("Folder: " + data.folder);
+            options.folder = data.folder;
+        }
+        // Has contextual metadata?
+        if (data.context) {
+            console.log("Contextual Metadata: " + data.context);
+            options.context = data.context;
+        }
 
+        return cloudinary.uploader.upload(data.path , options)
+            .then(res => {
                 console.log('Success uploading: ' + res.secure_url)
                 console.log("### END ###")
 
                 return {
                     statusCode: 200,
-                    body: res.secure_url
+                    body: JSON.stringify({ secure_url: res.secure_url, context: res.context })
                 }
             })
             .catch(err => {
