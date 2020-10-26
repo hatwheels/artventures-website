@@ -56,9 +56,9 @@
                         <v-col
                           class="nunito-12-400 text-capitalize pr-1"
                           cols="auto"
-                          v-for="(tag, i) in artwork.tags" :key="'tag-' + i"
+                          v-for="(tag, tagId) in artwork.tags" :key="'tag-' + tagId"
                         >
-                          {{ tag }}<span v-if="i !== artwork.tags.length - 1">,</span>
+                          {{ tag }}<span v-if="tagId !== artwork.tags.length - 1">,</span>
                         </v-col>
                       </v-row>
                     </v-card-text>
@@ -117,7 +117,7 @@
             {{ plainText.artworks[getLang] }}
           </div>
           <v-row class="hidden-md-and-up px-12" justify="center" align="center">
-            <v-col v-for="(artwork, i ) in artist.gallery" :key="'artwork-' + i" cols="12">
+            <v-col v-for="(artwork, i ) in artist.gallery" :key="'artwork-mobile-' + i" cols="12">
               <v-card>
                 <g-image
                   :src="artwork.url"
@@ -145,9 +145,9 @@
                         <v-col
                           class="nunito-12-400 text-capitalize pr-1"
                           cols="auto"
-                          v-for="(tag, i) in artwork.tags" :key="'tag-' + i"
+                          v-for="(tag, tagId) in artwork.tags" :key="'tag-mobile-' + tagId"
                         >
-                          {{ tag }}<span v-if="i !== artwork.tags.length - 1">,</span>
+                          {{ tag }}<span v-if="tagId !== artwork.tags.length - 1">,</span>
                         </v-col>
                       </v-row>
                     </v-card-text>
@@ -375,7 +375,7 @@ export default {
                         }
                         if (resource.context.hasOwnProperty('type')) {
                           type = this.plainText.type[resource.context.type];
-                          if (type === 'sculpture') {
+                          if (type.en.toLowerCase() === 'sculpture') {
                             // it's a sculpture
                             if (resource.context.hasOwnProperty('dimension') &&
                                 resource.context.hasOwnProperty('height') &&
@@ -384,7 +384,7 @@ export default {
                               size = resource.context.height + ' x ' + resource.context.width + ' x ' +
                                 resource.context.depth + ' ' + resource.context.dimension
                             }
-                          } else if (type === 'painting') {
+                          } else if (type.en.toLowerCase() === 'painting') {
                             // it's a painting
                             if (resource.context.hasOwnProperty('dimension') &&
                                 resource.context.hasOwnProperty('height') &&
@@ -402,7 +402,7 @@ export default {
                         rentPrice: rentPrice,
                         salePrice: salePrice,
                         size: size,
-                        tags: tags,
+                        tags: tags
                       });
                     });
                     var count = 0;

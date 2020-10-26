@@ -25,21 +25,22 @@ let imgdb = new Vue({
                     }
                 ).then(res => {
                     if (200 == res.status) {
-                        resolve(res.data)
+                        resolve(res.data.secure_url)
                     } else {
                         reject(res.status)
                     }
                 }).catch(err => reject(err))
             })
         },
-        uploadArtwork(user_id, name, img) {
+        uploadArtwork(user_id, img, context) {
             return new Promise((resolve, reject) => {
-                let public_id = 'artwork/' + user_id +  '/inprocess/' + name
+                let folder = 'artwork/' + user_id +  '/inprocess/'
 
                 axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/cloudinary-upload',
                     {
                         path: img,
-                        id: public_id
+                        folder: folder,
+                        context: context
                     },
                     {
                         headers: {

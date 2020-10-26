@@ -641,7 +641,7 @@ import { validationMixin } from "vuelidate";
 import { required, email, maxLength } from "vuelidate/lib/validators";
 
 const touchMap = new WeakMap();
-const alphaTick = (value) => /^[a-zA-Z-]*$/.test(value)
+const alphaTick = (value) => /^[a-zA-Z- ]*$/.test(value)
 
 export default {
   mixins: [validationMixin],
@@ -726,8 +726,8 @@ export default {
             errors: {
                 firstName: {
                     invalid: {
-                        gr: 'Δεκτοί χαρακτρήρες είναι a-z, A-Z και "-".',
-                        en: 'Valid characters are a-z, A-Z and "-".',
+                        gr: "Δεκτοί χαρακτήρες είναι oι λατινικοί αλφαβητικοί χαρακτήρες καθώς και το κενό και '-'.",
+                        en: "Valid characters are latin alphabet characters as well whitespace and '-'.",
                     },
                     missing: {
                         gr: 'Το όνομα είναι υποχρεωτικό.',
@@ -736,8 +736,8 @@ export default {
                 },
                 lastName: {
                     invalid: {
-                        gr: 'Δεκτοί χαρακτρήρες είναι a-z, A-Z και "-".',
-                        en: 'Valid characters are a-z, A-Z and "-".',
+                        gr: "Δεκτοί χαρακτήρες είναι oι λατινικοί αλφαβητικοί χαρακτήρες καθώς και το κενό και '-'.",
+                        en: "Valid characters are latin alphabet characters as well whitespace and '-'.",
                     },
                     missing: {
                         gr: 'Το επίθετο είναι υποχρεωτικό.',
