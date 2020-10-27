@@ -448,7 +448,7 @@ query {
 }
 </page-query>
 
-<style>
+<style scoped>
 .custom-divider {
   width: 50vw;
   height: 1px;
@@ -484,15 +484,6 @@ query {
   cursor: pointer;
 }
 
-.join-btn-small {
-  display: inline-block;
-  background-color: #4C4C4A;
-  text-decoration: none;
-  border-radius: 4px;
-  padding: 10.5px 17px;
-  cursor: pointer;
-}
-
 .col.col-artists-testimonials-width {
   width: 25%;
   max-width: 25%;
@@ -510,11 +501,6 @@ query {
   width: 45%;
   max-width: 45%;
   flex-basis: 45%;
-}
-.col.col-testimonials-width {
-  width: 31%;
-  max-width: 31%;
-  flex-basis: 31%;
 }
 
 /* Text fonts */

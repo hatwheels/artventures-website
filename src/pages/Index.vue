@@ -901,7 +901,7 @@ query {
 }
 </page-query>
 
-<style>
+<style scoped>
 #nav-0.v-btn:hover:before,
 #nav-0.v-btn:focus:before,
 #nav-1.v-btn:hover:before,

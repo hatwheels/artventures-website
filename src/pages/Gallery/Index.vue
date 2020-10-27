@@ -348,17 +348,7 @@ export default {
             })).finally(() => {
               var count = 0;
               this.gallery.forEach(artwork => {
-                switch (count) {
-                  case 0:
-                    this.columns[0].push(artwork);
-                    break;
-                  case 1:
-                    this.columns[1].push(artwork);
-                    break;
-                  case 2:
-                    this.columns[2].push(artwork);
-                    break;
-                }
+                this.columns[count].push(artwork);
                 count = (count + 1) % 3;
               });
               this.fetched = true;

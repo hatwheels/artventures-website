@@ -58,6 +58,11 @@ exports.handler = async (event, context) => {
             console.log("Contextual Metadata: " + data.context);
             options.context = data.context;
         }
+        // Has tags?
+        if (data.tags) {
+            console.log("Tags: " + data.tags);
+            options.tags = data.tags;
+        }
 
         return cloudinary.uploader.upload(data.path , options)
             .then(res => {
@@ -66,7 +71,7 @@ exports.handler = async (event, context) => {
 
                 return {
                     statusCode: 200,
-                    body: JSON.stringify({ secure_url: res.secure_url, context: res.context })
+                    body: JSON.stringify({ secure_url: res.secure_url, context: res.context, tags: res.tags })
                 }
             })
             .catch(err => {

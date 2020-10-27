@@ -312,7 +312,7 @@ query {
 }
 </page-query>
 
-<style>
+<style scoped>
 .custom-divider {
   width: 50vw;
   height: 1px;
