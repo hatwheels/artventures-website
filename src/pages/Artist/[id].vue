@@ -407,17 +407,7 @@ export default {
                     });
                     var count = 0;
                     this.artist.gallery.forEach(artwork => {
-                      switch (count) {
-                        case 0:
-                          this.artist.columns[0].push(artwork);
-                          break;
-                        case 1:
-                          this.artist.columns[1].push(artwork);
-                          break;
-                        case 2:
-                          this.artist.columns[2].push(artwork);
-                          break;
-                      }
+                      this.artist.columns[count].push(artwork);
                       count = (count + 1) % 3;
                     });
                     this.state = 0; // OK
@@ -453,17 +443,5 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-}
-
-.custom-divider {
-  height: 1px;
-  margin-right: 25vw;
-  margin-left: 25vw;
-}
-
-.custom-divider-small {
-  height: 1px;
-  margin-right: 10vw;
-  margin-left: 10vw;
 }
 </style>
