@@ -32,7 +32,7 @@ let imgdb = new Vue({
                 }).catch(err => reject(err))
             })
         },
-        uploadArtwork(user_id, img, context) {
+        uploadArtwork(user_id, img, context, tags) {
             return new Promise((resolve, reject) => {
                 let folder = 'artwork/' + user_id +  '/inprocess/'
 
@@ -40,7 +40,8 @@ let imgdb = new Vue({
                     {
                         path: img,
                         folder: folder,
-                        context: context
+                        context: context,
+                        tags: tags
                     },
                     {
                         headers: {

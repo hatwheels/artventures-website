@@ -285,7 +285,7 @@ query {
 }
 </page-query>
 
-<style>
+<style scoped>
 .contact-us-btn {
   display: inline-block;
   background-color: #2B2B2B;

@@ -233,6 +233,27 @@
                   @input="delayTouch($v.title)"
                   @blur="$v.title.$touch()"
                 ></v-text-field>
+                <label class="raleway-16-600 color-1a1a1a">Tags</label>
+                <v-combobox
+                  v-model="tags"
+                  class="pb-6"
+                  background-color="#FAFAFA"
+                  color="#1A1A1A"
+                  :items="['oil on canvas', 'acrylics']"
+                  :error-messages="tagsErrors"
+                  :label="artworkForm.tags.label[getLang]"
+                  :hint="artworkForm.tags.hint[getLang]"
+                  persistent-hint
+                  multiple
+                  chips
+                  clearable
+                  deletable-chips
+                  hide-selected
+                  hide-no-data
+                  counter="10"
+                  @input="delayTouch($v.tags)"
+                  @blur="$v.tags.$touch()"
+                ></v-combobox>
                 <label
                   :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
                   class="color-1a1a1a"
@@ -241,6 +262,7 @@
                 <v-row class="pt-0 pb-3">
                   <v-col cols="auto" class="pt-0">
                     <v-select
+                      class="pt-0"
                       v-model="unit"
                       :items="[
                         {
@@ -261,6 +283,7 @@
                   <v-col class="pt-0">
                     <v-text-field
                       v-model="width"
+                      class="pt-0"
                       :disabled="!unit"
                       background-color="#FAFAFA"
                       color="#1A1A1A"
@@ -275,6 +298,7 @@
                   <v-col class="pt-0">
                     <v-text-field
                       v-model="height"
+                      class="pt-0"
                       :disabled="!unit"
                       background-color="#FAFAFA"
                       color="#1A1A1A"
@@ -286,9 +310,10 @@
                     >
                     </v-text-field>
                   </v-col>
-                  <v-col v-if="type === 'sculpture'">
+                  <v-col class="pt-0" v-if="type === 'sculpture'">
                     <v-text-field
                       v-model="depth"
+                      class="pt-0"
                       :disabled="!unit"
                       background-color="#FAFAFA"
                       color="#1A1A1A"
@@ -337,12 +362,12 @@
                   slot="upload-label"
                   style="cursor: pointer; background-color: #333333; color: #FFFFFF"
                 >
-                <v-icon color="white">mdi-image-plus</v-icon>
-                <span class="pl-1">Choose Artwork...</span>
+                  <v-icon color="white">mdi-image-plus</v-icon>
+                  <span class="pl-1">{{ artworkForm.chooseArtwork[getLang] }}</span>
                 </label>
                 <image-uploader
                   :preview="false"
-                  :className="['fileinput']"
+                  style="display: none;"
                   :maxWidth="1024"
                   :maxHeight="1024"
                   :quality="0.5"
@@ -518,6 +543,9 @@ export default {
     depth: {
       numeric
     },
+    tags: {
+      maxLength: maxLength(10),
+    },
     salePrice: {
       numeric
     },
@@ -615,6 +643,16 @@ export default {
           gr: 'Βάθος',
           en: 'Depth'
         },
+        tags: {
+          label: {
+            gr: "Τεχνική, υλικά, ...",
+            en: "Technique, materials, ..."
+          },
+          hint: {
+            gr: "Ελεύθερα, μέχρι 10 tags",
+            en: "Free, up to 10 tags"
+          }
+        },
         salePrice: {
           gr: 'Τιμή Πώλησης',
           en: 'Sale Price'
@@ -670,6 +708,12 @@ export default {
               en: "Only numerical values are allowed",
             }
           },
+          tags: {
+            maxLength: {
+              gr: "Επιτρέπονται μέχρι 10 tags",
+              en: "Up to 10 tags are allowed"
+            }
+          },
           salePrice: {
             numeric: {
               gr: 'Μόνο αριθμοί είναι δεκτοί',
@@ -691,6 +735,7 @@ export default {
       height: null,
       width: null,
       depth: null,
+      tags: null,
       salePrice: null,
       rentPrice: null,
 
@@ -769,6 +814,12 @@ export default {
       const errors = [];
       if (!this.$v.height.$dirty) return errors;
       !this.$v.height.numeric && errors.push(this.artworkForm.errors.height.numeric[this.getLang]);
+      return errors;
+    },
+    tagsErrors() {
+      const errors = [];
+      if (!this.$v.tags.$dirty) return errors;
+      !this.$v.tags.maxLength && errors.push(this.artworkForm.errors.tags.maxLength[this.getLang]);
       return errors;
     },
     depthErrors() {
@@ -953,8 +1004,16 @@ export default {
                       "|height=" + String(this.height);
               }
             }
+            // tags
+            var tagsConcatStr = "";
+            if (Array.isArray(this.tags) && this.tags.length) {
+              this.tags.forEach(tag => {
+                tagsConcatStr += tag + ",";
+              })
+              tagsConcatStr = tagsConcatStr.slice(0, -1);
+            }
 
-            this.$imgdb.uploadArtwork(this.$auth.user.sub, this.imageToUploadBase64, context)
+            this.$imgdb.uploadArtwork(this.$auth.user.sub, this.imageToUploadBase64, context, tagsConcatStr)
             .then(async (response) => {
               const contextObj = response.context.hasOwnProperty("custom") ? response.context.custom : response.context;
               var size = '';
@@ -983,7 +1042,7 @@ export default {
                 salePrice: contextObj.hasOwnProperty("sale_price") ? contextObj.sale_price : '',
                 rentPrice: contextObj.hasOwnProperty("rent_price") ? contextObj.rent_price : '',
                 size: size,
-                tags: ''
+                tags: response.tags
               })
               // update column 0 (in process)
               this.columns[0] = [ [], [], [] ];
@@ -1011,6 +1070,7 @@ export default {
               this.type = null;
               this.title = null;
               this.unit = this.width = this.height = this.depth = null;
+              this.tags = null;
               this.salePrice = this.rentPrice = null;
               this.imageToUploadBase64 = null;
               this.dialogPortfolio.text.en = "Your Artwork has been successfully uploaded. Please wait for our approval.";
@@ -1023,6 +1083,7 @@ export default {
               this.type = null;
               this.title = null;
               this.unit = this.width = this.height = this.depth = null;
+              this.tags = null;
               this.salePrice = this.rentPrice = null;
               this.imageToUploadBase64 = null
               this.dialogPortfolio.text.en = "Unfortunately an error occured. Please try again later."
@@ -1034,6 +1095,7 @@ export default {
             this.type = null;
             this.title = null;
             this.unit = this.width = this.height = this.depth = null;
+            this.tags = null;
             this.salePrice = this.rentPrice = null;
             this.imageToUploadBase64 = null
             this.dialogPortfolio.text.en = "Unfortunately an error occured. Please try again later."
@@ -1045,6 +1107,7 @@ export default {
           this.type = null;
           this.title = null;
           this.unit = this.width = this.height = this.depth = null;
+          this.tags = null;
           this.salePrice = this.rentPrice = null;
           this.imageToUploadBase64 = null
         }
@@ -1073,15 +1136,7 @@ export default {
 }
 </script>
 
-<style>
-#fileInput {
-  display: none;
-}
-.portfolio-alert-block {
-  width: 40vw;
-  margin-right: 30vw;
-  margin-left: 30vw;
-}
+<style scoped>
 /* Local fonts */
 .raleway-28-400 {
   font-family: 'Raleway', sans-serif !important;

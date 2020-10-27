@@ -1236,7 +1236,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 @import '../../assets/style/lds-ring.css';
 
 .theme--light.v-label {
@@ -1246,10 +1246,6 @@ export default {
     border-radius: 4px;
     cursor: pointer;
     background-color: #333333;
-}
-.settings-form-btn {
-  background-color: #333333;
-  border-radius: 4px;
 }
 .center-label {
     position: absolute;
