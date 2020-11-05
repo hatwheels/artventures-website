@@ -3,9 +3,9 @@
     <v-main>
       <!-- OK -->
       <v-container v-if="state === 0" class="background-color-fafafa" fluid>
-        <!-- Info -->
         <!-- Desktop -->
         <div class="hidden-sm-and-down py-12 px-12">
+          <!-- Info -->
           <v-row justify="center" align="center">
             <v-col cols="auto">
               <div class="raleway-30-700 text-uppercase">{{ artist.firstName + ' ' + artist.lastName }}</div>
@@ -13,7 +13,11 @@
           </v-row>
           <v-row justify="center" align="center">
             <v-col cols="8">
-              <div class="raleway-18-400 text-center">{{ artist.bio }}</div>
+              <v-row justify="center" align="center">
+                <v-col cols="auto">
+                  <div class="raleway-18-400 text-justify">{{ artist.bio }}</div>
+                </v-col>
+              </v-row>
             </v-col>
           </v-row>
           <v-row justify="center" align="center">
@@ -96,6 +100,7 @@
         </div>
         <!-- Mobile -->
         <div class="hidden-md-and-up">
+          <!-- Info -->
           <v-row class="pt-12 px-12" justify="center" align="center">
             <v-col class="text-center" cols="auto">
               <div class="raleway-30-700 text-uppercase">{{ artist.firstName }}</div>
