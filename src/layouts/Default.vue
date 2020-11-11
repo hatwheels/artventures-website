@@ -333,14 +333,14 @@
           <div class="hidden-sm-and-down raleway-18-600 black-text">
             Artventures
             <span class="color-757575">
-              &copy; 2020
+              &copy; {{ new Date().getFullYear() }}
             </span>
           </div>
           <!-- Mobile -->
           <div class="hidden-md-and-up raleway-16-600 black-text">
             Artventures
             <span class="color-757575">
-              &copy; 2020
+              &copy; {{ new Date().getFullYear() }}
             </span>
           </div>
         </div>
