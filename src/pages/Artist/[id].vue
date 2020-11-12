@@ -43,7 +43,7 @@
                 <div class="d-flex justify-space-between">
                   <div>
                     <v-card-title v-if="artwork.title"
-                      class="raleway-25-400 text-capitalize text-start"
+                      class="raleway-23-400 text-capitalize font-italic text-start"
                       v-text="artwork.title" />
                     <v-card-text class="raleway-18-400 text-start">
                       <div v-if="artwork.type" class="text-capitalize">{{ artwork.type[getLang] }}
@@ -133,7 +133,7 @@
                 <div class="d-flex justify-space-between">
                   <div>
                     <v-card-title v-if="artwork.title"
-                      class="raleway-18-400 text-capitalize text-start"
+                      class="raleway-16-400 text-capitalize font-italic text-start"
                       v-text="artwork.title" />
                     <v-card-text class="raleway-13-400 text-start">
                       <div v-if="artwork.type" class="text-capitalize">{{ artwork.type[getLang] }}
@@ -370,6 +370,7 @@ export default {
                         // Title
                         if (resource.context.hasOwnProperty('caption')) {
                           title = resource.context.caption;
+                          title = title.toLowerCase();
                         }
                         // Rent, Sale Price
                         if (resource.context.hasOwnProperty('rent_price')) {
