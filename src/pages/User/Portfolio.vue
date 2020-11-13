@@ -239,7 +239,6 @@
                   class="pb-6"
                   background-color="#FAFAFA"
                   color="#1A1A1A"
-                  :items="['oil on canvas', 'acrylics']"
                   :error-messages="tagsErrors"
                   :label="artworkForm.tags.label[getLang]"
                   :hint="artworkForm.tags.hint[getLang]"
@@ -251,6 +250,7 @@
                   hide-selected
                   hide-no-data
                   counter="10"
+                  append-icon=""
                   @input="delayTouch($v.tags)"
                   @blur="$v.tags.$touch()"
                 ></v-combobox>
@@ -399,7 +399,7 @@
                       dismissible
                       transition="slide-x-transition"
                   >
-                    {{ plainText.max30[getLang] }}
+                    {{ plainText.maxArtworks[getLang] }}
                   </v-alert>
                 </v-row>
                 <v-row justify="center" align="center">
@@ -556,6 +556,10 @@ export default {
   async created () {
     await this.fetchArtistArtworks();
   },
+  mounted () {
+    this.plainText.maxArtworks.gr = 'Έχετε φτάσει το όριο των ' + this.maxImageCount + '  έργων τέχνης';
+    this.plainText.maxArtworks.en = 'You have reached the limit of ' + this.maxImageCount + ' artworks';
+  },
   data () {
     return {
       overlayDesktop: false,
@@ -649,8 +653,8 @@ export default {
             en: "Technique, materials, ..."
           },
           hint: {
-            gr: "Ελεύθερα, μέχρι 10 tags",
-            en: "Free, up to 10 tags"
+            gr: "Ελεύθερα, γράφετε μέχρι 10 tags",
+            en: "Free, fill in up to 10 tags"
           }
         },
         salePrice: {
@@ -741,6 +745,7 @@ export default {
 
       imageToUploadBase64: null,
       currentImageCount: 0,
+      maxImageCount: 60,
       showImageLoader: false,
       isLoading: false,
       isFetchingImages: false,
@@ -781,7 +786,7 @@ export default {
           gr: 'Κλείσιμο',
           en: 'Close'
         },
-        max30: {
+        maxArtworks: {
           gr: 'Έχετε φτάσει το όριο των 30 έργων τέχνης',
           en: 'You have reached the limit of 30 artworks'
         }
@@ -967,8 +972,8 @@ export default {
       this.dialogPortfolio.text.gr = ""
     },
     getImage(output) {
-      if (this.currentImageCount > 30) {
-        // Max uploaded images (30) reached
+      if (this.currentImageCount > this.maxImageCount) {
+        // Max uploaded images reached
         this.setAlertImage()
         return;
       }
