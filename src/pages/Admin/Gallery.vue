@@ -59,15 +59,16 @@
                             style="width: 100%; height: 100%"
                             :class="$vuetify.breakpoint.mobile ? 'raleway-13-600' : 'raleway-16-600'"
                             class="white--text"
-                            :fields="['artist_name', 'title', 'type', 'size', 'salePrice', 'rentPrice', 'tags']"
+                            :fields="['url', 'artist_name', 'title', 'type', 'size', 'salePrice', 'rentPrice', 'tags']"
                             :labels="{
+                              url: 'Image',
                               artist_name: 'Artist',
                               title: 'Title',
                               type: 'Type',
                               size: 'Size',
                               salePrice: 'Sale Price',
                               rentPrice: ' Rent Price',
-                              
+                              tags: 'Tags'
                             }"
                             :data="JSON.parse(filteredData)"
                             :name="'artworks_table_' + getDateStamp() + '.csv'"
