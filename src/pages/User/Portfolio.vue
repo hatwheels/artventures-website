@@ -282,21 +282,6 @@
                   </v-col>
                   <v-col class="pt-0">
                     <v-text-field
-                      v-model="width"
-                      class="pt-0"
-                      :disabled="!unit"
-                      background-color="#FAFAFA"
-                      color="#1A1A1A"
-                      :error-messages="widthErrors"
-                      :hint="artworkForm.width[getLang]"
-                      persistent-hint
-                      @input="delayTouch($v.width)"
-                      @blur="$v.width.$touch()"
-                    >
-                    </v-text-field>
-                  </v-col>
-                  <v-col class="pt-0">
-                    <v-text-field
                       v-model="height"
                       class="pt-0"
                       :disabled="!unit"
@@ -307,6 +292,21 @@
                       persistent-hint
                       @input="delayTouch($v.height)"
                       @blur="$v.height.$touch()"
+                    >
+                    </v-text-field>
+                  </v-col>
+                  <v-col class="pt-0">
+                    <v-text-field
+                      v-model="width"
+                      class="pt-0"
+                      :disabled="!unit"
+                      background-color="#FAFAFA"
+                      color="#1A1A1A"
+                      :error-messages="widthErrors"
+                      :hint="artworkForm.width[getLang]"
+                      persistent-hint
+                      @input="delayTouch($v.width)"
+                      @blur="$v.width.$touch()"
                     >
                     </v-text-field>
                   </v-col>
