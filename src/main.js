@@ -66,31 +66,41 @@ export default function (Vue, { appOptions, router, head, isClient }) {
   }
   router.beforeEach((to, from, next) => {
     switch (to.path) {
+      case '/admin/gallery':
+      if (router.app.$auth.isAuthenticated()) { // if authenticated allow access
+        if (router.app.$auth.userRole[0].name === 'admin') { // only admin allowed
+          next();
+        } else { // other roles not allowed!
+          router.app.$auth.login();
+        }
+      } else { // trigger auth0's login
+        router.app.$auth.login();
+      }
       case '/user/profile':
       case '/user/settings':
         if (router.app.$auth.isAuthenticated()) { // if authenticated allow access
-          next()
+          next();
         }
         else { // trigger auth0's login
-          router.app.$auth.login()
+          router.app.$auth.login();
         }
         break;
 
       case '/user/portfolio':
         if (router.app.$auth.isAuthenticated()) { // if authenticated allow access
           if (router.app.$auth.userRole[0].name === 'user') { // users have no portfolio
-            next(false)
+            next(false);
           } else {
-            next()
+            next();
           }
         }
         else { // trigger auth0's login
-          router.app.$auth.login()
+          router.app.$auth.login();
         }
         break;
 
       default:
-        next()
+        next();
         break;
     }
   })

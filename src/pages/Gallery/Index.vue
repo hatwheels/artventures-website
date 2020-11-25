@@ -430,7 +430,7 @@ export default {
           console.error(err);
           this.goToArtist = false;
         })
-    }
+    },
   },
   metaInfo() {
     return {
