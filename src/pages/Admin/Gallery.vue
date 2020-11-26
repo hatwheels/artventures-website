@@ -29,6 +29,7 @@
                       { text: 'Title', value: 'title' },
                       { text: 'Type', value: 'type' },
                       { text: 'Size', value: 'size' },
+                      { text: 'Value', value: 'value' },
                       { text: 'Sale Price', value: 'salePrice' },
                       { text: 'Rent Price', value: 'rentPrice' },
                       { text: 'Tags', value: 'tags' },
@@ -59,13 +60,14 @@
                             style="width: 100%; height: 100%"
                             :class="$vuetify.breakpoint.mobile ? 'raleway-13-600' : 'raleway-16-600'"
                             class="white--text"
-                            :fields="['url', 'artist_name', 'title', 'type', 'size', 'salePrice', 'rentPrice', 'tags']"
+                            :fields="['url', 'artist_name', 'title', 'type', 'size', 'value', 'salePrice', 'rentPrice', 'tags']"
                             :labels="{
                               url: 'Image',
                               artist_name: 'Artist',
                               title: 'Title',
                               type: 'Type',
                               size: 'Size',
+                              value: 'Value',
                               salePrice: 'Sale Price',
                               rentPrice: ' Rent Price',
                               tags: 'Tags'
@@ -110,8 +112,9 @@ export default {
                         if (found.total_count> 0) {
                             found.resources.forEach(resource => {
                               var title = '';
-                              var rentPrice = '';
+                              var value = '';
                               var salePrice = '';
+                              var rentPrice = '';
                               var size = '';
                               var type = '';
                               var tags = resource.hasOwnProperty('tags') ? resource.tags : [];
@@ -121,12 +124,17 @@ export default {
                                   title = resource.context.caption;
                                   title = title.toLowerCase();
                                 }
-                                // Rent, Sale Price
-                                if (resource.context.hasOwnProperty('rent_price')) {
-                                  rentPrice = resource.context.rent_price
+                                // Value
+                                if (resource.context.hasOwnProperty('value')) {
+                                  value = resource.context.value
                                 }
+                                // Sale Price
                                 if (resource.context.hasOwnProperty('sale_price')) {
                                   salePrice = resource.context.sale_price
+                                }
+                                // Rent Price
+                                if (resource.context.hasOwnProperty('rent_price')) {
+                                  rentPrice = resource.context.rent_price
                                 }
                                 if (resource.context.hasOwnProperty('type')) {
                                   type = resource.context.type;
@@ -156,8 +164,9 @@ export default {
                                 url: resource.secure_url,
                                 title: title,
                                 type: type,
-                                rentPrice: rentPrice,
+                                value: value,
                                 salePrice: salePrice,
+                                rentPrice: rentPrice,
                                 size: size,
                                 tags: tags
                               });

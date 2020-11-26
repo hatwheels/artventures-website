@@ -71,7 +71,7 @@ export default function (Vue, { appOptions, router, head, isClient }) {
         if (router.app.$auth.userRole[0].name === 'admin') { // only admin allowed
           next();
         } else { // other roles not allowed!
-          router.app.$auth.login();
+          next(false);
         }
       } else { // trigger auth0's login
         router.app.$auth.login();

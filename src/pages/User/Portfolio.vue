@@ -190,9 +190,9 @@
             class="pt-12 my-0 mx-1 text-center"
             v-html="getLang === 'gr' ? 'Υπόβαλε Εργο Τέχνης' : 'Submit Artwork'"
           />
-          <v-row class="pt-8 pb-12" justify="center" align="center">
-            <v-col cols="10" md="4">
-              <form lazy-validation @submit.prevent="submit()">
+          <v-form class="pt-8 pb-12" lazy-validation @submit.prevent="submit()">
+            <v-row justify="space-around" align="start">
+              <v-col cols="10" md="5">
                 <label
                   :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
                   class="color-1a1a1a text-capitalize"
@@ -214,7 +214,6 @@
                   background-color="#FAFAFA"
                   color="#1A1A1A"
                   :error-messages="typeErrors"
-                  outlined
                   @input="delayTouch($v.type)"
                   @blur="$v.type.$touch()"
                 ></v-select>
@@ -229,7 +228,6 @@
                   background-color="#FAFAFA"
                   color="#1A1A1A"
                   :error-messages="titleErrors"
-                  outlined
                   @input="delayTouch($v.title)"
                   @blur="$v.title.$touch()"
                 ></v-text-field>
@@ -260,7 +258,7 @@
                   v-html="artworkForm.dimensions[getLang]"
                 />
                 <v-row class="pt-0 pb-3">
-                  <v-col cols="auto" class="pt-0">
+                  <v-col cols="12" md="auto" class="pt-0">
                     <v-select
                       class="pt-0"
                       v-model="unit"
@@ -326,97 +324,114 @@
                     </v-text-field>
                   </v-col>
                 </v-row>
+              </v-col>
+              <v-col cols="10" md="5">
                 <label
                   :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
                   class="color-1a1a1a"
-                  v-html="artworkForm.salePrice[getLang]"
+                  v-html="artworkForm.value[getLang]"
                 />
                 <v-text-field
-                  v-model.trim="salePrice"
-                  class="pb-2"
+                  v-model.trim="value"
+                  class="pb-4"
                   background-color="#FAFAFA"
                   color="#1A1A1A"
-                  :error-messages="salePriceErrors"
+                  :error-messages="valueErrors"
+                  placeholder='1000...'
+                  :hint="getLang === 'gr' ? 'Αξία έργου. Τιμή που πληρώνεστε στην πώληση.' : 'Artwork value. The price you receive when sold.'"
+                  persistent-hint
                   prefix="€"
-                  @input="delayTouch($v.salePrice)"
-                  @blur="$v.salePrice.$touch()"
+                  @input="delayTouch($v.value); updatePrices()"
+                  @blur="$v.value.$touch()"
                 ></v-text-field>
-                <label
-                  :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
-                  class="color-1a1a1a"
-                  v-html="artworkForm.rentPrice[getLang]"
-                />
                 <v-text-field
-                  v-model.trim="rentPrice"
-                  class="pb-2"
+                  v-model="salePrice"
+                  class="pl-4 pr-12 pt-2"
+                  readonly
+                  outlined
+                  placeholder="1818..."
+                  :label="artworkForm.salePrice[getLang]"
                   background-color="#FAFAFA"
                   color="#1A1A1A"
-                  :error-messages="rentPriceErrors"
                   prefix="€"
-                  @input="delayTouch($v.rentPrice)"
-                  @blur="$v.rentPrice.$touch()"
                 ></v-text-field>
-                <label
-                  class="raleway-16-400 px-2 py-2 rounded"
-                  for="fileInput"
-                  slot="upload-label"
-                  style="cursor: pointer; background-color: #333333; color: #FFFFFF"
-                >
-                  <v-icon color="white">mdi-image-plus</v-icon>
-                  <span class="pl-1">{{ artworkForm.chooseArtwork[getLang] }}</span>
-                </label>
-                <image-uploader
-                  :preview="false"
-                  style="display: none;"
-                  :maxWidth="1024"
-                  :maxHeight="1024"
-                  :quality="0.5"
-                  accept="image/png, image/jpeg, image/bmp"
-                  outputFormat="string"
-                  @onUpload="imageToUploadBase64 = null; showImageLoader = true;"
-                  @onComplete="showImageLoader = false;"
-                  @input="getImage"
-                >
-                </image-uploader>
-                <v-row class="py-4" justify="center" align="center">
-                  <g-image v-if="imageToUploadBase64" :src="imageToUploadBase64" style="width: 20vw" alt="to-upload" />
-                  <div v-else v-show="showImageLoader">
-                    <v-progress-circular
-                      class="py-12 my-12"
-                      :size="70"
-                      :width="7"
-                      color="black"
-                      indeterminate
-                    ></v-progress-circular>
-                  </div>
-                </v-row>
-                <!-- Alerts -->
-                <v-row class="pb-2" justify="center" align="center">
-                  <v-alert
-                      class="mt-2"
-                      type='error'
-                      v-model="alertImage"
-                      dismissible
-                      transition="slide-x-transition"
+                <v-text-field
+                  v-model="rentPrice"
+                  class="pl-4 pr-12"
+                  readonly
+                  outlined
+                  :label="artworkForm.rentPrice[getLang]"
+                  placeholder="177..."
+                  background-color="#FAFAFA"
+                  color="#1A1A1A"
+                  prefix="€"
+                ></v-text-field>
+                <v-row class="pt-2" justify="center" align="center">
+                  <label
+                    class="raleway-16-400 px-2 py-2 rounded"
+                    for="fileInput"
+                    slot="upload-label"
+                    style="cursor: pointer; background-color: #333333; color: #FFFFFF"
                   >
-                    {{ plainText.maxArtworks[getLang] }}
-                  </v-alert>
-                </v-row>
-                <v-row justify="center" align="center">
-                  <v-btn
-                    :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
-                    class="text-capitalize white--text"
-                    color="#333333"
-                    type="submit"
-                    :disabled="$v.$invalid || !imageToUploadBase64"
+                    <v-icon color="white">mdi-image-plus</v-icon>
+                    <span class="pl-1">{{ artworkForm.chooseArtwork[getLang] }}</span>
+                  </label>
+                  <image-uploader
+                    :preview="false"
+                    style="display: none;"
+                    :maxWidth="1024"
+                    :maxHeight="1024"
+                    :quality="0.5"
+                    accept="image/png, image/jpeg, image/bmp"
+                    outputFormat="string"
+                    @onUpload="imageToUploadBase64 = null; showImageLoader = true;"
+                    @onComplete="showImageLoader = false;"
+                    @input="getImage"
                   >
-                    {{ artworkForm.submit[getLang] }}
-                    <span v-show="isLoading" class="px-1 lds-ring"><div></div><div></div><div></div><div></div></span>
-                  </v-btn>
+                  </image-uploader>
                 </v-row>
-              </form>
-            </v-col>
-          </v-row>
+              </v-col>
+            </v-row>
+            <v-row class="py-4" justify="center" align="center">
+              <v-col offset="1" offset-md="3" cols="10" md="6">
+              <g-image v-if="imageToUploadBase64" :src="imageToUploadBase64" style="width: 100%" alt="to-upload" />
+              <div v-else v-show="showImageLoader" class="text-center">
+                <v-progress-circular
+                  class="py-12 my-12"
+                  :size="70"
+                  :width="7"
+                  color="black"
+                  indeterminate
+                ></v-progress-circular>
+              </div>
+              </v-col>
+              <v-col />
+            </v-row>
+            <!-- Alerts -->
+            <v-row class="pb-2" justify="center" align="center">
+              <v-alert
+                  class="mt-2"
+                  type='error'
+                  v-model="alertImage"
+                  dismissible
+                  transition="slide-x-transition"
+              >
+                {{ plainText.maxArtworks[getLang] }}
+              </v-alert>
+            </v-row>
+            <v-row justify="center" align="center">
+              <v-btn
+                :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
+                class="text-capitalize white--text"
+                color="#333333"
+                type="submit"
+                :disabled="$v.$invalid || !imageToUploadBase64"
+              >
+                {{ artworkForm.submit[getLang] }}
+                <span v-show="isLoading" class="px-1 lds-ring"><div></div><div></div><div></div><div></div></span>
+              </v-btn>
+            </v-row>
+          </v-form>
           <v-row class="pt-12" justify="center" align="center">
             <v-col class="text-center" cols="7" md="2">
               <g-link
@@ -546,12 +561,9 @@ export default {
     tags: {
       maxLength: maxLength(10),
     },
-    salePrice: {
+    value: {
       numeric
-    },
-    rentPrice: {
-      numeric
-    },
+    }
   },
   async created () {
     await this.fetchArtistArtworks();
@@ -657,6 +669,10 @@ export default {
             en: "Free, fill in up to 10 tags"
           }
         },
+        value: {
+          gr: 'Επιθυμητή τιμή',
+          en: 'Expected price'
+        },
         salePrice: {
           gr: 'Τιμή Πώλησης',
           en: 'Sale Price'
@@ -718,18 +734,12 @@ export default {
               en: "Up to 10 tags are allowed"
             }
           },
-          salePrice: {
+          value: {
             numeric: {
               gr: 'Μόνο αριθμοί είναι δεκτοί',
               en: 'Only numbers are allowed'
             }
           },
-          rentPrice: {
-            numeric: {
-              gr: 'Μόνο αριθμοί είναι δεκτοί',
-              en: 'Only numbers are allowed'
-            }
-          }
         }
       },
       // Artwork upload form data
@@ -742,6 +752,7 @@ export default {
       tags: null,
       salePrice: null,
       rentPrice: null,
+      value: null,
 
       imageToUploadBase64: null,
       currentImageCount: 0,
@@ -833,20 +844,31 @@ export default {
       !this.$v.depth.numeric && errors.push(this.artworkForm.errors.depth.numeric[this.getLang]);
       return errors;
     },
-    salePriceErrors() {
+    valueErrors() {
       const errors = [];
-      if (!this.$v.salePrice.$dirty) return errors;
-      !this.$v.salePrice.numeric && errors.push(this.artworkForm.errors.salePrice.numeric[this.getLang]);
+      if (!this.$v.value.$dirty) return errors;
+      !this.$v.value.numeric && errors.push(this.artworkForm.errors.value.numeric[this.getLang]);
       return errors;
     },
-    rentPriceErrors() {
-      const errors = [];
-      if (!this.$v.rentPrice.$dirty) return errors;
-      !this.$v.rentPrice.numeric && errors.push(this.artworkForm.errors.rentPrice.numeric[this.getLang]);
-      return errors;
-    }
   },
   methods: {
+    calcSalePrice (value /* Integer */) {
+      return Math.round(value * 1.8181);
+    },
+    calcRentPrice (salePrice /* Integer */) {
+      const val = Math.round(salePrice * 14 / 144);
+      return (val > 50) ? val : 50;
+    },
+    updatePrices () {
+      if (/^[+]?(\d+)$/.test(this.value)) {
+        const val = Number(this.value);
+        this.salePrice = this.calcSalePrice(val);
+        this.rentPrice = this.calcRentPrice(this.salePrice);
+      } else {
+        this.salePrice = null;
+        this.rentPrice = null;
+      }
+    },
     // Fetch artworks
     async fetchArtistArtworks() {
       if (process.isClient && this.$auth.user) {
@@ -859,8 +881,9 @@ export default {
             found.resources.forEach(resource => {
               var folder = resource.folder.replace('artwork/' + this.$auth.user.sub + '/', '');
               var title = '';
-              var rentPrice = '';
+              var value = '';
               var salePrice = '';
+              var rentPrice = '';
               var size = '';
               var type = '';
               var tags = resource.hasOwnProperty('tags') ? resource.tags : [];
@@ -870,12 +893,22 @@ export default {
                   title = resource.context.caption;
                   title = title.toLowerCase();
                 }
-                // Rent, Sale Price
-                if (resource.context.hasOwnProperty('rent_price')) {
-                  rentPrice = resource.context.rent_price
+                // Value, Rent Price
+                if (resource.context.hasOwnProperty('value')) {
+                  value = resource.context.value;
                 }
+                // Sale Price
                 if (resource.context.hasOwnProperty('sale_price')) {
-                  salePrice = resource.context.sale_price
+                  salePrice = resource.context.sale_price;
+                } else if (value.length) {
+                  salePrice = JSON.stringify(this.calcSalePrice(parseInt(value)));
+                }
+                if (resource.context.hasOwnProperty('rent_price')) {
+                  rentPrice = resource.context.rent_price;
+                } else if (value.length) {
+                  rentPrice = JSON.stringify(this.calcRentPrice(this.calcSalePrice(parseInt(value))));
+                } else if (salePrice.length) {
+                  rentPrice = JSON.stringify(this.calcRentPrice(parseInt(salePrice)));
                 }
                 if (resource.context.hasOwnProperty('type')) {
                   type = this.plainText.type[resource.context.type];
@@ -905,8 +938,9 @@ export default {
                     url: resource.secure_url,
                     title: title,
                     type: type,
-                    rentPrice: rentPrice,
+                    value: value,
                     salePrice: salePrice,
+                    rentPrice: rentPrice,
                     size: size,
                     tags: tags
                   })
@@ -916,8 +950,9 @@ export default {
                     url: resource.secure_url,
                     title: title,
                     type: type,
-                    rentPrice: rentPrice,
+                    value: value,
                     salePrice: salePrice,
+                    rentPrice: rentPrice,
                     size: size,
                     tags: tags
                   })
@@ -927,8 +962,9 @@ export default {
                     url: resource.secure_url,
                     title: title,
                     type: type,
-                    rentPrice: rentPrice,
+                    value: value,
                     salePrice: salePrice,
+                    rentPrice: rentPrice,
                     size: size,
                     tags: tags
                   })
@@ -949,7 +985,6 @@ export default {
           }
         })
         .catch(err => {
-          console.error(err);
           this.$router.replace({
             path: '/user/profile',
             force: true
@@ -991,10 +1026,13 @@ export default {
             if (this.title) {
               context += "|caption=" + String(this.title);
             }
-            if (this.salePrice) {
+            if (this.value) {
+              context += "|value=" + String(this.value);
+              // Add sale price
+              this.salePrice = this.calcSalePrice(this.value);
               context += "|sale_price=" + String(this.salePrice);
-            }
-            if (this.rentPrice) {
+              // Add rent price
+              this.rentPrice = this.calcRentPrice(this.salePrice);
               context += "|rent_price=" + String(this.rentPrice);
             }
             if (this.unit && this.width && this.height) {
@@ -1045,6 +1083,7 @@ export default {
                 url: response.secure_url,
                 type: this.plainText.type[contextObj.type],
                 title: contextObj.hasOwnProperty("caption") ? contextObj.caption : '',
+                value: contextObj.hasOwnProperty("value") ? contextObj.value : '',
                 salePrice: contextObj.hasOwnProperty("sale_price") ? contextObj.sale_price : '',
                 rentPrice: contextObj.hasOwnProperty("rent_price") ? contextObj.rent_price : '',
                 size: size,
@@ -1077,7 +1116,7 @@ export default {
               this.title = null;
               this.unit = this.width = this.height = this.depth = null;
               this.tags = null;
-              this.salePrice = this.rentPrice = null;
+              this.value = this.salePrice = this.rentPrice = null;
               this.imageToUploadBase64 = null;
               this.dialogPortfolio.text.en = "Your Artwork has been successfully uploaded. Please wait for our approval.";
               this.dialogPortfolio.text.gr = "το Έργο σας στάλθηκε επιτυχώς. Παρακαλώ περιμένετε για την έγκριση μας";
@@ -1090,7 +1129,7 @@ export default {
               this.title = null;
               this.unit = this.width = this.height = this.depth = null;
               this.tags = null;
-              this.salePrice = this.rentPrice = null;
+              this.value = this.salePrice = this.rentPrice = null;
               this.imageToUploadBase64 = null
               this.dialogPortfolio.text.en = "Unfortunately an error occured. Please try again later."
               this.dialogPortfolio.text.gr = "Δυστυχώς κάποιο σφάλμα προέκυψε. Παρακαλώ δοκιμάστε ξανά αργότερα."
@@ -1102,7 +1141,7 @@ export default {
             this.title = null;
             this.unit = this.width = this.height = this.depth = null;
             this.tags = null;
-            this.salePrice = this.rentPrice = null;
+            this.value = this.salePrice = this.rentPrice = null;
             this.imageToUploadBase64 = null
             this.dialogPortfolio.text.en = "Unfortunately an error occured. Please try again later."
             this.dialogPortfolio.text.gr = "Δυστυχώς κάποιο σφάλμα προέκυψε. Παρακαλώ δοκιμάστε ξανά αργότερα."
@@ -1114,7 +1153,7 @@ export default {
           this.title = null;
           this.unit = this.width = this.height = this.depth = null;
           this.tags = null;
-          this.salePrice = this.rentPrice = null;
+          this.value = this.salePrice = this.rentPrice = null;
           this.imageToUploadBase64 = null
         }
         this.$v.$reset();
@@ -1127,9 +1166,6 @@ export default {
       }
       touchMap.set($v, setTimeout($v.$touch, 1000));
     },
-    notifyArtworkUpload() {
-
-    }
   },
   metaInfo () {
     return {

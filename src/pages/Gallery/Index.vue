@@ -427,7 +427,6 @@ export default {
           this.goToArtist = false;
         })
         .catch(err => {
-          console.error(err);
           this.goToArtist = false;
         })
     },

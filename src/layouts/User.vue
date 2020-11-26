@@ -413,6 +413,11 @@ export default {
   font-size: 13px !important;
   font-weight: 400 !important;
 }
+.noto-14-600 {
+  font-family: 'Noto Sans', sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+}
 .noto-15-600-1p5 {
   font-family: 'Noto Sans', sans-serif !important;
   font-size: 15px !important;
@@ -493,6 +498,11 @@ export default {
   font-family: 'Raleway', sans-serif !important;
   font-size: 13px !important;
   font-weight: 400 !important;
+}
+.raleway-14-600 {
+  font-family: 'Raleway', sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
 }
 .raleway-15-700 {
   font-family: "Raleway", sans-serif !important;
