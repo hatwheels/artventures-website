@@ -2,6 +2,7 @@
     <UserLayout>
       <v-main>
         <v-container class="px-0 py-12 background-color-fafafa" fluid>
+          
           <v-row class="pb-10 my-0" justify="center" align="center">
             <v-col cols="11">
               <v-card>
@@ -24,12 +25,13 @@
                   loading-text="Loading... Please wait"
                   sort-by="artist_name"
                   :headers="[
-                      { text: 'Image', value: 'url', sortable: false, filterable: false },
+                      { text: 'Link', value: 'url', sortable: false, filterable: false },
+                      { text: 'Thumbnail', value: 'thumbnail', sortable: false, filterable: false },
                       { text: 'Artist', value: 'artist_name'},
                       { text: 'Title', value: 'title' },
                       { text: 'Type', value: 'type' },
                       { text: 'Size', value: 'size' },
-                      { text: 'Value', value: 'value' },
+                      { text: 'Initial Price', value: 'value' },
                       { text: 'Sale Price', value: 'salePrice' },
                       { text: 'Rent Price', value: 'rentPrice' },
                       { text: 'Tags', value: 'tags' },
@@ -46,6 +48,9 @@
                         link
                       </a>
                   </template>
+                  <template v-slot:item.thumbnail="{ item }">
+                    <v-img class="my-1" :src="item.thumbnail" width="100" />
+                </template>
                 </v-data-table>
                 <v-card-actions>
                   <div v-if="fetched">
@@ -62,17 +67,17 @@
                             class="white--text"
                             :fields="['url', 'artist_name', 'title', 'type', 'size', 'value', 'salePrice', 'rentPrice', 'tags']"
                             :labels="{
-                              url: 'Image',
+                              url: 'Link',
                               artist_name: 'Artist',
                               title: 'Title',
                               type: 'Type',
                               size: 'Size',
-                              value: 'Value',
+                              value: 'Initial Price',
                               salePrice: 'Sale Price',
                               rentPrice: ' Rent Price',
                               tags: 'Tags'
                             }"
-                            :data="JSON.parse(filteredData)"
+                            :data="convertToCSV()"
                             :name="'artworks_table_' + getDateStamp() + '.csv'"
                           >
                             To CSV
@@ -162,6 +167,7 @@ export default {
                                 user_id: artist.user_id,
                                 artist_name: artist.name,
                                 url: resource.secure_url,
+                                thumbnail: resource.secure_url.replace('artventures/image/upload/', 'artventures/image/upload/c_thumb,w_100/'),
                                 title: title,
                                 type: type,
                                 value: value,
@@ -182,12 +188,20 @@ export default {
       fetched: false,
       gallery: [],
       filteredData: '',
-      search: ''
+      search: '',
     }
   },
   methods: {
     filteredTable (value) {
       this.filteredData = JSON.stringify(value);
+    },
+    convertToCSV () {
+      var convertedFilteredData = [];
+      JSON.parse(this.filteredData).forEach((element, i) => {
+        convertedFilteredData.push(element);
+        convertedFilteredData[i].url = "=HYPERLINK(\"" + convertedFilteredData[i].url + "\", \"clickme\")"
+      });
+      return convertedFilteredData;
     },
     getDateStamp () {
       const now = new Date();
