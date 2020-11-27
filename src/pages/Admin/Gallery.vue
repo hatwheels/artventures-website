@@ -214,7 +214,7 @@ export default {
   metaInfo() {
     return {
       titleTemplate: 'Artworks list',
-      meta: [{ name: "description", content: "Landing page" }],
+      meta: [{ name: "description", content: "Admin Application" }],
     };
   },
 }

@@ -52,10 +52,11 @@
                   <v-row class="hidden-sm-and-down pb-12 px-12" justify="start" align="start">
                     <v-col class="pr-6" v-for="(column, j) in columns[i]" :key="'column' + j" cols="4">
                       <v-card class="my-6 text-center" v-for="(artwork, k) in column" :key="'artwork-' + k">
-                        <g-image
+                        <v-img
                           :src="artwork.url"
+                          :lazy-src="artwork.url.replace('artventures/image/upload/', 'artventures/image/upload/c_thumb,w_100/')"
                           :alt="artwork.title || 'Untitled'"
-                          style="width: 100%;"
+                          contain
                         />
                         <div class="d-flex justify-space-between">
                           <div>
@@ -118,11 +119,11 @@
                   <v-row class="hidden-md-and-up px-12" justify="center" align="center">
                     <v-col v-for="(artwork, i ) in artworksInSection" :key="'artwork-mobile-' + i" cols="12">
                       <v-card>
-                        <g-image
+                        <v-img
                           :src="artwork.url"
+                          :lazy-src="artwork.url.replace('artventures/image/upload/', 'artventures/image/upload/c_thumb,w_100/')"
                           :alt="artwork.title || 'Untitled'"
-                          fit="contain"
-                          style="width: 100%"
+                          contain
                         />
                         <div class="d-flex justify-space-between">
                           <div>
@@ -483,12 +484,14 @@
           <v-overlay class="hidden-sm-and-down" :value="overlayDesktop">
             <v-row no-gutters>
               <v-col>
-                <g-image
+                <v-img
                   class="rounded"
                   :src="enlargedImg.url"
+                  :lazy-src="enlargedImg.url.replace('artventures/image/upload/', 'artventures/image/upload/c_thumb,w_100/')"
                   :alt="enlargedImg.title || 'Untitled'"
-                  style="max-height: 98vh; max-width 95vw;"
-                  fit="contain"
+                  max-height="98vh"
+                  max-width="95vw"
+                  contain
                 />
               </v-col>
               <v-col>
@@ -511,11 +514,12 @@
           <!-- Mobile Overlay -->
           <v-dialog class="hidden-md-and-up" v-model="overlayMobile" fullscreen persistent hide-overlay no-click-animation>
             <div style="width: 100vw; height: 100vh">
-              <g-image
+              <v-img
                 class="rounded"
                 :src="enlargedImg.url"
+                :lazy-src="enlargedImg.url.replace('artventures/image/upload/', 'artventures/image/upload/c_thumb,w_100/')"
                 :alt="enlargedImg.title || 'Untitled'"
-                fit="contain"
+                contain
                 @click="enlargedImg.url = ''; enlargedImg.title = ''; overlayMobile = false;"
               />
             </div>

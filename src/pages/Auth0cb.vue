@@ -124,7 +124,7 @@ export default {
     return {
       titleTemplate: this.getLang === 'gr' ? 'Σύνδεση — Artventures' : 'Login — Artventures',
       meta: [
-        { name: 'description', content: 'Landing page' },
+        { name: 'description', content: 'Web Application' },
       ],
     }
   },
