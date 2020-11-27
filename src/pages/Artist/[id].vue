@@ -41,8 +41,8 @@
                   :alt="artwork.title || 'Untitled'"
                   contain
                 />
-                <div class="d-flex justify-space-between">
-                  <div>
+                <v-row justify="space-between">
+                  <v-col>
                     <v-card-title v-if="artwork.title"
                       class="raleway-23-400 text-capitalize font-italic text-start pr-0"
                       v-text="artwork.title" />
@@ -67,8 +67,8 @@
                         </v-col>
                       </v-row>
                     </v-card-text>
-                  </div>
-                  <div class="d-flex flex-column align-end">
+                  </v-col>
+                  <v-col cols="auto" class="d-flex flex-column align-end">
                     <v-card-actions>
                       <v-tooltip top color="black">
                         <template v-slot:activator="{ on, attrs }">
@@ -93,8 +93,8 @@
                         <span>{{ plainText.rentPerMonth[getLang] }}</span>
                       </div>
                     </div>
-                  </div>
-                </div>
+                  </v-col>
+                </v-row>
               </v-card>
             </v-col>
           </v-row>
@@ -135,8 +135,8 @@
                   :alt="artwork.title || 'Untitled'"
                   contain
                 />
-                <div class="d-flex justify-space-between">
-                  <div>
+                <v-row justify="space-between">
+                  <v-col>
                     <v-card-title v-if="artwork.title"
                       class="raleway-16-400 text-capitalize font-italic text-start pr-0"
                       v-text="artwork.title" />
@@ -161,8 +161,8 @@
                         </v-col>
                       </v-row>
                     </v-card-text>
-                  </div>
-                  <div class="d-flex flex-column align-end">
+                  </v-col>
+                  <v-col cols="auto" class="d-flex flex-column align-end">
                     <v-card-actions>
                       <v-tooltip top color="black">
                         <template v-slot:activator="{ on, attrs }">
@@ -186,8 +186,8 @@
                         <span>{{ plainText.rentPerMonth[getLang] }}</span>
                       </div>
                     </div>
-                  </div>
-                </div>
+                  </v-col>
+                </v-row>
               </v-card>
             </v-col>
           </v-row>
