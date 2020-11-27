@@ -119,7 +119,15 @@ export default {
             })
         })
     }
-  }
+  },
+  metaInfo () {
+    return {
+      titleTemplate: this.getLang === 'gr' ? 'Σύνδεση — Artventures' : 'Login — Artventures',
+      meta: [
+        { name: 'description', content: 'Landing page' },
+      ],
+    }
+  },
 }
 </script>
 
