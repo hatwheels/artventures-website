@@ -2,7 +2,7 @@
   <Layout>
     <v-main>
       <!-- OK -->
-      <v-container v-if="state === 0" class="background-color-fafafa" fluid>
+      <v-container v-if="state === 0" class="pa-0 background-color-fafafa" fluid>
         <!-- Desktop -->
         <div class="hidden-sm-and-down py-12 px-12">
           <!-- Info -->
@@ -32,7 +32,7 @@
           >
             {{ plainText.artworks[getLang] }}
           </div>
-          <v-row class="hidden-sm-and-down pb-12 px-12" justify="start" align="start">
+          <v-row class="pb-12 px-12" justify="start" align="start">
             <v-col class="pr-6" v-for="(column, j) in artist.columns" :key="'column' + j" cols="4">
               <v-card class="my-6 text-center" v-for="(artwork, i) in column" :key="'artwork-' + i">
                 <v-img
@@ -44,9 +44,9 @@
                 <div class="d-flex justify-space-between">
                   <div>
                     <v-card-title v-if="artwork.title"
-                      class="raleway-23-400 text-capitalize font-italic text-start"
+                      class="raleway-23-400 text-capitalize font-italic text-start pr-0"
                       v-text="artwork.title" />
-                    <v-card-text class="raleway-18-400 text-start">
+                    <v-card-text class="raleway-18-400 text-start pr-0">
                       <div v-if="artwork.type" class="text-capitalize">{{ artwork.type[getLang] }}
                         <span v-if="artwork.size" class="text-lowercase"> - {{ artwork.size }}</span>
                       </div>
@@ -85,9 +85,9 @@
                         <span>{{ plainText.artworkZoom[getLang] }}</span>
                       </v-tooltip>
                     </v-card-actions>
-                    <div class="pb-2 px-4 text-end">
+                    <div class="pb-2 pr-4 text-end">
                       <div class="raleway-23-400" v-if="artwork.salePrice">{{ artwork.salePrice }}€</div>
-                      <div class="raleway-21-400" v-if="artwork.rentPrice">
+                      <div class="raleway-18-400" v-if="artwork.rentPrice">
                         <span class="pr-1">{{ plainText.rentFor[getLang] }}</span>
                         {{ artwork.rentPrice }}
                         <span>{{ plainText.rentPerMonth[getLang] }}</span>
@@ -118,12 +118,16 @@
           </v-row>
           <!-- Artworks -->
           <div
-            class="px-12 py-6 text-center playfair-38-700"
+            class="py-6 text-center playfair-38-700"
           >
             {{ plainText.artworks[getLang] }}
           </div>
-          <v-row class="hidden-md-and-up px-12" justify="center" align="center">
-            <v-col v-for="(artwork, i ) in artist.gallery" :key="'artwork-mobile-' + i" cols="12">
+          <v-row
+            class="px-6"
+            v-for="(artwork, i ) in artist.gallery" :key="'artwork-mobile-' + i"
+            justify="center" align="center"
+          >
+            <v-col cols="12">
               <v-card>
                 <v-img
                   :src="artwork.url"
@@ -134,9 +138,9 @@
                 <div class="d-flex justify-space-between">
                   <div>
                     <v-card-title v-if="artwork.title"
-                      class="raleway-16-400 text-capitalize font-italic text-start"
+                      class="raleway-16-400 text-capitalize font-italic text-start pr-0"
                       v-text="artwork.title" />
-                    <v-card-text class="raleway-13-400 text-start">
+                    <v-card-text class="raleway-12-400 text-start pr-0">
                       <div v-if="artwork.type" class="text-capitalize">{{ artwork.type[getLang] }}
                         <span v-if="artwork.size" class="text-lowercase"> - {{ artwork.size }}</span>
                       </div>
@@ -174,9 +178,9 @@
                         <span>{{ plainText.artworkZoom[getLang] }}</span>
                       </v-tooltip>
                     </v-card-actions>
-                    <div class="pb-2 px-4 text-end">
+                    <div class="pb-2 pr-4 text-end">
                       <div class="raleway-16-400" v-if="artwork.salePrice">{{ artwork.salePrice }}€</div>
-                      <div class="raleway-14-400" v-if="artwork.rentPrice">
+                      <div class="raleway-12-400" v-if="artwork.rentPrice">
                         <span class="pr-1">{{ plainText.rentFor[getLang] }}</span>
                         {{ artwork.rentPrice }}
                         <span>{{ plainText.rentPerMonth[getLang] }}</span>
@@ -320,12 +324,12 @@ export default {
           }
         },
         rentFor: {
-          gr: 'Ενοικιάστε με',
-          en: 'Rent for'
+          gr: 'Ενοικίαση',
+          en: 'Rent'
         },
         rentPerMonth: {
-          gr: '€/μή',
-          en: '€/mo'
+          gr: '€/μ',
+          en: '€/m'
         },
         close: {
           gr: 'Κλείσιμο',

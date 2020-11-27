@@ -23,11 +23,12 @@
                   :loading="!fetched"
                   @current-items="filteredTable"
                   loading-text="Loading... Please wait"
-                  sort-by="artist_name"
+                  sort-by="last_name"
                   :headers="[
                       { text: 'Link', value: 'url', sortable: false, filterable: false },
                       { text: 'Thumbnail', value: 'thumbnail', sortable: false, filterable: false },
-                      { text: 'Artist', value: 'artist_name'},
+                      { text: 'Last Name', value: 'last_name'},
+                      { text: 'First Name', value: 'first_name'},
                       { text: 'Title', value: 'title' },
                       { text: 'Type', value: 'type' },
                       { text: 'Size', value: 'size' },
@@ -65,10 +66,11 @@
                             style="width: 100%; height: 100%"
                             :class="$vuetify.breakpoint.mobile ? 'raleway-13-600' : 'raleway-16-600'"
                             class="white--text"
-                            :fields="['url', 'artist_name', 'title', 'type', 'size', 'value', 'salePrice', 'rentPrice', 'tags']"
+                            :fields="['url', 'last_name', 'first_name', 'title', 'type', 'size', 'value', 'salePrice', 'rentPrice', 'tags']"
                             :labels="{
                               url: 'Link',
-                              artist_name: 'Artist',
+                              last_name: 'Last Name',
+                              first_name: 'First Name',
                               title: 'Title',
                               type: 'Type',
                               size: 'Size',
@@ -163,9 +165,22 @@ export default {
                                   }
                                 }
                               }
+                              var firstName = '';
+                              var lastName = '';
+                              if (artist.hasOwnProperty("given_name")) {
+                                firstName = artist.given_name;
+                              } else {
+                                firstName = artist.name.split(" ")[0];
+                              }
+                              if (artist.hasOwnProperty("family_name")) {
+                                lastName = artist.family_name;
+                              } else {
+                                lastName = artist.name.split(" ")[1];
+                              }
                               this.gallery.push({
                                 user_id: artist.user_id,
-                                artist_name: artist.name,
+                                first_name: firstName,
+                                last_name: lastName,
                                 url: resource.secure_url,
                                 thumbnail: resource.secure_url.replace('artventures/image/upload/', 'artventures/image/upload/c_thumb,w_100/'),
                                 title: title,

@@ -494,6 +494,11 @@ export default {
   font-weight: 400 !important;
 }
 /* Raleway */
+.raleway-12-400 {
+  font-family: 'Raleway', sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+}
 .raleway-13-400 {
   font-family: 'Raleway', sans-serif !important;
   font-size: 13px !important;
@@ -535,11 +540,6 @@ export default {
   font-size: 18px !important;
   font-weight: 600 !important;
 }
-.raleway-21-400 {
-  font-family: 'Raleway', sans-serif !important;
-  font-size: 21px !important;
-  font-weight: 400 !important;
-}
 .raleway-23-400 {
   font-family: 'Raleway', sans-serif !important;
   font-size: 23px !important;
@@ -579,6 +579,10 @@ export default {
 }
 .cookie__bar__buttons__button--decline {
   background: #525252 !important;
+}
+.v-card__text, .v-card__title {
+  word-break: normal; /* maybe !important  */
+  line-height: 1.1;
 }
 </style>
 

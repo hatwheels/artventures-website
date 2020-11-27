@@ -61,9 +61,9 @@
                         <div class="d-flex justify-space-between">
                           <div>
                             <v-card-title v-if="artwork.title"
-                              class="raleway-23-400 text-capitalize font-italic text-start"
+                              class="raleway-23-400 text-capitalize font-italic text-start pr-0"
                               v-text="artwork.title" />
-                            <v-card-text class="raleway-18-400 text-start">
+                            <v-card-text class="raleway-18-400 text-start pr-0">
                               <div v-if="artwork.type" class="text-capitalize">{{ artwork.type[getLang] }}
                                 <span v-if="artwork.size" class="text-lowercase"> - {{ artwork.size }}</span>
                               </div>
@@ -102,9 +102,9 @@
                                 <span>{{ plainText.artworkZoom[getLang] }}</span>
                               </v-tooltip>
                             </v-card-actions>
-                            <div class="pb-2 px-4 text-end">
+                            <div class="pb-2 pr-4 text-end">
                               <div class="raleway-23-400" v-if="artwork.salePrice">{{ artwork.salePrice }}€</div>
-                              <div class="raleway-21-400" v-if="artwork.rentPrice">
+                              <div class="raleway-18-400" v-if="artwork.rentPrice">
                                 <span class="pr-1">{{ plainText.rentFor[getLang] }}</span>
                                 {{ artwork.rentPrice }}
                                 <span>{{ plainText.rentPerMonth[getLang] }}</span>
@@ -128,9 +128,9 @@
                         <div class="d-flex justify-space-between">
                           <div>
                             <v-card-title v-if="artwork.title"
-                              class="raleway-16-400 text-capitalize font-italic text-start"
+                              class="raleway-16-400 text-capitalize font-italic text-start pr-0"
                               v-text="artwork.title" />
-                            <v-card-text class="raleway-13-400 text-start">
+                            <v-card-text class="raleway-13-400 text-start pr-0">
                               <div v-if="artwork.type" class="text-capitalize">{{ artwork.type[getLang] }}
                                 <span v-if="artwork.size" class="text-lowercase"> - {{ artwork.size }}</span>
                               </div>
@@ -168,9 +168,9 @@
                                 <span>{{ plainText.artworkZoom[getLang] }}</span>
                               </v-tooltip>
                             </v-card-actions>
-                            <div class="pb-2 px-4 text-end">
+                            <div class="pb-2 pr-4 text-end">
                               <div class="raleway-16-400" v-if="artwork.salePrice">{{ artwork.salePrice }}€</div>
-                              <div class="raleway-14-400" v-if="artwork.rentPrice">
+                              <div class="raleway-12-400" v-if="artwork.rentPrice">
                                 <span class="pr-1">{{ plainText.rentFor[getLang] }}</span>
                                 {{ artwork.rentPrice }}
                                 <span>{{ plainText.rentPerMonth[getLang] }}</span>
@@ -790,12 +790,12 @@ export default {
           }
         },
         rentFor: {
-          gr: 'Ενοικιάστε με',
-          en: 'Rent for'
+          gr: 'Ενοικίαση',
+          en: 'Rent'
         },
         rentPerMonth: {
-          gr: '€/μή',
-          en: '€/mo'
+          gr: '€/μ',
+          en: '€/m'
         },
         close: {
           gr: 'Κλείσιμο',
