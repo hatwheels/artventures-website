@@ -31,11 +31,11 @@
                       { text: 'First Name', value: 'first_name'},
                       { text: 'Title', value: 'title' },
                       { text: 'Type', value: 'type' },
+                      { text: 'Medium', value: 'tags' },
                       { text: 'Size', value: 'size' },
-                      { text: 'Initial Price', value: 'value' },
+                      { text: 'Artist\'s Price', value: 'value' },
                       { text: 'Sale Price', value: 'salePrice' },
                       { text: 'Rent Price', value: 'rentPrice' },
-                      { text: 'Tags', value: 'tags' },
                     ]"
                     :items="gallery"
                     :search="search"
@@ -66,18 +66,18 @@
                             style="width: 100%; height: 100%"
                             :class="$vuetify.breakpoint.mobile ? 'raleway-13-600' : 'raleway-16-600'"
                             class="white--text"
-                            :fields="['url', 'last_name', 'first_name', 'title', 'type', 'size', 'value', 'salePrice', 'rentPrice', 'tags']"
+                            :fields="['url', 'last_name', 'first_name', 'title', 'type', 'tags', 'size', 'value', 'salePrice', 'rentPrice']"
                             :labels="{
                               url: 'Link',
                               last_name: 'Last Name',
                               first_name: 'First Name',
                               title: 'Title',
                               type: 'Type',
+                              tags: 'Medium',
                               size: 'Size',
-                              value: 'Initial Price',
+                              value: 'Artist\'s Price',
                               salePrice: 'Sale Price',
                               rentPrice: ' Rent Price',
-                              tags: 'Tags'
                             }"
                             :data="convertToCSV()"
                             :name="'artworks_table_' + getDateStamp() + '.csv'"
@@ -177,19 +177,24 @@ export default {
                               } else {
                                 lastName = artist.name.split(" ")[1];
                               }
+                              var tagsStr = ''
+                              tags.forEach(element => {
+                                tagsStr += element +', ';
+                              });
+                              tagsStr.slice(0, -2);
                               this.gallery.push({
                                 user_id: artist.user_id,
                                 first_name: firstName,
                                 last_name: lastName,
                                 url: resource.secure_url,
                                 thumbnail: resource.secure_url.replace('artventures/image/upload/', 'artventures/image/upload/c_thumb,w_100/'),
-                                title: title,
-                                type: type,
+                                title: title.replace(/(^\w{1})|(\s+\w{1})/g, match => match.toUpperCase()),
+                                type: type.replace(/(^\w{1})|(\s+\w{1})/g, match => match.toUpperCase()),
                                 value: value,
                                 salePrice: salePrice,
                                 rentPrice: rentPrice,
                                 size: size,
-                                tags: tags
+                                tags: tagsStr.replace(/(^\w{1})|(\s+\w{1})/g, match => match.toUpperCase())
                               });
                             });
                         }

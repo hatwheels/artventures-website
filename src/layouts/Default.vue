@@ -850,7 +850,7 @@ export default {
 .cookie__bar__buttons__button--decline {
   background: #525252 !important;
 }
-.v-card__text, .v-card__title {
+.v-card__text, .v-card__title, .v-card__subtitle {
   word-break: normal; /* maybe !important  */
   line-height: 1.1;
 }
