@@ -35,13 +35,13 @@ exports.handler = (event, context) => {
                 body: 'message parameter required'
             }
         }
-        var to = ['pdemertzis@gmail.com', 'kmarko1385@gmail.com', 'mail@artventures.me'];
+        var to = ['mail@artventures.me', 'pdemertzis@gmail.com', 'kmarko1385@gmail.com'];
         if (data.hasOwnProperty('to') && data.to === 'all') {
             to.push('smakrigiorgou@gmail.com');
         }
 
         let content = {
-            from: 'Petros Demertzis <pdemertzis@gmail.com>',
+            from: 'Artventures <mail@artventures.me>',
             to: to,
             subject: data.subject,
             text: 'Firstname: ' + data.firstname + '\nLast Name: ' + data.lastname + '\nEmail: ' + data.email + '\n\n' + data.message,

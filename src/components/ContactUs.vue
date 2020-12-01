@@ -317,7 +317,8 @@ export default {
                       firstname: this.name,
                       lastname: this.lastName,
                       subject: this.subject,
-                      message: this.message
+                      message: this.message,
+                      to: 'all'
                     }); // send to us message from user
                     this.clearFields()
                     this.setAlert('success')
@@ -350,7 +351,8 @@ export default {
                     firstname: this.name,
                     lastname: this.lastName,
                     subject: this.subject,
-                    message: this.message
+                    message: this.message,
+                    to: 'all'
                   }); // send to us message from user
                   this.clearFields()
                   this.setAlert('success')
