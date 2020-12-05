@@ -249,42 +249,45 @@ let auth = new Vue({
                 ).then(res => {
                     // success
                     if (200 === res.status) {
-                        const data = res.data
+                        const data = res.data;
                         let user = this.user;
                         if (data.hasOwnProperty('given_name')) {
-                            user.given_name = data.given_name
+                            user.given_name = data.given_name;
                         }
                         if (data.hasOwnProperty('family_name')) {
-                            user.family_name = data.family_name
+                            user.family_name = data.family_name;
                         }
                         if (data.hasOwnProperty('name')) {
-                            user.name = data.name
+                            user.name = data.name;
                         }
                         if (data.hasOwnProperty('nickname')) {
-                            user.nickname = data.nickname
+                            user.nickname = data.nickname;
                         }
                         if (data.hasOwnProperty('email')) {
-                            user.email = data.email
+                            user.email = data.email;
                         }
                         if (data.hasOwnProperty('email_verified')) {
-                            user.email_verified = data.email_verified
+                            user.email_verified = data.email_verified;
                         }
                         if (data.hasOwnProperty('verify_email')) {
-                            user.verify_email = data.verify_email
+                            user.verify_email = data.verify_email;
                         }
                         if (data.hasOwnProperty('picture')) {
-                            user.picture = data.picture
+                            user.picture = data.picture;
                         }
                         if (data.hasOwnProperty('user_metadata')) {
                             this.user_metadata = data.user_metadata
                             if (data.user_metadata.hasOwnProperty('bio')) {
-                                this.user_metadata.bio = data.user_metadata.bio
+                                this.user_metadata.bio = data.user_metadata.bio;
+                            }
+                            if (data.user_metadata.hasOwnProperty('acceptedTerms')) {
+                                this.user_metadata.acceptedTerms = data.user_metadata.acceptedTerms;
                             }
                         }
                         this.user = user;
-                        resolve()
+                        resolve();
                     } else {
-                        reject(res.status)
+                        reject(res.status);
                     }
                 }).catch(err => reject(err))
             })

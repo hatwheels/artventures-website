@@ -191,7 +191,7 @@
             class="pt-12 my-0 mx-1 text-center"
             v-html="getLang === 'gr' ? 'Υπόβαλε Εργο Τέχνης' : 'Submit Artwork'"
           />
-          <v-form class="pt-8 pb-12" lazy-validation @submit.prevent="submit()">
+          <v-form v-if="termsAccepted" class="pt-8 pb-12" lazy-validation @submit.prevent="submit()">
             <v-row justify="space-around" align="start">
               <v-col cols="10" md="5">
                 <label
@@ -433,6 +433,15 @@
               </v-btn>
             </v-row>
           </v-form>
+          <v-row v-if="!termsAccepted" class="pt-8" justify="center" align="center">
+            <v-btn
+              class="white--text text-capitalize"
+              :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
+              color="#333333" @click="termsDialog = true;"
+            >
+              {{ acceptTerms[getLang] }}
+            </v-btn>
+          </v-row>
           <v-row class="pt-12" justify="center" align="center">
             <v-col class="text-center" cols="7" md="2">
               <g-link
@@ -455,6 +464,16 @@
               </g-link>
             </v-col>
           </v-row>
+
+          <!-- Terms Dialog -->
+          <terms-dialog
+            v-if="termsDialog"
+            :toggle="termsDialog"
+            :width="$vuetify.breakpoint.mobile ? '100vw' : '80vw'"
+            @update-toggle="onUpdateToggle"
+            @accept-terms="onAcceptTerms"
+          />
+
           <!-- Dialog -->
           <v-dialog v-model="dialogPortfolio.toggle" persistent max-width="290" overlay-color="transparent">
             <v-card>
@@ -534,6 +553,7 @@
 import { mapGetters } from "vuex";
 import { validationMixin } from "vuelidate";
 import { required, numeric, maxLength, minLength } from "vuelidate/lib/validators";
+import TermsDialog from '../../components/TermsDialog.vue';
 
 const touchMap = new WeakMap();
 const alphaNumPlus = (value) => /^[a-zA-Z0-9- ]*$/.test(value)
@@ -541,7 +561,8 @@ let timeoutSize = null;
 
 export default {
   components: {
-    ScrollToTop: () => import("~/components/ScrollToTop.vue")
+    ScrollToTop: () => import("~/components/ScrollToTop.vue"),
+    TermsDialog: () => import("~/components/TermsDialog.vue")
   },
   mixins: [validationMixin],
   validations: {
@@ -575,9 +596,25 @@ export default {
   mounted () {
     this.plainText.maxArtworks.gr = 'Έχετε φτάσει το όριο των ' + this.maxImageCount + '  έργων τέχνης';
     this.plainText.maxArtworks.en = 'You have reached the limit of ' + this.maxImageCount + ' artworks';
+    // Has user accepted terms?
+    if (!this.$auth.hasOwnProperty('user_metadata') || !this.$auth.user_metadata.hasOwnProperty('acceptedTerms')
+        || !this.$auth.user_metadata.acceptedTerms) {
+      // accepted (user metadata) key does not exist or is false
+      this.termsDialog = true;
+      this.termsAccepted = false;
+    } else {
+      this.termsDialog = false;
+      this.termsAccepted = true;
+    }
   },
   data () {
     return {
+      termsDialog: false,
+      termsAccepted: false,
+      acceptTerms: {
+        gr: 'Αποδοχη των Ορων ...',
+        en: 'Accept Terms ...'
+      },
       overlayDesktop: false,
       overlayMobile: false,
       enlargedImg: {
@@ -856,6 +893,12 @@ export default {
     },
   },
   methods: {
+    onUpdateToggle(val) {
+      this.termsDialog = val;
+    },
+    onAcceptTerms(val) {
+      this.termsAccepted = val;
+    },
     calcSalePrice (value /* Integer */) {
       return Math.round(value * 1.8181);
     },
