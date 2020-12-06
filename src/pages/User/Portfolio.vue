@@ -649,6 +649,8 @@ export default {
       this.termsDialog = false;
       this.termsAccepted = true;
     }
+    this.watermarkConfig.fillStyle = this.watermarkColor;
+    this.watermarkConfig.content = this.$auth.user.name;
   },
   data () {
     return {
@@ -852,10 +854,10 @@ export default {
       salePrice: null,
       rentPrice: null,
       watermark: false,
-      watermarkColor: '#999999',
+      watermarkColor: '#FFFFFF',
       watermarkConfig: {
         content: '',
-        fillStyle: 'white'
+        fillStyle: ''
       },
 
       imageToUploadBase64: null,
