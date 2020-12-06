@@ -367,7 +367,40 @@
                   color="#1A1A1A"
                   prefix="€"
                 ></v-text-field>
-                <v-row class="pt-2" justify="center" align="center">
+                <label
+                  :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
+                  class="color-1a1a1a"
+                  v-html="artworkForm.watermark.title[getLang]"
+                />
+                <v-row class="pt-1" justify="center" align="start">
+                  <v-col>
+                    <div :class="getLang === 'gr' ? 'noto-14-600' : 'raleway-14-600'">
+                      {{ artworkForm.watermark.enable[getLang] }}
+                    </div>
+                    <v-checkbox
+                      v-model="watermark"
+                      :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
+                      :label="getLang === 'gr' ? 'Ναι': 'Yes'"
+                      color="black"
+                      hide-details
+                    ></v-checkbox>
+                  </v-col>
+                  <v-col>
+                    <div :class="getLang === 'gr' ? 'noto-14-600' : 'raleway-14-600'">
+                      {{ artworkForm.watermark.color[getLang] }}
+                    </div>
+                    <v-color-picker
+                      v-model="watermarkColor"
+                      @update:color="updateColor"
+                      dot-size="25"
+                      hide-inputs
+                      hide-mode-switch
+                      mode="rgba"
+                      swatches-max-height="200"
+                    ></v-color-picker>
+                  </v-col>
+                </v-row>
+                <v-row class="pt-4" justify="center" align="center">
                   <label
                     class="raleway-16-400 px-2 py-2 rounded"
                     for="fileInput"
@@ -395,16 +428,19 @@
             </v-row>
             <v-row class="py-4" justify="center" align="center">
               <v-col offset="1" offset-md="3" cols="10" md="6">
-              <g-image v-if="imageToUploadBase64" :src="imageToUploadBase64" style="width: 100%" alt="to-upload" />
-              <div v-else v-show="showImageLoader" class="text-center">
-                <v-progress-circular
-                  class="py-12 my-12"
-                  :size="70"
-                  :width="7"
-                  color="black"
-                  indeterminate
-                ></v-progress-circular>
-              </div>
+                <div v-if="imageToUploadBase64">
+                  <g-image v-if="watermark" v-watermark="watermarkConfig" :src="imageToUploadBase64" style="width: 100%" alt="to-upload" />
+                  <g-image v-show="!watermark" :src="imageToUploadBase64" style="width: 100%" alt="to-upload" />
+                </div>
+                <div v-else v-show="showImageLoader" class="text-center">
+                  <v-progress-circular
+                    class="py-12 my-12"
+                    :size="70"
+                    :width="7"
+                    color="black"
+                    indeterminate
+                  ></v-progress-circular>
+                </div>
               </v-col>
               <v-col />
             </v-row>
@@ -726,6 +762,20 @@ export default {
           gr: "Επέλεξε Εργο Τέχνης...",
           en: "Choose Artwork..."
         },
+        watermark: {
+          title: {
+            gr: 'Υδατόσημο',
+            en: 'Watermark'
+          },
+          enable: {
+            gr: 'Για λόγους πνευματικών δικαιωμάτων, πρόσθεστε υδατόσημο με το όνομα σας.',
+            en: 'For copyright, you can add a watermark with your name.'
+          },
+          color: {
+            gr: 'Χρώμα υδατόσημου',
+            en: 'Watermark color'
+          }
+        },
         submit: {
           gr: 'Υποβολή',
           en: 'Submit'
@@ -791,9 +841,19 @@ export default {
       width: null,
       depth: null,
       tags: null,
+      value: null,
       salePrice: null,
       rentPrice: null,
-      value: null,
+      watermark: false,
+      watermarkColor: '#999999',
+      watermarkConfig: {
+        mode: "bottomleft",
+        textBaseline: "middle",
+        font: "8px Roboto",
+        content: this.$auth.user.name,
+        rotate: 30,
+        fillStyle: 'white'
+      },
 
       imageToUploadBase64: null,
       currentImageCount: 0,
@@ -893,6 +953,13 @@ export default {
     },
   },
   methods: {
+    async updateColor(c) {
+      var currentWatermark = this.watermark;
+      this.watermark = false;
+      this.watermarkConfig.fillStyle = c.hex;
+      await this.$nextTick();
+      this.watermark = currentWatermark;
+    },
     onUpdateToggle(val) {
       this.termsDialog = val;
     },
@@ -1103,8 +1170,16 @@ export default {
               })
               tagsConcatStr = tagsConcatStr.slice(0, -1);
             }
+            // watermark
+            var watermarkObj = null;
+            if (this.watermark) {
+              watermarkObj = {
+                color: this.watermarkConfig.fillStyle,
+                text: this.watermarkConfig.content
+              }
+            }
 
-            this.$imgdb.uploadArtwork(this.$auth.user.sub, this.imageToUploadBase64, context, tagsConcatStr)
+            this.$imgdb.uploadArtwork(this.$auth.user.sub, this.imageToUploadBase64, context, tagsConcatStr, watermarkObj)
             .then(async (response) => {
               const contextObj = response.context.hasOwnProperty("custom") ? response.context.custom : response.context;
               var size = '';
@@ -1164,6 +1239,7 @@ export default {
               this.unit = this.width = this.height = this.depth = null;
               this.tags = null;
               this.value = this.salePrice = this.rentPrice = null;
+              this.watermark = false;
               this.imageToUploadBase64 = null;
               this.dialogPortfolio.text.en = "Your Artwork has been successfully uploaded. Please wait for our approval.";
               this.dialogPortfolio.text.gr = "το Έργο σας στάλθηκε επιτυχώς. Παρακαλώ περιμένετε για την έγκριση μας";
@@ -1177,6 +1253,7 @@ export default {
               this.unit = this.width = this.height = this.depth = null;
               this.tags = null;
               this.value = this.salePrice = this.rentPrice = null;
+              this.watermark = false;
               this.imageToUploadBase64 = null
               this.dialogPortfolio.text.en = "Unfortunately an error occured. Please try again later."
               this.dialogPortfolio.text.gr = "Δυστυχώς κάποιο σφάλμα προέκυψε. Παρακαλώ δοκιμάστε ξανά αργότερα."
@@ -1189,6 +1266,7 @@ export default {
             this.unit = this.width = this.height = this.depth = null;
             this.tags = null;
             this.value = this.salePrice = this.rentPrice = null;
+            this.watermark = false;
             this.imageToUploadBase64 = null
             this.dialogPortfolio.text.en = "Unfortunately an error occured. Please try again later."
             this.dialogPortfolio.text.gr = "Δυστυχώς κάποιο σφάλμα προέκυψε. Παρακαλώ δοκιμάστε ξανά αργότερα."
@@ -1201,6 +1279,7 @@ export default {
           this.unit = this.width = this.height = this.depth = null;
           this.tags = null;
           this.value = this.salePrice = this.rentPrice = null;
+          this.watermark = false;
           this.imageToUploadBase64 = null
         }
         this.$v.$reset();

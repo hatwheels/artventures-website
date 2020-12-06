@@ -1172,6 +1172,18 @@
     "@nodelib/fs.scandir" "2.1.3"
     fastq "^1.6.0"
 
+"@serializedowen/vue-img-watermark@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@serializedowen/vue-img-watermark/-/vue-img-watermark-0.1.0.tgz#888357efcf2901b30c89d4adda25d866f558d4d0"
+  integrity sha512-pbzOqSiHlGI0/fF1mjGBE51kugwsR9YjEwNl2JGOfDkcoM4sndBfqp6ZWLzloadhubtuodBP18N4011VJa/beg==
+
+"@serializedowen/vue-img-watermark@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@serializedowen/vue-img-watermark/-/vue-img-watermark-1.1.0.tgz#53544fea8c973591591189f32a284622ca7d70b4"
+  integrity sha512-xtvY8vyDYtt0W4m3MOFrkqZNUwrHRxLFyRDGNGvJ2HI5jsnS61L/8CWnyQmjwAnni7afammEGRQCYcR5hglu4A==
+  dependencies:
+    "@serializedowen/vue-img-watermark" "^0.1.0"
+
 "@sindresorhus/is@^0.14.0":
   version "0.14.0"
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.14.0.tgz#9fb3a3cf3132328151f353de4632e01e52102bea"
