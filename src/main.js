@@ -13,7 +13,6 @@ import Vuex from 'vuex'
 const VueCookieAcceptDecline = require('vue-cookie-accept-decline');
 import 'vue-cookie-accept-decline/dist/vue-cookie-accept-decline.css'
 import VueWaypoint from "vue-waypoint"
-import VueImgWatermark from '@serializedowen/vue-img-watermark'
 // Plugins
 import AuthPlugin from './plugins/auth'
 import DbPlugin from './plugins/db'
@@ -150,7 +149,6 @@ export default function (Vue, { appOptions, router, head, isClient }) {
   if (isClient) {
     const ImageUploader = require("vue-image-upload-resize");
     Vue.use(ImageUploader);
-    Vue.use(VueImgWatermark);
   }
 
   // Register plugins
