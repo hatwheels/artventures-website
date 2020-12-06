@@ -150,8 +150,8 @@ export default function (Vue, { appOptions, router, head, isClient }) {
   if (isClient) {
     const ImageUploader = require("vue-image-upload-resize");
     Vue.use(ImageUploader);
+    Vue.use(VueImgWatermark);
   }
-  Vue.use(VueImgWatermark);
 
   // Register plugins
   Vue.use(AuthPlugin);
