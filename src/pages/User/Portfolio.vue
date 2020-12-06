@@ -429,7 +429,9 @@
             <v-row class="py-4" justify="center" align="center">
               <v-col offset="1" offset-md="3" cols="10" md="6">
                 <div v-if="imageToUploadBase64">
-                  <g-image v-if="watermark" v-watermark="watermarkConfig" :src="imageToUploadBase64" style="width: 100%" alt="to-upload" />
+                  <ClientOnly>
+                    <g-image v-if="watermark" v-watermark="watermarkConfig" :src="imageToUploadBase64" style="width: 100%" alt="to-upload" />
+                  </ClientOnly>
                   <g-image v-show="!watermark" :src="imageToUploadBase64" style="width: 100%" alt="to-upload" />
                 </div>
                 <div v-else v-show="showImageLoader" class="text-center">
