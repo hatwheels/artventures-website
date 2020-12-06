@@ -854,7 +854,7 @@ export default {
       watermark: false,
       watermarkColor: '#999999',
       watermarkConfig: {
-        content: this.$auth.user.name,
+        content: '',
         fillStyle: 'white'
       },
 
@@ -957,6 +957,7 @@ export default {
   },
   methods: {
     updateColor(c) {
+      this.watermarkConfig.content = this.$auth.user.name;
       this.watermarkConfig.fillStyle = c.hex;
     },
     onUpdateToggle(val) {
