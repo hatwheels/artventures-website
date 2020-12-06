@@ -429,10 +429,15 @@
             <v-row class="py-4" justify="center" align="center">
               <v-col offset="1" offset-md="3" cols="10" md="6">
                 <div v-if="imageToUploadBase64">
-                  <ClientOnly>
-                    <g-image v-if="watermark" v-watermark="watermarkConfig" :src="imageToUploadBase64" style="width: 100%" alt="to-upload" />
-                  </ClientOnly>
                   <g-image v-show="!watermark" :src="imageToUploadBase64" style="width: 100%" alt="to-upload" />
+                  <v-img v-show="watermark" :src="imageToUploadBase64" alt="to-upload">
+                    <div
+                      style="position: absolute; bottom: 5px; left: 5px; font-size: 8px !important;"
+                      :style="'color: ' + this.watermarkConfig.fillStyle"
+                    >
+                      {{ watermarkConfig.content }}
+                    </div>
+                  </v-img>
                 </div>
                 <div v-else v-show="showImageLoader" class="text-center">
                   <v-progress-circular
@@ -482,7 +487,7 @@
           </v-row>
           <v-row class="pt-12" justify="center" align="center">
             <v-col class="text-center" cols="7" md="2">
-              <!-- <g-link
+              <g-link
                 :class="getLang === 'gr' ? 'noto-18-600' : 'raleway-18-600'"
                 style="color: #1A1A1A;"
                 to="/terms/artists/contract"
@@ -499,7 +504,7 @@
                 target="_blank"
               >
                 {{ terms.submission[getLang] }}
-              </g-link> -->
+              </g-link>
             </v-col>
           </v-row>
 
@@ -849,11 +854,7 @@ export default {
       watermark: false,
       watermarkColor: '#999999',
       watermarkConfig: {
-        mode: "bottomleft",
-        textBaseline: "middle",
-        font: "8px Roboto",
         content: this.$auth.user.name,
-        rotate: 30,
         fillStyle: 'white'
       },
 
@@ -955,12 +956,8 @@ export default {
     },
   },
   methods: {
-    async updateColor(c) {
-      var currentWatermark = this.watermark;
-      this.watermark = false;
+    updateColor(c) {
       this.watermarkConfig.fillStyle = c.hex;
-      await this.$nextTick();
-      this.watermark = currentWatermark;
     },
     onUpdateToggle(val) {
       this.termsDialog = val;
