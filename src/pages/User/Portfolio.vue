@@ -54,10 +54,22 @@
                       <v-card class="my-6 text-center" v-for="(artwork, k) in column" :key="'artwork-' + k">
                         <v-img
                           :src="artwork.url"
-                          :lazy-src="artwork.url.replace('artventures/image/upload/', 'artventures/image/upload/c_thumb,w_100/')"
                           :alt="artwork.title || 'Untitled'"
-                          contain
-                        />
+                          min-height="30vh"
+                        >
+                        <template v-slot:placeholder>
+                          <v-row
+                            class="fill-height ma-0"
+                            align="center"
+                            justify="center"
+                          >
+                            <v-progress-circular
+                              indeterminate
+                              color="black"
+                            ></v-progress-circular>
+                          </v-row>
+                        </template>
+                        </v-img>
                         <v-row justify="space-between">
                           <v-col>
                             <v-card-title v-if="artwork.title"
@@ -116,15 +128,27 @@
                     </v-col>
                   </v-row>
                   <!-- Mobile -->
-                  <v-row class="hidden-md-and-up px-12" justify="center" align="center">
+                  <v-row class="hidden-md-and-up" justify="center" align="center">
                     <v-col v-for="(artwork, i ) in artworksInSection" :key="'artwork-mobile-' + i" cols="12">
                       <v-card>
                         <v-img
                           :src="artwork.url"
-                          :lazy-src="artwork.url.replace('artventures/image/upload/', 'artventures/image/upload/c_thumb,w_100/')"
                           :alt="artwork.title || 'Untitled'"
-                          contain
-                        />
+                          min-height="50vh"
+                        >
+                        <template v-slot:placeholder>
+                          <v-row
+                            class="fill-height ma-0"
+                            align="center"
+                            justify="center"
+                          >
+                            <v-progress-circular
+                              indeterminate
+                              color="black"
+                            ></v-progress-circular>
+                          </v-row>
+                        </template>
+                        </v-img>
                         <div class="d-flex justify-space-between">
                           <div>
                             <v-card-title v-if="artwork.title"
@@ -575,16 +599,16 @@
           </v-overlay>
           <!-- Mobile Overlay -->
           <v-dialog class="hidden-md-and-up" v-model="overlayMobile" fullscreen persistent hide-overlay no-click-animation>
-            <div style="width: 100vw; height: 100vh">
-              <v-img
-                class="rounded"
-                :src="enlargedImg.url"
-                :lazy-src="enlargedImg.url.replace('artventures/image/upload/', 'artventures/image/upload/c_thumb,w_100/')"
-                :alt="enlargedImg.title || 'Untitled'"
-                contain
-                @click="enlargedImg.url = ''; enlargedImg.title = ''; overlayMobile = false;"
-              />
-            </div>
+            <v-img
+              class="rounded"
+              :src="enlargedImg.url"
+              :lazy-src="enlargedImg.url.replace('artventures/image/upload/', 'artventures/image/upload/c_thumb,w_100/')"
+              :alt="enlargedImg.title || 'Untitled'"
+              width="100vw"
+              height="100vh"
+              contain
+              @click="enlargedImg.url = ''; enlargedImg.title = ''; overlayMobile = false;"
+            />
           </v-dialog>
 
         </v-container>
@@ -596,7 +620,6 @@
 import { mapGetters } from "vuex";
 import { validationMixin } from "vuelidate";
 import { required, numeric, maxLength, minLength } from "vuelidate/lib/validators";
-import TermsDialog from '../../components/TermsDialog.vue';
 
 const touchMap = new WeakMap();
 const alphaNumPlus = (value) => /^[a-zA-Z0-9- ]*$/.test(value)
@@ -688,12 +711,17 @@ export default {
           {
             gr: 'Μη Εγκεκριμενα',
             en: 'Rejected'
+          },
+          {
+            gr: "Παγωμενα",
+            en: "Frozen"
           }
         ],
         state: [
           'inProcess',
           'approved',
-          'rejected'
+          'rejected',
+          'frozen'
         ],
         emptySection: {
           gr: 'Κανένα Εργο',
@@ -706,6 +734,8 @@ export default {
         // approved
         [],
         // rejected
+        [],
+        // frozen
         []
       ],
       columns: [
@@ -715,6 +745,8 @@ export default {
         [ [], [], [] ],
         // rejected
         [ [], [], [] ],
+        // frozen
+        [ [], [], [] ]
       ],
       artworkForm: {
         title: {
@@ -1075,6 +1107,18 @@ export default {
                   break;
                 case 'rejected':
                   this.allArtworks[2].push({
+                    url: resource.secure_url,
+                    title: title,
+                    type: type,
+                    value: value,
+                    salePrice: salePrice,
+                    rentPrice: rentPrice,
+                    size: size,
+                    tags: tags
+                  })
+                  break;
+                case 'frozen':
+                  this.allArtworks[3].push({
                     url: resource.secure_url,
                     title: title,
                     type: type,
