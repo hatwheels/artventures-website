@@ -386,7 +386,7 @@
                   readonly
                   outlined
                   :label="artworkForm.rentPrice[getLang]"
-                  placeholder="177..."
+                  placeholder="175..."
                   background-color="#FAFAFA"
                   color="#1A1A1A"
                   prefix="€"
@@ -796,8 +796,8 @@ export default {
           en: 'Sale Price'
         },
         rentPrice: {
-          gr: 'Τιμή Ενοικίασης (μηνιαίως)',
-          en: 'Rent Price (monthly)'
+          gr: 'Τιμή Ενοικίασης (μηνιαίως), στρογγυλοποιημένη στα 5€',
+          en: 'Rent Price (monthly), rounded at 5€'
         },
         chooseArtwork: {
           gr: "Επέλεξε Εργο Τέχνης...",
@@ -1004,8 +1004,9 @@ export default {
       return Math.round(value * 1.8181);
     },
     calcRentPrice (salePrice /* Integer */) {
-      const val = Math.round(salePrice * 14 / 144);
-      return (val > 50) ? val : 50;
+      let val = Math.round(salePrice * 14 / 144);
+      let roundToNearest5 = Math.round(val / 5) * 5;
+      return (roundToNearest5 > 50) ? roundToNearest5 : 50;
     },
     updatePrices () {
       if (/^[+]?(\d+)$/.test(this.value)) {
