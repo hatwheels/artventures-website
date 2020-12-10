@@ -99,6 +99,35 @@
                           </v-col>
                           <v-col cols="auto" class="d-flex flex-column align-end">
                             <v-card-actions>
+                              <!-- Edit -->
+                              <v-tooltip top color="black">
+                                <template v-slot:activator="{ on, attrs }">
+                                  <v-btn
+                                    icon
+                                    large
+                                    v-bind="attrs"
+                                    v-on="on"
+                                  >
+                                    <v-icon size="30">mdi-pencil</v-icon>
+                                  </v-btn>
+                                </template>
+                                <span>{{ plainText.artworkEdit[getLang] }}</span>
+                              </v-tooltip>
+                              <!-- Delete -->
+                              <v-tooltip top color="black">
+                                <template v-slot:activator="{ on, attrs }">
+                                  <v-btn
+                                    icon
+                                    large
+                                    v-bind="attrs"
+                                    v-on="on"
+                                  >
+                                    <v-icon size="30">{{ i === 3 ? 'mdi-delete-forever' : 'mdi-delete' }}</v-icon>
+                                  </v-btn>
+                                </template>
+                                <span>{{ i === 3 ? plainText.artworkDelete[getLang] : plainText.artworkFreeze[getLang] }}</span>
+                              </v-tooltip>
+                              <!-- Fullscreen -->
                               <v-tooltip top color="black">
                                 <template v-slot:activator="{ on, attrs }">
                                   <v-btn
@@ -129,7 +158,7 @@
                   </v-row>
                   <!-- Mobile -->
                   <v-row class="hidden-md-and-up" justify="center" align="center">
-                    <v-col v-for="(artwork, i ) in artworksInSection" :key="'artwork-mobile-' + i" cols="12">
+                    <v-col v-for="(artwork, l ) in artworksInSection" :key="'artwork-mobile-' + l" cols="12">
                       <v-card>
                         <v-img
                           :src="artwork.url"
@@ -178,7 +207,34 @@
                           </div>
                           <div class="d-flex flex-column align-end">
                             <v-card-actions>
+                              <!-- Edit -->
                               <v-tooltip top color="black">
+                                <template v-slot:activator="{ on, attrs }">
+                                  <v-btn
+                                    icon
+                                    v-bind="attrs"
+                                    v-on="on"
+                                  >
+                                    <v-icon>mdi-pencil</v-icon>
+                                  </v-btn>
+                                </template>
+                                <span>{{ plainText.artworkEdit[getLang] }}</span>
+                              </v-tooltip>
+                              <!-- Delete -->
+                              <v-tooltip top color="black"  open-on-click open-on-focus>
+                                <template v-slot:activator="{ on, attrs }">
+                                  <v-btn
+                                    icon
+                                    v-bind="attrs"
+                                    v-on="on"
+                                  >
+                                    <v-icon>{{ i === 3 ? 'mdi-delete-forever' : 'mdi-delete' }}</v-icon>
+                                  </v-btn>
+                                </template>
+                                <span>{{ i === 3 ? plainText.artworkDelete[getLang] : plainText.artworkFreeze[getLang] }}</span>
+                              </v-tooltip>
+                              <!-- Fullscreen -->
+                              <v-tooltip top color="black" open-on-click open-on-focus>
                                 <template v-slot:activator="{ on, attrs }">
                                   <v-btn
                                     icon
@@ -912,6 +968,18 @@ export default {
         artworkZoom: {
           gr: 'Μεγέθυνση',
           en: 'Enlarge'
+        },
+        artworkEdit: {
+          gr: 'Επεξεργασία',
+          en: 'Edit'
+        },
+        artworkFreeze: {
+          gr: 'Πάγωμα',
+          en: 'Freeze'
+        },
+        artworkDelete: {
+          gr: 'Διαγραφή',
+          en: 'Delete'
         },
         type: {
           painting: {
