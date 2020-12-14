@@ -182,28 +182,24 @@
     </v-card-text>
     <!-- Alerts -->
     <v-card-actions>
-      <v-row justify="center">
+      <v-row justify="center" no-gutters>
         <v-col cols="auto">
           <v-btn
             :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
-            class="text-capitalize white--text"
+            class="text-capitalize white--text mr-2"
             color="#333333"
           >
             {{ artworkForm.submit[getLang] }}
-            <!-- <span v-show="isLoading" class="px-1 lds-ring"><div></div><div></div><div></div><div></div> -->
-            <!-- </span> -->
           </v-btn>
         </v-col>
-        <v-col cols="auto">
+        <v-col  cols="auto">
           <v-btn
             :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
-            class="text-capitalize black--text"
+            class="text-capitalize black--text ml-2"
             color="#FFFFFF"
             @click="$emit('close-edit-dialog', false);"
           >
             {{ getLang === 'gr' ? 'Ακύρωση' : 'Cancel' }}
-            <!-- <span v-show="isLoading" class="px-1 lds-ring"><div></div><div></div><div></div><div></div> -->
-            <!-- </span> -->
           </v-btn>
         </v-col>
       </v-row>
