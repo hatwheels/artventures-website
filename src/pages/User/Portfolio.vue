@@ -76,10 +76,25 @@
                               class="raleway-23-400 text-capitalize font-italic text-start pr-0"
                               v-text="artwork.title" />
                             <v-card-text class="raleway-18-400 text-start pr-0">
-                              <div v-if="artwork.type" class="text-capitalize">{{ artwork.type[getLang] }}
-                                <span v-if="artwork.size" class="text-lowercase"> - {{ artwork.size }}</span>
+                              <div
+                                v-if="artwork.type['en'].toLowerCase() === 'painting'"
+                                class="text-capitalize"
+                              >{{ artwork.type[getLang] }}
+                                <span
+                                  v-if="artwork.dimension && artwork.height && artwork.width"
+                                  class="text-lowercase"> - {{ artwork.height + ' x ' + artwork.width + ' ' + artwork.dimension }}
+                                </span>
                               </div>
-                              <div v-else-if="artwork.size" class="text-lowercase">{{ artwork.size }}</div>
+                              <div
+                                v-else-if="artwork.type['en'].toLowerCase() === 'sculpture'"
+                                class="text-capitalize"
+                              >{{ artwork.type[getLang] }}
+                                <span
+                                  v-if="artwork.dimension && artwork.height && artwork.width && artwork.width"
+                                  class="text-lowercase">
+                                  - {{ artwork.height + ' x ' + artwork.width + ' x ' + artwork.depth + ' ' + artwork.dimension }}
+                                </span>
+                              </div>
                               <v-row v-if="artwork.tags.length > 0"
                                 class="pt-2"
                                 no-gutters
@@ -107,6 +122,7 @@
                                     large
                                     v-bind="attrs"
                                     v-on="on"
+                                    @click="editArtwork(artwork)"
                                   >
                                     <v-icon size="30">mdi-pencil</v-icon>
                                   </v-btn>
@@ -184,10 +200,25 @@
                               class="raleway-16-400 text-capitalize font-italic text-start pr-0"
                               v-text="artwork.title" />
                             <v-card-text class="raleway-13-400 text-start pr-0">
-                              <div v-if="artwork.type" class="text-capitalize">{{ artwork.type[getLang] }}
-                                <span v-if="artwork.size" class="text-lowercase"> - {{ artwork.size }}</span>
+                              <div
+                                v-if="artwork.type['en'].toLowerCase() === 'painting'"
+                                class="text-capitalize"
+                              >{{ artwork.type[getLang] }}
+                                <span
+                                  v-if="artwork.dimension && artwork.height && artwork.width"
+                                  class="text-lowercase"> - {{ artwork.height + ' x ' + artwork.width + ' ' + artwork.dimension }}
+                                </span>
                               </div>
-                              <div v-else-if="artwork.size" class="text-lowercase">{{ artwork.size }}</div>
+                              <div
+                                v-else-if="artwork.type['en'].toLowerCase() === 'sculpture'"
+                                class="text-capitalize"
+                              >{{ artwork.type[getLang] }}
+                                <span
+                                  v-if="artwork.dimension && artwork.height && artwork.width && artwork.width"
+                                  class="text-lowercase">
+                                  - {{ artwork.height + ' x ' + artwork.width + ' x ' + artwork.depth + ' ' + artwork.dimension }}
+                                </span>
+                              </div>
                               <v-row v-if="artwork.tags.length > 0"
                                 class="pt-2"
                                 no-gutters
@@ -214,6 +245,7 @@
                                     icon
                                     v-bind="attrs"
                                     v-on="on"
+                                    @click="editArtwork(artwork)"
                                   >
                                     <v-icon>mdi-pencil</v-icon>
                                   </v-btn>
@@ -282,15 +314,7 @@
                 <v-select
                   v-model="type"
                   class="pb-2"
-                  :items="[
-                    {
-                      text: getLang === 'gr' ? 'Πίνακας' : 'Painting',
-                      value: 'painting'
-                    },
-                    {
-                      text: getLang === 'gr' ? 'Γλυπτό' : 'Sculpture',
-                      value: 'sculpture'
-                    }]"
+                  :items="artworkTypes"
                   required
                   background-color="#FAFAFA"
                   color="#1A1A1A"
@@ -343,15 +367,7 @@
                     <v-select
                       class="pt-0"
                       v-model="unit"
-                      :items="[
-                        {
-                          text: 'cm',
-                          value: 'cm'
-                        },
-                        {
-                          text: 'inches',
-                          value: 'in'
-                        }]"
+                      :items="artworkUnits"
                       background-color="#FAFAFA"
                       color="#1A1A1A"
                       :hint="artworkForm.unit[getLang]"
@@ -619,6 +635,23 @@
             </v-card>
           </v-dialog>
 
+          <!-- Edit Dialog -->
+          <v-dialog
+            v-model="editDialog"
+            scrollable
+            persistent
+            overlay-color="transparent"
+            :width="$vuetify.breakpoint.mobile ? '100vw' : '50vw'">
+            <edit-artwork
+              v-if="editDialog"
+              :artworkData="artworkDataObject"
+              :artworkForm="artworkForm"
+              :artworkTypes="artworkTypes"
+              :artworkUnits="artworkUnits"
+              @close-edit-dialog="onCloseDialog"
+            />
+          </v-dialog>
+
           <!-- Scroll to Top -->
           <scroll-to-top />
 
@@ -679,12 +712,12 @@ import { required, numeric, maxLength, minLength } from "vuelidate/lib/validator
 
 const touchMap = new WeakMap();
 const alphaNumPlus = (value) => /^[a-zA-Z0-9- ]*$/.test(value)
-let timeoutSize = null;
 
 export default {
   components: {
     ScrollToTop: () => import("~/components/ScrollToTop.vue"),
-    TermsDialog: () => import("~/components/TermsDialog.vue")
+    TermsDialog: () => import("~/components/TermsDialog.vue"),
+    EditArtwork: () => import("~/components/portfolio/Edit.vue")
   },
   mixins: [validationMixin],
   validations: {
@@ -804,6 +837,26 @@ export default {
         // frozen
         [ [], [], [] ]
       ],
+      artworkTypes: [
+        {
+          text: this.getLang === 'gr' ? 'Πίνακας' : 'Painting',
+          value: 'painting'
+        },
+        {
+          text: this.getLang === 'gr' ? 'Γλυπτό' : 'Sculpture',
+          value: 'sculpture'
+        }
+      ],
+      artworkUnits: [
+        {
+          text: 'cm',
+          value: 'cm'
+        },
+        {
+          text: 'inches',
+          value: 'in'
+        }
+      ],
       artworkForm: {
         title: {
           gr: 'Τίτλος Εργου',
@@ -852,8 +905,8 @@ export default {
           en: 'Sale Price'
         },
         rentPrice: {
-          gr: 'Τιμή Ενοικίασης (μηνιαίως), στρογγυλοποιημένη στα 5€',
-          en: 'Rent Price (monthly), rounded at 5€'
+          gr: 'Τιμή Ενοικίασης (μηνιαίως)',
+          en: 'Rent Price (monthly)'
         },
         chooseArtwork: {
           gr: "Επέλεξε Εργο Τέχνης...",
@@ -1007,7 +1060,9 @@ export default {
           gr: 'Έχετε φτάσει το όριο των 30 έργων τέχνης',
           en: 'You have reached the limit of 30 artworks'
         }
-      }
+      },
+      artworkDataObject: null,
+      editDialog: false
     }
   },
   computed: {
@@ -1068,6 +1123,12 @@ export default {
     onAcceptTerms(val) {
       this.termsAccepted = val;
     },
+    onCloseDialog(val) {
+      this.editDialog = val;
+      if (val === false) {
+        this.artworkDataObject = null;
+      }
+    },
     calcSalePrice (value /* Integer */) {
       return Math.round(value * 1.8181);
     },
@@ -1101,7 +1162,6 @@ export default {
               var value = '';
               var salePrice = '';
               var rentPrice = '';
-              var size = '';
               var type = '';
               var tags = resource.hasOwnProperty('tags') ? resource.tags : [];
               if (resource.hasOwnProperty('context')) {
@@ -1129,24 +1189,6 @@ export default {
                 }
                 if (resource.context.hasOwnProperty('type')) {
                   type = this.plainText.type[resource.context.type];
-                  if (type.en.toLowerCase() === 'sculpture') {
-                    // it's a sculpture
-                    if (resource.context.hasOwnProperty('dimension') &&
-                        resource.context.hasOwnProperty('height') &&
-                        resource.context.hasOwnProperty('width') &&
-                        resource.context.hasOwnProperty('depth')) {
-                      size = resource.context.height + ' x ' + resource.context.width + ' x ' +
-                        resource.context.depth + ' ' + resource.context.dimension
-                    }
-                  } else if (type.en.toLowerCase() === 'painting') {
-                    // it's a painting
-                    if (resource.context.hasOwnProperty('dimension') &&
-                        resource.context.hasOwnProperty('height') &&
-                        resource.context.hasOwnProperty('width')) {
-                      size = resource.context.height + ' x ' + resource.context.width + ' ' +
-                        resource.context.dimension
-                    }
-                  }
                 }
               }
               switch (folder) {
@@ -1158,7 +1200,10 @@ export default {
                     value: value,
                     salePrice: salePrice,
                     rentPrice: rentPrice,
-                    size: size,
+                    height: resource.context.height,
+                    width: resource.context.width,
+                    depth: resource.context.depth || 0,
+                    dimension: resource.context.dimension,
                     tags: tags
                   })
                   break;
@@ -1170,7 +1215,10 @@ export default {
                     value: value,
                     salePrice: salePrice,
                     rentPrice: rentPrice,
-                    size: size,
+                    height: resource.context.height,
+                    width: resource.context.width,
+                    depth: resource.context.depth || null,
+                    dimension: resource.context.dimension,
                     tags: tags
                   })
                   break;
@@ -1182,7 +1230,10 @@ export default {
                     value: value,
                     salePrice: salePrice,
                     rentPrice: rentPrice,
-                    size: size,
+                    height: resource.context.height,
+                    width: resource.context.width,
+                    depth: resource.context.depth || null,
+                    dimension: resource.context.dimension,
                     tags: tags
                   })
                   break;
@@ -1194,7 +1245,10 @@ export default {
                     value: value,
                     salePrice: salePrice,
                     rentPrice: rentPrice,
-                    size: size,
+                    height: resource.context.height,
+                    width: resource.context.width,
+                    depth: resource.context.depth || null,
+                    dimension: resource.context.dimension,
                     tags: tags
                   })
                   break;
@@ -1297,24 +1351,6 @@ export default {
             this.$imgdb.uploadArtwork(this.$auth.user.sub, this.imageToUploadBase64, context, tagsConcatStr, watermarkObj)
             .then(async (response) => {
               const contextObj = response.context.hasOwnProperty("custom") ? response.context.custom : response.context;
-              var size = '';
-              if (contextObj.type === 'painting') {
-                if (contextObj.hasOwnProperty('dimension') &&
-                    contextObj.hasOwnProperty('height') &&
-                    contextObj.hasOwnProperty('width')) {
-                  size = contextObj.height + ' x ' + contextObj.width + ' ' +
-                    contextObj.dimension
-                }
-              } else if (contextObj.type === 'sculpture') {
-                // it's a sculpture
-                if (contextObj.hasOwnProperty('dimension') &&
-                    contextObj.hasOwnProperty('height') &&
-                    contextObj.hasOwnProperty('width') &&
-                    contextObj.hasOwnProperty('depth')) {
-                  size = contextObj.height + ' x ' + contextObj.width + ' x ' +
-                    contextObj.depth + ' ' + contextObj.dimension
-                }
-              }
               // update artworks 0 (in process)
               this.allArtworks[0].push({
                 url: response.secure_url,
@@ -1323,7 +1359,10 @@ export default {
                 value: contextObj.hasOwnProperty("value") ? contextObj.value : '',
                 salePrice: contextObj.hasOwnProperty("sale_price") ? contextObj.sale_price : '',
                 rentPrice: contextObj.hasOwnProperty("rent_price") ? contextObj.rent_price : '',
-                size: size,
+                dimension: contextObj.hasOwnProperty("dimension") ? contextObj.dimension : '',
+                height: contextObj.hasOwnProperty("height") ? contextObj.height : null,
+                width: contextObj.hasOwnProperty("width") ? contextObj.width : null,
+                depth: contextObj.hasOwnProperty("depth") ? contextObj.depth : null,
                 tags: response.tags
               })
               // update column 0 (in process)
@@ -1407,6 +1446,10 @@ export default {
       }
       touchMap.set($v, setTimeout($v.$touch, 1000));
     },
+    editArtwork(artworkObject) {
+      this.artworkDataObject = artworkObject;
+      this.editDialog = true;
+    }
   },
   metaInfo () {
     return {
@@ -1418,12 +1461,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-/* Local fonts */
-.raleway-28-400 {
-  font-family: 'Raleway', sans-serif !important;
-  font-size: 28px !important;
-  font-weight: 400 !important;
-}
-</style>
