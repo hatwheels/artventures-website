@@ -641,7 +641,8 @@
             scrollable
             persistent
             overlay-color="transparent"
-            :width="$vuetify.breakpoint.mobile ? '100vw' : '50vw'">
+            :fullscreen="$vuetify.breakpoint.mobile ? true : false"
+            :width="$vuetify.breakpoint.mobile ? 'auto' : '50vw'">
             <edit-artwork
               v-if="editDialog"
               :artworkData="artworkDataObject"
