@@ -1381,9 +1381,9 @@ export default {
                   }
                 }
                 this.$admin.sendEmail({
-                  email: this.$auth.user.email,
-                  firstname: this.$auth.user.given_name,
-                  lastname: this.$auth.user.family_name,
+                  email: this.$auth.user.email || '',
+                  firstname: this.$auth.user.given_name || '',
+                  lastname: this.$auth.user.family_name || '',
                   subject: "Uploaded Artwork",
                   message: message,
                   to: 'all'
