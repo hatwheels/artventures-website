@@ -122,7 +122,7 @@
                                     large
                                     v-bind="attrs"
                                     v-on="on"
-                                    @click="setRestoreDialog(artwork.public_id)"
+                                    @click="setRestoreDialog(artwork.public_id, artwork.secure_url)"
                                   >
                                     <v-icon size="30">mdi-delete-restore</v-icon>
                                   </v-btn>
@@ -152,7 +152,7 @@
                                     large
                                     v-bind="attrs"
                                     v-on="on"
-                                    @click="setDeleteFreezeDialog(i === 1 ? false : true, artwork.public_id)"
+                                    @click="setDeleteFreezeDialog(i === 1 ? false : true, artwork.public_id, artwork.secure_url)"
                                   >
                                     <v-icon size="30">{{ i === 1 ? 'mdi-delete' : 'mdi-delete-forever' }}</v-icon>
                                   </v-btn>
@@ -678,11 +678,7 @@
                 class="pl-3"
                 :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
               >
-                <v-row justify="center" no-gutters>
-                  <v-col cols="auto">
-                    {{ restoreDialog.title[getLang] }}
-                  </v-col>
-                </v-row>
+                {{ restoreDialog.title[getLang] }}
               </v-card-title>
               <v-card-text
                 class="px-3 pt-2 pb-4"
@@ -726,11 +722,7 @@
                 class="pl-3"
                 :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
               >
-                <v-row justify="center" no-gutters>
-                  <v-col cols="auto">
-                    {{ restoreDialog.title[getLang] }}
-                  </v-col>
-                </v-row>
+                {{ restoreDialog.title[getLang] }}
               </v-card-title>
               <v-card-text
                 class="px-3 pt-2 pb-4"
@@ -788,11 +780,7 @@
                 class="pl-3"
                 :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
               >
-                <v-row justify="center" no-gutters>
-                  <v-col cols="auto">
-                    {{ getLang === 'gr' ? 'Επεξεργασία Έργου Τέχνης' : 'Edit Artwork'  }}
-                  </v-col>
-                </v-row>
+                {{ getLang === 'gr' ? 'Επεξεργασία Έργου Τέχνης' : 'Edit Artwork'  }}
               </v-card-title>
               <v-card-text
                 class="px-3 pt-2 pb-4"
@@ -832,11 +820,7 @@
                 class="pl-3"
                 :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
               >
-                <v-row justify="center" no-gutters>
-                  <v-col cols="auto">
-                    {{ deleteFreezeDialog.title[getLang] }}
-                  </v-col>
-                </v-row>
+                {{ deleteFreezeDialog.title[getLang] }}
               </v-card-title>
               <v-card-text
                 class="px-3 pt-2 pb-4"
@@ -880,11 +864,7 @@
                 class="pl-3"
                 :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
               >
-                <v-row justify="center" no-gutters>
-                  <v-col cols="auto">
-                    {{ deleteFreezeDialog.title[getLang] }}
-                  </v-col>
-                </v-row>
+                {{ deleteFreezeDialog.title[getLang] }}
               </v-card-title>
               <v-card-text
                 class="px-3 pt-2 pb-4"
@@ -1049,6 +1029,7 @@ export default {
       restoreDialog: {
         toggle: false,
         public_id: null,
+        url: null,
         loading: false,
         title: {
           gr: 'Επαναφορά Εργου Τέχνης',
@@ -1076,6 +1057,7 @@ export default {
         toggle: false,
         state: '',
         public_id: null,
+        url: null,
         loading: false,
         title: {
           gr: '',
@@ -1460,16 +1442,28 @@ export default {
     },
     onEditSubmitted(val) {
       this.editDialog.toggle = false;
-      this.artworkDataObject = null;
       if (val) { // true: success
         this.editDialog.result.text.en = 'Your Artwork has been successfully edited';
         this.editDialog.result.text.gr = 'Το Εργο Τέχνης επεξεργάστηκε επιτυχώς';
         setTimeout(() => this.editDialog.result.enableBtn = true, 3000);
+        if (process.env.GRIDSOME_BUILD === "prod") {
+          // Notify us
+          let message = "url: "+ this.artworkDataObject.url + "\n";
+          this.$admin.sendEmail({
+            email: this.$auth.user.email || '',
+            firstname: this.$auth.user.given_name || '',
+            lastname: this.$auth.user.family_name || '',
+            subject: "Edited Artwork",
+            message: message,
+            to: 'all'
+          });
+        }
       } else { // false: failure
         this.editDialog.result.text.en = 'Editing your Artwork failed, please try again later';
         this.editDialog.result.text.gr = 'Η επεξεργασία του Εργου Τέχνης απέτυχε, παρακαλώ προσπαθήστε αργότερα';
         this.editDialog.result.enableBtn = true
       }
+      this.artworkDataObject = null;
       this.editDialog.result.isSuccess = val;
       this.editDialog.result.toggle = true;
     },
@@ -1668,12 +1662,14 @@ export default {
       this.dialogPortfolio.text.en = "";
       this.dialogPortfolio.text.gr = "";
     },
-    setRestoreDialog(artworkPublicId) {
+    setRestoreDialog(artworkPublicId, artworkUrl) {
       this.restoreDialog.public_id = artworkPublicId;
+      this.restoreDialog.url = artworkUrl;
       this.restoreDialog.toggle = true;
     },
     clearRestoreDialog() {
       this.restoreDialog.public_id = null;
+      this.restoreDialog.url = null;
       this.restoreDialog.toggle = false;
       this.restoreDialog.result.toggle = false;
       this.restoreDialog.result.isSuccess = false;
@@ -1693,6 +1689,18 @@ export default {
         setTimeout(() => {
           this.restoreDialog.result.enableBtn = true;
         }, 3000);
+        if (process.env.GRIDSOME_BUILD === "prod") {
+          // Notify us
+          let message = "url: " + this.restoreDialog.url + "\n";
+          this.$admin.sendEmail({
+            email: this.$auth.user.email || '',
+            firstname: this.$auth.user.given_name || '',
+            lastname: this.$auth.user.family_name || '',
+            subject: "Restored artwork from Frozen to Approved",
+            message: message,
+            to: 'all'
+          });
+        }
       })
       .catch(err => {
         this.restoreDialog.result.isSuccess = false;
@@ -1706,7 +1714,7 @@ export default {
         this.restoreDialog.result.toggle = true;
       })
     },
-    setDeleteFreezeDialog(isDelete, artworkPublicId) {
+    setDeleteFreezeDialog(isDelete, artworkPublicId, artworkUrl) {
       if (isDelete === true) {
         this.deleteFreezeDialog.state = "delete";
         this.deleteFreezeDialog.text.en = "Are you sure you want to permanently delete the artwork?";
@@ -1721,6 +1729,7 @@ export default {
         this.deleteFreezeDialog.title.gr = "Πάγωμα Εργου Τέχνης";
       }
       this.deleteFreezeDialog.public_id = artworkPublicId;
+      this.deleteFreezeDialog.url = artworkUrl;
       this.deleteFreezeDialog.toggle = true;
     },
     clearDeleteFreezeDialog() {
@@ -1730,6 +1739,7 @@ export default {
       this.deleteFreezeDialog.title.en = "";
       this.deleteFreezeDialog.title.gr = "";
       this.deleteFreezeDialog.public_id = null;
+      this.deleteFreezeDialog.url = null;
       this.deleteFreezeDialog.toggle = false;
       this.deleteFreezeDialog.text.en = "";
       this.deleteFreezeDialog.text.gr = "";
@@ -1749,6 +1759,18 @@ export default {
             setTimeout(() => {
               this.deleteFreezeDialog.result.enableBtn = true;
             }, 3000);
+            if (process.env.GRIDSOME_BUILD === "prod") {
+              // Notify us
+              let message = "url: " + this.deleteFreezeDialog.url + "\n";
+              this.$admin.sendEmail({
+                email: this.$auth.user.email || '',
+                firstname: this.$auth.user.given_name || '',
+                lastname: this.$auth.user.family_name || '',
+                subject: "Deleted permanently artwork",
+                message: message,
+                to: 'all'
+              });
+            }
           })
           .catch(err => {
             this.deleteFreezeDialog.result.text.en = "Deletion failed. Please try again later";
@@ -1774,6 +1796,18 @@ export default {
             setTimeout(() => {
               this.deleteFreezeDialog.result.enableBtn = true;
             }, 3000);
+            if (process.env.GRIDSOME_BUILD === "prod") {
+              // Notify us
+              let message = "url: " + this.deleteFreezeDialog.url + "\n";
+              this.$admin.sendEmail({
+                email: this.$auth.user.email || '',
+                firstname: this.$auth.user.given_name || '',
+                lastname: this.$auth.user.family_name || '',
+                subject: "Froze artwork",
+                message: message,
+                to: 'all'
+              });
+            }
           })
           .catch(err => {
             this.deleteFreezeDialog.result.text.en = "Frozing failed. Please try again later";
@@ -1873,6 +1907,7 @@ export default {
                 count = (count + 1) % 3;
               })
               if (process.env.GRIDSOME_BUILD === "prod") {
+                // Notify us
                 let message = "url: "+ response.secure_url + "\n";
                 for (var key in contextObj) {
                   if (contextObj.hasOwnProperty(key)) {
