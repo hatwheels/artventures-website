@@ -137,7 +137,7 @@
                                     large
                                     v-bind="attrs"
                                     v-on="on"
-                                    @click="setDeleteFreezeDialog(i === 1 ? false : true)"
+                                    @click="setDeleteFreezeDialog(i === 1 ? false : true, artwork.public_id)"
                                   >
                                     <v-icon size="30">{{ i === 1 ? 'mdi-delete' : 'mdi-delete-forever' }}</v-icon>
                                   </v-btn>
@@ -260,7 +260,7 @@
                                     icon
                                     v-bind="attrs"
                                     v-on="on"
-                                    @click="setDeleteFreezeDialog(i === 1 ? false : true)"
+                                    @click="setDeleteFreezeDialog(i === 1 ? false : true, artwork.public_id)"
                                   >
                                     <v-icon>{{ i === 1 ? 'mdi-delete' : 'mdi-delete-forever' }}</v-icon>
                                   </v-btn>
@@ -676,14 +676,51 @@
                       class="white--text"
                       :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
                       color="#333333"
+                      :loading="deleteFreezeDialog.loading"
+                      @click="deleteFreezeProcess()"
+                  >
+                    OK
+                  </v-btn>
+                  <v-btn
+                      class="black--text"
+                      :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
+                      color="#FFFFFF"
                       @click="clearDeleteFreezeDialog()"
                   >
                     {{ deleteFreezeDialog.btnCancelText[getLang] }}
+                    
                   </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+          <!-- Success / Failure Delete / Freeze process -->
+          <v-dialog
+            v-model="deleteFreezeDialog.result.toggle"
+            persistent
+            overlay-color="transparent"
+            :width="$vuetify.breakpoint.mobile ? '80vw' : '25vw'"
+          >
+            <v-card>
+              <v-card-title class="pl-3">{{ deleteFreezeDialog.title[getLang] }}</v-card-title>
+              <v-card-text
+                class="px-3 pt-2 pb-4"
+                :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
+              >
+                {{ deleteFreezeDialog.result.text[getLang] }}
+              </v-card-text>
+              <v-card-actions>
+                  <v-spacer></v-spacer>
                   <v-btn
                       class="white--text"
                       :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
                       color="#333333"
+                      :disabled="!deleteFreezeDialog.result.enableBtn"
+                      @click="
+                        if (deleteFreezeDialog.result.isSuccess) {
+                          reloadArtworks();
+                        }
+                        clearDeleteFreezeDialog();
+                      "
                   >
                     OK
                   </v-btn>
@@ -827,6 +864,9 @@ export default {
       },
       deleteFreezeDialog: {
         toggle: false,
+        state: '',
+        public_id: null,
+        loading: false,
         title: {
           gr: '',
           en: ''
@@ -838,6 +878,15 @@ export default {
         btnCancelText: {
           gr: 'Ακυρωση',
           en: 'Cancel'
+        },
+        result: {
+          toggle: false,
+          isSuccess: false,
+          text: {
+            gr: '',
+            en: ''
+          },
+          enableBtn: false
         }
       },
       tabs: {
@@ -1333,40 +1382,125 @@ export default {
         })
       }
     },
+    reloadArtworks() {
+     this.allArtworks = [
+        // inprocess
+        [],
+        // approved
+        [],
+        // rejected
+        [],
+        // frozen
+        []
+      ];
+      this.columns = [
+        // inprocess
+        [ [], [], [] ],
+        // approved
+        [ [], [], [] ],
+        // rejected
+        [ [], [], [] ],
+        // frozen
+        [ [], [], [] ]
+      ];
+      this.fetchArtistArtworks();
+    },
+    waitBeforeReload() {
+      setTimeout(() => {
+        this.deleteFreezeDialog.result.enableBtn = true;
+      }, 3000);
+    },
     // Alert for image limit
     setAlertImage() {
-      const that = this
+      const that = this;
       function clearAlert() {
-        that.alertImage = false
+        that.alertImage = false;
       }
       this.alertImage = true;
       setTimeout(clearAlert, 4000)
     },
     clearDialogPortfolio() {
-      this.dialogPortfolio.toggle = false
-      this.dialogPortfolio.text.en = ""
-      this.dialogPortfolio.text.gr = ""
+      this.dialogPortfolio.toggle = false;
+      this.dialogPortfolio.text.en = "";
+      this.dialogPortfolio.text.gr = "";
     },
-    setDeleteFreezeDialog(isDelete) {
+    setDeleteFreezeDialog(isDelete, artworkPublicId) {
       if (isDelete === true) {
-        this.deleteFreezeDialog.text.en = "Are you sure you want to permanently delete the artwork?"
-        this.deleteFreezeDialog.text.gr = "Είστε σίγουροι ότι θέλετε να διαγράψετε οριστικώς το έργο τέχνης;"
-        this.deleteFreezeDialog.title.en = "Delete"
-        this.deleteFreezeDialog.title.gr = "Διαγραφή"
+        this.deleteFreezeDialog.state = "delete";
+        this.deleteFreezeDialog.text.en = "Are you sure you want to permanently delete the artwork?";
+        this.deleteFreezeDialog.text.gr = "Είστε σίγουροι ότι θέλετε να διαγράψετε οριστικώς το έργο τέχνης;";
+        this.deleteFreezeDialog.title.en = "Delete";
+        this.deleteFreezeDialog.title.gr = "Διαγραφή";
       } else {
-        this.deleteFreezeDialog.text.en = "Are you sure you want to freeze the artwork?"
-        this.deleteFreezeDialog.text.gr = "Είστε σίγουροι ότι θέλετε να παγώσετε το έργο τέχνης;"
-        this.deleteFreezeDialog.title.en = "Freeze"
-        this.deleteFreezeDialog.title.gr = "Πάγωμα"
+        this.deleteFreezeDialog.state = "freeze";
+        this.deleteFreezeDialog.text.en = "Are you sure you want to freeze the artwork?";
+        this.deleteFreezeDialog.text.gr = "Είστε σίγουροι ότι θέλετε να παγώσετε το έργο τέχνης;";
+        this.deleteFreezeDialog.title.en = "Freeze";
+        this.deleteFreezeDialog.title.gr = "Πάγωμα";
       }
+      this.deleteFreezeDialog.public_id = artworkPublicId;
       this.deleteFreezeDialog.toggle = true;
     },
     clearDeleteFreezeDialog() {
-      this.deleteFreezeDialog.text.en = ""
-      this.deleteFreezeDialog.text.gr = ""
-      this.deleteFreezeDialog.title.en = ""
-      this.deleteFreezeDialog.title.gr = ""
+      this.deleteFreezeDialog.state = "";
+      this.deleteFreezeDialog.text.en = "";
+      this.deleteFreezeDialog.text.gr = "";
+      this.deleteFreezeDialog.title.en = "";
+      this.deleteFreezeDialog.title.gr = "";
+      this.deleteFreezeDialog.public_id = null;
       this.deleteFreezeDialog.toggle = false;
+      this.deleteFreezeDialog.text.en = "";
+      this.deleteFreezeDialog.text.gr = "";
+      this.deleteFreezeDialog.result.isSuccess = false;
+      this.deleteFreezeDialog.result.toggle = false;
+      this.deleteFreezeDialog.result.enableBtn = false;
+    },
+    deleteFreezeProcess() {
+      if (this.deleteFreezeDialog.state === 'delete') {
+        // Delete
+        this.deleteFreezeDialog.loading = true;
+        this.$imgdb.deleteArtwork(this.deleteFreezeDialog.public_id)
+          .then(deleted => {
+            this.deleteFreezeDialog.result.text.en = "Successfully deleted";
+            this.deleteFreezeDialog.result.text.gr = "Διεγράφη επιτυχώς"
+            this.deleteFreezeDialog.result.isSuccess = true;
+            this.waitBeforeReload();
+          })
+          .catch(err => {
+            this.deleteFreezeDialog.result.text.en = "Deletion failed. Please try again later";
+            this.deleteFreezeDialog.result.text.gr = "Η διαγραφή απέτυχε. Παρακαλώ προσπαθήστε αργότερα"
+            this.deleteFreezeDialog.result.isSuccess = false;
+            this.deleteFreezeDialog.result.enableBtn = true;
+          })
+          .finally(() => {
+            this.deleteFreezeDialog.toggle = false;
+            this.deleteFreezeDialog.loading = false;
+            this.deleteFreezeDialog.result.toggle = true;
+          });
+      } else if (this.deleteFreezeDialog.state === 'freeze') {
+        // Freeze
+        this.deleteFreezeDialog.loading = true;
+        this.$imgdb.moveArtwork(
+          this.deleteFreezeDialog.public_id,
+          this.deleteFreezeDialog.public_id.replace('approved', 'frozen')
+        ).then(frozen => {
+            this.deleteFreezeDialog.result.text.en = "Successfully frozen";
+            this.deleteFreezeDialog.result.text.gr = "Παγώθηκε επιτυχώς";
+            this.deleteFreezeDialog.result.isSuccess = true;
+            this.waitBeforeReload();
+          })
+          .catch(err => {
+            this.deleteFreezeDialog.result.text.en = "Frozing failed. Please try again later";
+            this.deleteFreezeDialog.result.text.gr = "Το πάγωμα απέτυχε. Παρακαλώ προσπαθήστε αργότερα";
+            this.deleteFreezeDialog.result.isSuccess = false;
+            this.deleteFreezeDialog.result.enableBtn = true;
+          })
+          .finally(() => {
+            this.deleteFreezeDialog.toggle = false;
+            this.deleteFreezeDialog.loading = false;
+            this.deleteFreezeDialog.result.toggle = true;
+          });
+      }
     },
     getImage(output) {
       if (this.currentImageCount > this.maxImageCount) {
