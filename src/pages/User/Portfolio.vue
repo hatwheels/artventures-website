@@ -674,7 +674,16 @@
             :width="$vuetify.breakpoint.mobile ? '80vw' : '25vw'"
           >
             <v-card>
-              <v-card-title class="pl-3">{{ restoreDialog.title[getLang] }}</v-card-title>
+              <v-card-title
+                class="pl-3"
+                :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
+              >
+                <v-row justify="center" no-gutters>
+                  <v-col cols="auto">
+                    {{ restoreDialog.title[getLang] }}
+                  </v-col>
+                </v-row>
+              </v-card-title>
               <v-card-text
                 class="px-3 pt-2 pb-4"
                 :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
@@ -713,7 +722,16 @@
             :width="$vuetify.breakpoint.mobile ? '80vw' : '25vw'"
           >
             <v-card>
-              <v-card-title class="pl-3">{{ restoreDialog.title[getLang] }}</v-card-title>
+              <v-card-title
+                class="pl-3"
+                :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
+              >
+                <v-row justify="center" no-gutters>
+                  <v-col cols="auto">
+                    {{ restoreDialog.title[getLang] }}
+                  </v-col>
+                </v-row>
+              </v-card-title>
               <v-card-text
                 class="px-3 pt-2 pb-4"
                 :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
@@ -742,20 +760,64 @@
 
           <!-- Edit Dialog -->
           <v-dialog
-            v-model="editDialog"
+            v-model="editDialog.toggle"
             scrollable
             persistent
             overlay-color="transparent"
             :fullscreen="$vuetify.breakpoint.mobile ? true : false"
             :width="$vuetify.breakpoint.mobile ? 'auto' : '50vw'">
             <edit-artwork
-              v-if="editDialog"
+              v-if="editDialog.toggle"
               :artworkData="artworkDataObject"
               :artworkForm="artworkForm"
               :artworkTypes="artworkTypes"
               :artworkUnits="artworkUnits"
-              @close-edit-dialog="onCloseDialog"
+              @close-edit-dialog="onEditCloseDialog"
+              @submitted="onEditSubmitted"
             />
+          </v-dialog>
+          <!-- Success / Failure Edit Process -->
+          <v-dialog
+            v-model="editDialog.result.toggle"
+            persistent
+            overlay-color="transparent"
+            :width="$vuetify.breakpoint.mobile ? '80vw' : '25vw'"
+          >
+            <v-card>
+              <v-card-title
+                class="pl-3"
+                :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
+              >
+                <v-row justify="center" no-gutters>
+                  <v-col cols="auto">
+                    {{ getLang === 'gr' ? 'Επεξεργασία Έργου Τέχνης' : 'Edit Artwork'  }}
+                  </v-col>
+                </v-row>
+              </v-card-title>
+              <v-card-text
+                class="px-3 pt-2 pb-4"
+                :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
+              >
+                {{ editDialog.result.text[getLang] }}
+              </v-card-text>
+              <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                      class="white--text"
+                      :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
+                      color="#333333"
+                      :disabled="!editDialog.result.enableBtn"
+                      @click="
+                        if (editDialog.result.isSuccess) {
+                          reloadArtworks();
+                        }
+                        clearEditDialog();
+                      "
+                  >
+                    OK
+                  </v-btn>
+              </v-card-actions>
+            </v-card>
           </v-dialog>
 
           <!-- Delete / Freeze Dialog -->
@@ -766,7 +828,16 @@
             :width="$vuetify.breakpoint.mobile ? '80vw' : '25vw'"
           >
             <v-card>
-              <v-card-title class="pl-3">{{ deleteFreezeDialog.title[getLang] }}</v-card-title>
+              <v-card-title
+                class="pl-3"
+                :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
+              >
+                <v-row justify="center" no-gutters>
+                  <v-col cols="auto">
+                    {{ deleteFreezeDialog.title[getLang] }}
+                  </v-col>
+                </v-row>
+              </v-card-title>
               <v-card-text
                 class="px-3 pt-2 pb-4"
                 :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
@@ -805,7 +876,16 @@
             :width="$vuetify.breakpoint.mobile ? '80vw' : '25vw'"
           >
             <v-card>
-              <v-card-title class="pl-3">{{ deleteFreezeDialog.title[getLang] }}</v-card-title>
+              <v-card-title
+                class="pl-3"
+                :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
+              >
+                <v-row justify="center" no-gutters>
+                  <v-col cols="auto">
+                    {{ deleteFreezeDialog.title[getLang] }}
+                  </v-col>
+                </v-row>
+              </v-card-title>
               <v-card-text
                 class="px-3 pt-2 pb-4"
                 :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
@@ -971,8 +1051,8 @@ export default {
         public_id: null,
         loading: false,
         title: {
-          gr: 'Επαναφορά',
-          en: 'Restore'
+          gr: 'Επαναφορά Εργου Τέχνης',
+          en: 'Restore Artwork'
         },
         text: {
           gr: 'Θέλετε να επαναφέρετε το έργο τέχνης;',
@@ -1295,7 +1375,18 @@ export default {
         }
       },
       artworkDataObject: null,
-      editDialog: false
+      editDialog: {
+        toggle: false,
+        result: {
+          isSuccess: false,
+          text: {
+            en: '',
+            gr: ''
+          },
+          toggle: false,
+          enableBtn: false
+        }
+      }
     }
   },
   computed: {
@@ -1356,11 +1447,39 @@ export default {
     onAcceptTerms(val) {
       this.termsAccepted = val;
     },
-    onCloseDialog(val) {
-      this.editDialog = val;
+    onEditCloseDialog(val) {
+      this.editDialog.toggle = val;
       if (val === false) {
+        this.editDialog.result.isSuccess = false;
+        this.editDialog.result.toggle = false;
+        this.editDialog.result.enableBtn = false;
+        this.editDialog.result.text.en = '';
+        this.editDialog.result.text.gr = '';
         this.artworkDataObject = null;
       }
+    },
+    onEditSubmitted(val) {
+      this.editDialog.toggle = false;
+      this.artworkDataObject = null;
+      if (val) { // true: success
+        this.editDialog.result.text.en = 'Your Artwork has been successfully edited';
+        this.editDialog.result.text.gr = 'Το Εργο Τέχνης επεξεργάστηκε επιτυχώς';
+        setTimeout(() => this.editDialog.result.enableBtn = true, 3000);
+      } else { // false: failure
+        this.editDialog.result.text.en = 'Editing your Artwork failed, please try again later';
+        this.editDialog.result.text.gr = 'Η επεξεργασία του Εργου Τέχνης απέτυχε, παρακαλώ προσπαθήστε αργότερα';
+        this.editDialog.result.enableBtn = true
+      }
+      this.editDialog.result.isSuccess = val;
+      this.editDialog.result.toggle = true;
+    },
+    clearEditDialog() {
+      this.editDialog.toggle = false;
+      this.editDialog.result.isSuccess = false;
+      this.editDialog.result.toggle = false;
+      this.editDialog.result.enableBtn = false;
+      this.editDialog.result.text.en = '';
+      this.editDialog.result.text.gr = '';
     },
     calcSalePrice (value /* Integer */) {
       return Math.round(value * 1.8181);
@@ -1592,14 +1711,14 @@ export default {
         this.deleteFreezeDialog.state = "delete";
         this.deleteFreezeDialog.text.en = "Are you sure you want to permanently delete the artwork?";
         this.deleteFreezeDialog.text.gr = "Είστε σίγουροι ότι θέλετε να διαγράψετε οριστικώς το έργο τέχνης;";
-        this.deleteFreezeDialog.title.en = "Delete";
-        this.deleteFreezeDialog.title.gr = "Διαγραφή";
+        this.deleteFreezeDialog.title.en = "Delete Artwork";
+        this.deleteFreezeDialog.title.gr = "Διαγραφή Εργου Τέχνης";
       } else {
         this.deleteFreezeDialog.state = "freeze";
         this.deleteFreezeDialog.text.en = "Are you sure you want to freeze the artwork?";
         this.deleteFreezeDialog.text.gr = "Είστε σίγουροι ότι θέλετε να παγώσετε το έργο τέχνης;";
-        this.deleteFreezeDialog.title.en = "Freeze";
-        this.deleteFreezeDialog.title.gr = "Πάγωμα";
+        this.deleteFreezeDialog.title.en = "Freeze Artwork";
+        this.deleteFreezeDialog.title.gr = "Πάγωμα Εργου Τέχνης";
       }
       this.deleteFreezeDialog.public_id = artworkPublicId;
       this.deleteFreezeDialog.toggle = true;
@@ -1829,7 +1948,7 @@ export default {
     },
     editArtwork(artworkObject) {
       this.artworkDataObject = artworkObject;
-      this.editDialog = true;
+      this.editDialog.toggle = true;
     }
   },
   metaInfo () {

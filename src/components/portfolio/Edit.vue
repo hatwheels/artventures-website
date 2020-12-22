@@ -24,7 +24,6 @@
               class="pb-2"
               :items="artworkTypes"
               required
-              background-color="#FAFAFA"
               color="#1A1A1A"
               :error-messages="typeErrors"
               @input="delayTouch($v.type)"
@@ -37,8 +36,7 @@
             />
             <v-text-field
               v-model.trim="title"
-              class="pb-2"
-              background-color="#FAFAFA"
+              class="pb-2 text-capitalize"
               color="#1A1A1A"
               :error-messages="titleErrors"
               @input="delayTouch($v.title)"
@@ -48,7 +46,6 @@
             <v-combobox
               v-model="tags"
               class="pb-6"
-              background-color="#FAFAFA"
               color="#1A1A1A"
               :error-messages="tagsErrors"
               :label="artworkForm.tags.label[getLang]"
@@ -76,7 +73,6 @@
                   class="pt-0"
                   v-model="unit"
                   :items="artworkUnits"
-                  background-color="#FAFAFA"
                   color="#1A1A1A"
                   :hint="artworkForm.unit[getLang]"
                   persistent-hint
@@ -88,7 +84,6 @@
                   v-model="height"
                   class="pt-0"
                   :disabled="!unit"
-                  background-color="#FAFAFA"
                   color="#1A1A1A"
                   :error-messages="heightErrors"
                   :hint="artworkForm.height[getLang]"
@@ -103,7 +98,6 @@
                   v-model="width"
                   class="pt-0"
                   :disabled="!unit"
-                  background-color="#FAFAFA"
                   color="#1A1A1A"
                   :error-messages="widthErrors"
                   :hint="artworkForm.width[getLang]"
@@ -118,7 +112,6 @@
                   v-model="depth"
                   class="pt-0"
                   :disabled="!unit"
-                  background-color="#FAFAFA"
                   color="#1A1A1A"
                   :error-messages="depthErrors"
                   :hint="artworkForm.depth[getLang]"
@@ -137,7 +130,6 @@
             <v-text-field
               v-model.trim="value"
               class="pb-4"
-              background-color="#FAFAFA"
               color="#1A1A1A"
               :error-messages="valueErrors"
               placeholder="1000..."
@@ -161,7 +153,6 @@
               outlined
               placeholder="1818..."
               :label="artworkForm.salePrice[getLang]"
-              background-color="#FAFAFA"
               color="#1A1A1A"
               prefix="€"
             ></v-text-field>
@@ -172,7 +163,6 @@
               outlined
               :label="artworkForm.rentPrice[getLang]"
               placeholder="175..."
-              background-color="#FAFAFA"
               color="#1A1A1A"
               prefix="€"
             ></v-text-field>
@@ -188,6 +178,9 @@
             :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
             class="text-capitalize white--text mr-2"
             color="#333333"
+            :disabled="$v.$invalid"
+            :loading="isLoading"
+            @click="submit()"
           >
             {{ artworkForm.submit[getLang] }}
           </v-btn>
@@ -217,6 +210,13 @@ import {
   minLength,
 } from "vuelidate/lib/validators";
 
+const toTitleCase = (phrase) => {
+  return phrase
+    .toLowerCase()
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+};
 const alphaNumPlus = (value) => /^[a-zA-Z0-9- ]*$/.test(value);
 const touchMap = new WeakMap();
 
@@ -265,19 +265,18 @@ export default {
       numeric,
     },
   },
-  created() {
-    console.log(this.artworkData)
-  },
   data () {
     return {
+      isLoading: false,
+      isSuccess: "",
       // Artwork upload form data
-      title: this.artworkData.title || null,
+      title: toTitleCase(this.artworkData.title) || null,
       type: this.artworkData.type['en'].toLowerCase() || null,
       unit: this.artworkData.dimension || null,
       height: this.artworkData.height || null,
       width: this.artworkData.width || null,
       depth: this.artworkData.depth || null,
-      tags: this.artworkData.tags || null,
+      tags: this.artworkData.tags || [],
       value: this.artworkData.value || null,
       salePrice: this.artworkData.salePrice || null,
       rentPrice: this.artworkData.rentPrice || null,
@@ -357,6 +356,67 @@ export default {
         this.salePrice = null;
         this.rentPrice = null;
       }
+    },
+    submit () {
+      this.$v.$touch();
+      if (!this.$v.$invalid) {
+        this.isLoading = true;
+        if (process.isClient && this.$auth.user) {
+          // contextual metadata
+
+          var context = "type=" + String(this.type);
+          if (this.title) {
+            context += "|caption=" + String(this.title);
+          }
+          if (this.value) {
+            context += "|value=" + String(this.value);
+            // Add sale price
+            this.salePrice = this.calcSalePrice(this.value);
+            context += "|sale_price=" + String(this.salePrice);
+            // Add rent price
+            this.rentPrice = this.calcRentPrice(this.salePrice);
+            context += "|rent_price=" + String(this.rentPrice);
+          }
+          if (this.unit && this.width && this.height) {
+            switch (this.type) {
+              case 'sculpture':
+                if (this.depth) {
+                  context += "|dimension=" + String(this.unit) + "|width=" + String(this.width) +
+                    "|height=" + String(this.height) + "|depth=" + String(this.depth);
+                }
+                break;
+              case 'painting':
+                context += "|dimension=" + String(this.unit) + "|width=" + String(this.width) +
+                    "|height=" + String(this.height);
+            }
+          }
+          // tags
+          var tagsConcatStr = "";
+          if (Array.isArray(this.tags) && this.tags.length) {
+            this.tags.forEach(tag => {
+              tagsConcatStr += tag + ",";
+            })
+            tagsConcatStr = tagsConcatStr.slice(0, -1);
+          }
+
+          // update
+          this.$imgdb.updateArtwork(this.artworkData.public_id, context, tagsConcatStr)
+            .then(resp => this.isSuccess = true)
+            .catch(err =>  this.isSuccess = false)
+            .finally(() => {
+              this.isLoading = false;
+              this.$emit("submitted", this.isSuccess);
+            })
+        }
+        this.$v.$reset();
+      }
+    },
+    delayTouch($v) {
+      $v.$reset();
+      if (touchMap.has($v)) {
+        clearTimeout(touchMap.get($v));
+      }
+      touchMap.set($v, setTimeout($v.$touch, 1000));
     },
   }
 };
