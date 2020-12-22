@@ -32,6 +32,7 @@ let imgdb = new Vue({
                 }).catch(err => reject(err))
             })
         },
+        // Create Artwork
         uploadArtwork(user_id, img, context, tags, watermarkObj) {
             return new Promise((resolve, reject) => {
                 let folder = 'artwork/' + user_id +  '/inprocess/'
@@ -60,6 +61,7 @@ let imgdb = new Vue({
                 }).catch(err => reject(err))
             })
         },
+        // Read ALL artworks
         retrieveArtworks(user_id, path) {
             return new Promise((resolve, reject) => {
                 let folder = 'artwork/' + user_id + '/' + path;
@@ -84,6 +86,29 @@ let imgdb = new Vue({
                 }).catch(err => reject(err))
             })
         },
+        // Delete artwork
+        deleteArtwork(public_id) {
+            return new Promise((resolve, reject) => {
+                axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/cloudinary-delete',
+                    {
+                        public_id: public_id
+                    },
+                    {
+                        headers: {
+                            "Access-Control-Allow-Origin": "*",
+                            "Access-Control-Allow-Headers": "Content-Type",
+                            "Content-Type": "application/json"
+                        }
+                    }
+                ).then(res => {
+                    if (200 === res.status) {
+                        resolve(res.data)
+                    } else {
+                        reject(res.status)
+                    }
+                }).catch(err => reject(err))
+            })
+        }
     }
 })
 

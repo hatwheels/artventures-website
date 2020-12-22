@@ -137,11 +137,12 @@
                                     large
                                     v-bind="attrs"
                                     v-on="on"
+                                    @click="setDeleteFreezeDialog(i === 1 ? false : true)"
                                   >
-                                    <v-icon size="30">{{ i === 3 ? 'mdi-delete-forever' : 'mdi-delete' }}</v-icon>
+                                    <v-icon size="30">{{ i === 1 ? 'mdi-delete' : 'mdi-delete-forever' }}</v-icon>
                                   </v-btn>
                                 </template>
-                                <span>{{ i === 3 ? plainText.artworkDelete[getLang] : plainText.artworkFreeze[getLang] }}</span>
+                                <span>{{ i === 1 ? plainText.artworkFreeze[getLang] : plainText.artworkDelete[getLang] }}</span>
                               </v-tooltip>
                               <!-- Fullscreen -->
                               <v-tooltip top color="black">
@@ -259,11 +260,12 @@
                                     icon
                                     v-bind="attrs"
                                     v-on="on"
+                                    @click="setDeleteFreezeDialog(i === 1 ? false : true)"
                                   >
-                                    <v-icon>{{ i === 3 ? 'mdi-delete-forever' : 'mdi-delete' }}</v-icon>
+                                    <v-icon>{{ i === 1 ? 'mdi-delete' : 'mdi-delete-forever' }}</v-icon>
                                   </v-btn>
                                 </template>
-                                <span>{{ i === 3 ? plainText.artworkDelete[getLang] : plainText.artworkFreeze[getLang] }}</span>
+                                <span>{{ i === 1 ? plainText.artworkFreeze[getLang] : plainText.artworkDelete[getLang] }}</span>
                               </v-tooltip>
                               <!-- Fullscreen -->
                               <v-tooltip top color="black" open-on-click open-on-focus>
@@ -653,6 +655,42 @@
             />
           </v-dialog>
 
+          <!-- Delete / Freeze Dialog -->
+          <v-dialog
+            v-model="deleteFreezeDialog.toggle"
+            persistent
+            overlay-color="transparent"
+            :width="$vuetify.breakpoint.mobile ? '80vw' : '25vw'"
+          >
+            <v-card>
+              <v-card-title class="pl-3">{{ deleteFreezeDialog.title[getLang] }}</v-card-title>
+              <v-card-text
+                class="px-3 pt-2 pb-4"
+                :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
+              >
+                {{ deleteFreezeDialog.text[getLang] }}
+              </v-card-text>
+              <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                      class="white--text"
+                      :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
+                      color="#333333"
+                      @click="clearDeleteFreezeDialog()"
+                  >
+                    {{ deleteFreezeDialog.btnCancelText[getLang] }}
+                  </v-btn>
+                  <v-btn
+                      class="white--text"
+                      :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
+                      color="#333333"
+                  >
+                    OK
+                  </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+
           <!-- Scroll to Top -->
           <scroll-to-top />
 
@@ -785,6 +823,21 @@ export default {
         text: {
           gr: '',
           en: '',
+        }
+      },
+      deleteFreezeDialog: {
+        toggle: false,
+        title: {
+          gr: '',
+          en: ''
+        },
+        text: {
+          gr: '',
+          en: ''
+        },
+        btnCancelText: {
+          gr: 'Ακυρωση',
+          en: 'Cancel'
         }
       },
       tabs: {
@@ -1196,6 +1249,7 @@ export default {
                 case 'inprocess':
                   this.allArtworks[0].push({
                     url: resource.secure_url,
+                    public_id: resource.public_id,
                     title: title,
                     type: type,
                     value: value,
@@ -1211,6 +1265,7 @@ export default {
                 case 'approved':
                   this.allArtworks[1].push({
                     url: resource.secure_url,
+                    public_id: resource.public_id,
                     title: title,
                     type: type,
                     value: value,
@@ -1226,6 +1281,7 @@ export default {
                 case 'rejected':
                   this.allArtworks[2].push({
                     url: resource.secure_url,
+                    public_id: resource.public_id,
                     title: title,
                     type: type,
                     value: value,
@@ -1241,6 +1297,7 @@ export default {
                 case 'frozen':
                   this.allArtworks[3].push({
                     url: resource.secure_url,
+                    public_id: resource.public_id,
                     title: title,
                     type: type,
                     value: value,
@@ -1289,6 +1346,27 @@ export default {
       this.dialogPortfolio.toggle = false
       this.dialogPortfolio.text.en = ""
       this.dialogPortfolio.text.gr = ""
+    },
+    setDeleteFreezeDialog(isDelete) {
+      if (isDelete === true) {
+        this.deleteFreezeDialog.text.en = "Are you sure you want to permanently delete the artwork?"
+        this.deleteFreezeDialog.text.gr = "Είστε σίγουροι ότι θέλετε να διαγράψετε οριστικώς το έργο τέχνης;"
+        this.deleteFreezeDialog.title.en = "Delete"
+        this.deleteFreezeDialog.title.gr = "Διαγραφή"
+      } else {
+        this.deleteFreezeDialog.text.en = "Are you sure you want to freeze the artwork?"
+        this.deleteFreezeDialog.text.gr = "Είστε σίγουροι ότι θέλετε να παγώσετε το έργο τέχνης;"
+        this.deleteFreezeDialog.title.en = "Freeze"
+        this.deleteFreezeDialog.title.gr = "Πάγωμα"
+      }
+      this.deleteFreezeDialog.toggle = true;
+    },
+    clearDeleteFreezeDialog() {
+      this.deleteFreezeDialog.text.en = ""
+      this.deleteFreezeDialog.text.gr = ""
+      this.deleteFreezeDialog.title.en = ""
+      this.deleteFreezeDialog.title.gr = ""
+      this.deleteFreezeDialog.toggle = false;
     },
     getImage(output) {
       if (this.currentImageCount > this.maxImageCount) {
@@ -1355,6 +1433,7 @@ export default {
               // update artworks 0 (in process)
               this.allArtworks[0].push({
                 url: response.secure_url,
+                public_id: response.public_id,
                 type: this.plainText.type[contextObj.type],
                 title: contextObj.hasOwnProperty("caption") ? contextObj.caption : '',
                 value: contextObj.hasOwnProperty("value") ? contextObj.value : '',

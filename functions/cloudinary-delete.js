@@ -9,8 +9,8 @@ exports.handler = async (event, context) => {
     try {
         const data = JSON.parse(event.body)
 
-        if (!data.id) {
-            console.log('401: id query parameter required.')
+        if (!data.public_id) {
+            console.log('401: public_id query parameter required.')
             console.log("### END ###")
 
             return {
@@ -26,9 +26,9 @@ exports.handler = async (event, context) => {
             api_secret: process.env.CLOUDINARY_API_SECRET 
         });
 
-        console.log("public id: " + data.id)
+        console.log("public id: " + data.public_id)
 
-        return cloudinary.uploader.destroy(id, { invalidate: true })
+        return cloudinary.uploader.destroy(public_id, { invalidate: true })
         .then(res => {
             var reply = JSON.stringify(res)
 
