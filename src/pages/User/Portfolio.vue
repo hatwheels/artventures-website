@@ -114,6 +114,21 @@
                           </v-col>
                           <v-col cols="auto" class="d-flex flex-column align-end">
                             <v-card-actions>
+                              <!-- Restore -->
+                              <v-tooltip v-if="i === 3" top color="black">
+                                <template v-slot:activator="{ on, attrs }">
+                                  <v-btn
+                                    icon
+                                    large
+                                    v-bind="attrs"
+                                    v-on="on"
+                                    @click="setRestoreDialog(artwork.public_id)"
+                                  >
+                                    <v-icon size="30">mdi-delete-restore</v-icon>
+                                  </v-btn>
+                                </template>
+                                <span>{{ getLang === 'gr' ? 'Επαναφορά' : 'Restore' }}</span>
+                              </v-tooltip>
                               <!-- Edit -->
                               <v-tooltip top color="black">
                                 <template v-slot:activator="{ on, attrs }">
@@ -239,6 +254,20 @@
                           </div>
                           <div class="d-flex flex-column align-end">
                             <v-card-actions>
+                              <!-- Restore -->
+                              <v-tooltip v-if="i === 3" top color="black" open-on-click open-on-focus>
+                                <template v-slot:activator="{ on, attrs }">
+                                  <v-btn
+                                    icon
+                                    v-bind="attrs"
+                                    v-on="on"
+                                    @click="artwork.public_id(artwork.public_id)"
+                                  >
+                                    <v-icon>mdi-delete-restore</v-icon>
+                                  </v-btn>
+                                </template>
+                                <span>{{ getLang === 'gr' ? 'Επαναφορά' : 'Restore' }}</span>
+                              </v-tooltip>
                               <!-- Edit -->
                               <v-tooltip top color="black">
                                 <template v-slot:activator="{ on, attrs }">
@@ -637,6 +666,80 @@
             </v-card>
           </v-dialog>
 
+          <!-- Restore Dialog -->
+          <v-dialog
+            v-model="restoreDialog.toggle"
+            persistent
+            overlay-color="transparent"
+            :width="$vuetify.breakpoint.mobile ? '80vw' : '25vw'"
+          >
+            <v-card>
+              <v-card-title class="pl-3">{{ restoreDialog.title[getLang] }}</v-card-title>
+              <v-card-text
+                class="px-3 pt-2 pb-4"
+                :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
+              >
+                {{ restoreDialog.text[getLang] }}
+              </v-card-text>
+              <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                      class="black--text"
+                      :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
+                      color="#FFFFFF"
+                      :disabled="restoreDialog.loading"
+                      @click="clearRestoreDialog()"
+                  >
+                    {{ restoreDialog.btnCancelText[getLang] }}
+                    
+                  </v-btn>
+                  <v-btn
+                      class="white--text"
+                      :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
+                      color="#333333"
+                      :loading="restoreDialog.loading"
+                      @click="restoreProcess()"
+                  >
+                    OK
+                  </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+          <!-- Success / Failure Restore process -->
+          <v-dialog
+            v-model="restoreDialog.result.toggle"
+            persistent
+            overlay-color="transparent"
+            :width="$vuetify.breakpoint.mobile ? '80vw' : '25vw'"
+          >
+            <v-card>
+              <v-card-title class="pl-3">{{ restoreDialog.title[getLang] }}</v-card-title>
+              <v-card-text
+                class="px-3 pt-2 pb-4"
+                :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
+              >
+                {{ restoreDialog.result.text[getLang] }}
+              </v-card-text>
+              <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                      class="white--text"
+                      :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
+                      color="#333333"
+                      :disabled="!restoreDialog.result.enableBtn"
+                      @click="
+                        if (restoreDialog.result.isSuccess) {
+                          reloadArtworks();
+                        }
+                        clearRestoreDialog();
+                      "
+                  >
+                    OK
+                  </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+
           <!-- Edit Dialog -->
           <v-dialog
             v-model="editDialog"
@@ -685,6 +788,7 @@
                       class="black--text"
                       :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
                       color="#FFFFFF"
+                      :disabled="deleteFreezeDialog.loading"
                       @click="clearDeleteFreezeDialog()"
                   >
                     {{ deleteFreezeDialog.btnCancelText[getLang] }}
@@ -860,6 +964,32 @@ export default {
         text: {
           gr: '',
           en: '',
+        }
+      },
+      restoreDialog: {
+        toggle: false,
+        public_id: null,
+        loading: false,
+        title: {
+          gr: 'Επαναφορά',
+          en: 'Restore'
+        },
+        text: {
+          gr: 'Θέλετε να επαναφέρετε το έργο τέχνης;',
+          en: 'Do you want to restore the artwork?'
+        },
+        btnCancelText: {
+          gr: 'Ακυρωση',
+          en: 'Cancel'
+        },
+        result: {
+          toggle: false,
+          isSuccess: false,
+          text: {
+            gr: '',
+            en: ''
+          },
+          enableBtn: false
         }
       },
       deleteFreezeDialog: {
@@ -1405,11 +1535,6 @@ export default {
       ];
       this.fetchArtistArtworks();
     },
-    waitBeforeReload() {
-      setTimeout(() => {
-        this.deleteFreezeDialog.result.enableBtn = true;
-      }, 3000);
-    },
     // Alert for image limit
     setAlertImage() {
       const that = this;
@@ -1423,6 +1548,44 @@ export default {
       this.dialogPortfolio.toggle = false;
       this.dialogPortfolio.text.en = "";
       this.dialogPortfolio.text.gr = "";
+    },
+    setRestoreDialog(artworkPublicId) {
+      this.restoreDialog.public_id = artworkPublicId;
+      this.restoreDialog.toggle = true;
+    },
+    clearRestoreDialog() {
+      this.restoreDialog.public_id = null;
+      this.restoreDialog.toggle = false;
+      this.restoreDialog.result.toggle = false;
+      this.restoreDialog.result.isSuccess = false;
+      this.restoreDialog.result.text.gr = '';
+      this.restoreDialog.result.text.en = '';
+      this.restoreDialog.result.enableBtn = false;
+    },
+    restoreProcess(public_id) {
+      this.restoreDialog.loading = true;
+      this.$imgdb.moveArtwork(
+        this.restoreDialog.public_id,
+        this.restoreDialog.public_id.replace('frozen', 'approved')
+      ).then(approved => {
+        this.restoreDialog.result.isSuccess = true;
+        this.restoreDialog.result.text.en = "Successfully restored";
+        this.restoreDialog.result.text.gr = "Επαναφέρθηκε επιτυχώς";
+        setTimeout(() => {
+          this.restoreDialog.result.enableBtn = true;
+        }, 3000);
+      })
+      .catch(err => {
+        this.restoreDialog.result.isSuccess = false;
+        this.restoreDialog.result.text.en = "Restoration failed. Please try again later";
+        this.restoreDialog.result.text.gr = "Η επαναφορά απέτυχε. Παρακαλώ προσπαθήστε αργότερα";
+        this.restoreDialog.result.enableBtn = true;
+      })
+      .finally(() => {
+        this.restoreDialog.toggle = false;
+        this.restoreDialog.loading = false;
+        this.restoreDialog.result.toggle = true;
+      })
     },
     setDeleteFreezeDialog(isDelete, artworkPublicId) {
       if (isDelete === true) {
@@ -1464,7 +1627,9 @@ export default {
             this.deleteFreezeDialog.result.text.en = "Successfully deleted";
             this.deleteFreezeDialog.result.text.gr = "Διεγράφη επιτυχώς"
             this.deleteFreezeDialog.result.isSuccess = true;
-            this.waitBeforeReload();
+            setTimeout(() => {
+              this.deleteFreezeDialog.result.enableBtn = true;
+            }, 3000);
           })
           .catch(err => {
             this.deleteFreezeDialog.result.text.en = "Deletion failed. Please try again later";
@@ -1487,7 +1652,9 @@ export default {
             this.deleteFreezeDialog.result.text.en = "Successfully frozen";
             this.deleteFreezeDialog.result.text.gr = "Παγώθηκε επιτυχώς";
             this.deleteFreezeDialog.result.isSuccess = true;
-            this.waitBeforeReload();
+            setTimeout(() => {
+              this.deleteFreezeDialog.result.enableBtn = true;
+            }, 3000);
           })
           .catch(err => {
             this.deleteFreezeDialog.result.text.en = "Frozing failed. Please try again later";
