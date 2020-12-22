@@ -76,10 +76,25 @@
                               class="raleway-23-400 text-capitalize font-italic text-start pr-0"
                               v-text="artwork.title" />
                             <v-card-text class="raleway-18-400 text-start pr-0">
-                              <div v-if="artwork.type" class="text-capitalize">{{ artwork.type[getLang] }}
-                                <span v-if="artwork.size" class="text-lowercase"> - {{ artwork.size }}</span>
+                              <div
+                                v-if="artwork.type['en'].toLowerCase() === 'painting'"
+                                class="text-capitalize"
+                              >{{ artwork.type[getLang] }}
+                                <span
+                                  v-if="artwork.dimension && artwork.height && artwork.width"
+                                  class="text-lowercase"> - {{ artwork.height + ' x ' + artwork.width + ' ' + artwork.dimension }}
+                                </span>
                               </div>
-                              <div v-else-if="artwork.size" class="text-lowercase">{{ artwork.size }}</div>
+                              <div
+                                v-else-if="artwork.type['en'].toLowerCase() === 'sculpture'"
+                                class="text-capitalize"
+                              >{{ artwork.type[getLang] }}
+                                <span
+                                  v-if="artwork.dimension && artwork.height && artwork.width && artwork.width"
+                                  class="text-lowercase">
+                                  - {{ artwork.height + ' x ' + artwork.width + ' x ' + artwork.depth + ' ' + artwork.dimension }}
+                                </span>
+                              </div>
                               <v-row v-if="artwork.tags.length > 0"
                                 class="pt-2"
                                 no-gutters
@@ -99,6 +114,52 @@
                           </v-col>
                           <v-col cols="auto" class="d-flex flex-column align-end">
                             <v-card-actions>
+                              <!-- Restore -->
+                              <v-tooltip v-if="i === 3" top color="black">
+                                <template v-slot:activator="{ on, attrs }">
+                                  <v-btn
+                                    icon
+                                    large
+                                    v-bind="attrs"
+                                    v-on="on"
+                                    @click="setRestoreDialog(artwork.public_id, artwork.secure_url)"
+                                  >
+                                    <v-icon size="30">mdi-delete-restore</v-icon>
+                                  </v-btn>
+                                </template>
+                                <span>{{ getLang === 'gr' ? 'Επαναφορά' : 'Restore' }}</span>
+                              </v-tooltip>
+                              <!-- Edit -->
+                              <v-tooltip top color="black">
+                                <template v-slot:activator="{ on, attrs }">
+                                  <v-btn
+                                    icon
+                                    large
+                                    v-bind="attrs"
+                                    v-on="on"
+                                    @click="editArtwork(artwork)"
+                                  >
+                                    <v-icon size="30">mdi-pencil</v-icon>
+                                  </v-btn>
+                                </template>
+                                <span>{{ plainText.artworkEdit[getLang] }}</span>
+                              </v-tooltip>
+                              <!-- Delete -->
+                              <v-tooltip top color="black">
+                                <template v-slot:activator="{ on, attrs }">
+                                  <v-btn
+                                    icon
+                                    large
+                                    v-bind="attrs"
+                                    v-on="on"
+                                    @click="setDeleteFreezeDialog(i === 1 ? false : true, artwork.public_id, artwork.secure_url)"
+                                  >
+                                    <v-icon size="30">{{ i === 1 ? 'mdi-delete' : 'mdi-delete-forever' }}</v-icon>
+                                  </v-btn>
+                                </template>
+                                <span>{{ i === 1 ? plainText.artworkFreeze[getLang] : plainText.artworkDelete[getLang] }}</span>
+                              </v-tooltip>
+                              <!-- Fullscreen -->
                               <v-tooltip top color="black">
                                 <template v-slot:activator="{ on, attrs }">
                                   <v-btn
@@ -129,7 +190,7 @@
                   </v-row>
                   <!-- Mobile -->
                   <v-row class="hidden-md-and-up" justify="center" align="center">
-                    <v-col v-for="(artwork, i ) in artworksInSection" :key="'artwork-mobile-' + i" cols="12">
+                    <v-col v-for="(artwork, l ) in artworksInSection" :key="'artwork-mobile-' + l" cols="12">
                       <v-card>
                         <v-img
                           :src="artwork.url"
@@ -155,10 +216,25 @@
                               class="raleway-16-400 text-capitalize font-italic text-start pr-0"
                               v-text="artwork.title" />
                             <v-card-text class="raleway-13-400 text-start pr-0">
-                              <div v-if="artwork.type" class="text-capitalize">{{ artwork.type[getLang] }}
-                                <span v-if="artwork.size" class="text-lowercase"> - {{ artwork.size }}</span>
+                              <div
+                                v-if="artwork.type['en'].toLowerCase() === 'painting'"
+                                class="text-capitalize"
+                              >{{ artwork.type[getLang] }}
+                                <span
+                                  v-if="artwork.dimension && artwork.height && artwork.width"
+                                  class="text-lowercase"> - {{ artwork.height + ' x ' + artwork.width + ' ' + artwork.dimension }}
+                                </span>
                               </div>
-                              <div v-else-if="artwork.size" class="text-lowercase">{{ artwork.size }}</div>
+                              <div
+                                v-else-if="artwork.type['en'].toLowerCase() === 'sculpture'"
+                                class="text-capitalize"
+                              >{{ artwork.type[getLang] }}
+                                <span
+                                  v-if="artwork.dimension && artwork.height && artwork.width && artwork.width"
+                                  class="text-lowercase">
+                                  - {{ artwork.height + ' x ' + artwork.width + ' x ' + artwork.depth + ' ' + artwork.dimension }}
+                                </span>
+                              </div>
                               <v-row v-if="artwork.tags.length > 0"
                                 class="pt-2"
                                 no-gutters
@@ -178,7 +254,50 @@
                           </div>
                           <div class="d-flex flex-column align-end">
                             <v-card-actions>
+                              <!-- Restore -->
+                              <v-tooltip v-if="i === 3" top color="black" open-on-click open-on-focus>
+                                <template v-slot:activator="{ on, attrs }">
+                                  <v-btn
+                                    icon
+                                    v-bind="attrs"
+                                    v-on="on"
+                                    @click="artwork.public_id(artwork.public_id)"
+                                  >
+                                    <v-icon>mdi-delete-restore</v-icon>
+                                  </v-btn>
+                                </template>
+                                <span>{{ getLang === 'gr' ? 'Επαναφορά' : 'Restore' }}</span>
+                              </v-tooltip>
+                              <!-- Edit -->
                               <v-tooltip top color="black">
+                                <template v-slot:activator="{ on, attrs }">
+                                  <v-btn
+                                    icon
+                                    v-bind="attrs"
+                                    v-on="on"
+                                    @click="editArtwork(artwork)"
+                                  >
+                                    <v-icon>mdi-pencil</v-icon>
+                                  </v-btn>
+                                </template>
+                                <span>{{ plainText.artworkEdit[getLang] }}</span>
+                              </v-tooltip>
+                              <!-- Delete -->
+                              <v-tooltip top color="black"  open-on-click open-on-focus>
+                                <template v-slot:activator="{ on, attrs }">
+                                  <v-btn
+                                    icon
+                                    v-bind="attrs"
+                                    v-on="on"
+                                    @click="setDeleteFreezeDialog(i === 1 ? false : true, artwork.public_id)"
+                                  >
+                                    <v-icon>{{ i === 1 ? 'mdi-delete' : 'mdi-delete-forever' }}</v-icon>
+                                  </v-btn>
+                                </template>
+                                <span>{{ i === 1 ? plainText.artworkFreeze[getLang] : plainText.artworkDelete[getLang] }}</span>
+                              </v-tooltip>
+                              <!-- Fullscreen -->
+                              <v-tooltip top color="black" open-on-click open-on-focus>
                                 <template v-slot:activator="{ on, attrs }">
                                   <v-btn
                                     icon
@@ -226,15 +345,7 @@
                 <v-select
                   v-model="type"
                   class="pb-2"
-                  :items="[
-                    {
-                      text: getLang === 'gr' ? 'Πίνακας' : 'Painting',
-                      value: 'painting'
-                    },
-                    {
-                      text: getLang === 'gr' ? 'Γλυπτό' : 'Sculpture',
-                      value: 'sculpture'
-                    }]"
+                  :items="artworkTypes"
                   required
                   background-color="#FAFAFA"
                   color="#1A1A1A"
@@ -287,15 +398,7 @@
                     <v-select
                       class="pt-0"
                       v-model="unit"
-                      :items="[
-                        {
-                          text: 'cm',
-                          value: 'cm'
-                        },
-                        {
-                          text: 'inches',
-                          value: 'in'
-                        }]"
+                      :items="artworkUnits"
                       background-color="#FAFAFA"
                       color="#1A1A1A"
                       :hint="artworkForm.unit[getLang]"
@@ -563,6 +666,232 @@
             </v-card>
           </v-dialog>
 
+          <!-- Restore Dialog -->
+          <v-dialog
+            v-model="restoreDialog.toggle"
+            persistent
+            overlay-color="transparent"
+            :width="$vuetify.breakpoint.mobile ? '80vw' : '25vw'"
+          >
+            <v-card>
+              <v-card-title
+                class="pl-3"
+                :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
+              >
+                {{ restoreDialog.title[getLang] }}
+              </v-card-title>
+              <v-card-text
+                class="px-3 pt-2 pb-4"
+                :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
+              >
+                {{ restoreDialog.text[getLang] }}
+              </v-card-text>
+              <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                      class="black--text"
+                      :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
+                      color="#FFFFFF"
+                      :disabled="restoreDialog.loading"
+                      @click="clearRestoreDialog()"
+                  >
+                    {{ restoreDialog.btnCancelText[getLang] }}
+                    
+                  </v-btn>
+                  <v-btn
+                      class="white--text"
+                      :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
+                      color="#333333"
+                      :loading="restoreDialog.loading"
+                      @click="restoreProcess()"
+                  >
+                    OK
+                  </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+          <!-- Success / Failure Restore process -->
+          <v-dialog
+            v-model="restoreDialog.result.toggle"
+            persistent
+            overlay-color="transparent"
+            :width="$vuetify.breakpoint.mobile ? '80vw' : '25vw'"
+          >
+            <v-card>
+              <v-card-title
+                class="pl-3"
+                :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
+              >
+                {{ restoreDialog.title[getLang] }}
+              </v-card-title>
+              <v-card-text
+                class="px-3 pt-2 pb-4"
+                :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
+              >
+                {{ restoreDialog.result.text[getLang] }}
+              </v-card-text>
+              <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                      class="white--text"
+                      :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
+                      color="#333333"
+                      :disabled="!restoreDialog.result.enableBtn"
+                      @click="
+                        if (restoreDialog.result.isSuccess) {
+                          reloadArtworks();
+                        }
+                        clearRestoreDialog();
+                      "
+                  >
+                    OK
+                  </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+
+          <!-- Edit Dialog -->
+          <v-dialog
+            v-model="editDialog.toggle"
+            scrollable
+            persistent
+            overlay-color="transparent"
+            :fullscreen="$vuetify.breakpoint.mobile ? true : false"
+            :width="$vuetify.breakpoint.mobile ? 'auto' : '50vw'">
+            <edit-artwork
+              v-if="editDialog.toggle"
+              :artworkData="artworkDataObject"
+              :artworkForm="artworkForm"
+              :artworkTypes="artworkTypes"
+              :artworkUnits="artworkUnits"
+              @close-edit-dialog="onEditCloseDialog"
+              @submitted="onEditSubmitted"
+            />
+          </v-dialog>
+          <!-- Success / Failure Edit Process -->
+          <v-dialog
+            v-model="editDialog.result.toggle"
+            persistent
+            overlay-color="transparent"
+            :width="$vuetify.breakpoint.mobile ? '80vw' : '25vw'"
+          >
+            <v-card>
+              <v-card-title
+                class="pl-3"
+                :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
+              >
+                {{ getLang === 'gr' ? 'Επεξεργασία Έργου Τέχνης' : 'Edit Artwork'  }}
+              </v-card-title>
+              <v-card-text
+                class="px-3 pt-2 pb-4"
+                :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
+              >
+                {{ editDialog.result.text[getLang] }}
+              </v-card-text>
+              <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                      class="white--text"
+                      :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
+                      color="#333333"
+                      :disabled="!editDialog.result.enableBtn"
+                      @click="
+                        if (editDialog.result.isSuccess) {
+                          reloadArtworks();
+                        }
+                        clearEditDialog();
+                      "
+                  >
+                    OK
+                  </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+
+          <!-- Delete / Freeze Dialog -->
+          <v-dialog
+            v-model="deleteFreezeDialog.toggle"
+            persistent
+            overlay-color="transparent"
+            :width="$vuetify.breakpoint.mobile ? '80vw' : '25vw'"
+          >
+            <v-card>
+              <v-card-title
+                class="pl-3"
+                :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
+              >
+                {{ deleteFreezeDialog.title[getLang] }}
+              </v-card-title>
+              <v-card-text
+                class="px-3 pt-2 pb-4"
+                :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
+              >
+                {{ deleteFreezeDialog.text[getLang] }}
+              </v-card-text>
+              <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                      class="white--text"
+                      :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
+                      color="#333333"
+                      :loading="deleteFreezeDialog.loading"
+                      @click="deleteFreezeProcess()"
+                  >
+                    OK
+                  </v-btn>
+                  <v-btn
+                      class="black--text"
+                      :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
+                      color="#FFFFFF"
+                      :disabled="deleteFreezeDialog.loading"
+                      @click="clearDeleteFreezeDialog()"
+                  >
+                    {{ deleteFreezeDialog.btnCancelText[getLang] }}
+                    
+                  </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+          <!-- Success / Failure Delete / Freeze process -->
+          <v-dialog
+            v-model="deleteFreezeDialog.result.toggle"
+            persistent
+            overlay-color="transparent"
+            :width="$vuetify.breakpoint.mobile ? '80vw' : '25vw'"
+          >
+            <v-card>
+              <v-card-title
+                class="pl-3"
+                :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
+              >
+                {{ deleteFreezeDialog.title[getLang] }}
+              </v-card-title>
+              <v-card-text
+                class="px-3 pt-2 pb-4"
+                :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
+              >
+                {{ deleteFreezeDialog.result.text[getLang] }}
+              </v-card-text>
+              <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                      class="white--text"
+                      :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
+                      color="#333333"
+                      :disabled="!deleteFreezeDialog.result.enableBtn"
+                      @click="
+                        if (deleteFreezeDialog.result.isSuccess) {
+                          reloadArtworks();
+                        }
+                        clearDeleteFreezeDialog();
+                      "
+                  >
+                    OK
+                  </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+
           <!-- Scroll to Top -->
           <scroll-to-top />
 
@@ -623,12 +952,12 @@ import { required, numeric, maxLength, minLength } from "vuelidate/lib/validator
 
 const touchMap = new WeakMap();
 const alphaNumPlus = (value) => /^[a-zA-Z0-9- ]*$/.test(value)
-let timeoutSize = null;
 
 export default {
   components: {
     ScrollToTop: () => import("~/components/ScrollToTop.vue"),
-    TermsDialog: () => import("~/components/TermsDialog.vue")
+    TermsDialog: () => import("~/components/TermsDialog.vue"),
+    EditArtwork: () => import("~/components/portfolio/Edit.vue")
   },
   mixins: [validationMixin],
   validations: {
@@ -697,6 +1026,61 @@ export default {
           en: '',
         }
       },
+      restoreDialog: {
+        toggle: false,
+        public_id: null,
+        url: null,
+        loading: false,
+        title: {
+          gr: 'Επαναφορά Εργου Τέχνης',
+          en: 'Restore Artwork'
+        },
+        text: {
+          gr: 'Θέλετε να επαναφέρετε το έργο τέχνης;',
+          en: 'Do you want to restore the artwork?'
+        },
+        btnCancelText: {
+          gr: 'Ακυρωση',
+          en: 'Cancel'
+        },
+        result: {
+          toggle: false,
+          isSuccess: false,
+          text: {
+            gr: '',
+            en: ''
+          },
+          enableBtn: false
+        }
+      },
+      deleteFreezeDialog: {
+        toggle: false,
+        state: '',
+        public_id: null,
+        url: null,
+        loading: false,
+        title: {
+          gr: '',
+          en: ''
+        },
+        text: {
+          gr: '',
+          en: ''
+        },
+        btnCancelText: {
+          gr: 'Ακυρωση',
+          en: 'Cancel'
+        },
+        result: {
+          toggle: false,
+          isSuccess: false,
+          text: {
+            gr: '',
+            en: ''
+          },
+          enableBtn: false
+        }
+      },
       tabs: {
         currentTab: null,
         titles: [
@@ -748,6 +1132,26 @@ export default {
         // frozen
         [ [], [], [] ]
       ],
+      artworkTypes: [
+        {
+          text: this.getLang === 'gr' ? 'Πίνακας' : 'Painting',
+          value: 'painting'
+        },
+        {
+          text: this.getLang === 'gr' ? 'Γλυπτό' : 'Sculpture',
+          value: 'sculpture'
+        }
+      ],
+      artworkUnits: [
+        {
+          text: 'cm',
+          value: 'cm'
+        },
+        {
+          text: 'inches',
+          value: 'in'
+        }
+      ],
       artworkForm: {
         title: {
           gr: 'Τίτλος Εργου',
@@ -796,8 +1200,8 @@ export default {
           en: 'Sale Price'
         },
         rentPrice: {
-          gr: 'Τιμή Ενοικίασης (μηνιαίως), στρογγυλοποιημένη στα 5€',
-          en: 'Rent Price (monthly), rounded at 5€'
+          gr: 'Τιμή Ενοικίασης (μηνιαίως)',
+          en: 'Rent Price (monthly)'
         },
         chooseArtwork: {
           gr: "Επέλεξε Εργο Τέχνης...",
@@ -913,6 +1317,18 @@ export default {
           gr: 'Μεγέθυνση',
           en: 'Enlarge'
         },
+        artworkEdit: {
+          gr: 'Επεξεργασία',
+          en: 'Edit'
+        },
+        artworkFreeze: {
+          gr: 'Πάγωμα',
+          en: 'Freeze'
+        },
+        artworkDelete: {
+          gr: 'Διαγραφή',
+          en: 'Delete'
+        },
         type: {
           painting: {
             gr: "Πίνακας",
@@ -938,6 +1354,19 @@ export default {
         maxArtworks: {
           gr: 'Έχετε φτάσει το όριο των 30 έργων τέχνης',
           en: 'You have reached the limit of 30 artworks'
+        }
+      },
+      artworkDataObject: null,
+      editDialog: {
+        toggle: false,
+        result: {
+          isSuccess: false,
+          text: {
+            en: '',
+            gr: ''
+          },
+          toggle: false,
+          enableBtn: false
         }
       }
     }
@@ -1000,6 +1429,52 @@ export default {
     onAcceptTerms(val) {
       this.termsAccepted = val;
     },
+    onEditCloseDialog(val) {
+      this.editDialog.toggle = val;
+      if (val === false) {
+        this.editDialog.result.isSuccess = false;
+        this.editDialog.result.toggle = false;
+        this.editDialog.result.enableBtn = false;
+        this.editDialog.result.text.en = '';
+        this.editDialog.result.text.gr = '';
+        this.artworkDataObject = null;
+      }
+    },
+    onEditSubmitted(val) {
+      this.editDialog.toggle = false;
+      if (val) { // true: success
+        this.editDialog.result.text.en = 'Your Artwork has been successfully edited';
+        this.editDialog.result.text.gr = 'Το Εργο Τέχνης επεξεργάστηκε επιτυχώς';
+        setTimeout(() => this.editDialog.result.enableBtn = true, 3000);
+        if (process.env.GRIDSOME_BUILD === "prod") {
+          // Notify us
+          let message = "url: "+ this.artworkDataObject.url + "\n";
+          this.$admin.sendEmail({
+            email: this.$auth.user.email || '',
+            firstname: this.$auth.user.given_name || '',
+            lastname: this.$auth.user.family_name || '',
+            subject: "Edited Artwork",
+            message: message,
+            to: 'all'
+          });
+        }
+      } else { // false: failure
+        this.editDialog.result.text.en = 'Editing your Artwork failed, please try again later';
+        this.editDialog.result.text.gr = 'Η επεξεργασία του Εργου Τέχνης απέτυχε, παρακαλώ προσπαθήστε αργότερα';
+        this.editDialog.result.enableBtn = true
+      }
+      this.artworkDataObject = null;
+      this.editDialog.result.isSuccess = val;
+      this.editDialog.result.toggle = true;
+    },
+    clearEditDialog() {
+      this.editDialog.toggle = false;
+      this.editDialog.result.isSuccess = false;
+      this.editDialog.result.toggle = false;
+      this.editDialog.result.enableBtn = false;
+      this.editDialog.result.text.en = '';
+      this.editDialog.result.text.gr = '';
+    },
     calcSalePrice (value /* Integer */) {
       return Math.round(value * 1.8181);
     },
@@ -1033,7 +1508,6 @@ export default {
               var value = '';
               var salePrice = '';
               var rentPrice = '';
-              var size = '';
               var type = '';
               var tags = resource.hasOwnProperty('tags') ? resource.tags : [];
               if (resource.hasOwnProperty('context')) {
@@ -1061,72 +1535,70 @@ export default {
                 }
                 if (resource.context.hasOwnProperty('type')) {
                   type = this.plainText.type[resource.context.type];
-                  if (type.en.toLowerCase() === 'sculpture') {
-                    // it's a sculpture
-                    if (resource.context.hasOwnProperty('dimension') &&
-                        resource.context.hasOwnProperty('height') &&
-                        resource.context.hasOwnProperty('width') &&
-                        resource.context.hasOwnProperty('depth')) {
-                      size = resource.context.height + ' x ' + resource.context.width + ' x ' +
-                        resource.context.depth + ' ' + resource.context.dimension
-                    }
-                  } else if (type.en.toLowerCase() === 'painting') {
-                    // it's a painting
-                    if (resource.context.hasOwnProperty('dimension') &&
-                        resource.context.hasOwnProperty('height') &&
-                        resource.context.hasOwnProperty('width')) {
-                      size = resource.context.height + ' x ' + resource.context.width + ' ' +
-                        resource.context.dimension
-                    }
-                  }
                 }
               }
               switch (folder) {
                 case 'inprocess':
                   this.allArtworks[0].push({
                     url: resource.secure_url,
+                    public_id: resource.public_id,
                     title: title,
                     type: type,
                     value: value,
                     salePrice: salePrice,
                     rentPrice: rentPrice,
-                    size: size,
+                    height: resource.context.height,
+                    width: resource.context.width,
+                    depth: resource.context.depth || 0,
+                    dimension: resource.context.dimension,
                     tags: tags
                   })
                   break;
                 case 'approved':
                   this.allArtworks[1].push({
                     url: resource.secure_url,
+                    public_id: resource.public_id,
                     title: title,
                     type: type,
                     value: value,
                     salePrice: salePrice,
                     rentPrice: rentPrice,
-                    size: size,
+                    height: resource.context.height,
+                    width: resource.context.width,
+                    depth: resource.context.depth || null,
+                    dimension: resource.context.dimension,
                     tags: tags
                   })
                   break;
                 case 'rejected':
                   this.allArtworks[2].push({
                     url: resource.secure_url,
+                    public_id: resource.public_id,
                     title: title,
                     type: type,
                     value: value,
                     salePrice: salePrice,
                     rentPrice: rentPrice,
-                    size: size,
+                    height: resource.context.height,
+                    width: resource.context.width,
+                    depth: resource.context.depth || null,
+                    dimension: resource.context.dimension,
                     tags: tags
                   })
                   break;
                 case 'frozen':
                   this.allArtworks[3].push({
                     url: resource.secure_url,
+                    public_id: resource.public_id,
                     title: title,
                     type: type,
                     value: value,
                     salePrice: salePrice,
                     rentPrice: rentPrice,
-                    size: size,
+                    height: resource.context.height,
+                    width: resource.context.width,
+                    depth: resource.context.depth || null,
+                    dimension: resource.context.dimension,
                     tags: tags
                   })
                   break;
@@ -1153,19 +1625,202 @@ export default {
         })
       }
     },
+    reloadArtworks() {
+     this.allArtworks = [
+        // inprocess
+        [],
+        // approved
+        [],
+        // rejected
+        [],
+        // frozen
+        []
+      ];
+      this.columns = [
+        // inprocess
+        [ [], [], [] ],
+        // approved
+        [ [], [], [] ],
+        // rejected
+        [ [], [], [] ],
+        // frozen
+        [ [], [], [] ]
+      ];
+      this.fetchArtistArtworks();
+    },
     // Alert for image limit
     setAlertImage() {
-      const that = this
+      const that = this;
       function clearAlert() {
-        that.alertImage = false
+        that.alertImage = false;
       }
       this.alertImage = true;
       setTimeout(clearAlert, 4000)
     },
     clearDialogPortfolio() {
-      this.dialogPortfolio.toggle = false
-      this.dialogPortfolio.text.en = ""
-      this.dialogPortfolio.text.gr = ""
+      this.dialogPortfolio.toggle = false;
+      this.dialogPortfolio.text.en = "";
+      this.dialogPortfolio.text.gr = "";
+    },
+    setRestoreDialog(artworkPublicId, artworkUrl) {
+      this.restoreDialog.public_id = artworkPublicId;
+      this.restoreDialog.url = artworkUrl;
+      this.restoreDialog.toggle = true;
+    },
+    clearRestoreDialog() {
+      this.restoreDialog.public_id = null;
+      this.restoreDialog.url = null;
+      this.restoreDialog.toggle = false;
+      this.restoreDialog.result.toggle = false;
+      this.restoreDialog.result.isSuccess = false;
+      this.restoreDialog.result.text.gr = '';
+      this.restoreDialog.result.text.en = '';
+      this.restoreDialog.result.enableBtn = false;
+    },
+    restoreProcess(public_id) {
+      this.restoreDialog.loading = true;
+      this.$imgdb.moveArtwork(
+        this.restoreDialog.public_id,
+        this.restoreDialog.public_id.replace('frozen', 'approved')
+      ).then(approved => {
+        this.restoreDialog.result.isSuccess = true;
+        this.restoreDialog.result.text.en = "Successfully restored";
+        this.restoreDialog.result.text.gr = "Επαναφέρθηκε επιτυχώς";
+        setTimeout(() => {
+          this.restoreDialog.result.enableBtn = true;
+        }, 3000);
+        if (process.env.GRIDSOME_BUILD === "prod") {
+          // Notify us
+          let message = "url: " + this.restoreDialog.url + "\n";
+          this.$admin.sendEmail({
+            email: this.$auth.user.email || '',
+            firstname: this.$auth.user.given_name || '',
+            lastname: this.$auth.user.family_name || '',
+            subject: "Restored artwork from Frozen to Approved",
+            message: message,
+            to: 'all'
+          });
+        }
+      })
+      .catch(err => {
+        this.restoreDialog.result.isSuccess = false;
+        this.restoreDialog.result.text.en = "Restoration failed. Please try again later";
+        this.restoreDialog.result.text.gr = "Η επαναφορά απέτυχε. Παρακαλώ προσπαθήστε αργότερα";
+        this.restoreDialog.result.enableBtn = true;
+      })
+      .finally(() => {
+        this.restoreDialog.toggle = false;
+        this.restoreDialog.loading = false;
+        this.restoreDialog.result.toggle = true;
+      })
+    },
+    setDeleteFreezeDialog(isDelete, artworkPublicId, artworkUrl) {
+      if (isDelete === true) {
+        this.deleteFreezeDialog.state = "delete";
+        this.deleteFreezeDialog.text.en = "Are you sure you want to permanently delete the artwork?";
+        this.deleteFreezeDialog.text.gr = "Είστε σίγουροι ότι θέλετε να διαγράψετε οριστικώς το έργο τέχνης;";
+        this.deleteFreezeDialog.title.en = "Delete Artwork";
+        this.deleteFreezeDialog.title.gr = "Διαγραφή Εργου Τέχνης";
+      } else {
+        this.deleteFreezeDialog.state = "freeze";
+        this.deleteFreezeDialog.text.en = "Are you sure you want to freeze the artwork?";
+        this.deleteFreezeDialog.text.gr = "Είστε σίγουροι ότι θέλετε να παγώσετε το έργο τέχνης;";
+        this.deleteFreezeDialog.title.en = "Freeze Artwork";
+        this.deleteFreezeDialog.title.gr = "Πάγωμα Εργου Τέχνης";
+      }
+      this.deleteFreezeDialog.public_id = artworkPublicId;
+      this.deleteFreezeDialog.url = artworkUrl;
+      this.deleteFreezeDialog.toggle = true;
+    },
+    clearDeleteFreezeDialog() {
+      this.deleteFreezeDialog.state = "";
+      this.deleteFreezeDialog.text.en = "";
+      this.deleteFreezeDialog.text.gr = "";
+      this.deleteFreezeDialog.title.en = "";
+      this.deleteFreezeDialog.title.gr = "";
+      this.deleteFreezeDialog.public_id = null;
+      this.deleteFreezeDialog.url = null;
+      this.deleteFreezeDialog.toggle = false;
+      this.deleteFreezeDialog.text.en = "";
+      this.deleteFreezeDialog.text.gr = "";
+      this.deleteFreezeDialog.result.isSuccess = false;
+      this.deleteFreezeDialog.result.toggle = false;
+      this.deleteFreezeDialog.result.enableBtn = false;
+    },
+    deleteFreezeProcess() {
+      if (this.deleteFreezeDialog.state === 'delete') {
+        // Delete
+        this.deleteFreezeDialog.loading = true;
+        this.$imgdb.deleteArtwork(this.deleteFreezeDialog.public_id)
+          .then(deleted => {
+            this.deleteFreezeDialog.result.text.en = "Successfully deleted";
+            this.deleteFreezeDialog.result.text.gr = "Διεγράφη επιτυχώς"
+            this.deleteFreezeDialog.result.isSuccess = true;
+            setTimeout(() => {
+              this.deleteFreezeDialog.result.enableBtn = true;
+            }, 3000);
+            if (process.env.GRIDSOME_BUILD === "prod") {
+              // Notify us
+              let message = "url: " + this.deleteFreezeDialog.url + "\n";
+              this.$admin.sendEmail({
+                email: this.$auth.user.email || '',
+                firstname: this.$auth.user.given_name || '',
+                lastname: this.$auth.user.family_name || '',
+                subject: "Deleted permanently artwork",
+                message: message,
+                to: 'all'
+              });
+            }
+          })
+          .catch(err => {
+            this.deleteFreezeDialog.result.text.en = "Deletion failed. Please try again later";
+            this.deleteFreezeDialog.result.text.gr = "Η διαγραφή απέτυχε. Παρακαλώ προσπαθήστε αργότερα"
+            this.deleteFreezeDialog.result.isSuccess = false;
+            this.deleteFreezeDialog.result.enableBtn = true;
+          })
+          .finally(() => {
+            this.deleteFreezeDialog.toggle = false;
+            this.deleteFreezeDialog.loading = false;
+            this.deleteFreezeDialog.result.toggle = true;
+          });
+      } else if (this.deleteFreezeDialog.state === 'freeze') {
+        // Freeze
+        this.deleteFreezeDialog.loading = true;
+        this.$imgdb.moveArtwork(
+          this.deleteFreezeDialog.public_id,
+          this.deleteFreezeDialog.public_id.replace('approved', 'frozen')
+        ).then(frozen => {
+            this.deleteFreezeDialog.result.text.en = "Successfully frozen";
+            this.deleteFreezeDialog.result.text.gr = "Παγώθηκε επιτυχώς";
+            this.deleteFreezeDialog.result.isSuccess = true;
+            setTimeout(() => {
+              this.deleteFreezeDialog.result.enableBtn = true;
+            }, 3000);
+            if (process.env.GRIDSOME_BUILD === "prod") {
+              // Notify us
+              let message = "url: " + this.deleteFreezeDialog.url + "\n";
+              this.$admin.sendEmail({
+                email: this.$auth.user.email || '',
+                firstname: this.$auth.user.given_name || '',
+                lastname: this.$auth.user.family_name || '',
+                subject: "Froze artwork",
+                message: message,
+                to: 'all'
+              });
+            }
+          })
+          .catch(err => {
+            this.deleteFreezeDialog.result.text.en = "Frozing failed. Please try again later";
+            this.deleteFreezeDialog.result.text.gr = "Το πάγωμα απέτυχε. Παρακαλώ προσπαθήστε αργότερα";
+            this.deleteFreezeDialog.result.isSuccess = false;
+            this.deleteFreezeDialog.result.enableBtn = true;
+          })
+          .finally(() => {
+            this.deleteFreezeDialog.toggle = false;
+            this.deleteFreezeDialog.loading = false;
+            this.deleteFreezeDialog.result.toggle = true;
+          });
+      }
     },
     getImage(output) {
       if (this.currentImageCount > this.maxImageCount) {
@@ -1229,33 +1884,19 @@ export default {
             this.$imgdb.uploadArtwork(this.$auth.user.sub, this.imageToUploadBase64, context, tagsConcatStr, watermarkObj)
             .then(async (response) => {
               const contextObj = response.context.hasOwnProperty("custom") ? response.context.custom : response.context;
-              var size = '';
-              if (contextObj.type === 'painting') {
-                if (contextObj.hasOwnProperty('dimension') &&
-                    contextObj.hasOwnProperty('height') &&
-                    contextObj.hasOwnProperty('width')) {
-                  size = contextObj.height + ' x ' + contextObj.width + ' ' +
-                    contextObj.dimension
-                }
-              } else if (contextObj.type === 'sculpture') {
-                // it's a sculpture
-                if (contextObj.hasOwnProperty('dimension') &&
-                    contextObj.hasOwnProperty('height') &&
-                    contextObj.hasOwnProperty('width') &&
-                    contextObj.hasOwnProperty('depth')) {
-                  size = contextObj.height + ' x ' + contextObj.width + ' x ' +
-                    contextObj.depth + ' ' + contextObj.dimension
-                }
-              }
               // update artworks 0 (in process)
               this.allArtworks[0].push({
                 url: response.secure_url,
+                public_id: response.public_id,
                 type: this.plainText.type[contextObj.type],
                 title: contextObj.hasOwnProperty("caption") ? contextObj.caption : '',
                 value: contextObj.hasOwnProperty("value") ? contextObj.value : '',
                 salePrice: contextObj.hasOwnProperty("sale_price") ? contextObj.sale_price : '',
                 rentPrice: contextObj.hasOwnProperty("rent_price") ? contextObj.rent_price : '',
-                size: size,
+                dimension: contextObj.hasOwnProperty("dimension") ? contextObj.dimension : '',
+                height: contextObj.hasOwnProperty("height") ? contextObj.height : null,
+                width: contextObj.hasOwnProperty("width") ? contextObj.width : null,
+                depth: contextObj.hasOwnProperty("depth") ? contextObj.depth : null,
                 tags: response.tags
               })
               // update column 0 (in process)
@@ -1266,6 +1907,7 @@ export default {
                 count = (count + 1) % 3;
               })
               if (process.env.GRIDSOME_BUILD === "prod") {
+                // Notify us
                 let message = "url: "+ response.secure_url + "\n";
                 for (var key in contextObj) {
                   if (contextObj.hasOwnProperty(key)) {
@@ -1273,9 +1915,9 @@ export default {
                   }
                 }
                 this.$admin.sendEmail({
-                  email: this.$auth.user.email,
-                  firstname: this.$auth.user.given_name,
-                  lastname: this.$auth.user.family_name,
+                  email: this.$auth.user.email || '',
+                  firstname: this.$auth.user.given_name || '',
+                  lastname: this.$auth.user.family_name || '',
                   subject: "Uploaded Artwork",
                   message: message,
                   to: 'all'
@@ -1339,6 +1981,10 @@ export default {
       }
       touchMap.set($v, setTimeout($v.$touch, 1000));
     },
+    editArtwork(artworkObject) {
+      this.artworkDataObject = artworkObject;
+      this.editDialog.toggle = true;
+    }
   },
   metaInfo () {
     return {
@@ -1350,12 +1996,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-/* Local fonts */
-.raleway-28-400 {
-  font-family: 'Raleway', sans-serif !important;
-  font-size: 28px !important;
-  font-weight: 400 !important;
-}
-</style>
