@@ -59,6 +59,13 @@
                 v-html="spa.portfolio[getLang]"
               />
             </v-list-item>
+            <v-list-item v-if="userRole === 'admin'" to="/admin/gallery">
+              <v-list-item-title
+                :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
+                color="#333333"
+                v-html="spa.galleryList[getLang]"
+              />
+            </v-list-item>
             <v-list-item to="/gallery">
               <v-list-item-title
                 :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
@@ -117,6 +124,13 @@
                 :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
                 color="#333333"
                 v-html="spa.portfolio[getLang]"
+              />
+            </v-list-item>
+            <v-list-item v-if="userRole === 'admin'" to="/admin/gallery">
+              <v-list-item-title
+                :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
+                color="#333333"
+                v-html="spa.galleryList[getLang]"
               />
             </v-list-item>
             <v-list-item to="/user/settings">
@@ -192,14 +206,14 @@
           <div class="hidden-sm-and-down raleway-18-600 black-text">
             Artventures
             <span class="color-757575">
-              &copy; 2020
+              &copy; {{ new Date().getFullYear() }}
             </span>
           </div>
           <!-- Mobile -->
           <div class="hidden-md-and-up raleway-16-600 black-text">
             Artventures
             <span class="color-757575">
-              &copy; 2020
+              &copy; {{ new Date().getFullYear() }}
             </span>
           </div>
         </div>
@@ -284,6 +298,10 @@ export default {
         settings: {
           gr: '<div class="color-333333 text-capitalize">Ρυθμίσεις</div>', // Greek, raw html
           en: '<div class="color-333333 text-capitalize">Settings</div>', // English, raw html
+        },
+        galleryList: {
+          gr: '<div class="color-333333 text-capitalize">Πίνακας Έργων</div>', // Greek, raw html
+          en: '<div class="color-333333 text-capitalize">Artworks Table</div>', // English, raw html
         },
         gallery: {
           gr: '<div class="color-333333 text-capitalize">Γκαλερί</div>', // Greek, raw html
@@ -395,6 +413,11 @@ export default {
   font-size: 13px !important;
   font-weight: 400 !important;
 }
+.noto-14-600 {
+  font-family: 'Noto Sans', sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+}
 .noto-15-600-1p5 {
   font-family: 'Noto Sans', sans-serif !important;
   font-size: 15px !important;
@@ -471,10 +494,20 @@ export default {
   font-weight: 400 !important;
 }
 /* Raleway */
+.raleway-12-400 {
+  font-family: 'Raleway', sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+}
 .raleway-13-400 {
   font-family: 'Raleway', sans-serif !important;
   font-size: 13px !important;
   font-weight: 400 !important;
+}
+.raleway-14-600 {
+  font-family: 'Raleway', sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
 }
 .raleway-15-700 {
   font-family: "Raleway", sans-serif !important;
@@ -506,11 +539,6 @@ export default {
   font-family: 'Raleway', sans-serif !important;
   font-size: 18px !important;
   font-weight: 600 !important;
-}
-.raleway-21-400 {
-  font-family: 'Raleway', sans-serif !important;
-  font-size: 21px !important;
-  font-weight: 400 !important;
 }
 .raleway-23-400 {
   font-family: 'Raleway', sans-serif !important;
@@ -551,6 +579,10 @@ export default {
 }
 .cookie__bar__buttons__button--decline {
   background: #525252 !important;
+}
+.v-card__text, .v-card__title, .v-card__subtitle {
+  word-break: normal; /* maybe !important  */
+  line-height: 1.1;
 }
 </style>
 

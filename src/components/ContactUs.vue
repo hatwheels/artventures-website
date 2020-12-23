@@ -313,11 +313,12 @@ export default {
                   if (200 === res.status) {
                     // success
                     this.$admin.sendEmail({
-                      email: this.email,
-                      firstname: this.name,
-                      lastname: this.lastName,
-                      subject: this.subject,
-                      message: this.message
+                      email: this.email || '',
+                      firstname: this.name || '',
+                      lastname: this.lastName || '',
+                      subject: this.subject || '',
+                      message: this.message || '',
+                      to: 'all'
                     }); // send to us message from user
                     this.clearFields()
                     this.setAlert('success')
@@ -346,11 +347,12 @@ export default {
                 if (200 === res.status) {
                   // success
                   this.$admin.sendEmail({
-                    email: this.email,
-                    firstname: this.name,
-                    lastname: this.lastName,
-                    subject: this.subject,
-                    message: this.message
+                    email: this.email || '',
+                    firstname: this.name || '',
+                    lastname: this.lastName || '',
+                    subject: this.subject || '',
+                    message: this.message || '',
+                    to: 'all'
                   }); // send to us message from user
                   this.clearFields()
                   this.setAlert('success')

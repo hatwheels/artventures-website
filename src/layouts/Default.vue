@@ -333,14 +333,14 @@
           <div class="hidden-sm-and-down raleway-18-600 black-text">
             Artventures
             <span class="color-757575">
-              &copy; 2020
+              &copy; {{ new Date().getFullYear() }}
             </span>
           </div>
           <!-- Mobile -->
           <div class="hidden-md-and-up raleway-16-600 black-text">
             Artventures
             <span class="color-757575">
-              &copy; 2020
+              &copy; {{ new Date().getFullYear() }}
             </span>
           </div>
         </div>
@@ -716,6 +716,11 @@ export default {
   font-weight: 400 !important;
 }
 /* Raleway */
+.raleway-12-400 {
+  font-family: 'Raleway', sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+}
 .raleway-13-400 {
   font-family: 'Raleway', sans-serif !important;
   font-size: 13px !important;
@@ -725,11 +730,6 @@ export default {
   font-family: 'Raleway', sans-serif !important;
   font-size: 13px !important;
   font-weight: 600 !important;
-}
-.raleway-14-400 {
-  font-family: 'Raleway', sans-serif !important;
-  font-size: 14px !important;
-  font-weight: 400 !important;
 }
 .raleway-15-600-1p5 {
   font-family: 'Raleway', sans-serif !important;
@@ -767,11 +767,6 @@ export default {
   font-family: 'Raleway', sans-serif !important;
   font-size: 18px !important;
   font-weight: 600 !important;
-}
-.raleway-21-400 {
-  font-family: 'Raleway', sans-serif !important;
-  font-size: 21px !important;
-  font-weight: 400 !important;
 }
 .raleway-23-400 {
   font-family: 'Raleway', sans-serif !important;
@@ -854,6 +849,10 @@ export default {
 }
 .cookie__bar__buttons__button--decline {
   background: #525252 !important;
+}
+.v-card__text, .v-card__title, .v-card__subtitle {
+  word-break: normal; /* maybe !important  */
+  line-height: 1.1;
 }
 </style>
 

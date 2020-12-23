@@ -1212,7 +1212,6 @@ export default {
                 this.pwDialog.emailText.gr = 'Ένα email με πληροφορίες θα σταλεί σε λίγο στην διεύθυνση ' + this.email
                 this.pwDialog.emailSent = true
             }).catch(err => {
-                console.log(err)
                 this.pwDialog.emailText.en = 'An error has occured'
                 this.pwDialog.emailText.gr = 'Κάποιο σφάλμα προέκυψε'
                 this.pwDialog.emailSent = true

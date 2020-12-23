@@ -31,7 +31,15 @@ export default {
   },
   computed: {
     ...mapGetters(['getLang']),
-  }
+  },
+  metaInfo () {
+    return {
+      titleTemplate: 'Not Found — Artventures',
+      meta: [
+        { name: 'description', content: 'Error' },
+      ],
+    }
+  },
 }
 </script>
 

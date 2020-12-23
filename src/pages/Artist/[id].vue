@@ -2,10 +2,10 @@
   <Layout>
     <v-main>
       <!-- OK -->
-      <v-container v-if="state === 0" class="background-color-fafafa" fluid>
-        <!-- Info -->
+      <v-container v-if="state === 0" class="pa-0 background-color-fafafa" fluid>
         <!-- Desktop -->
         <div class="hidden-sm-and-down py-12 px-12">
+          <!-- Info -->
           <v-row justify="center" align="center">
             <v-col cols="auto">
               <div class="raleway-30-700 text-uppercase">{{ artist.firstName + ' ' + artist.lastName }}</div>
@@ -13,7 +13,11 @@
           </v-row>
           <v-row justify="center" align="center">
             <v-col cols="8">
-              <div class="raleway-18-400 text-center">{{ artist.bio }}</div>
+              <v-row justify="center" align="center">
+                <v-col cols="auto">
+                  <div class="raleway-18-400 text-justify">{{ artist.bio }}</div>
+                </v-col>
+              </v-row>
             </v-col>
           </v-row>
           <v-row justify="center" align="center">
@@ -28,20 +32,21 @@
           >
             {{ plainText.artworks[getLang] }}
           </div>
-          <v-row class="hidden-sm-and-down pb-12 px-12" justify="start" align="start">
+          <v-row class="pb-12 px-12" justify="start" align="start">
             <v-col class="pr-6" v-for="(column, j) in artist.columns" :key="'column' + j" cols="4">
               <v-card class="my-6 text-center" v-for="(artwork, i) in column" :key="'artwork-' + i">
-                <g-image
+                <v-img
                   :src="artwork.url"
+                  :lazy-src="artwork.url.replace('artventures/image/upload/', 'artventures/image/upload/c_thumb,w_100/')"
                   :alt="artwork.title || 'Untitled'"
-                  style="width: 100%;"
+                  contain
                 />
-                <div class="d-flex justify-space-between">
-                  <div>
+                <v-row justify="space-between">
+                  <v-col>
                     <v-card-title v-if="artwork.title"
-                      class="raleway-25-400 text-capitalize text-start"
+                      class="raleway-23-400 text-capitalize font-italic text-start pr-0"
                       v-text="artwork.title" />
-                    <v-card-text class="raleway-18-400 text-start">
+                    <v-card-text class="raleway-18-400 text-start pr-0">
                       <div v-if="artwork.type" class="text-capitalize">{{ artwork.type[getLang] }}
                         <span v-if="artwork.size" class="text-lowercase"> - {{ artwork.size }}</span>
                       </div>
@@ -62,8 +67,8 @@
                         </v-col>
                       </v-row>
                     </v-card-text>
-                  </div>
-                  <div class="d-flex flex-column align-end">
+                  </v-col>
+                  <v-col cols="auto" class="d-flex flex-column align-end">
                     <v-card-actions>
                       <v-tooltip top color="black">
                         <template v-slot:activator="{ on, attrs }">
@@ -80,22 +85,23 @@
                         <span>{{ plainText.artworkZoom[getLang] }}</span>
                       </v-tooltip>
                     </v-card-actions>
-                    <div class="pb-2 px-4 text-end">
+                    <div class="pb-2 pr-4 text-end">
                       <div class="raleway-23-400" v-if="artwork.salePrice">{{ artwork.salePrice }}€</div>
-                      <div class="raleway-21-400" v-if="artwork.rentPrice">
+                      <div class="raleway-18-400" v-if="artwork.rentPrice">
                         <span class="pr-1">{{ plainText.rentFor[getLang] }}</span>
                         {{ artwork.rentPrice }}
                         <span>{{ plainText.rentPerMonth[getLang] }}</span>
                       </div>
                     </div>
-                  </div>
-                </div>
+                  </v-col>
+                </v-row>
               </v-card>
             </v-col>
           </v-row>
         </div>
         <!-- Mobile -->
         <div class="hidden-md-and-up">
+          <!-- Info -->
           <v-row class="pt-12 px-12" justify="center" align="center">
             <v-col class="text-center" cols="auto">
               <div class="raleway-30-700 text-uppercase">{{ artist.firstName }}</div>
@@ -112,25 +118,29 @@
           </v-row>
           <!-- Artworks -->
           <div
-            class="px-12 py-6 text-center playfair-38-700"
+            class="py-6 text-center playfair-38-700"
           >
             {{ plainText.artworks[getLang] }}
           </div>
-          <v-row class="hidden-md-and-up px-12" justify="center" align="center">
-            <v-col v-for="(artwork, i ) in artist.gallery" :key="'artwork-mobile-' + i" cols="12">
+          <v-row
+            class="px-6"
+            v-for="(artwork, i ) in artist.gallery" :key="'artwork-mobile-' + i"
+            justify="center" align="center"
+          >
+            <v-col cols="12">
               <v-card>
-                <g-image
+                <v-img
                   :src="artwork.url"
+                  :lazy-src="artwork.url.replace('artventures/image/upload/', 'artventures/image/upload/c_thumb,w_100/')"
                   :alt="artwork.title || 'Untitled'"
-                  fit="contain"
-                  style="width: 100%"
+                  contain
                 />
-                <div class="d-flex justify-space-between">
-                  <div>
+                <v-row justify="space-between">
+                  <v-col>
                     <v-card-title v-if="artwork.title"
-                      class="raleway-18-400 text-capitalize text-start"
+                      class="raleway-16-400 text-capitalize font-italic text-start pr-0"
                       v-text="artwork.title" />
-                    <v-card-text class="raleway-13-400 text-start">
+                    <v-card-text class="raleway-12-400 text-start pr-0">
                       <div v-if="artwork.type" class="text-capitalize">{{ artwork.type[getLang] }}
                         <span v-if="artwork.size" class="text-lowercase"> - {{ artwork.size }}</span>
                       </div>
@@ -151,8 +161,8 @@
                         </v-col>
                       </v-row>
                     </v-card-text>
-                  </div>
-                  <div class="d-flex flex-column align-end">
+                  </v-col>
+                  <v-col cols="auto" class="d-flex flex-column align-end">
                     <v-card-actions>
                       <v-tooltip top color="black">
                         <template v-slot:activator="{ on, attrs }">
@@ -168,16 +178,16 @@
                         <span>{{ plainText.artworkZoom[getLang] }}</span>
                       </v-tooltip>
                     </v-card-actions>
-                    <div class="pb-2 px-4 text-end">
+                    <div class="pb-2 pr-4 text-end">
                       <div class="raleway-16-400" v-if="artwork.salePrice">{{ artwork.salePrice }}€</div>
-                      <div class="raleway-14-400" v-if="artwork.rentPrice">
+                      <div class="raleway-12-400" v-if="artwork.rentPrice">
                         <span class="pr-1">{{ plainText.rentFor[getLang] }}</span>
                         {{ artwork.rentPrice }}
                         <span>{{ plainText.rentPerMonth[getLang] }}</span>
                       </div>
                     </div>
-                  </div>
-                </div>
+                  </v-col>
+                </v-row>
               </v-card>
             </v-col>
           </v-row>
@@ -189,12 +199,14 @@
         <v-overlay class="hidden-sm-and-down" :value="overlayDesktop">
           <v-row no-gutters>
             <v-col>
-              <g-image
+              <v-img
                 class="rounded"
                 :src="enlargedImg.url"
+                :lazy-src="enlargedImg.url.replace('artventures/image/upload/', 'artventures/image/upload/c_thumb,w_100/')"
                 :alt="enlargedImg.title || 'Untitled'"
-                style="max-height: 98vh; max-width 95vw;"
-                fit="contain"
+                max-height="98vh"
+                max-width="95vw"
+                contain
               />
             </v-col>
             <v-col>
@@ -217,11 +229,12 @@
         <!-- Mobile Overlay -->
         <v-dialog class="hidden-md-and-up" v-model="overlayMobile" fullscreen persistent hide-overlay no-click-animation>
           <div style="width: 100vw; height: 100vh">
-            <g-image
+            <v-img
               class="rounded"
               :src="enlargedImg.url"
+              :lazy-src="enlargedImg.url.replace('artventures/image/upload/', 'artventures/image/upload/c_thumb,w_100/')"
               :alt="enlargedImg.title || 'Untitled'"
-              fit="contain"
+              contain
               @click="enlargedImg.url = ''; enlargedImg.title = ''; overlayMobile = false;"
             />
           </div>
@@ -277,8 +290,9 @@ export default {
       state: 1,
       artist: {
         userId: '',
-        fistName: '',
-        lastName: '',
+        fistName: 'Artist',
+        lastName: 'Page',
+        name: 'Artist Page',
         pic: '',
         bio: '',
         gallery: [],
@@ -310,12 +324,12 @@ export default {
           }
         },
         rentFor: {
-          gr: 'Ενοικιάστε με',
-          en: 'Rent for'
+          gr: 'Ενοικίαση',
+          en: 'Rent'
         },
         rentPerMonth: {
-          gr: '€/μή',
-          en: '€/mo'
+          gr: '€/μ',
+          en: '€/m'
         },
         close: {
           gr: 'Κλείσιμο',
@@ -344,8 +358,17 @@ export default {
         .then(id => {
           this.$auth.getMgUser(id)
             .then(artist => {
-              this.artist.firstName = artist.given_name;
-              this.artist.lastName = artist.family_name;
+              if (artist.hasOwnProperty("given_name")) {
+                this.artist.firstName = artist.given_name;
+              } else {
+                this.artist.firstName = artist.name.split(" ")[0];
+              }
+              if (artist.hasOwnProperty("family_name")) {
+                this.artist.lastName = artist.family_name;
+              } else {
+                this.artist.lastName = artist.name.split(" ")[1];
+              }
+              this.artist.name = artist.name;
               this.artist.pic = artist.hasOwnProperty("picture_large") ? artist.picture_large : artist.picture;
               if (artist.hasOwnProperty("user_metadata") && artist.user_metadata.hasOwnProperty("bio")) {
                 this.artist.bio = artist.user_metadata.bio;
@@ -365,6 +388,7 @@ export default {
                         // Title
                         if (resource.context.hasOwnProperty('caption')) {
                           title = resource.context.caption;
+                          title = title.toLowerCase();
                         }
                         // Rent, Sale Price
                         if (resource.context.hasOwnProperty('rent_price')) {
@@ -433,7 +457,13 @@ export default {
           this.state = -1; // Not found
         })
     },
-  }
+  },
+  metaInfo() {
+    return {
+      titleTemplate: this.artist.name + " — Artventures",
+      meta: [{ name: "description", content: "Gallery" }],
+    };
+  },
 }
 </script>
 

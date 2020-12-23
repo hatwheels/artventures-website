@@ -63,6 +63,22 @@ exports.handler = async (event, context) => {
             console.log("Tags: " + data.tags);
             options.tags = data.tags;
         }
+        // Add watermark?
+        if (data.watermarkObj) {
+            console.log("Watermark: " + JSON.stringify(data.watermarkObj));
+            options.transformation = [{
+                overlay: {
+                    font_family: "Roboto",
+                    font_size: "8",
+                    font_weight: "normal",
+                    text: data.watermarkObj.text
+                },
+                color: data.watermarkObj.color,
+                gravity: 'xy_center',
+                x: 0.08,
+                y: 0.98
+            }]
+        }
 
         return cloudinary.uploader.upload(data.path , options)
             .then(res => {

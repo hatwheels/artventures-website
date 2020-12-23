@@ -10,8 +10,19 @@ exports.handler = async (event, context) => {
         const data = JSON.parse(event.body)
         console.log(data);
 
-        if (!data.public_id) {
-            console.log('401: public_id query parameter required.')
+        if (!data.old_public_id) {
+            console.log('401: old_public_id query parameter required.')
+            console.log("### END ###")
+
+            return {
+                statusCode: 401,
+                headers,
+                body: 'Unauthorized Request'
+            }
+        }
+
+        if (!data.new_public_id) {
+            console.log('401: new_public_id query parameter required.')
             console.log("### END ###")
 
             return {
@@ -27,13 +38,14 @@ exports.handler = async (event, context) => {
             api_secret: process.env.CLOUDINARY_API_SECRET 
         });
 
-        console.log("public id: " + data.public_id)
+        console.log("old public id: " + data.old_public_id)
+        console.log("new public id: " + data.new_public_id)
 
-        return cloudinary.uploader.destroy(data.public_id, { invalidate: true })
+        return cloudinary.uploader.rename(data.old_public_id, data.new_public_id, { invalidate: true })
         .then(res => {
             var reply = JSON.stringify(res)
 
-            console.log('Success destroying: ' + reply)
+            console.log('Success moving: ' + reply)
             console.log("### END ###")
 
             return {
