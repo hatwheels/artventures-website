@@ -99,6 +99,19 @@ export default function (Vue, { appOptions, router, head, isClient }) {
         }
         break;
 
+      case '/user/favorites':
+        if (router.app.$auth.isAuthenticated()) { // if authenticated allow access
+          if (router.app.$auth.userRole[0].name === 'artist') { // artists have no favorites
+            next(false);
+          } else {
+            next();
+          }
+        }
+        else { // trigger auth0's login
+          router.app.$auth.login();
+        }
+        break;
+
       default:
         next();
         break;

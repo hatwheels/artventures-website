@@ -59,13 +59,6 @@
                 v-html="spa.portfolio[getLang]"
               />
             </v-list-item>
-            <v-list-item v-if="userRole === 'admin'" to="/admin/gallery">
-              <v-list-item-title
-                :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
-                color="#333333"
-                v-html="spa.galleryList[getLang]"
-              />
-            </v-list-item>
             <v-list-item to="/gallery">
               <v-list-item-title
                 :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
@@ -73,11 +66,25 @@
                 v-html="spa.gallery[getLang]"
               />
             </v-list-item>
+            <v-list-item v-if="userRole === 'admin' || userRole === 'user'" to="/user/favorites">
+              <v-list-item-title
+                :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
+                color="#333333"
+                v-html="spa.favorites[getLang]"
+              />
+            </v-list-item>
             <v-list-item to="/user/settings">
               <v-list-item-title
                 :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
                 color="#333333"
                 v-html="spa.settings[getLang]"
+              />
+            </v-list-item>
+            <v-list-item v-if="userRole === 'admin'" to="/admin/gallery">
+              <v-list-item-title
+                :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
+                color="#333333"
+                v-html="spa.galleryList[getLang]"
               />
             </v-list-item>
             <v-list-item @click="logout">
@@ -126,11 +133,11 @@
                 v-html="spa.portfolio[getLang]"
               />
             </v-list-item>
-            <v-list-item v-if="userRole === 'admin'" to="/admin/gallery">
+            <v-list-item v-if="userRole === 'admin' || userRole === 'user'" to="/user/favorites">
               <v-list-item-title
                 :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
                 color="#333333"
-                v-html="spa.galleryList[getLang]"
+                v-html="spa.favorites[getLang]"
               />
             </v-list-item>
             <v-list-item to="/user/settings">
@@ -138,6 +145,13 @@
                 :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
                 color="#333333"
                 v-html="spa.settings[getLang]"
+              />
+            </v-list-item>
+            <v-list-item v-if="userRole === 'admin'" to="/admin/gallery">
+              <v-list-item-title
+                :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
+                color="#333333"
+                v-html="spa.galleryList[getLang]"
               />
             </v-list-item>
             <v-list-item @click="logout">
@@ -307,6 +321,10 @@ export default {
           gr: '<div class="color-333333 text-capitalize">Γκαλερί</div>', // Greek, raw html
           en: '<div class="color-333333 text-capitalize">Gallery</div>', // English, raw html
         },
+        favorites: {
+          gr: '<div class="color-333333 text-capitalize">Αγαπημένα</div>', // Greek, raw html
+          en: '<div class="color-333333 text-capitalize">Favorites</div>', // English, raw html
+        }
       },
     }
   },
