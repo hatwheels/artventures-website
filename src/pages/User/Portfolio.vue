@@ -1646,6 +1646,7 @@ export default {
         // frozen
         [ [], [], [] ]
       ];
+      this.$vuetify.goTo(0);
       this.fetchArtistArtworks();
     },
     // Alert for image limit
