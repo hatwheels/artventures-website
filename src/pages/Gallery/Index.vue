@@ -257,7 +257,7 @@
               justify="center"
               no-gutters
             >
-              <v-col cols="8">
+              <v-col cols="10">
                 <v-pagination
                   v-model="page.mobile"
                   :length="totalPages.mobile"
@@ -334,69 +334,85 @@ export default {
   },
   async created () {
     this.$auth.getMgUsersInRole('artist')
-        .then(artists => {
-            Promise.all(artists.map(async (artist) => {
-                await this.$imgdb.retrieveArtworks(artist.user_id, 'approved')
-                    .then(found => {
-                        if (found.total_count> 0) {
-                            found.resources.forEach(resource => {
-                              var title = '';
-                              var rentPrice = '';
-                              var salePrice = '';
-                              var size = '';
-                              var type = '';
-                              var tags = resource.hasOwnProperty('tags') ? resource.tags : [];
-                              if (resource.hasOwnProperty('context')) {
-                                // Title
-                                if (resource.context.hasOwnProperty('caption')) {
-                                  title = resource.context.caption;
-                                  title = title.toLowerCase();
-                                }
-                                // Rent, Sale Price
-                                if (resource.context.hasOwnProperty('rent_price')) {
-                                  rentPrice = resource.context.rent_price
-                                }
-                                if (resource.context.hasOwnProperty('sale_price')) {
-                                  salePrice = resource.context.sale_price
-                                }
-                                if (resource.context.hasOwnProperty('type')) {
-                                  type = this.plainText.type[resource.context.type];
-                                  if (type.en.toLowerCase() === 'sculpture') {
-                                    // it's a sculpture
-                                    if (resource.context.hasOwnProperty('dimension') &&
-                                        resource.context.hasOwnProperty('height') &&
-                                        resource.context.hasOwnProperty('width') &&
-                                        resource.context.hasOwnProperty('depth')) {
-                                      size = resource.context.height + ' x ' + resource.context.width + ' x ' +
-                                        resource.context.depth + ' ' + resource.context.dimension
-                                    }
-                                  } else if (type.en.toLowerCase() === 'painting') {
-                                    // it's a painting
-                                    if (resource.context.hasOwnProperty('dimension') &&
-                                        resource.context.hasOwnProperty('height') &&
-                                        resource.context.hasOwnProperty('width')) {
-                                      size = resource.context.height + ' x ' + resource.context.width + ' ' +
-                                        resource.context.dimension
-                                    }
-                                  }
-                                }
-                              }
-                              this.approvedArtworks.push({
-                                user_id: artist.user_id,
-                                artist_name: artist.name,
-                                url: resource.secure_url,
-                                title: title,
-                                type: type,
-                                rentPrice: rentPrice,
-                                salePrice: salePrice,
-                                size: size,
-                                tags: tags
-                              });
-                            });
-                        }
+      .then(artists => {
+        this.$imgdb.retrieveArtworks('*', '')
+          .then(found => {
+            if (found.total_count > 0) {
+              found.resources.forEach(resource => {
+              if (resource.folder.indexOf('approved') !== -1 &&
+                  resource.folder.indexOf('google-oauth2|104266192030226467336') === -1 &&
+                  resource.folder.indexOf('google-oauth2|108119525360718636347') === -1 &&
+                  resource.folder.indexOf('google-oauth2|108119525360718636347') === -1 &&
+                  resource.folder.indexOf('facebook|10220098526787758') === -1 &&
+                  resource.folder.indexOf('facebook|3306299589452085') === -1 &&
+                  resource.folder.indexOf('auth0|5f5bd27a52581200703b8b00') === -1) {
+                    // approved and no dummy and admin accounts
+                    var artist = null;
+                    artists.every(a => {
+                      if (resource.public_id.indexOf(a.user_id) !== -1) {
+                        // Is an artist
+                        artist = a;
+                        return false;
+                      }
+                      return true;
                     })
-                    .catch(err => console.error(err))
-            })).finally(() => {
+                    if (artist !== null) {
+                      // Artist
+                      var title = '';
+                      var rentPrice = '';
+                      var salePrice = '';
+                      var size = '';
+                      var type = '';
+                      var tags = resource.hasOwnProperty('tags') ? resource.tags : [];
+                      if (resource.hasOwnProperty('context')) {
+                        // Title
+                        if (resource.context.hasOwnProperty('caption')) {
+                          title = resource.context.caption;
+                          title = title.toLowerCase();
+                        }
+                        // Rent, Sale Price
+                        if (resource.context.hasOwnProperty('rent_price')) {
+                          rentPrice = resource.context.rent_price
+                        }
+                        if (resource.context.hasOwnProperty('sale_price')) {
+                          salePrice = resource.context.sale_price
+                        }
+                        if (resource.context.hasOwnProperty('type')) {
+                          type = this.plainText.type[resource.context.type];
+                          if (type.en.toLowerCase() === 'sculpture') {
+                            // it's a sculpture
+                            if (resource.context.hasOwnProperty('dimension') &&
+                                resource.context.hasOwnProperty('height') &&
+                                resource.context.hasOwnProperty('width') &&
+                                resource.context.hasOwnProperty('depth')) {
+                              size = resource.context.height + ' x ' + resource.context.width + ' x ' +
+                                resource.context.depth + ' ' + resource.context.dimension
+                            }
+                          } else if (type.en.toLowerCase() === 'painting') {
+                            // it's a painting
+                            if (resource.context.hasOwnProperty('dimension') &&
+                                resource.context.hasOwnProperty('height') &&
+                                resource.context.hasOwnProperty('width')) {
+                              size = resource.context.height + ' x ' + resource.context.width + ' ' +
+                                resource.context.dimension
+                            }
+                          }
+                        }
+                      }
+                      this.approvedArtworks.push({
+                        user_id: artist.user_id,
+                        artist_name: artist.name,
+                        url: resource.secure_url,
+                        title: title,
+                        type: type,
+                        rentPrice: rentPrice,
+                        salePrice: salePrice,
+                        size: size,
+                        tags: tags
+                      });
+                    }
+                }
+              });
               // Compute total pages and assign gallery arrays
               this.totalPages.desktop = Math.floor(this.approvedArtworks.length / this.artworksPerPage.desktop) + 1;
               this.totalPages.mobile = Math.floor(this.approvedArtworks.length / this.artworksPerPage.mobile) + 1;
@@ -417,13 +433,17 @@ export default {
                 this.columns[Math.floor(index / this.artworksPerPage.desktop)][count].push(artwork);
                 count = (count + 1) % 3;
               });
-              console.log(this.columns)
-              console.log(this.gallery)
-              this.fetched = true;
-            })
+            }
+            this.fetched = true;
+          })
+          .catch(err => {
+            console.error(err);
+            this.fetched = true;
+          })
         })
         .catch(err => {
-          this.fetched = true; console.error(err);
+          console.error(err);
+          this.fetched = true;
         })
   },
   data () {
