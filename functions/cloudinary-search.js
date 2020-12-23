@@ -33,12 +33,13 @@ exports.handler = async (event, context) => {
             .sort_by('public_id', 'desc')
             .with_field('context')
             .with_field('tags')
+            .max_results(500)
             .execute()
             .then(res => {
                 var reply = JSON.stringify(res)
 
-                console.log('Retrieved: ' + reply)
-                console.log("### END ###")
+                console.log('Retrieved succesfully. Remaining: ' + JSON.stringify(res.rate_limit_remaining));
+                console.log("### END ###");
 
                 return {
                     statusCode: 200,
