@@ -28,12 +28,12 @@ export default {
     onScroll (e) {
       if (process.isClient) {
         if (typeof window === 'undefined') return
-        const top = window.pageYOffset ||  e.target.scrollTop || 0
-        this.toToBtn = top > 200
+        const top = window.pageYOffset ||  e.target.scrollTop || 0;
+        this.toToBtn = top > 200;
       }
     },
     toTop () {
-      this.$vuetify.goTo(0)
+      this.$vuetify.goTo(0);
     }
   },
 }
