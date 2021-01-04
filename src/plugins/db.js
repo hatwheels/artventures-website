@@ -130,6 +130,21 @@ let db = new Vue({
                     reject(err);
                 })
             })
+        },
+        deleteFavorites (refId) {
+            return new Promise((resolve, reject) => {
+                axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/faunadb-remove-favorites',
+                    refId,
+                    {
+                        headers: {
+                            "Access-Control-Allow-Origin": "*",
+                            "Access-Control-Allow-Headers": "Content-Type",
+                            "Content-Type": "application/json"
+                        }
+                    }
+                ).then(() => resolve())
+                .catch(err => reject(err))
+            }) 
         }
     }
 })
