@@ -6,7 +6,21 @@
         <!-- Desktop -->
         <div class="hidden-sm-and-down py-12 px-12">
           <!-- Info -->
-          <v-row justify="center" align="center">
+          <v-row no-gutters justify="center" align="center">
+            <v-col v-if="$auth.isAuthenticated() && userRole !== 'artist'" class="pr-1" cols="auto">
+              <v-tooltip top color="black">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    icon
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                    <v-icon>mdi-thumb-up-outline</v-icon>
+                  </v-btn>
+                </template>
+                <span>{{ plainText.follow[getLang] }}</span>
+              </v-tooltip>
+            </v-col>
             <v-col cols="auto">
               <div class="raleway-30-700 text-uppercase">{{ artist.firstName + ' ' + artist.lastName }}</div>
             </v-col>
@@ -70,6 +84,19 @@
                   </v-col>
                   <v-col cols="auto" class="d-flex flex-column align-end">
                     <v-card-actions>
+                      <v-tooltip v-if="$auth.isAuthenticated() && userRole !== 'artist'" top color="black">
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-btn
+                            icon
+                            large
+                            v-bind="attrs"
+                            v-on="on"
+                          >
+                            <v-icon size="30">mdi-heart-outline</v-icon>
+                          </v-btn>
+                        </template>
+                        <span>{{ plainText.heart[getLang] }}</span>
+                      </v-tooltip>
                       <v-tooltip top color="black">
                         <template v-slot:activator="{ on, attrs }">
                           <v-btn
@@ -164,6 +191,18 @@
                   </v-col>
                   <v-col cols="auto" class="d-flex flex-column align-end">
                     <v-card-actions>
+                      <v-tooltip v-if="$auth.isAuthenticated() && userRole !== 'artist'" top color="black">
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-btn
+                            icon
+                            v-bind="attrs"
+                            v-on="on"
+                          >
+                            <v-icon>mdi-heart-outline</v-icon>
+                          </v-btn>
+                        </template>
+                        <span>{{ plainText.heart[getLang] }}</span>
+                      </v-tooltip>
                       <v-tooltip top color="black">
                         <template v-slot:activator="{ on, attrs }">
                           <v-btn
@@ -313,6 +352,14 @@ export default {
           gr: 'Μεγέθυνση',
           en: 'Enlarge'
         },
+        heart: {
+          gr: "Μου αρέσει",
+          en: "Like"
+        },
+        follow: {
+          gr: 'Ακολούθησε με',
+          en: 'Follow'
+        },
         type: {
           painting: {
             gr: "Πίνακας",
@@ -343,14 +390,35 @@ export default {
           en: 'Oops, an error occured. Please try again later',
           gr:  'Ωχ, κάποιο σφάλμα προέκυψε. Παρακαλώ δοκιμάστε αργότερα.'
         }
-      }
+      },
+      // user's favorite artworks
+      userFavorites: []
     }
   },
   mounted () {
+    if (this.$auth.isAuthenticated() && this.userRole !== 'artist') {
+      // fetch user's favorite artworks
+      this.$db.getFavorites('google-oauth2|104266192030226467336')
+        .then(res => this.$imgdb.getArtwork(res)
+          .then(res => {
+            res.resources.forEach(resource => {
+              this.userFavorites.push(resource);
+            })
+            console.log(this.userFavorites);
+          })
+          .catch(err => console.log(err)))
+        .catch(err => console.log(err));
+    }
     this.getUserId(this.$route.params.id);
   },
   computed: {
     ...mapGetters(['getLang']),
+    userRole () {
+      if (this.$auth.userRole != null) {
+        return this.$auth.userRole[0].name
+      }
+      return null
+    },
   },
   methods: {
     getUserId(ref) {

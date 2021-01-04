@@ -736,7 +736,7 @@
                       class="white--text"
                       :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
                       color="#333333"
-                      :disabled="!restoreDialog.result.enableBtn"
+                      :loading="!restoreDialog.result.enableBtn"
                       @click="
                         if (restoreDialog.result.isSuccess) {
                           reloadArtworks();
@@ -794,7 +794,7 @@
                       class="white--text"
                       :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
                       color="#333333"
-                      :disabled="!editDialog.result.enableBtn"
+                      :loading="!editDialog.result.enableBtn"
                       @click="
                         if (editDialog.result.isSuccess) {
                           reloadArtworks();
@@ -878,7 +878,7 @@
                       class="white--text"
                       :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
                       color="#333333"
-                      :disabled="!deleteFreezeDialog.result.enableBtn"
+                      :loading="!deleteFreezeDialog.result.enableBtn"
                       @click="
                         if (deleteFreezeDialog.result.isSuccess) {
                           reloadArtworks();

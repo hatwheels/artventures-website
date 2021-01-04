@@ -27,6 +27,25 @@ let db = new Vue({
                 })
             })
         },
+        addFavorite(user_id, artist_id, artwork_id) {
+            return new Promise((resolve, reject) => {
+                axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/faunadb-add-favorite',
+                    {
+                        user_id: user_id,
+                        artist_id: artist_id,
+                        artwork_id: artwork_id
+                    },
+                    {
+                        headers: {
+                            "Access-Control-Allow-Origin": "*",
+                            "Access-Control-Allow-Headers": "Content-Type",
+                            "Content-Type": "application/json"
+                        }
+                    }
+                ).then(() => resolve())
+                .catch(err => reject(err))
+            })
+        },
         // check if document with "user_id" exists
         existsUserId (user_id) {
             return new Promise((resolve, reject) => {
@@ -75,6 +94,26 @@ let db = new Vue({
         getRef (user_id) {
             return new Promise((resolve, reject) => {
                 axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/faunadb-get-ref',
+                    {
+                        user_id: user_id
+                    },
+                    {
+                        headers: {
+                            "Access-Control-Allow-Origin": "*",
+                            "Access-Control-Allow-Headers": "Content-Type",
+                            "Content-Type": "application/json"
+                        }
+                    }
+                ).then(res => {
+                    resolve(res.data);
+                }).catch(err => {
+                    reject(err);
+                })
+            })
+        },
+        getFavorites (user_id) {
+            return new Promise((resolve, reject) => {
+                axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/faunadb-get-favorites',
                     {
                         user_id: user_id
                     },

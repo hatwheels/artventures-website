@@ -66,6 +66,19 @@
                           </v-col>
                           <v-col cols="auto" class="d-flex flex-column align-end">
                             <v-card-actions>
+                              <v-tooltip v-if="$auth.isAuthenticated() && userRole !== 'artist'" top color="black">
+                                <template v-slot:activator="{ on, attrs }">
+                                  <v-btn
+                                    icon
+                                    large
+                                    v-bind="attrs"
+                                    v-on="on"
+                                  >
+                                    <v-icon size="30">mdi-heart-outline</v-icon>
+                                  </v-btn>
+                                </template>
+                                <span>{{ plainText.heart[getLang] }}</span>
+                              </v-tooltip>
                               <v-tooltip top color="black">
                                 <template v-slot:activator="{ on, attrs }">
                                   <v-btn
@@ -179,6 +192,18 @@
                           </v-col>
                           <v-col cols="auto" class="d-flex flex-column align-end">
                             <v-card-actions>
+                              <v-tooltip v-if="$auth.isAuthenticated() && userRole !== 'artist'" top color="black">
+                                <template v-slot:activator="{ on, attrs }">
+                                  <v-btn
+                                    icon
+                                    v-bind="attrs"
+                                    v-on="on"
+                                  >
+                                    <v-icon>mdi-heart-outline</v-icon>
+                                  </v-btn>
+                                </template>
+                                <span>{{ plainText.heart[getLang] }}</span>
+                              </v-tooltip>
                               <v-tooltip top color="black">
                                 <template v-slot:activator="{ on, attrs }">
                                   <v-btn
@@ -446,6 +471,22 @@ export default {
           this.fetched = true;
         })
   },
+  mounted () {
+    if (this.$auth.isAuthenticated() && this.userRole !== 'artist') {
+      // Fetch favorite artworks of user
+      this.userFavorites = [];
+      this.$db.getFavorites('google-oauth2|104266192030226467336')
+        .then(res => this.$imgdb.getArtwork(res)
+          .then(res => {
+            res.resources.forEach(resource => {
+              this.userFavorites.push(resource);
+            })
+            console.log(this.userFavorites);
+          })
+          .catch(err => console.log(err)))
+        .catch(err => console.log(err));
+    }
+  },
   data () {
       return {
         fetched: false,
@@ -487,6 +528,10 @@ export default {
             gr: 'Μεγέθυνση',
             en: 'Enlarge'
           },
+          heart: {
+            gr: "Μου αρέσει",
+            en: "Like"
+          },
           type: {
             painting: {
               gr: "Πίνακας",
@@ -513,11 +558,19 @@ export default {
             gr: 'Ωχ, κάτι πήγε στραβά. Παρακαλώ προσπαθήστε αργότερα.',
             en: 'Oops, something went wrong. Please reload the page later.'
           }
-        }
+        },
+        // user's favorite artworks
+        userFavorites: []
       }
   },
   computed: {
     ...mapGetters(['getLang']),
+    userRole () {
+      if (this.$auth.userRole != null) {
+        return this.$auth.userRole[0].name
+      }
+      return null
+    },
   },
   methods: {
     getRef(user_id) {
