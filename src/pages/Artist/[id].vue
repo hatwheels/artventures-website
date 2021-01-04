@@ -91,6 +91,8 @@
                             large
                             v-bind="attrs"
                             v-on="on"
+                            :loading="artwork.isLoading"
+                            @click="toggleFavorite(artwork.public_id, j, i)"
                           >
                             <v-icon size="30">mdi-heart-outline</v-icon>
                           </v-btn>
@@ -197,6 +199,7 @@
                             icon
                             v-bind="attrs"
                             v-on="on"
+                            @click="toggleFavorite(artwork.public_id)"
                           >
                             <v-icon>mdi-heart-outline</v-icon>
                           </v-btn>
@@ -392,7 +395,7 @@ export default {
         }
       },
       // user's favorite artworks
-      userFavorites: []
+      userFavorites: [],
     }
   },
   mounted () {
@@ -441,6 +444,7 @@ export default {
               if (artist.hasOwnProperty("user_metadata") && artist.user_metadata.hasOwnProperty("bio")) {
                 this.artist.bio = artist.user_metadata.bio;
               }
+              this.artist.userId = artist.user_id;
               this.$imgdb.retrieveArtworks(artist.user_id, 'approved')
                 .then(found => {
                   if (found.total_count> 0) {
@@ -488,13 +492,15 @@ export default {
                         }
                       }
                       this.artist.gallery.push({
+                        public_id: resource.public_id,
                         url: resource.secure_url,
                         title: title,
                         type: type,
                         rentPrice: rentPrice,
                         salePrice: salePrice,
                         size: size,
-                        tags: tags
+                        tags: tags,
+                        isProcFavorite: false
                       });
                     });
                     var count = 0;
@@ -525,6 +531,28 @@ export default {
           this.state = -1; // Not found
         })
     },
+    toggleFavorite(public_id, j, i) {
+      var isAlreadyFavorite = false;
+      this.userFavorites.every(favorite => {
+        if (favorite.public_id === public_id) {
+          isAlreadyFavorite = true;
+          return false;
+        }
+        return true;
+      })
+      this.artist.columns[j][i].isLoading = true;
+      if (isAlreadyFavorite) {
+        // Remove
+      } else {
+        // Add
+        var start = public_id.indexOf('/approved/');
+        var artwork_id = public_id.slice(start).replace('/approved/', '');
+        this.$db.addFavorite(this.$auth.user.sub, this.artist.userId, artwork_id)
+          .catch(err => console.log(err))
+          .finally(() => {this.artist.columns[j][i].isLoading = false; this.$forceUpdate()})
+
+      }
+    }
   },
   metaInfo() {
     return {
