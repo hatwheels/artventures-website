@@ -91,10 +91,11 @@
                             large
                             v-bind="attrs"
                             v-on="on"
-                            :loading="artwork.isLoading"
+                            :loading="artwork.isProcFavorite"
                             @click="toggleFavorite(artwork.public_id, j, i)"
                           >
-                            <v-icon size="30">mdi-heart-outline</v-icon>
+                            <v-icon v-if="!checkIsFavorite(artwork.public_id)" size="30">mdi-heart-outline</v-icon>
+                            <v-icon v-else size="30" color="pink lighten-3">mdi-heart</v-icon>
                           </v-btn>
                         </template>
                         <span>{{ plainText.heart[getLang] }}</span>
@@ -153,7 +154,7 @@
           </div>
           <v-row
             class="px-6"
-            v-for="(artwork, i ) in artist.gallery" :key="'artwork-mobile-' + i"
+            v-for="(artwork, i) in artist.gallery" :key="'artwork-mobile-' + i"
             justify="center" align="center"
           >
             <v-col cols="12">
@@ -199,7 +200,8 @@
                             icon
                             v-bind="attrs"
                             v-on="on"
-                            @click="toggleFavorite(artwork.public_id)"
+                            :loading="artwork.isProcFavorite"
+                            @click="toggleFavorite(artwork.public_id, i, null)"
                           >
                             <v-icon>mdi-heart-outline</v-icon>
                           </v-btn>
@@ -401,16 +403,7 @@ export default {
   mounted () {
     if (this.$auth.isAuthenticated() && this.userRole !== 'artist') {
       // fetch user's favorite artworks
-      this.$db.getFavorites('google-oauth2|104266192030226467336')
-        .then(res => this.$imgdb.getArtwork(res)
-          .then(res => {
-            res.resources.forEach(resource => {
-              this.userFavorites.push(resource);
-            })
-            console.log(this.userFavorites);
-          })
-          .catch(err => console.log(err)))
-        .catch(err => console.log(err));
+      this.getUserFavorites()
     }
     this.getUserId(this.$route.params.id);
   },
@@ -445,7 +438,7 @@ export default {
                 this.artist.bio = artist.user_metadata.bio;
               }
               this.artist.userId = artist.user_id;
-              this.$imgdb.retrieveArtworks(artist.user_id, 'approved')
+              this.$imgdb.getArtworks(artist.user_id, 'approved')
                 .then(found => {
                   if (found.total_count> 0) {
                     // found approved artworks
@@ -531,26 +524,80 @@ export default {
           this.state = -1; // Not found
         })
     },
-    toggleFavorite(public_id, j, i) {
+    getUserFavorites() {
+      return new Promise((resolve, reject) => {
+        this.$db.getFavorites(this.$auth.user.sub)
+          .then(favorites => this.$imgdb.getFavoriteArtworks(favorites)
+            .then(res => {
+              this.userFavorites = [];
+              res.resources.forEach(resource => {
+                this.userFavorites.push(resource);
+              })
+              resolve();
+            })
+            .catch(err => reject(err)))
+          .catch(err => reject(err));
+      })
+    },
+    checkIsFavorite(public_id) {
       var isAlreadyFavorite = false;
-      this.userFavorites.every(favorite => {
+      this.userFavorites.find((favorite) => {
         if (favorite.public_id === public_id) {
           isAlreadyFavorite = true;
-          return false;
         }
-        return true;
+        return isAlreadyFavorite;
       })
-      this.artist.columns[j][i].isLoading = true;
+      return isAlreadyFavorite;
+    },
+    toggleFavorite(public_id, r, c) {
+      var isAlreadyFavorite = false;
+      var isAlreadyFavoriteIdx = -1;
+      this.userFavorites.find((favorite, idx) => {
+        if (favorite.public_id === public_id) {
+          isAlreadyFavorite = true;
+          isAlreadyFavoriteIdx = idx;
+        }
+        return isAlreadyFavorite;
+      })
+      c === null ? this.artist.gallery[r].isProcFavorite = true : this.artist.columns[r][c].isProcFavorite = true;
+
+      var start = public_id.indexOf('/approved/');
+      var artwork_id = public_id.slice(start).replace('/approved/', '');
       if (isAlreadyFavorite) {
         // Remove
+        this.$db.getRefFavorite(this.$auth.user.sub, this.artist.userId, artwork_id) // get Ref of favorite first
+          .then(refId => {
+            this.$db.deleteFavorite(refId)
+              .then(() => {
+                this.getUserFavorites()
+                  .finally(() => {
+                    c === null ? this.artist.gallery[r].isProcFavorite = false : this.artist.columns[r][c].isProcFavorite = false;
+                    this.$forceUpdate();
+                  })
+              })
+              .catch(() => {
+                c === null ? this.artist.gallery[r].isProcFavorite = false : this.artist.columns[r][c].isProcFavorite = false;
+                this.$forceUpdate();
+              })
+          })
+          .catch(() => {
+            c === null ? this.artist.gallery[r].isProcFavorite = false : this.artist.columns[r][c].isProcFavorite = false;
+            this.$forceUpdate();
+          })
       } else {
         // Add
-        var start = public_id.indexOf('/approved/');
-        var artwork_id = public_id.slice(start).replace('/approved/', '');
         this.$db.addFavorite(this.$auth.user.sub, this.artist.userId, artwork_id)
-          .catch(err => console.log(err))
-          .finally(() => {this.artist.columns[j][i].isLoading = false; this.$forceUpdate()})
-
+          .then(() => {
+            this.getUserFavorites()
+              .finally(() => {
+                c === null ? this.artist.gallery[r].isProcFavorite = false : this.artist.columns[r][c].isProcFavorite = false;
+                this.$forceUpdate();
+              })
+          })
+          .catch(() => {
+            c === null ? this.artist.gallery[r].isProcFavorite = false : this.artist.columns[r][c].isProcFavorite = false;
+            this.$forceUpdate()
+          })
       }
     }
   },

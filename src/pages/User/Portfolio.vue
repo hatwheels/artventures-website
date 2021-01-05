@@ -1497,7 +1497,7 @@ export default {
     async fetchArtistArtworks() {
       if (process.isClient && this.$auth.user) {
         this.isFetchingImages = true
-        this.$imgdb.retrieveArtworks(this.$auth.user.sub, '*')
+        this.$imgdb.getArtworks(this.$auth.user.sub, '*')
         .then(found => {
           this.isFetchingImages = false
           if (found.total_count > 0) {

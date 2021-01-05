@@ -21,23 +21,41 @@ exports.handler = async (event, context) => {
             }
         }
 
+        if (!data.artist_id) {
+            console.log('400: artist_id query parameter required.')
+            console.log("### END ###")
+
+            return {
+                statusCode: 400,
+                body: 'artist_id query parameter required'
+            }
+        }
+
+        if (!data.artwork_id) {
+            console.log('400: artwork_id query parameter required.')
+            console.log("### END ###")
+
+            return {
+                statusCode: 400,
+                body: 'artwork_id query parameter required'
+            }
+        }
+
         var client = new faunadb.Client({
             secret: process.env.FAUNADB_SECRET,
             headers: headers
         });
-
         return await client.query(
-            q.Paginate(q.Match(q.Index('find_favorites'), data.user_id))
+            q.Paginate(q.Match(q.Index('get_favorite_ref'), [data.user_id, data.artist_id, data.artwork_id]))
           )
           .then(ret => {
-            // Get Ref ID in 3rd element
-            ret.data.forEach(item => item[2] = item[2].id);
-            const favorites = JSON.stringify(ret.data);
+            const refID = JSON.stringify(ret.data[0].id);
+            console.log("Found Ref: " + refID);
             console.log("### END ###")
 
             return {
                 statusCode: 200,
-                body: favorites
+                body: refID
             };
       })
       .catch(err => {
@@ -45,7 +63,7 @@ exports.handler = async (event, context) => {
         console.log("### END ###")
 
         return {
-            statusCode: err,
+            statusCode: err.requestResult.statusCode,
             body: err.message
         };
       })

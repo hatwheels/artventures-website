@@ -42,7 +42,7 @@ let db = new Vue({
                             "Content-Type": "application/json"
                         }
                     }
-                ).then(() => resolve())
+                ).then((reply) => resolve(reply))
                 .catch(err => reject(err))
             })
         },
@@ -131,9 +131,31 @@ let db = new Vue({
                 })
             })
         },
-        deleteFavorites (refId) {
+        getRefFavorite(user_id, artist_id, artwork_id) {
             return new Promise((resolve, reject) => {
-                axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/faunadb-remove-favorites',
+                axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/faunadb-get-ref-favorite',
+                    {
+                        user_id: user_id,
+                        artist_id: artist_id,
+                        artwork_id: artwork_id
+                    },
+                    {
+                        headers: {
+                            "Access-Control-Allow-Origin": "*",
+                            "Access-Control-Allow-Headers": "Content-Type",
+                            "Content-Type": "application/json"
+                        }
+                    }
+                ).then(res => {
+                    resolve(res.data);
+                }).catch(err => {
+                    reject(err);
+                })
+            })
+        },
+        deleteFavorite (refId) {
+            return new Promise((resolve, reject) => {
+                axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/faunadb-remove-favorite',
                     refId,
                     {
                         headers: {
@@ -142,7 +164,7 @@ let db = new Vue({
                             "Content-Type": "application/json"
                         }
                     }
-                ).then(() => resolve())
+                ).then((reply) => resolve(reply))
                 .catch(err => reject(err))
             }) 
         }

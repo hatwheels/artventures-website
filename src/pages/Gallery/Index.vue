@@ -360,7 +360,7 @@ export default {
   async created () {
     this.$auth.getMgUsersInRole('artist')
       .then(artists => {
-        this.$imgdb.retrieveArtworks('*', '')
+        this.$imgdb.getArtworks('*', '')
           .then(found => {
             if (found.total_count > 0) {
               found.resources.forEach(resource => {
@@ -475,15 +475,14 @@ export default {
     if (this.$auth.isAuthenticated() && this.userRole !== 'artist') {
       // Fetch favorite artworks of user
       this.userFavorites = [];
-      this.$db.getFavorites('google-oauth2|104266192030226467336')
-        .then(res => this.$imgdb.getArtwork(res)
+      this.$db.getFavorites(this.$auth.user.sub)
+        .then(fav => {console.log(fav);this.$imgdb.getFavoriteArtworks(fav)
           .then(res => {
             res.resources.forEach(resource => {
               this.userFavorites.push(resource);
             })
-            console.log(this.userFavorites);
           })
-          .catch(err => console.log(err)))
+          .catch(err => console.log(err))})
         .catch(err => console.log(err));
     }
   },

@@ -61,14 +61,12 @@ let imgdb = new Vue({
                 }).catch(err => reject(err))
             })
         },
-        // Read ALL artworks
-        retrieveArtworks(user_id, path) {
+        getSingleArtwork(public_id) {
             return new Promise((resolve, reject) => {
-                let folder = 'artwork/' + user_id + '/' + path;
-
                 axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/cloudinary-search',
                     {
-                        folder: folder,
+                        access_type: 'single',
+                        public_id: public_id
                     },
                     {
                         headers: {
@@ -86,10 +84,39 @@ let imgdb = new Vue({
                 }).catch(err => reject(err))
             })
         },
-        getArtwork(favorites) {
+        // Read ALL artworks
+        getArtworks(user_id, path) {
             return new Promise((resolve, reject) => {
-                axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/cloudinary-retrieve',
-                    { favorites: favorites },
+                let folder = 'artwork/' + user_id + '/' + path;
+
+                axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/cloudinary-search',
+                    {
+                        access_type: 'multi',
+                        folder: folder
+                    },
+                    {
+                        headers: {
+                            "Access-Control-Allow-Origin": "*",
+                            "Access-Control-Allow-Headers": "Content-Type",
+                            "Content-Type": "application/json"
+                        }
+                    }
+                ).then(res => {
+                    if (200 == res.status) {
+                        resolve(res.data)
+                    } else {
+                        reject(res.status)
+                    }
+                }).catch(err => reject(err))
+            })
+        },
+        getFavoriteArtworks(favorites) {
+            return new Promise((resolve, reject) => {
+                axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/cloudinary-search',
+                    {
+                        access_type: 'favorites',
+                        favorites: favorites
+                    },
                     {
                         headers: {
                             "Access-Control-Allow-Origin": "*",
