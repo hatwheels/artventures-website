@@ -32,17 +32,17 @@ exports.handler = async (event, context) => {
           .then(ret => {
             // Get Ref ID in 3rd element
             ret.data.forEach(item => item[2] = item[2].id);
-            const favorites = JSON.stringify(ret.data);
-            console.log("### END ###")
+            console.log("Found successfully");
+            console.log("### END ###");
 
             return {
                 statusCode: 200,
-                body: favorites
+                body: JSON.stringify(ret.data)
             };
       })
       .catch(err => {
         console.log(JSON.stringify(err));
-        console.log("### END ###")
+        console.log("### END ###");
 
         return {
             statusCode: err,

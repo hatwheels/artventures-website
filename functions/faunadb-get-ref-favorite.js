@@ -49,23 +49,33 @@ exports.handler = async (event, context) => {
             q.Paginate(q.Match(q.Index('get_favorite_ref'), [data.user_id, data.artist_id, data.artwork_id]))
           )
           .then(ret => {
-            const refID = JSON.stringify(ret.data[0].id);
-            console.log("Found Ref: " + refID);
+            if (ret.data.length === 0) {
+                // Empty
+                console.log("No Ref found")
+                console.log("### END ###")
+
+                return {
+                    statusCode: 200,
+                    body: ''
+                }
+            }
+            const refId = JSON.stringify(ret.data[0].id);
+            console.log("Found Ref: " + refId);
             console.log("### END ###")
 
             return {
                 statusCode: 200,
-                body: refID
+                body: refId
             };
-      })
-      .catch(err => {
-        console.log(JSON.stringify(err));
-        console.log("### END ###")
+          })
+          .catch(err => {
+            console.log(JSON.stringify(err));
+            console.log("### END ###")
 
-        return {
-            statusCode: err.requestResult.statusCode,
-            body: err.message
-        };
+            return {
+                statusCode: err.requestResult.statusCode,
+                body: err.message
+            };
       })
     } catch (err) {
         console.log("### END ###")

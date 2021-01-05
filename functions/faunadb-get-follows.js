@@ -27,39 +27,30 @@ exports.handler = async (event, context) => {
         });
 
         return await client.query(
-            q.Paginate(q.Match(q.Index('id'), data.user_id))
+            q.Paginate(q.Match(q.Index('find_follows'), data.user_id))
           )
           .then(ret => {
-            if (ret.data.length === 0) {
-                // Empty
-                console.log("No Ref found")
-                console.log("### END ###")
-
-                return {
-                    statusCode: 200,
-                    body: ''
-                }
-            }
-            const user_id = JSON.stringify(ret.data[0][1].id);
-            console.log(user_id);
-            console.log("### END ###")
+            // Get Ref ID in 3rd element
+            ret.data.forEach(item => item[1] = item[1].id);
+            console.log("Found successfully");
+            console.log("### END ###");
 
             return {
                 statusCode: 200,
-                body: user_id
-            };
-          })
-          .catch(err => {
-            console.log(JSON.stringify(err));
-            console.log("### END ###")
-
-            return {
-                statusCode: err.requestResult.statusCode,
-                body: err.message
+                body: JSON.stringify(ret.data)
             };
       })
+      .catch(err => {
+        console.log(JSON.stringify(err));
+        console.log("### END ###");
+
+        return {
+            statusCode: err,
+            body: err.message
+        };
+      })
     } catch (err) {
-        console.log("### END ###")
+        console.log("### END ###");
 
         return {
             statusCode: 500,

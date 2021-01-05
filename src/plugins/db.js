@@ -27,6 +27,7 @@ let db = new Vue({
                 })
             })
         },
+        // add a favorite artwork (arwork_id) from an artist (artist_id) of a user (user_id)
         addFavorite(user_id, artist_id, artwork_id) {
             return new Promise((resolve, reject) => {
                 axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/faunadb-add-favorite',
@@ -43,6 +44,25 @@ let db = new Vue({
                         }
                     }
                 ).then((reply) => resolve(reply))
+                .catch(err => reject(err))
+            })
+        },
+        // add an artist (artist_id) for a user (user_id) to follow
+        addFollow(user_id, artist_id) {
+            return new Promise((resolve, reject) => {
+                axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/faunadb-add-follow',
+                    {
+                        user_id: user_id,
+                        artist_id: artist_id
+                    },
+                    {
+                        headers: {
+                            "Access-Control-Allow-Origin": "*",
+                            "Access-Control-Allow-Headers": "Content-Type",
+                            "Content-Type": "application/json"
+                        }
+                    }
+                ).then(reply => resolve(reply.data))
                 .catch(err => reject(err))
             })
         },
@@ -124,11 +144,25 @@ let db = new Vue({
                             "Content-Type": "application/json"
                         }
                     }
-                ).then(res => {
-                    resolve(res.data);
-                }).catch(err => {
-                    reject(err);
-                })
+                ).then(res => resolve(res.data))
+                .catch(err => reject(err));
+            })
+        },
+        getFollows (user_id) {
+            return new Promise((resolve, reject) => {
+                axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/faunabd-get-follows',
+                    {
+                        user_id: user_id
+                    },
+                    {
+                        headers: {
+                            "Access-Control-Allow-Origin": "*",
+                            "Access-Control-Allow-Headers": "Content-Type",
+                            "Content-Type": "application/json"
+                        }
+                    }
+                ).then(res => resolve(res.data))
+                .catch(err => reject(err));
             })
         },
         getRefFavorite(user_id, artist_id, artwork_id) {
@@ -146,11 +180,25 @@ let db = new Vue({
                             "Content-Type": "application/json"
                         }
                     }
-                ).then(res => {
-                    resolve(res.data);
-                }).catch(err => {
-                    reject(err);
-                })
+                ).then(res => resolve(res.data)).catch(err => reject(err))
+            })
+        },
+        getRefFollow(user_id, artist_id) {
+            return new Promise((resolve, reject) => {
+                axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/faunadb-get-ref-follow',
+                    {
+                        user_id: user_id,
+                        artist_id: artist_id
+                    },
+                    {
+                        headers: {
+                            "Access-Control-Allow-Origin": "*",
+                            "Access-Control-Allow-Headers": "Content-Type",
+                            "Content-Type": "application/json"
+                        }
+                    }
+                ).then(res => resolve(res.data))
+                .catch(err => reject(err))
             })
         },
         deleteFavorite (refId) {
@@ -167,6 +215,21 @@ let db = new Vue({
                 ).then((reply) => resolve(reply))
                 .catch(err => reject(err))
             }) 
+        },
+        deleteFollow (refId) {
+            return new Promise((resolve, reject) => {
+                axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/faunadb-remove-follow',
+                    refId,
+                    {
+                        headers: {
+                            "Access-Control-Allow-Origin": "*",
+                            "Access-Control-Allow-Headers": "Content-Type",
+                            "Content-Type": "application/json"
+                        }
+                    }
+                ).then(reply => resolve(reply))
+                .catch(err => reject(err))
+            })
         }
     }
 })

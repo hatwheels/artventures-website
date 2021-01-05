@@ -14,8 +14,11 @@
                     icon
                     v-bind="attrs"
                     v-on="on"
+                    :loading="artist.isProcFollow"
+                    @click="toggleFollow"
                   >
-                    <v-icon>mdi-thumb-up-outline</v-icon>
+                    <v-icon v-if="followerRefId !== null" color="blue lighten-2">mdi-thumb-up</v-icon>
+                    <v-icon v-else>mdi-thumb-up-outline</v-icon>
                   </v-btn>
                 </template>
                 <span>{{ plainText.follow[getLang] }}</span>
@@ -341,7 +344,8 @@ export default {
         pic: '',
         bio: '',
         gallery: [],
-        columns: [[], [], []]
+        columns: [[], [], []],
+        isProcFollow: false
       },
       overlayDesktop: false,
       overlayMobile: false,
@@ -399,22 +403,31 @@ export default {
       },
       // user's favorite artworks
       userFavorites: [],
+      // Reference ID in DB table 'follows' (string value if user follows artist)
+      followerRefId: null
     }
   },
   mounted () {
     if (this.$auth.isAuthenticated() && this.userRole !== 'artist') {
       // fetch user's favorite artworks
       this.getUserFavorites()
+      // find out if user is following the artist
+      this.$db.getRefFollow(this.$auth.user.sub, this.$route.params.id)
+        .then(res => {
+          if (res.length > 0) {
+            this.followerRefId = res;
+          }
+        })
     }
-    this.getUserId(this.$route.params.id);
+    this.getUserId(this.$route.params.id); // $route.param.id is the reference Id to the 'users' DB table
   },
   computed: {
     ...mapGetters(['getLang']),
     userRole () {
       if (this.$auth.userRole != null) {
-        return this.$auth.userRole[0].name
+        return this.$auth.userRole[0].name;
       }
-      return null
+      return null;
     },
   },
   methods: {
@@ -524,6 +537,20 @@ export default {
         .catch(() => {
           this.state = -1; // Not found
         })
+    },
+    toggleFollow() {
+      this.artist.isProcFollow = true;
+      if (this.followerRefId === null) {
+        // Not followed, so add
+          this.$db.addFollow(this.$auth.user.sub, this.$route.params.id)
+            .then(refId => this.followerRefId = refId)
+            .finally(() => this.artist.isProcFollow = false)
+      } else {
+        // Followed, so remove
+        this.$db.deleteFollow(this.followerRefId)
+          .then(reply => this.followerRefId = null)
+          .finally(() => this.artist.isProcFollow = false)
+      }
     },
     getUserFavorites() {
       return new Promise((resolve, reject) => {
