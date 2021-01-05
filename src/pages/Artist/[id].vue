@@ -7,7 +7,7 @@
         <div class="hidden-sm-and-down py-12 px-12">
           <!-- Info -->
           <v-row no-gutters justify="center" align="center">
-            <v-col v-if="$auth.isAuthenticated() && userRole !== 'artist'" class="pr-1" cols="auto">
+            <v-col class="pr-1" cols="auto">
               <v-tooltip top color="black">
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
@@ -87,7 +87,7 @@
                   </v-col>
                   <v-col cols="auto" class="d-flex flex-column align-end">
                     <v-card-actions>
-                      <v-tooltip v-if="$auth.isAuthenticated() && userRole !== 'artist'" top color="black">
+                      <v-tooltip top color="black">
                         <template v-slot:activator="{ on, attrs }">
                           <v-btn
                             icon
@@ -197,7 +197,7 @@
                   </v-col>
                   <v-col cols="auto" class="d-flex flex-column align-end">
                     <v-card-actions>
-                      <v-tooltip v-if="$auth.isAuthenticated() && userRole !== 'artist'" top color="black">
+                      <v-tooltip top color="black">
                         <template v-slot:activator="{ on, attrs }">
                           <v-btn
                             icon
@@ -408,7 +408,7 @@ export default {
     }
   },
   mounted () {
-    if (this.$auth.isAuthenticated() && this.userRole !== 'artist') {
+    if (this.$auth.isAuthenticated()) {
       // fetch user's favorite artworks
       this.getUserFavorites()
       // find out if user is following the artist
@@ -539,17 +539,22 @@ export default {
         })
     },
     toggleFollow() {
-      this.artist.isProcFollow = true;
-      if (this.followerRefId === null) {
-        // Not followed, so add
-          this.$db.addFollow(this.$auth.user.sub, this.$route.params.id)
-            .then(refId => this.followerRefId = refId)
-            .finally(() => this.artist.isProcFollow = false)
+      if (!this.$auth.isAuthenticated()) {
+        // Not authenticated, can't like an artwork. Prompt login/signup.
+        this.$auth.login();
       } else {
-        // Followed, so remove
-        this.$db.deleteFollow(this.followerRefId)
-          .then(reply => this.followerRefId = null)
-          .finally(() => this.artist.isProcFollow = false)
+        this.artist.isProcFollow = true;
+        if (this.followerRefId === null) {
+          // Not followed, so add
+            this.$db.addFollow(this.$auth.user.sub, this.$route.params.id)
+              .then(refId => this.followerRefId = refId)
+              .finally(() => this.artist.isProcFollow = false)
+        } else {
+          // Followed, so remove
+          this.$db.deleteFollow(this.followerRefId)
+            .then(reply => this.followerRefId = null)
+            .finally(() => this.artist.isProcFollow = false)
+        }
       }
     },
     getUserFavorites() {
@@ -578,46 +583,59 @@ export default {
       return isAlreadyFavorite;
     },
     toggleFavorite(public_id, r, c) {
-      var isAlreadyFavorite = false;
-      var isAlreadyFavoriteIdx = -1;
-      this.userFavorites.find((favorite, idx) => {
-        if (favorite.public_id === public_id) {
-          isAlreadyFavorite = true;
-          isAlreadyFavoriteIdx = idx;
-        }
-        return isAlreadyFavorite;
-      })
-      c === null ? this.artist.gallery[r].isProcFavorite = true : this.artist.columns[r][c].isProcFavorite = true;
-
-      var start = public_id.indexOf('/approved/');
-      var artwork_id = public_id.slice(start).replace('/approved/', '');
-      if (isAlreadyFavorite) {
-        // Remove
-        this.$db.getRefFavorite(this.$auth.user.sub, this.artist.userId, artwork_id) // get Ref of favorite first
-          .then(refId => {
-            this.$db.deleteFavorite(refId)
-              .finally(() => {
-                this.getUserFavorites()
-                  .finally(() => {
-                    c === null ? this.artist.gallery[r].isProcFavorite = false : this.artist.columns[r][c].isProcFavorite = false;
-                    this.$forceUpdate();
-                  })
-              })
-          })
-          .catch(() => {
-            c === null ? this.artist.gallery[r].isProcFavorite = false : this.artist.columns[r][c].isProcFavorite = false;
-            this.$forceUpdate();
-          })
+      if (!this.$auth.isAuthenticated()) {
+        // Not authenticated, can't like an artwork. Prompt login/signup.
+        this.$auth.login();
       } else {
-        // Add
-        this.$db.addFavorite(this.$auth.user.sub, this.artist.userId, artwork_id)
-          .finally(() => {
-            this.getUserFavorites()
-              .finally(() => {
-                c === null ? this.artist.gallery[r].isProcFavorite = false : this.artist.columns[r][c].isProcFavorite = false;
-                this.$forceUpdate();
-              })
-          })
+        var isAlreadyFavorite = false;
+        var isAlreadyFavoriteIdx = -1;
+        this.userFavorites.find((favorite, idx) => {
+          if (favorite.public_id === public_id) {
+            isAlreadyFavorite = true;
+            isAlreadyFavoriteIdx = idx;
+          }
+          return isAlreadyFavorite;
+        })
+        c === null ?
+          this.artist.gallery[r].isProcFavorite = true :
+          this.artist.columns[r][c].isProcFavorite = true;
+
+        var start = public_id.indexOf('/approved/');
+        var artwork_id = public_id.slice(start).replace('/approved/', '');
+        if (isAlreadyFavorite) {
+          // Remove
+          this.$db.getRefFavorite(this.$auth.user.sub, this.artist.userId, artwork_id) // get Ref of favorite first
+            .then(refId => {
+              this.$db.deleteFavorite(refId)
+                .finally(() => {
+                  this.getUserFavorites()
+                    .finally(() => {
+                      c === null ?
+                        this.artist.gallery[r].isProcFavorite = false :
+                        this.artist.columns[r][c].isProcFavorite = false;
+                      this.$forceUpdate();
+                    })
+                })
+            })
+            .catch(() => {
+              c === null ?
+                this.artist.gallery[r].isProcFavorite = false :
+                this.artist.columns[r][c].isProcFavorite = false;
+              this.$forceUpdate();
+            })
+        } else {
+          // Add
+          this.$db.addFavorite(this.$auth.user.sub, this.artist.userId, artwork_id)
+            .finally(() => {
+              this.getUserFavorites()
+                .finally(() => {
+                  c === null ?
+                    this.artist.gallery[r].isProcFavorite = false :
+                    this.artist.columns[r][c].isProcFavorite = false;
+                  this.$forceUpdate();
+                })
+            })
+        }
       }
     }
   },

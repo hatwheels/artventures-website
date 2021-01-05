@@ -66,7 +66,7 @@
                           </v-col>
                           <v-col cols="auto" class="d-flex flex-column align-end">
                             <v-card-actions>
-                              <v-tooltip v-if="$auth.isAuthenticated() && userRole !== 'artist'" top color="black">
+                              <v-tooltip top color="black">
                                 <template v-slot:activator="{ on, attrs }">
                                   <v-btn
                                     icon
@@ -195,7 +195,7 @@
                           </v-col>
                           <v-col cols="auto" class="d-flex flex-column align-end">
                             <v-card-actions>
-                              <v-tooltip v-if="$auth.isAuthenticated() && userRole !== 'artist'" top color="black">
+                              <v-tooltip top color="black">
                                 <template v-slot:activator="{ on, attrs }">
                                   <v-btn
                                     icon
@@ -480,7 +480,7 @@ export default {
         })
   },
   mounted () {
-    if (this.$auth.isAuthenticated() && this.userRole !== 'artist') {
+    if (this.$auth.isAuthenticated()) {
       // fetch user's favorite artworks
       this.getUserFavorites()
     }
@@ -609,57 +609,62 @@ export default {
       return isAlreadyFavorite;
     },
     toggleFavorite(public_id, r, c) {
-      var isAlreadyFavorite = false;
-      var isAlreadyFavoriteIdx = -1;
-      this.userFavorites.find((favorite, idx) => {
-        if (favorite.public_id === public_id) {
-          isAlreadyFavorite = true;
-          isAlreadyFavoriteIdx = idx;
-        }
-        return isAlreadyFavorite;
-      })
-      c === null ?
-        this.gallery[this.page.mobile-1][r].isProcFavorite = true :
-        this.columns[this.page.desktop-1][r][c].isProcFavorite = true;
-      var start = public_id.indexOf('/approved/');
-      var artwork_id = public_id.slice(start).replace('/approved/', '');
-      var artist_id =
-        c === null ?
-          this.gallery[this.page.mobile-1][r].user_id :
-          this.columns[this.page.desktop-1][r][c].user_id;
-      if (isAlreadyFavorite) {
-        // Remove
-        this.$db.getRefFavorite(this.$auth.user.sub, artist_id, artwork_id) // get Ref of favorite first
-          .then(refId => {
-            this.$db.deleteFavorite(refId)
-              .finally(() => {
-                this.getUserFavorites()
-                  .finally(() => {
-                    c === null ?
-                      this.gallery[this.page.mobile-1][r].isProcFavorite = false :
-                      this.columns[this.page.desktop-1][r][c].isProcFavorite = false;
-                    this.$forceUpdate();
-                  })
-              })
-          })
-          .catch(() => {
-            c === null ?
-              this.gallery[this.page.mobile-1][r].isProcFavorite = false :
-              this.columns[this.page.desktop-1][r][c].isProcFavorite = false;
-            this.$forceUpdate();
-          })
+      if (!this.$auth.isAuthenticated()) {
+        // Not authenticated, can't like an artwork. Prompt login/signup.
+        this.$auth.login();
       } else {
-        // Add
-        this.$db.addFavorite(this.$auth.user.sub, artist_id, artwork_id)
-          .finally(() => {
-            this.getUserFavorites()
-              .finally(() => {
-                c === null ?
-                  this.gallery[this.page.mobile-1][r].isProcFavorite = false :
-                  this.columns[this.page.desktop-1][r][c].isProcFavorite = false;
-                this.$forceUpdate();
-              })
-          })
+        var isAlreadyFavorite = false;
+        var isAlreadyFavoriteIdx = -1;
+        this.userFavorites.find((favorite, idx) => {
+          if (favorite.public_id === public_id) {
+            isAlreadyFavorite = true;
+            isAlreadyFavoriteIdx = idx;
+          }
+          return isAlreadyFavorite;
+        })
+        c === null ?
+          this.gallery[this.page.mobile-1][r].isProcFavorite = true :
+          this.columns[this.page.desktop-1][r][c].isProcFavorite = true;
+        var start = public_id.indexOf('/approved/');
+        var artwork_id = public_id.slice(start).replace('/approved/', '');
+        var artist_id =
+          c === null ?
+            this.gallery[this.page.mobile-1][r].user_id :
+            this.columns[this.page.desktop-1][r][c].user_id;
+        if (isAlreadyFavorite) {
+          // Remove
+          this.$db.getRefFavorite(this.$auth.user.sub, artist_id, artwork_id) // get Ref of favorite first
+            .then(refId => {
+              this.$db.deleteFavorite(refId)
+                .finally(() => {
+                  this.getUserFavorites()
+                    .finally(() => {
+                      c === null ?
+                        this.gallery[this.page.mobile-1][r].isProcFavorite = false :
+                        this.columns[this.page.desktop-1][r][c].isProcFavorite = false;
+                      this.$forceUpdate();
+                    })
+                })
+            })
+            .catch(() => {
+              c === null ?
+                this.gallery[this.page.mobile-1][r].isProcFavorite = false :
+                this.columns[this.page.desktop-1][r][c].isProcFavorite = false;
+              this.$forceUpdate();
+            })
+        } else {
+          // Add
+          this.$db.addFavorite(this.$auth.user.sub, artist_id, artwork_id)
+            .finally(() => {
+              this.getUserFavorites()
+                .finally(() => {
+                  c === null ?
+                    this.gallery[this.page.mobile-1][r].isProcFavorite = false :
+                    this.columns[this.page.desktop-1][r][c].isProcFavorite = false;
+                  this.$forceUpdate();
+                })
+            })
+        }
       }
     }
   },

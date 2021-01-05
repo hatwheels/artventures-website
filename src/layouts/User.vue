@@ -66,7 +66,7 @@
                 v-html="spa.gallery[getLang]"
               />
             </v-list-item>
-            <v-list-item v-if="userRole === 'admin' || userRole === 'user'" to="/user/favorites">
+            <v-list-item to="/user/favorites">
               <v-list-item-title
                 :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
                 color="#333333"
@@ -133,7 +133,7 @@
                 v-html="spa.portfolio[getLang]"
               />
             </v-list-item>
-            <v-list-item v-if="userRole === 'admin' || userRole === 'user'" to="/user/favorites">
+            <v-list-item to="/user/favorites">
               <v-list-item-title
                 :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
                 color="#333333"

@@ -78,6 +78,7 @@ export default function (Vue, { appOptions, router, head, isClient }) {
       }
       case '/user/profile':
       case '/user/settings':
+      case '/user/favorites':
         if (router.app.$auth.isAuthenticated()) { // if authenticated allow access
           next();
         }
@@ -89,19 +90,6 @@ export default function (Vue, { appOptions, router, head, isClient }) {
       case '/user/portfolio':
         if (router.app.$auth.isAuthenticated()) { // if authenticated allow access
           if (router.app.$auth.userRole[0].name === 'user') { // users have no portfolio
-            next(false);
-          } else {
-            next();
-          }
-        }
-        else { // trigger auth0's login
-          router.app.$auth.login();
-        }
-        break;
-
-      case '/user/favorites':
-        if (router.app.$auth.isAuthenticated()) { // if authenticated allow access
-          if (router.app.$auth.userRole[0].name === 'artist') { // artists have no favorites
             next(false);
           } else {
             next();
