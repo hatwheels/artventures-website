@@ -73,8 +73,11 @@
                                     large
                                     v-bind="attrs"
                                     v-on="on"
+                                    :loading="artwork.isProcFavorite"
+                                    @click="toggleFavorite(artwork.public_id, j, i)"
                                   >
-                                    <v-icon size="30">mdi-heart-outline</v-icon>
+                                    <v-icon v-if="!checkIsFavorite(artwork.public_id)" size="30">mdi-heart-outline</v-icon>
+                                    <v-icon v-else size="30" color="pink lighten-3">mdi-heart</v-icon>
                                   </v-btn>
                                 </template>
                                 <span>{{ plainText.heart[getLang] }}</span>
@@ -198,8 +201,11 @@
                                     icon
                                     v-bind="attrs"
                                     v-on="on"
+                                    :loading="artwork.isProcFavorite"
+                                    @click="toggleFavorite(artwork.public_id, i, null)"
                                   >
-                                    <v-icon>mdi-heart-outline</v-icon>
+                                    <v-icon v-if="!checkIsFavorite(artwork.public_id)">mdi-heart-outline</v-icon>
+                                    <v-icon v-else color="pink lighten-3">mdi-heart</v-icon>
                                   </v-btn>
                                 </template>
                                 <span>{{ plainText.heart[getLang] }}</span>
@@ -425,6 +431,7 @@ export default {
                         }
                       }
                       this.approvedArtworks.push({
+                        public_id: resource.public_id,
                         user_id: artist.user_id,
                         artist_name: artist.name,
                         url: resource.secure_url,
@@ -433,7 +440,8 @@ export default {
                         rentPrice: rentPrice,
                         salePrice: salePrice,
                         size: size,
-                        tags: tags
+                        tags: tags,
+                        isProcFavorite: false
                       });
                     }
                 }
@@ -473,17 +481,8 @@ export default {
   },
   mounted () {
     if (this.$auth.isAuthenticated() && this.userRole !== 'artist') {
-      // Fetch favorite artworks of user
-      this.userFavorites = [];
-      this.$db.getFavorites(this.$auth.user.sub)
-        .then(fav => {console.log(fav);this.$imgdb.getFavoriteArtworks(fav)
-          .then(res => {
-            res.resources.forEach(resource => {
-              this.userFavorites.push(resource);
-            })
-          })
-          .catch(err => console.log(err))})
-        .catch(err => console.log(err));
+      // fetch user's favorite artworks
+      this.getUserFavorites()
     }
   },
   data () {
@@ -583,6 +582,85 @@ export default {
         .catch(err => {
           this.goToArtist = false;
         })
+    },
+    getUserFavorites() {
+      return new Promise((resolve, reject) => {
+        this.$db.getFavorites(this.$auth.user.sub)
+          .then(favorites => this.$imgdb.getFavoriteArtworks(favorites)
+            .then(res => {
+              this.userFavorites = [];
+              res.resources.forEach(resource => {
+                this.userFavorites.push(resource);
+              })
+              resolve();
+            })
+            .catch(err => reject(err)))
+          .catch(err => reject(err));
+      })
+    },
+    checkIsFavorite(public_id) {
+      var isAlreadyFavorite = false;
+      this.userFavorites.find((favorite) => {
+        if (favorite.public_id === public_id) {
+          isAlreadyFavorite = true;
+        }
+        return isAlreadyFavorite;
+      })
+      return isAlreadyFavorite;
+    },
+    toggleFavorite(public_id, r, c) {
+      var isAlreadyFavorite = false;
+      var isAlreadyFavoriteIdx = -1;
+      this.userFavorites.find((favorite, idx) => {
+        if (favorite.public_id === public_id) {
+          isAlreadyFavorite = true;
+          isAlreadyFavoriteIdx = idx;
+        }
+        return isAlreadyFavorite;
+      })
+      c === null ?
+        this.gallery[this.page.mobile-1][r].isProcFavorite = true :
+        this.columns[this.page.desktop-1][r][c].isProcFavorite = true;
+      var start = public_id.indexOf('/approved/');
+      var artwork_id = public_id.slice(start).replace('/approved/', '');
+      var artist_id =
+        c === null ?
+          this.gallery[this.page.mobile-1][r].user_id :
+          this.columns[this.page.desktop-1][r][c].user_id;
+      if (isAlreadyFavorite) {
+        // Remove
+        this.$db.getRefFavorite(this.$auth.user.sub, artist_id, artwork_id) // get Ref of favorite first
+          .then(refId => {
+            this.$db.deleteFavorite(refId)
+              .finally(() => {
+                this.getUserFavorites()
+                  .finally(() => {
+                    c === null ?
+                      this.gallery[this.page.mobile-1][r].isProcFavorite = false :
+                      this.columns[this.page.desktop-1][r][c].isProcFavorite = false;
+                    this.$forceUpdate();
+                  })
+              })
+          })
+          .catch(() => {
+            c === null ?
+              this.gallery[this.page.mobile-1][r].isProcFavorite = false :
+              this.columns[this.page.desktop-1][r][c].isProcFavorite = false;
+            this.$forceUpdate();
+          })
+      } else {
+        // Add
+        this.$db.addFavorite(this.$auth.user.sub, artist_id, artwork_id)
+          .finally(() => {
+            this.getUserFavorites()
+              .finally(() => {
+                c === null ?
+                  this.gallery[this.page.mobile-1][r].isProcFavorite = false :
+                  this.columns[this.page.desktop-1][r][c].isProcFavorite = false;
+                this.$forceUpdate();
+              })
+          })
+      }
     }
   },
   metaInfo() {

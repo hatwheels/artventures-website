@@ -203,7 +203,8 @@
                             :loading="artwork.isProcFavorite"
                             @click="toggleFavorite(artwork.public_id, i, null)"
                           >
-                            <v-icon>mdi-heart-outline</v-icon>
+                            <v-icon v-if="!checkIsFavorite(artwork.public_id)">mdi-heart-outline</v-icon>
+                            <v-icon v-else color="pink lighten-3">mdi-heart</v-icon>
                           </v-btn>
                         </template>
                         <span>{{ plainText.heart[getLang] }}</span>
@@ -568,16 +569,12 @@ export default {
         this.$db.getRefFavorite(this.$auth.user.sub, this.artist.userId, artwork_id) // get Ref of favorite first
           .then(refId => {
             this.$db.deleteFavorite(refId)
-              .then(() => {
+              .finally(() => {
                 this.getUserFavorites()
                   .finally(() => {
                     c === null ? this.artist.gallery[r].isProcFavorite = false : this.artist.columns[r][c].isProcFavorite = false;
                     this.$forceUpdate();
                   })
-              })
-              .catch(() => {
-                c === null ? this.artist.gallery[r].isProcFavorite = false : this.artist.columns[r][c].isProcFavorite = false;
-                this.$forceUpdate();
               })
           })
           .catch(() => {
@@ -587,16 +584,12 @@ export default {
       } else {
         // Add
         this.$db.addFavorite(this.$auth.user.sub, this.artist.userId, artwork_id)
-          .then(() => {
+          .finally(() => {
             this.getUserFavorites()
               .finally(() => {
                 c === null ? this.artist.gallery[r].isProcFavorite = false : this.artist.columns[r][c].isProcFavorite = false;
                 this.$forceUpdate();
               })
-          })
-          .catch(() => {
-            c === null ? this.artist.gallery[r].isProcFavorite = false : this.artist.columns[r][c].isProcFavorite = false;
-            this.$forceUpdate()
           })
       }
     }
