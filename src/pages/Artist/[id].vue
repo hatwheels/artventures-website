@@ -29,6 +29,11 @@
             </v-col>
           </v-row>
           <v-row justify="center" align="center">
+            <v-col cols="auto">
+              <div v-if="followers !== null" class="montserrat-12-400-italic">{{ followers }} FOLLOWERS</div>
+            </v-col>
+          </v-row>
+          <v-row justify="center" align="center">
             <v-col cols="8">
               <v-row justify="center" align="center">
                 <v-col cols="auto">
@@ -126,6 +131,7 @@
                         <span>{{ plainText.rentPerMonth[getLang] }}</span>
                       </div>
                     </div>
+                    <div class="pr-4 mt-auto montserrat-12-400-italic">LIKES</div>
                   </v-col>
                 </v-row>
               </v-card>
@@ -139,6 +145,31 @@
             <v-col class="text-center" cols="auto">
               <div class="raleway-30-700 text-uppercase">{{ artist.firstName }}</div>
               <div class="raleway-30-700 text-uppercase">{{ artist.lastName }}</div>
+            </v-col>
+          </v-row>
+          <v-row justify="center" align="center">
+            <v-col cols="auto">
+              <v-tooltip top color="black">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    icon
+                    v-bind="attrs"
+                    v-on="on"
+                    small
+                    :loading="artist.isProcFollow"
+                    @click="toggleFollow"
+                  >
+                    <v-icon v-if="followerRefId !== null" size="30" color="blue lighten-2">mdi-thumb-up</v-icon>
+                    <v-icon v-else>mdi-thumb-up-outline</v-icon>
+                  </v-btn>
+                </template>
+                <span>{{ plainText.follow[getLang] }}</span>
+              </v-tooltip>
+            </v-col>
+          </v-row>
+          <v-row justify="center" align="center">
+            <v-col cols="auto">
+              <div v-if="followers !== null" class="montserrat-12-400-italic">{{ followers }} FOLLOWERS</div>
             </v-col>
           </v-row>
           <v-row class="pb-6" justify="center" align="center">
@@ -234,6 +265,7 @@
                         <span>{{ plainText.rentPerMonth[getLang] }}</span>
                       </div>
                     </div>
+                    <div class="pr-4 mt-auto montserrat-10-400-italic">LIKES</div>
                   </v-col>
                 </v-row>
               </v-card>
@@ -404,7 +436,8 @@ export default {
       // user's favorite artworks
       userFavorites: [],
       // Reference ID in DB table 'follows' (string value if user follows artist)
-      followerRefId: null
+      followerRefId: null,
+      followers: null
     }
   },
   mounted () {
@@ -412,14 +445,18 @@ export default {
       // fetch user's favorite artworks
       this.getUserFavorites()
       // find out if user is following the artist
-      this.$db.getRefFollow(this.$auth.user.sub, this.$route.params.id)
-        .then(res => {
-          if (res.length > 0) {
-            this.followerRefId = res;
-          }
+      this.getUserId(this.$route.params.id)
+        .then(() => {
+          this.$db.getRefFollow(this.$auth.user.sub, this.artist.userId)
+            .then(res => {
+              if (res.length > 0) {
+                this.followerRefId = res;
+              }
+            })
         })
+    } else {
+      this.getUserId(this.$route.params.id); // $route.param.id is the reference Id to the 'users' DB table
     }
-    this.getUserId(this.$route.params.id); // $route.param.id is the reference Id to the 'users' DB table
   },
   computed: {
     ...mapGetters(['getLang']),
@@ -432,6 +469,7 @@ export default {
   },
   methods: {
     getUserId(ref) {
+      return new Promise((resolve, reject) => {
       this.$db.getUserId(ref)
         .then(id => {
           this.$auth.getMgUser(id)
@@ -520,10 +558,13 @@ export default {
                     // Artist has no approved artworks, designate as not found
                     this.state = -1;
                   }
+                  this.getArtistFollowers(this.artist.userId);
+                  resolve();
                 })
                 .catch(() => {
                   // Error while fetching artworks occured
                   this.state = -2;
+                  reject();
                 })
             })
             .catch(err => {
@@ -532,11 +573,14 @@ export default {
               } else {
                 this.state = -2; // Error
               }
+              reject();
             })
         })
         .catch(() => {
           this.state = -1; // Not found
+          reject();
         })
+      })
     },
     toggleFollow() {
       if (!this.$auth.isAuthenticated()) {
@@ -546,13 +590,19 @@ export default {
         this.artist.isProcFollow = true;
         if (this.followerRefId === null) {
           // Not followed, so add
-            this.$db.addFollow(this.$auth.user.sub, this.$route.params.id)
-              .then(refId => this.followerRefId = refId)
+            this.$db.addFollow(this.$auth.user.sub, this.artist.userId)
+              .then(refId => {
+                  this.followerRefId = refId;
+                  this.getArtistFollowers(this.artist.userId);
+                })
               .finally(() => this.artist.isProcFollow = false)
         } else {
           // Followed, so remove
           this.$db.deleteFollow(this.followerRefId)
-            .then(reply => this.followerRefId = null)
+            .then(reply => {
+              this.followerRefId = null;
+              this.getArtistFollowers(this.artist.userId);
+            })
             .finally(() => this.artist.isProcFollow = false)
         }
       }
@@ -637,6 +687,16 @@ export default {
             })
         }
       }
+    },
+    getArtistFollowers (artist_id) {
+      this.$db.getArtistFollowers(artist_id)
+        .then(count => {this.followers = count; console.log(this.followers);})
+        .catch(err => console.log(err))
+    },
+    getArtworkLikes (artist_id, artwork_id) {
+      this.$db.getArtworkLikes(artist_id, artwork_id)
+        .then(count => console.log(count))
+        .catch(err => console.log(err))
     }
   },
   metaInfo() {

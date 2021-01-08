@@ -590,6 +590,21 @@ export default {
   font-size: 38px !important;
   font-weight: 700 !important;
 }
+
+/* Montserrat */
+.montserrat-10-400-italic {
+  font-family: 'Montserrat', sans-serif !important;
+  font-size: 10px !important;
+  font-weight: 400 !important;
+  font-style: italic !important;
+}
+.montserrat-12-400-italic {
+  font-family: 'Montserrat', sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  font-style: italic !important;
+}
+
 .cookie__bar__buttons__button--accept {
   border: 1px solid #525252 !important;
   background: #F5F5F5 !important;

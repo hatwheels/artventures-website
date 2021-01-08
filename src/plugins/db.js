@@ -148,6 +148,41 @@ let db = new Vue({
                 .catch(err => reject(err));
             })
         },
+        getArtworkLikes (artist_id, artwork_id) {
+            return new Promise((resolve, reject) => {
+                axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/faunadb-get-artwork-likes',
+                    {
+                        artist_id: artist_id,
+                        artwork_id: artwork_id
+                    },
+                    {
+                        headers: {
+                            "Access-Control-Allow-Origin": "*",
+                            "Access-Control-Allow-Headers": "Content-Type",
+                            "Content-Type": "application/json"
+                        }
+                    }
+                ).then(res => resolve(res.data))
+                .catch(err => reject(err));
+            })
+        },
+        getArtistFollowers (artist_id) {
+            return new Promise((resolve, reject) => {
+                axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/faunadb-get-artist-followers',
+                    {
+                        artist_id: artist_id
+                    },
+                    {
+                        headers: {
+                            "Access-Control-Allow-Origin": "*",
+                            "Access-Control-Allow-Headers": "Content-Type",
+                            "Content-Type": "application/json"
+                        }
+                    }
+                ).then(res => resolve(res.data))
+                .catch(err => reject(err));
+            })
+        },
         getFollows (user_id) {
             return new Promise((resolve, reject) => {
                 axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/faunabd-get-follows',

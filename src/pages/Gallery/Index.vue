@@ -113,6 +113,7 @@
                                 <span>{{ plainText.rentPerMonth[getLang] }}</span>
                               </div> -->
                             </div>
+                            <div class="pr-4 mt-auto montserrat-12-400-italic">LIKES</div>
                           </v-col>
                         </v-row>
                       </v-card>
@@ -240,6 +241,7 @@
                                 <span>{{ plainText.rentPerMonth[getLang] }}</span>
                               </div> -->
                             </div>
+                            <div class="pr-4 mt-auto montserrat-10-400-italic">LIKES</div>
                           </v-col>
                         </v-row>
                       </v-card>
