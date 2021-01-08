@@ -42,3 +42,9 @@
 2. `GRIDSOME_SITE_URL`
 3. `GRIDSOME_AUTH0_CLIENT_ID`
 4. `GRIDSOME_AUTH0_MANAGEMENT_API_TOKEN`
+
+### 6. Notes
+
+1. In `package.json`:
+    - always keep `sass-loader` dev dependency to 7.3.1.
+    - always keep `swiper` dependency to 5.4.5.
