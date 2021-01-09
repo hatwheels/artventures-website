@@ -568,7 +568,6 @@ export default {
   font-size: 25px !important;
   font-weight: 400 !important;
 }
-
 /* Playfair Display */
 .playfair-18-600 {
   font-family: 'Playfair Display', serif !important;
@@ -590,7 +589,6 @@ export default {
   font-size: 38px !important;
   font-weight: 700 !important;
 }
-
 /* Montserrat */
 .montserrat-10-400-italic {
   font-family: 'Montserrat', sans-serif !important;

@@ -74,7 +74,7 @@
                                     v-bind="attrs"
                                     v-on="on"
                                     :loading="artwork.isProcFavorite"
-                                    @click="toggleFavorite(artwork.public_id, j, i)"
+                                    @click="toggleFavorite(artwork, j, i)"
                                   >
                                     <v-icon v-if="!checkIsFavorite(artwork.public_id)" size="30">mdi-heart-outline</v-icon>
                                     <v-icon v-else size="30" color="pink lighten-3">mdi-heart</v-icon>
@@ -113,7 +113,11 @@
                                 <span>{{ plainText.rentPerMonth[getLang] }}</span>
                               </div> -->
                             </div>
-                            <div class="pr-4 mt-auto montserrat-12-400-italic">LIKES</div>
+                            <div v-if="artwork.likes !== null"
+                              class="pr-4 mt-auto montserrat-12-400-italic"
+                            >
+                              {{ artwork.likes }} LIKES
+                            </div>
                           </v-col>
                         </v-row>
                       </v-card>
@@ -203,7 +207,7 @@
                                     v-bind="attrs"
                                     v-on="on"
                                     :loading="artwork.isProcFavorite"
-                                    @click="toggleFavorite(artwork.public_id, i, null)"
+                                    @click="toggleFavorite(artwork, i, null)"
                                   >
                                     <v-icon v-if="!checkIsFavorite(artwork.public_id)">mdi-heart-outline</v-icon>
                                     <v-icon v-else color="pink lighten-3">mdi-heart</v-icon>
@@ -241,7 +245,11 @@
                                 <span>{{ plainText.rentPerMonth[getLang] }}</span>
                               </div> -->
                             </div>
-                            <div class="pr-4 mt-auto montserrat-10-400-italic">LIKES</div>
+                            <div v-if="artwork.likes !== null"
+                              class="pr-4 mt-auto montserrat-10-400-italic"
+                            >
+                              {{ artwork.likes }} LIKES
+                            </div>
                           </v-col>
                         </v-row>
                       </v-card>
@@ -361,6 +369,12 @@
 <script>
 import { mapGetters } from "vuex";
 
+const toPublicIdNoPath = (publicId, artworkState) => {
+  return publicId
+    .slice(publicId.indexOf(artworkState))
+    .replace(artworkState, '');
+};
+
 export default {
   components: {
     ScrollToTop: () => import("~/components/ScrollToTop.vue")
@@ -371,7 +385,7 @@ export default {
         this.$imgdb.getArtworks('*', '')
           .then(found => {
             if (found.total_count > 0) {
-              found.resources.forEach(resource => {
+              found.resources.forEach(async resource => {
               if (resource.folder.indexOf('approved') !== -1 &&
                   resource.folder.indexOf('google-oauth2|104266192030226467336') === -1 &&
                   resource.folder.indexOf('google-oauth2|108119525360718636347') === -1 &&
@@ -443,7 +457,8 @@ export default {
                         salePrice: salePrice,
                         size: size,
                         tags: tags,
-                        isProcFavorite: false
+                        isProcFavorite: false,
+                        likes: null
                       });
                     }
                 }
@@ -464,6 +479,8 @@ export default {
               }
               let count = 0;
               this.approvedArtworks.forEach((artwork, index) => {
+                this.getArtworkLikes(artwork.user_id, toPublicIdNoPath(artwork.public_id, '/approved/'))
+                  .then(count => artwork.likes = count);
                 this.gallery[Math.floor(index / this.artworksPerPage.mobile)].push(artwork);
                 this.columns[Math.floor(index / this.artworksPerPage.desktop)][count].push(artwork);
                 count = (count + 1) % 3;
@@ -610,7 +627,7 @@ export default {
       })
       return isAlreadyFavorite;
     },
-    toggleFavorite(public_id, r, c) {
+    toggleFavorite(artwork, r, c) {
       if (!this.$auth.isAuthenticated()) {
         // Not authenticated, can't like an artwork. Prompt login/signup.
         this.$auth.login();
@@ -618,7 +635,7 @@ export default {
         var isAlreadyFavorite = false;
         var isAlreadyFavoriteIdx = -1;
         this.userFavorites.find((favorite, idx) => {
-          if (favorite.public_id === public_id) {
+          if (favorite.public_id === artwork.public_id) {
             isAlreadyFavorite = true;
             isAlreadyFavoriteIdx = idx;
           }
@@ -627,8 +644,7 @@ export default {
         c === null ?
           this.gallery[this.page.mobile-1][r].isProcFavorite = true :
           this.columns[this.page.desktop-1][r][c].isProcFavorite = true;
-        var start = public_id.indexOf('/approved/');
-        var artwork_id = public_id.slice(start).replace('/approved/', '');
+        const artwork_id = toPublicIdNoPath(artwork.public_id, '/approved/');
         var artist_id =
           c === null ?
             this.gallery[this.page.mobile-1][r].user_id :
@@ -641,10 +657,14 @@ export default {
                 .finally(() => {
                   this.getUserFavorites()
                     .finally(() => {
-                      c === null ?
-                        this.gallery[this.page.mobile-1][r].isProcFavorite = false :
-                        this.columns[this.page.desktop-1][r][c].isProcFavorite = false;
-                      this.$forceUpdate();
+                      this.getArtworkLikes(this.artist.userId, artwork_id)
+                        .then(count => artwork.likes = count)
+                        .finally(() => {
+                            c === null ?
+                              this.gallery[this.page.mobile-1][r].isProcFavorite = false :
+                              this.columns[this.page.desktop-1][r][c].isProcFavorite = false;
+                            this.$forceUpdate();
+                        })
                     })
                 })
             })
@@ -660,14 +680,25 @@ export default {
             .finally(() => {
               this.getUserFavorites()
                 .finally(() => {
-                  c === null ?
-                    this.gallery[this.page.mobile-1][r].isProcFavorite = false :
-                    this.columns[this.page.desktop-1][r][c].isProcFavorite = false;
-                  this.$forceUpdate();
+                  this.getArtworkLikes(this.artist.userId, public_id)
+                    .then(count => artwork.likes = count)
+                    .finally(() => {
+                      c === null ?
+                        this.gallery[this.page.mobile-1][r].isProcFavorite = false :
+                        this.columns[this.page.desktop-1][r][c].isProcFavorite = false;
+                      this.$forceUpdate();
+                    })
                 })
             })
         }
       }
+    },
+    async getArtworkLikes (artist_id, artwork_id) {
+      return await new Promise((resolve, reject) => {
+        this.$db.getArtworkLikes(artist_id, artwork_id)
+          .then(count => resolve(count))
+          .catch(err => reject(err))
+      })
     }
   },
   metaInfo() {
