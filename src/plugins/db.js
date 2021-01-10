@@ -185,7 +185,7 @@ let db = new Vue({
         },
         getFollows (user_id) {
             return new Promise((resolve, reject) => {
-                axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/faunabd-get-follows',
+                axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/faunadb-get-follows',
                     {
                         user_id: user_id
                     },

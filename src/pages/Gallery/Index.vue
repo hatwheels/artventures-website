@@ -74,7 +74,7 @@
                                     v-bind="attrs"
                                     v-on="on"
                                     :loading="artwork.isProcFavorite"
-                                    @click="toggleFavorite(artwork, j, i)"
+                                    @click="toggleFavorite(artwork)"
                                   >
                                     <v-icon v-if="!checkIsFavorite(artwork.public_id)" size="30">mdi-heart-outline</v-icon>
                                     <v-icon v-else size="30" color="pink lighten-3">mdi-heart</v-icon>
@@ -207,7 +207,7 @@
                                     v-bind="attrs"
                                     v-on="on"
                                     :loading="artwork.isProcFavorite"
-                                    @click="toggleFavorite(artwork, i, null)"
+                                    @click="toggleFavorite(artwork)"
                                   >
                                     <v-icon v-if="!checkIsFavorite(artwork.public_id)">mdi-heart-outline</v-icon>
                                     <v-icon v-else color="pink lighten-3">mdi-heart</v-icon>
@@ -627,7 +627,7 @@ export default {
       })
       return isAlreadyFavorite;
     },
-    toggleFavorite(artwork, r, c) {
+    toggleFavorite(artwork) {
       if (!this.$auth.isAuthenticated()) {
         // Not authenticated, can't like an artwork. Prompt login/signup.
         this.$auth.login();
@@ -641,14 +641,9 @@ export default {
           }
           return isAlreadyFavorite;
         })
-        c === null ?
-          this.gallery[this.page.mobile-1][r].isProcFavorite = true :
-          this.columns[this.page.desktop-1][r][c].isProcFavorite = true;
+        artwork.isProcFavorite = true;
         const artwork_id = toPublicIdNoPath(artwork.public_id, '/approved/');
-        var artist_id =
-          c === null ?
-            this.gallery[this.page.mobile-1][r].user_id :
-            this.columns[this.page.desktop-1][r][c].user_id;
+        var artist_id = artwork.user_id;
         if (isAlreadyFavorite) {
           // Remove
           this.$db.getRefFavorite(this.$auth.user.sub, artist_id, artwork_id) // get Ref of favorite first
@@ -657,22 +652,16 @@ export default {
                 .finally(() => {
                   this.getUserFavorites()
                     .finally(() => {
-                      this.getArtworkLikes(this.artist.userId, artwork_id)
+                      this.getArtworkLikes(artist_id, artwork_id)
                         .then(count => artwork.likes = count)
                         .finally(() => {
-                            c === null ?
-                              this.gallery[this.page.mobile-1][r].isProcFavorite = false :
-                              this.columns[this.page.desktop-1][r][c].isProcFavorite = false;
-                            this.$forceUpdate();
+                            artwork.isProcFavorite = false;
                         })
                     })
                 })
             })
             .catch(() => {
-              c === null ?
-                this.gallery[this.page.mobile-1][r].isProcFavorite = false :
-                this.columns[this.page.desktop-1][r][c].isProcFavorite = false;
-              this.$forceUpdate();
+              artwork.isProcFavorite = false;
             })
         } else {
           // Add
@@ -680,13 +669,10 @@ export default {
             .finally(() => {
               this.getUserFavorites()
                 .finally(() => {
-                  this.getArtworkLikes(this.artist.userId, public_id)
+                  this.getArtworkLikes(artist_id, artwork_id)
                     .then(count => artwork.likes = count)
                     .finally(() => {
-                      c === null ?
-                        this.gallery[this.page.mobile-1][r].isProcFavorite = false :
-                        this.columns[this.page.desktop-1][r][c].isProcFavorite = false;
-                      this.$forceUpdate();
+                      artwork.isProcFavorite = false;
                     })
                 })
             })
