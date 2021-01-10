@@ -100,7 +100,7 @@
                             v-bind="attrs"
                             v-on="on"
                             :loading="artwork.isProcFavorite"
-                            @click="toggleFavorite(artwork, j, i)"
+                            @click="toggleFavorite(artwork)"
                           >
                             <v-icon v-if="!checkIsFavorite(artwork.public_id)" size="30">mdi-heart-outline</v-icon>
                             <v-icon v-else size="30" color="pink lighten-3">mdi-heart</v-icon>
@@ -239,7 +239,7 @@
                             v-bind="attrs"
                             v-on="on"
                             :loading="artwork.isProcFavorite"
-                            @click="toggleFavorite(artwork, i, null)"
+                            @click="toggleFavorite(artwork)"
                           >
                             <v-icon v-if="!checkIsFavorite(artwork.public_id)">mdi-heart-outline</v-icon>
                             <v-icon v-else color="pink lighten-3">mdi-heart</v-icon>
@@ -582,8 +582,9 @@ export default {
                     // Artist has no approved artworks, designate as not found
                     this.state = -1;
                   }
-                  this.getArtistFollowers(this.artist.userId);
-                  resolve();
+                  this.getArtistFollowers(this.artist.userId)
+                    .then(count => this.followers = count)
+                    .finally(() => resolve());
                 })
                 .catch(() => {
                   // Error while fetching artworks occured
@@ -614,20 +615,28 @@ export default {
         this.artist.isProcFollow = true;
         if (this.followerRefId === null) {
           // Not followed, so add
-            this.$db.addFollow(this.$auth.user.sub, this.artist.userId)
-              .then(refId => {
-                  this.followerRefId = refId;
-                  this.getArtistFollowers(this.artist.userId);
-                })
-              .finally(() => this.artist.isProcFollow = false)
+          this.$db.addFollow(this.$auth.user.sub, this.artist.userId)
+            .then(refId => {
+                this.getArtistFollowers(this.artist.userId)
+                  .then(count => {
+                    this.followerRefId = refId;
+                    this.followers = count;
+                  })
+                  .finally(() => this.artist.isProcFollow = false);
+            })
+            .catch(() => this.artist.isProcFollow = false);
         } else {
           // Followed, so remove
           this.$db.deleteFollow(this.followerRefId)
             .then(reply => {
-              this.followerRefId = null;
-              this.getArtistFollowers(this.artist.userId);
+              this.getArtistFollowers(this.artist.userId)
+                .then(count => {
+                  this.followerRefId = null;
+                  this.followers = count;
+                })
+                .finally(() => this.artist.isProcFollow = false);
             })
-            .finally(() => this.artist.isProcFollow = false)
+            .catch(() => this.artist.isProcFollow = false);
         }
       }
     },
@@ -656,7 +665,7 @@ export default {
       })
       return isAlreadyFavorite;
     },
-    toggleFavorite(artwork, r, c) {
+    toggleFavorite(artwork) {
       if (!this.$auth.isAuthenticated()) {
         // Not authenticated, can't like an artwork. Prompt login/signup.
         this.$auth.login();
@@ -670,34 +679,27 @@ export default {
           }
           return isAlreadyFavorite;
         })
-        c === null ?
-          this.artist.gallery[r].isProcFavorite = true :
-          this.artist.columns[r][c].isProcFavorite = true;
-
-        const public_id = toPublicIdNoPath(artwork.public_id, '/approved/');
+        artwork.isProcFavorite = true;
+        const artwork_id = toPublicIdNoPath(artwork.public_id, '/approved/');
         if (isAlreadyFavorite) {
           // Remove
-          this.$db.getRefFavorite(this.$auth.user.sub, this.artist.userId, public_id)
+          this.$db.getRefFavorite(this.$auth.user.sub, this.artist.userId, artwork_id)
             .then(refId => { // get Ref of favorite first
               this.$db.deleteFavorite(refId)
                 .finally(() => {
                   this.getUserFavorites()
                     .finally(() => {
-                      this.getArtworkLikes(this.artist.userId, public_id)
+                      this.getArtworkLikes(this.artist.userId, artwork_id)
                         .then(count => artwork.likes = count)
                         .finally(() => {
-                          c === null ?
-                            this.artist.gallery[r].isProcFavorite = false :
-                            this.artist.columns[r][c].isProcFavorite = false;
+                          artwork.isProcFavorite = false;
                           this.$forceUpdate();
                         })
                     })
                 })
             })
             .catch(() => {
-              c === null ?
-                this.artist.gallery[r].isProcFavorite = false :
-                this.artist.columns[r][c].isProcFavorite = false;
+              artwork.isProcFavorite = false;
               this.$forceUpdate();
             })
         } else {
@@ -706,12 +708,10 @@ export default {
             .finally(() => {
               this.getUserFavorites()
                 .finally(() => {
-                  this.getArtworkLikes(this.artist.userId, public_id)
+                  this.getArtworkLikes(this.artist.userId, artwork_id)
                     .then(count => artwork.likes = count)
                     .finally(() => {
-                      c === null ?
-                        this.artist.gallery[r].isProcFavorite = false :
-                        this.artist.columns[r][c].isProcFavorite = false;
+                      artwork.isProcFavorite = false;
                       this.$forceUpdate();
                     })
                 })
@@ -719,10 +719,12 @@ export default {
         }
       }
     },
-    getArtistFollowers (artist_id) {
-      this.$db.getArtistFollowers(artist_id)
-        .then(count => this.followers = count)
-        .catch(err => console.log(err))
+    async getArtistFollowers (artist_id) {
+      return await new Promise((resolve, reject) => {
+        this.$db.getArtistFollowers(artist_id)
+          .then(count => resolve(count))
+          .catch(err => reject(err))
+      })
     },
     async getArtworkLikes (artist_id, artwork_id) {
       return await new Promise((resolve, reject) => {

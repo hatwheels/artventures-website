@@ -62,7 +62,7 @@ exports.handler = async (event, context) => {
                 }
                 var xpr = 'resource_type:image AND (';
                 data.favorites.forEach(resource => {
-                    if (resource.length < 2) {
+                    if (resource.length < 1) {
                         console.log('401: wrong length of favorites array element.')
                         console.log("### END ###")
         
