@@ -13,7 +13,7 @@
         <div class="py-4" />
         <!-- Desktop -->
         <div class="hidden-sm-and-down">
-          <div v-if="!fetched">
+          <div v-if="fetchedFavorites === 0">
             <v-row class="px-12 mx-12" justify="center" align="center">
               <v-col><v-skeleton-loader type="card" /></v-col>
               <v-col><v-skeleton-loader type="card" /></v-col>
@@ -28,12 +28,12 @@
               <v-col cols="2"><v-skeleton-loader type="actions" /></v-col>
             </v-row>
           </div>
-          <div v-else>
+          <div v-else-if="fetchedFavorites === 1">
             <div v-if="userFavorites.length > 0">
               <v-row class="px-12" justify="start" align="start">
                 <v-col
                   class="pr-6"
-                  v-for="(column, j) in columns[page.desktop - 1]"
+                  v-for="(column, j) in columns[pageFavorites.desktop - 1]"
                   :key="'column' + j"
                   cols="4"
                 >
@@ -45,11 +45,7 @@
                     <v-img
                       :src="artwork.url"
                       :lazy-src="
-                        artwork.url.replace(
-                          'artventures/image/upload/',
-                          'artventures/image/upload/c_thumb,w_100/'
-                        )
-                      "
+                        artwork.url.replace('artventures/image/upload/', 'artventures/image/upload/c_thumb,w_100/')"
                       :alt="artwork.title || 'Untitled'"
                       contain
                     />
@@ -110,12 +106,8 @@
                                 :loading="artwork.isProcFavorite"
                                 @click="toggleFavorite(artwork)"
                               >
-                                <v-icon v-if="!artwork.favorite" size="30"
-                                  >mdi-heart-outline</v-icon
-                                >
-                                <v-icon v-else size="30" color="pink lighten-3"
-                                  >mdi-heart</v-icon
-                                >
+                                <v-icon v-if="!artwork.favorite" size="30">mdi-heart-outline</v-icon>
+                                <v-icon v-else size="30" color="pink lighten-3">mdi-heart</v-icon>
                               </v-btn>
                             </template>
                             <span>{{ plainText.heart[getLang] }}</span>
@@ -174,27 +166,39 @@
                 </v-col>
               </v-row>
             </div>
+            <!-- Empty (userFavorites.length === 0) -->
             <div v-else class="center-viewport">
               <v-row style="height: 100%" justify="center" align="center">
                 <v-col>
                   <p
                     class="text-center"
                     :class="
-                      getLang === 'gr'
-                        ? 'noto-16-400-1p6em'
-                        : 'raleway-16-400-1p6em'
-                    "
+                      getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
                   >
-                    {{ plainText.error[getLang] }}
+                    {{ plainText.emptyFavorites[getLang] }}
                   </p>
                 </v-col>
               </v-row>
             </div>
           </div>
+          <!-- Error (fetchedFavorites === -1) -->
+          <div v-else class="center-viewport">
+            <v-row style="height: 100%" justify="center" align="center">
+              <v-col>
+                <p
+                  class="text-center"
+                  :class="
+                    getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                >
+                  {{ plainText.error[getLang] }}
+                </p>
+              </v-col>
+            </v-row>
+          </div>
         </div>
         <!-- Mobile -->
         <div class="hidden-md-and-up py-4">
-          <div v-if="!fetched">
+          <div v-if="fetchedFavorites === 0">
             <v-row class="px-4" justify="center" align="center">
               <v-col><v-skeleton-loader type="card" /></v-col>
             </v-row>
@@ -205,11 +209,11 @@
               <v-col cols="3"><v-skeleton-loader type="actions" /></v-col>
             </v-row>
           </div>
-          <div v-else>
+          <div v-else-if="fetchedFavorites === 1">
             <div v-if="userFavorites.length > 0">
               <v-row
                 class="px-6"
-                v-for="(artwork, i) in gallery[page.mobile - 1]"
+                v-for="(artwork, i) in gallery[pageFavorites.mobile - 1]"
                 :key="'artwork-mobile-' + i"
                 justify="center"
                 align="center"
@@ -219,11 +223,7 @@
                     <v-img
                       :src="artwork.url"
                       :lazy-src="
-                        artwork.url.replace(
-                          'artventures/image/upload/',
-                          'artventures/image/upload/c_thumb,w_100/'
-                        )
-                      "
+                        artwork.url.replace('artventures/image/upload/', 'artventures/image/upload/c_thumb,w_100/')"
                       :alt="artwork.title || 'Untitled'"
                       contain
                     />
@@ -265,9 +265,8 @@
                               v-for="(tag, i) in artwork.tags"
                               :key="'tag-mobile-' + i"
                             >
-                              {{ tag
-                              }}<span v-if="i !== artwork.tags.length - 1"
-                                >,</span
+                              {{ tag }}
+                              <span v-if="i !== artwork.tags.length - 1">,</span
                               >
                             </v-col>
                           </v-row>
@@ -284,13 +283,8 @@
                                 :loading="artwork.isProcFavorite"
                                 @click="toggleFavorite(artwork)"
                               >
-                                <v-icon
-                                  v-if="!artwork.favorite"
-                                  >mdi-heart-outline</v-icon
-                                >
-                                <v-icon v-else color="pink lighten-3"
-                                  >mdi-heart</v-icon
-                                >
+                                <v-icon v-if="!artwork.favorite">mdi-heart-outline</v-icon>
+                                <v-icon v-else color="pink lighten-3">mdi-heart</v-icon>
                               </v-btn>
                             </template>
                             <span>{{ plainText.heart[getLang] }}</span>
@@ -348,27 +342,38 @@
                 </v-col>
               </v-row>
             </div>
+            <!-- Empty (userFavorites.length === 0) -->
             <div v-else class="center-viewport">
               <v-row style="height: 100%" justify="center" align="center">
                 <v-col>
                   <p
                     class="text-center"
-                    :class="
-                      getLang === 'gr'
-                        ? 'noto-16-400-1p6em'
-                        : 'raleway-16-400-1p6em'
-                    "
+                    :class="getLang === 'gr'? 'noto-16-400-1p6em': 'raleway-16-400-1p6em'"
                   >
-                    {{ plainText.error[getLang] }}
+                    {{ plainText.emptyFavorites[getLang] }}
                   </p>
                 </v-col>
               </v-row>
             </div>
           </div>
+          <!-- Error fetchedFavorites === -1 -->
+          <div v-else class="center-viewport"> 
+            <v-row style="height: 100%" justify="center" align="center">
+              <v-col>
+                <p
+                  class="text-center"
+                  :class="
+                    getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                >
+                  {{ plainText.error[getLang] }}
+                </p>
+              </v-col>
+            </v-row>
+          </div>
         </div>
         <!-- Pagination Desktop -->
         <v-row
-          v-if="totalPages.desktop > 1"
+          v-if="totalPagesFavorites.desktop > 1"
           class="hidden-sm-and-down"
           align="center"
           justify="center"
@@ -376,8 +381,8 @@
         >
           <v-col cols="6">
             <v-pagination
-              v-model="page.desktop"
-              :length="totalPages.desktop"
+              v-model="pageFavorites.desktop"
+              :length="totalPagesFavorites.desktop"
               color="#333333"
               @input="$vuetify.goTo('#favorite')"
               @next="$vuetify.goTo('#favorite')"
@@ -388,7 +393,7 @@
         </v-row>
         <!-- Pagination Mobile -->
         <v-row
-          v-if="totalPages.mobile > 1"
+          v-if="totalPagesFavorites.mobile > 1"
           class="hidden-md-and-up"
           align="center"
           justify="center"
@@ -396,8 +401,8 @@
         >
           <v-col cols="10">
             <v-pagination
-              v-model="page.mobile"
-              :length="totalPages.mobile"
+              v-model="pageFavorites.mobile"
+              :length="totalPagesFavorites.mobile"
               color="#333333"
               @input="$vuetify.goTo('#favorite')"
               @next="$vuetify.goTo('#favorite')"
@@ -406,14 +411,264 @@
             </v-pagination>
           </v-col>
         </v-row>
-        <div class="py-4" />
+
+        <div class="py-8" />
         <!-- Following Artists -->
         <div class="background-color-dddddd custom-divider"></div>
+        <div class="py-8" />
+
         <div
-          class="pb-10 pt-5 my-0 text-center"
+          id="follow"
+          class="my-0 text-center"
           :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
           v-html="getLang === 'gr' ? 'Ακολουθίες μου' : 'My Follows'"
         />
+        <div class="py-4" />
+        <!-- Desktop -->
+        <div class="hidden-sm-and-down">
+          <div v-if="fetchedFollows === 0">
+            <v-row class="px-12 mx-12" justify="center" align="center">
+              <v-col><v-skeleton-loader type="list-item" /></v-col>
+              <v-col><v-skeleton-loader type="list-item" /></v-col>
+              <v-col><v-skeleton-loader type="list-item" /></v-col>
+            </v-row>
+            <v-row class="px-12 mx-12" justify="center" align="center">
+              <v-col><v-skeleton-loader type="list-item" /></v-col>
+              <v-col><v-skeleton-loader type="list-item" /></v-col>
+              <v-col><v-skeleton-loader type="list-item" /></v-col>
+            </v-row>
+            <v-row class="px-12 mx-12" justify="center" align="center">
+              <v-col cols="2"><v-skeleton-loader type="actions" /></v-col>
+            </v-row>
+          </div>
+          <div v-else-if="fetchedFollows === 1">
+            <div v-if="userFollows.length > 0">
+              <v-row class="px-12" justify="space-around" align="center">
+                <v-col
+                  class="pr-6"
+                  v-for="(artistDesktop, j) in artistsDesktop[pageFollows.desktop - 1]"
+                  :key="'artist-desktop-' + j"
+                  cols="auto"
+                >
+                  <div
+                    class="my-6"
+                    v-for="(artist, i) in artistDesktop"
+                    :key="'artist-' + i"
+                  >
+                    <div class="d-flex">
+                      <div
+                        v-if="artist.name"
+                        class="raleway-25-400 text-capitalize text-center font-weight-bold"
+                        v-text="artist.name"
+                      />
+                      <v-tooltip top color="black">
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-btn
+                            class="ml-1"
+                            icon
+                            v-bind="attrs"
+                            v-on="on"
+                            :loading="artist.isProcFollow"
+                            @click="toggleFollow(artist)"
+                          >
+                            <v-icon v-if="artist.followerRefId !== null" size="30" color="blue lighten-2">mdi-thumb-up</v-icon>
+                            <v-icon v-else size="30">mdi-thumb-up-outline</v-icon>
+                          </v-btn>
+                        </template>
+                        <span>{{ plainText.follow[getLang] }}</span>
+                      </v-tooltip>
+                      <v-tooltip top color="black">
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-btn
+                            class="ml-1"
+                            icon
+                            v-bind="attrs"
+                            v-on="on"
+                            @click="getRefArtist(artist.user_id)"
+                          >
+                            <v-icon size="30">mdi-link</v-icon>
+                          </v-btn>
+                        </template>
+                        <span>{{ plainText.artistPage[getLang] }}</span>
+                      </v-tooltip>
+                    </div>
+                    <div v-if="artist.followers !== null"
+                      class="montserrat-12-400-italic text-center"
+                    >
+                      {{ artist.followers }} FOLLOWERS
+                    </div>
+                  </div>
+                </v-col>
+              </v-row>
+            </div>
+            <!-- Empty (userFollows.length === 0) -->
+            <div v-else class="center-viewport">
+              <v-row style="height: 100%" justify="center" align="center">
+                <v-col>
+                  <p
+                    class="text-center"
+                    :class="
+                      getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                  >
+                    {{ plainText.emptyFollows[getLang] }}
+                  </p>
+                </v-col>
+              </v-row>
+            </div>
+          </div>
+          <!-- Error (fetchedFollows === -1) -->
+          <div v-else class="center-viewport">
+            <v-row style="height: 100%" justify="center" align="center">
+              <v-col>
+                <p
+                  class="text-center"
+                  :class="
+                    getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                >
+                  {{ plainText.error[getLang] }}
+                </p>
+              </v-col>
+            </v-row>
+          </div>
+        </div>
+        <!-- Mobile -->
+        <div class="hidden-md-and-up py-4">
+          <div v-if="fetchedFollows === 0">
+            <v-row class="px-4" justify="center" align="center">
+              <v-col><v-skeleton-loader type="list-item" /></v-col>
+            </v-row>
+            <v-row class="px-4" justify="center" align="center">
+              <v-col><v-skeleton-loader type="list-item" /></v-col>
+            </v-row>
+            <v-row class="px-4" justify="center" align="center">
+              <v-col cols="3"><v-skeleton-loader type="actions" /></v-col>
+            </v-row>
+          </div>
+          <div v-else-if="fetchedFollows === 1">
+            <div v-if="userFollows.length > 0">
+              <v-row
+                v-for="(artist, i) in artistsMobile[pageFollows.mobile - 1]"
+                :key="'artist-mobile-' + i"
+                justify="center"
+                align="center"
+              >
+                <v-col cols="auto">
+                  <div class="d-flex align-center">
+                    <div
+                      v-if="artist.name"
+                      class="raleway-16-400 text-capitalize text-center font-weight-bold"
+                      v-text="artist.name"
+                    />
+                    <v-tooltip top color="black">
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                          class="ml-1"
+                          icon
+                          v-bind="attrs"
+                          v-on="on"
+                          :loading="artist.isProcFollow"
+                          @click="toggleFollow(artist)"
+                        >
+                          <v-icon v-if="artist.followerRefId !== null" color="blue lighten-2">mdi-thumb-up</v-icon>
+                          <v-icon v-else>mdi-thumb-up-outline</v-icon>
+                        </v-btn>
+                      </template>
+                      <span>{{ plainText.follow[getLang] }}</span>
+                    </v-tooltip>
+                    <v-tooltip top color="black">
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                          class="ml-1"
+                          icon
+                          v-bind="attrs"
+                          v-on="on"
+                          @click="getRefArtist(artist.user_id)"
+                        >
+                          <v-icon>mdi-link</v-icon>
+                        </v-btn>
+                      </template>
+                      <span>{{ plainText.artistPage[getLang] }}</span>
+                    </v-tooltip>
+                  </div>
+                  <div v-if="artist.followers !== null"
+                    class="montserrat-12-400-italic text-center"
+                  >
+                    {{ artist.followers }} FOLLOWERS
+                  </div>
+                </v-col>
+              </v-row>
+            </div>
+            <!-- Empty (userFollows.length === 0) -->
+            <div v-else class="center-viewport">
+              <v-row style="height: 100%" justify="center" align="center">
+                <v-col>
+                  <p
+                    class="text-center"
+                    :class="
+                      getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                  >
+                    {{ plainText.emptyFollows[getLang] }}
+                  </p>
+                </v-col>
+              </v-row>
+            </div>
+          </div>
+          <!-- Error (fetchedFollows === -1) -->
+          <div v-else class="center-viewport">
+            <v-row style="height: 100%" justify="center" align="center">
+              <v-col>
+                <p
+                  class="text-center"
+                  :class="
+                    getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
+                >
+                  {{ plainText.error[getLang] }}
+                </p>
+              </v-col>
+            </v-row>
+          </div>
+        </div>
+        <!-- Pagination Desktop -->
+        <v-row
+          v-if="totalPagesFollows.desktop > 1"
+          class="hidden-sm-and-down"
+          align="center"
+          justify="center"
+          no-gutters
+        >
+          <v-col cols="6">
+            <v-pagination
+              v-model="pageFollows.desktop"
+              :length="totalPagesFollows.desktop"
+              color="#333333"
+              @input="$vuetify.goTo('#follow')"
+              @next="$vuetify.goTo('#follow')"
+              @previous="$vuetify.goTo('#follow')"
+            >
+            </v-pagination>
+          </v-col>
+        </v-row>
+        <!-- Pagination Mobile -->
+        <v-row
+          v-if="totalPagesFollows.mobile > 1"
+          class="hidden-md-and-up"
+          align="center"
+          justify="center"
+          no-gutters
+        >
+          <v-col cols="10">
+            <v-pagination
+              v-model="pageFollows.mobile"
+              :length="totalPagesFollows.mobile"
+              color="#333333"
+              @input="$vuetify.goTo('#follow')"
+              @next="$vuetify.goTo('#follow')"
+              @previous="$vuetify.goTo('#follow')"
+            >
+            </v-pagination>
+          </v-col>
+        </v-row>
+        <div class="py-8" />
         <!-- Scroll to Top -->
         <scroll-to-top />
       </v-container>
@@ -425,11 +680,7 @@
               class="rounded"
               :src="enlargedImg.url"
               :lazy-src="
-                enlargedImg.url.replace(
-                  'artventures/image/upload/',
-                  'artventures/image/upload/c_thumb,w_100/'
-                )
-              "
+                enlargedImg.url.replace('artventures/image/upload/', 'artventures/image/upload/c_thumb,w_100/')"
               :alt="enlargedImg.title || 'Untitled'"
               max-height="98vh"
               max-width="95vw"
@@ -471,11 +722,7 @@
             class="rounded"
             :src="enlargedImg.url"
             :lazy-src="
-              enlargedImg.url.replace(
-                'artventures/image/upload/',
-                'artventures/image/upload/c_thumb,w_100/'
-              )
-            "
+              enlargedImg.url.replace('artventures/image/upload/', 'artventures/image/upload/c_thumb,w_100/')"
             :alt="enlargedImg.title || 'Untitled'"
             contain
             @click="
@@ -509,16 +756,29 @@ export default {
   },
   data() {
     return {
-      fetched: false,
-      page: {
+      fetchedFavorites: 0,
+      fetchedFollows: 0,
+      pageFavorites: {
         desktop: 1,
         mobile: 1,
       },
-      totalPages: {
+      pageFollows: {
+        desktop: 1,
+        mobile: 1,
+      },
+      totalPagesFavorites: {
         desktop: 0,
         mobile: 0,
       },
-      artworksPerPage: {
+      totalPagesFollows: {
+        desktop: 0,
+        mobile: 0,
+      },
+      artworksPerPageFavorites: {
+        desktop: 12,
+        mobile: 6,
+      },
+      artworksPerPageFollows: {
         desktop: 24,
         mobile: 12,
       },
@@ -546,6 +806,10 @@ export default {
           gr: "Μου αρέσει",
           en: "Like",
         },
+        follow: {
+          gr: 'Ακολούθησε με',
+          en: 'Follow'
+        },
         type: {
           painting: {
             gr: "Πίνακας",
@@ -568,6 +832,14 @@ export default {
           gr: "Κλείσιμο",
           en: "Close",
         },
+        emptyFavorites: {
+          gr: "Δεν έχετε αγαπημένα έργα τέχνης.",
+          en: "You have no favorite artworks."
+        },
+        emptyFollows: {
+          gr: "Δεν ακολουθείται κάπιον καλλιτέχνη.",
+          en: "You don't follow any artist."
+        },
         error: {
           gr: "Ωχ, κάτι πήγε στραβά. Παρακαλώ προσπαθήστε αργότερα.",
           en: "Oops, something went wrong. Please reload the page later.",
@@ -579,7 +851,12 @@ export default {
       gallery: [], // [[], [], [], ...]
       // Gallery array for the desktop view
       columns: [[], [], []], // [ [[], [], []], [[], [], []], [[], [], []], ... ]
+      // Followed Artists
       userFollows: [],
+      // Followed Artists array for mobile view
+      artistsMobile: [], // [[], [], [], ...]
+      // Followed Artists array for desktop view
+      artistsDesktop: [[], [], []], // [ [[], [], []], [[], [], []], [[], [], []], ... ]
     };
   },
   mounted() {
@@ -605,7 +882,7 @@ export default {
     },
     async getUserFavorites() {
       return await new Promise(async (resolve, reject) => {
-        this.fetched = false;
+        this.fetchedFavorites = 0;
         let favorites;
         try {
           favorites = await this.$db.getFavorites(this.$auth.user.sub);
@@ -704,20 +981,20 @@ export default {
           );
 
           // Compute total pages and assign gallery arrays
-          this.totalPages.desktop =
+          this.totalPagesFavorites.desktop =
             Math.floor(
-              this.userFavorites.length / this.artworksPerPage.desktop
+              this.userFavorites.length / this.artworksPerPageFavorites.desktop
             ) + 1;
-          this.totalPages.mobile =
+          this.totalPagesFavorites.mobile =
             Math.floor(
-              this.userFavorites.length / this.artworksPerPage.mobile
+              this.userFavorites.length / this.artworksPerPageFavorites.mobile
             ) + 1;
-          this.gallery = Array(this.totalPages.mobile);
-          for (var i = 0; i < this.totalPages.mobile; i++) {
+          this.gallery = Array(this.totalPagesFavorites.mobile);
+          for (var i = 0; i < this.totalPagesFavorites.mobile; i++) {
             this.gallery[i] = Array();
           }
-          this.columns = Array(this.totalPages.desktop);
-          for (var i = 0; i < this.totalPages.desktop; i++) {
+          this.columns = Array(this.totalPagesFavorites.desktop);
+          for (var i = 0; i < this.totalPagesFavorites.desktop; i++) {
             this.columns[i] = Array(3);
             this.columns[i][0] = Array();
             this.columns[i][1] = Array();
@@ -729,38 +1006,75 @@ export default {
               artwork.user_id,
               toPublicIdNoPath(artwork.public_id, "/approved/")
             ).then((count) => (artwork.likes = count));
-            this.gallery[Math.floor(index / this.artworksPerPage.mobile)].push(
+            this.gallery[Math.floor(index / this.artworksPerPageFavorites.mobile)].push(
               artwork
             );
-            this.columns[Math.floor(index / this.artworksPerPage.desktop)][
+            this.columns[Math.floor(index / this.artworksPerPageFavorites.desktop)][
               count
             ].push(artwork);
             count = (count + 1) % 3;
           });
-          this.fetched = true;
+          this.fetchedFavorites = 1;
           resolve();
         } catch (e) {
-          this.fetched = true;
+          this.fetchedFavorites = -1;
           reject(e);
         }
       });
     },
     async getUserFollows() {
-      return await new Promise((resolve, reject) => {
-        this.$db
-          .getFollows(this.$auth.user.sub)
-          .then((follows) => {
-            follows.forEach(async (follow) => {
-              await this.$auth.getMgUser(follow[0]).then((artist) => {
+      return await new Promise(async (resolve, reject) => {
+        let follows;
+        try {
+          follows = await this.$db.getFollows(this.$auth.user.sub);
+          await Promise.all(
+            follows.map(async (follow) => {
+              let foundArtist;
+              try {
+                foundArtist = await this.$auth.getMgUser(follow[0]);
                 this.userFollows.push({
-                  user_id: artist.user_id,
-                  name: artist.name,
+                  user_id: foundArtist.user_id,
+                  name: foundArtist.name,
+                  isProcFollow: false,
+                  followerRefId: follow[1],
+                  followers: null
                 });
-              });
-            });
-            resolve();
-          })
-          .catch((err) => reject(err));
+              } catch {}
+            })
+          );
+          
+          // Compute total pages and assign artists arrays
+          this.totalPagesFollows.desktop = Math.floor(this.userFollows.length / this.artworksPerPageFollows.desktop) + 1;
+          this.totalPagesFollows.mobile = Math.floor(this.userFollows.length / this.artworksPerPageFollows.mobile) + 1;
+          this.artistsMobile = Array(this.totalPagesFollows.mobile);
+          for (var i = 0; i < this.totalPagesFollows.mobile; i++) {
+            this.artistsMobile[i] = Array();
+          }
+          this.artistsDesktop = Array(this.totalPagesFollows.desktop);
+          for (var i = 0; i < this.totalPagesFollows.desktop; i++) {
+            this.artistsDesktop[i] = Array(3);
+            this.artistsDesktop[i][0] = Array();
+            this.artistsDesktop[i][1] = Array();
+            this.artistsDesktop[i][2] = Array();
+          }
+          let count = 0;
+          await Promise.all(this.userFollows.map(async (artist, index) => {
+            let followCounts;
+            try {
+              followCounts = await this.getArtistFollowers(artist.user_id);
+              artist.followers = followCounts;
+            } catch {}
+            this.artistsMobile[Math.floor(index / this.artworksPerPageFollows.mobile)].push(artist);
+            this.artistsDesktop[Math.floor(index / this.artworksPerPageFollows.desktop)][count].push(artist);
+            count = (count + 1) % 3;
+          }));
+          this.fetchedFollows = 1;
+          resolve();
+        } catch (e) {
+          console.log(e)
+          this.fetchedFollows = -1;
+          reject(e);
+        }
       });
     },
     async getArtworkLikes(artist_id, artwork_id) {
@@ -770,6 +1084,13 @@ export default {
           .then((count) => resolve(count))
           .catch((err) => reject(err));
       });
+    },
+    async getArtistFollowers (artist_id) {
+      return await new Promise((resolve, reject) => {
+        this.$db.getArtistFollowers(artist_id)
+          .then(count => resolve(count))
+          .catch(err => reject(err))
+      })
     },
     toggleFavorite(artwork) {
       if (!this.$auth.isAuthenticated()) {
@@ -808,6 +1129,39 @@ export default {
                   artwork.isProcFavorite = false;
                 });
             });
+        }
+      }
+    },
+    toggleFollow(artist) {
+      if (!this.$auth.isAuthenticated()) {
+        // Not authenticated, can't like an artwork. Prompt login/signup.
+        this.$auth.login();
+      } else {
+        artist.isProcFollow = true;
+        if (artist.followerRefId === null) {
+          // Not followed, so add
+          this.$db.addFollow(this.$auth.user.sub, artist.user_id)
+            .then(refId => {
+                this.getArtistFollowers(artist.user_id)
+                  .then(count => {
+                    artist.followerRefId = refId;
+                    artist.followers = count;
+                  })
+                  .finally(() => artist.isProcFollow = false);
+            })
+            .catch(() => artist.isProcFollow = false);
+        } else {
+          // Followed, so remove
+          this.$db.deleteFollow(artist.followerRefId)
+            .then(reply => {
+              this.getArtistFollowers(artist.user_id)
+                .then(count => {
+                  artist.followerRefId = null;
+                  artist.followers = count;
+                })
+                .finally(() => artist.isProcFollow = false);
+            })
+            .catch(() => artist.isProcFollow = false);
         }
       }
     },
