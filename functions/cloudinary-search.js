@@ -10,13 +10,13 @@ exports.handler = async (event, context) => {
         const data = JSON.parse(event.body)
 
         if (!data.access_type) {
-            console.log('401: access_type query parameter required.')
+            console.log('400: access_type query parameter required.')
             console.log("### END ###")
 
             return {
-                statusCode: 401,
+                statusCode: 400,
                 headers,
-                body: 'Unauthorized Request'
+                body: 'Bad Request'
             }
         }
 
@@ -24,13 +24,13 @@ exports.handler = async (event, context) => {
             case 'single':
                 // Folder must be of structure: '<profile or artwork>/<user-id>'
                 if (!data.public_id) {
-                    console.log('401: public_id query parameter required.')
+                    console.log('400: public_id query parameter required.')
                     console.log("### END ###")
 
                     return {
-                        statusCode: 401,
+                        statusCode: 400,
                         headers,
-                        body: 'Unauthorized Request'
+                        body: 'Bad Request'
                     }
                 }
                 var xpr = 'resource_type:image AND public_id=' + data.public_id
@@ -38,38 +38,48 @@ exports.handler = async (event, context) => {
             case 'multi':
                 // Folder must be of structure: '<profile or artwork>/<user-id>'
                 if (!data.folder) {
-                    console.log('401: folder query parameter required.')
+                    console.log('400: folder query parameter required.')
                     console.log("### END ###")
 
                     return {
-                        statusCode: 401,
+                        statusCode: 400,
                         headers,
-                        body: 'Unauthorized Request'
+                        body: 'Bad Request'
                     }
                 }
                 var xpr = 'resource_type:image AND folder:' + data.folder
                 break;
             case 'favorites':
-                if (!data.favorites) {
-                    console.log('401: favorites query parameter required.')
+                if (!data.favorites || !Array.isArray(data.favorites)) {
+                    console.log('400: favorites query parameter required.')
                     console.log("### END ###")
         
                     return {
-                        statusCode: 401,
+                        statusCode: 400,
                         headers,
-                        body: 'Unauthorized Request'
+                        body: 'Bad Request'
+                    }
+                }
+                if (data.favorites.length === 0) {
+                    console.log('404: favorites query array is empty.')
+                    console.log("### END ###")
+        
+                    return {
+                        statusCode: 404,
+                        headers,
+                        body: 'Not Found'
                     }
                 }
                 var xpr = 'resource_type:image AND (';
                 data.favorites.forEach(resource => {
                     if (resource.length < 1) {
-                        console.log('401: wrong length of favorites array element.')
+                        console.log('400: wrong length of favorites array element.')
                         console.log("### END ###")
         
                         return {
-                            statusCode: 401,
+                            statusCode: 400,
                             headers,
-                            body: 'Unauthorized Request'
+                            body: 'Bad Request'
                         }
                     }
                     var approved = 'artwork/' + resource[0] + '/approved/' + resource[1];
@@ -82,12 +92,12 @@ exports.handler = async (event, context) => {
                 xpr += ')';
                 break;
             default:
-                console.log('401: access_type query parameter is wrong. Must be string of values "single" or "multi"');
+                console.log('400: access_type query parameter is wrong. Must be string of values "single" or "multi" or "favorites"');
                 console.log("### END ###");
                 return {
                     statusCode: 401,
                     headers,
-                    body: 'Unauthorized Request'
+                    body: 'Bad Request'
                 }
         }
 

@@ -962,9 +962,13 @@ import { validationMixin } from "vuelidate";
 import { required, numeric, maxLength, minLength } from "vuelidate/lib/validators";
 
 const toPublicIdNoPath = (publicId, artworkState) => {
+  let c = publicId.indexOf(artworkState);
+  if (c === -1) { // Not found, return empty string
+    return "";
+  }
   return publicId
-    .slice(publicId.indexOf(artworkState))
-    .replace(artworkState, '');
+    .slice(c)
+    .replace(artworkState, "");
 };
 const touchMap = new WeakMap();
 const alphaNumPlus = (value) => /^[a-zA-Z0-9- ]*$/.test(value)
@@ -1634,28 +1638,19 @@ export default {
               // Iterate over each artwork of the current state
               var count = 0;
               var folder = '';
-              switch (index) {
-                case 0:
-                  folder = 'inprocess';
-                  break;
-                case 1:
-                  folder = 'approved';
-                  break;
-                case 2:
-                  folder = 'rejected';
-                  break;
-                case 3:
-                  folder = 'frozen';
-                  break;
-                default:
-                  break;
-              }
+              ['inprocess', 'approved', 'rejected', 'frozen'].find((item, id) => {
+                if (index === id) {
+                  folder = item;
+                  return true;
+                }
+                return false;
+              });
               state.forEach(async artwork => {
                 // get likes of each artwork
                 var likes = 0;
                 await this.getArtworkLikes(this.$auth.user.sub, toPublicIdNoPath(artwork.public_id, folder))
-                  .then(count => { // add the likes
-                    artwork.likes = count;
+                  .then(likesCount => { // add the likes
+                    artwork.likes = likesCount;
                   })
                 this.columns[index][count].push(artwork);
                 count = (count + 1) % 3;

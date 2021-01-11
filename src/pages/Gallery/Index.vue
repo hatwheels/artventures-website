@@ -370,9 +370,13 @@
 import { mapGetters } from "vuex";
 
 const toPublicIdNoPath = (publicId, artworkState) => {
+  let c = publicId.indexOf(artworkState);
+  if (c === -1) { // Not found, return empty string
+    return "";
+  }
   return publicId
-    .slice(publicId.indexOf(artworkState))
-    .replace(artworkState, '');
+    .slice(c)
+    .replace(artworkState, "");
 };
 
 export default {
@@ -605,15 +609,19 @@ export default {
     getUserFavorites() {
       return new Promise((resolve, reject) => {
         this.$db.getFavorites(this.$auth.user.sub)
-          .then(favorites => this.$imgdb.getFavoriteArtworks(favorites)
-            .then(res => {
-              this.userFavorites = [];
-              res.resources.forEach(resource => {
-                this.userFavorites.push(resource);
-              })
-              resolve();
-            })
-            .catch(err => reject(err)))
+          .then(favorites => {
+            if (favorites.length > 0) {
+              this.$imgdb.getFavoriteArtworks(favorites)
+                .then(res => {
+                  this.userFavorites = [];
+                  res.resources.forEach(resource => {
+                    this.userFavorites.push(resource);
+                  })
+                  resolve();
+                })
+                .catch(err => reject(err));
+            } else { this.userFavorites = []; }
+          })
           .catch(err => reject(err));
       })
     },
