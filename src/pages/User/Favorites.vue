@@ -679,8 +679,7 @@
             <v-img
               class="rounded"
               :src="enlargedImg.url"
-              :lazy-src="
-                enlargedImg.url.replace('artventures/image/upload/', 'artventures/image/upload/c_thumb,w_100/')"
+              :lazy-src="enlargedImg.url.replace('artventures/image/upload/', 'artventures/image/upload/c_thumb,w_100/')"
               :alt="enlargedImg.title || 'Untitled'"
               max-height="98vh"
               max-width="95vw"
@@ -745,8 +744,12 @@
 import { mapGetters } from "vuex";
 
 const toPublicIdNoPath = (publicId, artworkState) => {
+  let c = publicId.indexOf(artworkState);
+  if (c === -1) { // Not found, return empty string
+    return "";
+  }
   return publicId
-    .slice(publicId.indexOf(artworkState))
+    .slice(c)
     .replace(artworkState, "");
 };
 
@@ -837,8 +840,8 @@ export default {
           en: "You have no favorite artworks."
         },
         emptyFollows: {
-          gr: "Δεν ακολουθείται κάπιον καλλιτέχνη.",
-          en: "You don't follow any artist."
+          gr: "Δεν ακολουθείται κάπoιον καλλιτέχνη.",
+          en: "You don't follow any artists."
         },
         error: {
           gr: "Ωχ, κάτι πήγε στραβά. Παρακαλώ προσπαθήστε αργότερα.",
@@ -860,7 +863,7 @@ export default {
     };
   },
   mounted() {
-    if (this.$auth.user) {
+    if (this.$auth.isAuthenticated()) {
       this.getUserFavorites();
       this.getUserFollows();
     }
@@ -886,109 +889,127 @@ export default {
         let favorites;
         try {
           favorites = await this.$db.getFavorites(this.$auth.user.sub);
-          await Promise.all(
-            favorites.map(async (favorite) => {
-              let artist_name;
-              try {
-                artist_name = await this.$auth.getMgUser(favorite[0]);
-                artist_name = artist_name.name;
-              } catch {
-                artist_name = "";
-              }
-              let found;
-              try {
-                found = await this.$imgdb.getFavoriteArtworks([favorite]);
-                if (found.total_count > 0) {
-                  found.resources.forEach((resource) => {
-                    // Artist
-                    var title = "";
-                    var rentPrice = "";
-                    var salePrice = "";
-                    var size = "";
-                    var type = "";
-                    var tags = resource.hasOwnProperty("tags")
-                      ? resource.tags
-                      : [];
-                    if (resource.hasOwnProperty("context")) {
-                      // Title
-                      if (resource.context.hasOwnProperty("caption")) {
-                        title = resource.context.caption;
-                        title = title.toLowerCase();
-                      }
-                      // Rent, Sale Price
-                      if (resource.context.hasOwnProperty("rent_price")) {
-                        rentPrice = resource.context.rent_price;
-                      }
-                      if (resource.context.hasOwnProperty("sale_price")) {
-                        salePrice = resource.context.sale_price;
-                      }
-                      if (resource.context.hasOwnProperty("type")) {
-                        type = this.plainText.type[resource.context.type];
-                        if (type.en.toLowerCase() === "sculpture") {
-                          // it's a sculpture
-                          if (
-                            resource.context.hasOwnProperty("dimension") &&
-                            resource.context.hasOwnProperty("height") &&
-                            resource.context.hasOwnProperty("width") &&
-                            resource.context.hasOwnProperty("depth")
-                          ) {
-                            size =
-                              resource.context.height +
-                              " x " +
-                              resource.context.width +
-                              " x " +
-                              resource.context.depth +
-                              " " +
-                              resource.context.dimension;
-                          }
-                        } else if (type.en.toLowerCase() === "painting") {
-                          // it's a painting
-                          if (
-                            resource.context.hasOwnProperty("dimension") &&
-                            resource.context.hasOwnProperty("height") &&
-                            resource.context.hasOwnProperty("width")
-                          ) {
-                            size =
-                              resource.context.height +
-                              " x " +
-                              resource.context.width +
-                              " " +
-                              resource.context.dimension;
-                          }
+          // Find for each favorite artwork the artist name.
+          await Promise.all(favorites.map(async favorite => {
+            let artist_name;
+            try {
+              artist_name = await this.$auth.getMgUser(favorite[0]);
+              favorite.push(artist_name.name); // index 3
+            } catch {
+              favorite.push(''); // index 3
+            }
+          }));
+          let found;
+          if (favorites.length > 0) {
+            try {
+              found = await this.$imgdb.getFavoriteArtworks(favorites);
+              if (found.total_count > 0) {
+                found.resources.forEach(resource => {
+                  // Artist
+                  var title = "";
+                  var rentPrice = "";
+                  var salePrice = "";
+                  var size = "";
+                  var type = "";
+                  var tags = resource.hasOwnProperty("tags") ? resource.tags : [];
+                  if (resource.hasOwnProperty("context")) {
+                    // Title
+                    if (resource.context.hasOwnProperty("caption")) {
+                      title = resource.context.caption;
+                      title = title.toLowerCase();
+                    }
+                    // Rent, Sale Price
+                    if (resource.context.hasOwnProperty("rent_price")) {
+                      rentPrice = resource.context.rent_price;
+                    }
+                    if (resource.context.hasOwnProperty("sale_price")) {
+                      salePrice = resource.context.sale_price;
+                    }
+                    if (resource.context.hasOwnProperty("type")) {
+                      type = this.plainText.type[resource.context.type];
+                      if (type.en.toLowerCase() === "sculpture") {
+                        // it's a sculpture
+                        if (
+                          resource.context.hasOwnProperty("dimension") &&
+                          resource.context.hasOwnProperty("height") &&
+                          resource.context.hasOwnProperty("width") &&
+                          resource.context.hasOwnProperty("depth")
+                        ) {
+                          size = resource.context.height + " x " + resource.context.width + " x " + resource.context.depth + " " + resource.context.dimension;
+                        }
+                      } else if (type.en.toLowerCase() === "painting") {
+                        // it's a painting
+                        if (
+                          resource.context.hasOwnProperty("dimension") &&
+                          resource.context.hasOwnProperty("height") &&
+                          resource.context.hasOwnProperty("width")
+                        ) {
+                          size = resource.context.height + " x " + resource.context.width + " " + resource.context.dimension;
                         }
                       }
                     }
-
-                    this.userFavorites.push({
-                      public_id: resource.public_id,
-                      user_id: favorite[0],
-                      artist_name: artist_name,
-                      url: resource.secure_url,
-                      title: title,
-                      type: type,
-                      rentPrice: rentPrice,
-                      salePrice: salePrice,
-                      size: size,
-                      tags: tags,
-                      isProcFavorite: false,
-                      likes: null,
-                      favorite: true,
-                    });
+                  }
+                  // check that favorite artwork exists and if it does add artist's name. 
+                  let artist_id = resource.public_id.replace('artwork/', '');
+                  let c = artist_id.indexOf('/');
+                  artist_id = artist_id.substring(0, c);
+                  favorites.find(favorite => { // [ artist_id, refId, name ]
+                    if (favorite[0] === artist_id) {
+                      this.userFavorites.push({
+                        public_id: resource.public_id,
+                        user_id: favorite[0],
+                        artist_name: favorite[3],
+                        url: resource.secure_url,
+                        title: title,
+                        type: type,
+                        rentPrice: rentPrice,
+                        salePrice: salePrice,
+                        size: size,
+                        tags: tags,
+                        isProcFavorite: false,
+                        likes: null,
+                        favorite: true,
+                      });
+                      return true;
+                    }
+                    return false;
                   });
+                });
+              }
+              // Resolve non-existing favorites
+              if (found.total_count < favorites.length) {
+                let favoritesNonExisting = [];
+                this.userFavorites.forEach(favorite => {
+                  let match = false;
+                  found.find(resource => {
+                    match = resource.public_id === favorite.public_id ? true : false;
+                    return match;
+                  });
+                  if (!match) {
+                    let artwork_id = "";
+                    ["/approved/", "/inprocess/", "/rejected/", "/frozen/"].find(item => {
+                      artwork_id = toPublicIdNoPath(favorite.public_id, item);
+                      return artwork_id !== "" ? true : false;
+                    });
+                    this.favoritesNonExisting.push({
+                      artwork_id: artwork_id,
+                      artist_id: favorite.user_id
+                    });
+                  }
+                });
+                if (favoritesNonExisting.length > 0) {
+                  await Promise.all(favoritesNonExisting.map(async favoriteNonExisting => {
+                    this.$db.getRefFavorite(this.$auth.user.sub, favoriteNonExisting.artist_id, favoriteNonExisting.artwork_id)
+                      .then(refId => this.$db.deleteFavorite(refId))
+                  }));
                 }
-              } catch {}
-            })
-          );
+              }
+            } catch {}
+          }
 
           // Compute total pages and assign gallery arrays
-          this.totalPagesFavorites.desktop =
-            Math.floor(
-              this.userFavorites.length / this.artworksPerPageFavorites.desktop
-            ) + 1;
-          this.totalPagesFavorites.mobile =
-            Math.floor(
-              this.userFavorites.length / this.artworksPerPageFavorites.mobile
-            ) + 1;
+          this.totalPagesFavorites.desktop = Math.floor(this.userFavorites.length / this.artworksPerPageFavorites.desktop) + 1;
+          this.totalPagesFavorites.mobile = Math.floor(this.userFavorites.length / this.artworksPerPageFavorites.mobile) + 1;
           this.gallery = Array(this.totalPagesFavorites.mobile);
           for (var i = 0; i < this.totalPagesFavorites.mobile; i++) {
             this.gallery[i] = Array();
@@ -1001,17 +1022,17 @@ export default {
             this.columns[i][2] = Array();
           }
           let count = 0;
+          let artwork_id = "";
           this.userFavorites.forEach((artwork, index) => {
-            this.getArtworkLikes(
-              artwork.user_id,
-              toPublicIdNoPath(artwork.public_id, "/approved/")
-            ).then((count) => (artwork.likes = count));
-            this.gallery[Math.floor(index / this.artworksPerPageFavorites.mobile)].push(
-              artwork
-            );
-            this.columns[Math.floor(index / this.artworksPerPageFavorites.desktop)][
-              count
-            ].push(artwork);
+            ["/approved/", "/inprocess/", "/rejected/", "/frozen/"].find(item => {
+              artwork_id = toPublicIdNoPath(artwork.public_id, item);
+              return artwork_id !== "" ? true : false;
+            });
+            if (artwork_id !== "") {
+              this.getArtworkLikes(artwork.user_id, artwork_id).then(likesCount => artwork.likes = likesCount);
+            }
+            this.gallery[Math.floor(index / this.artworksPerPageFavorites.mobile)].push(artwork);
+            this.columns[Math.floor(index / this.artworksPerPageFavorites.desktop)][count].push(artwork);
             count = (count + 1) % 3;
           });
           this.fetchedFavorites = 1;
@@ -1071,7 +1092,6 @@ export default {
           this.fetchedFollows = 1;
           resolve();
         } catch (e) {
-          console.log(e)
           this.fetchedFollows = -1;
           reject(e);
         }
@@ -1079,8 +1099,7 @@ export default {
     },
     async getArtworkLikes(artist_id, artwork_id) {
       return await new Promise((resolve, reject) => {
-        this.$db
-          .getArtworkLikes(artist_id, artwork_id)
+        this.$db.getArtworkLikes(artist_id, artwork_id)
           .then((count) => resolve(count))
           .catch((err) => reject(err));
       });
@@ -1098,12 +1117,18 @@ export default {
         this.$auth.login();
       } else {
         artwork.isProcFavorite = true;
-        const artwork_id = toPublicIdNoPath(artwork.public_id, "/approved/");
+        let artwork_id = "";
+        ["/approved/", "/inprocess/", "/rejected/", "/frozen/"].find(item => {
+          artwork_id = toPublicIdNoPath(artwork.public_id, item);
+          if (artwork_id !== "") {
+            return true;
+          }
+          return false;
+        });
         var artist_id = artwork.user_id;
         if (artwork.favorite) {
           // Remove
-          this.$db
-            .getRefFavorite(this.$auth.user.sub, artist_id, artwork_id) // get Ref of favorite first
+          this.$db.getRefFavorite(this.$auth.user.sub, artist_id, artwork_id) // get Ref of favorite first
             .then((refId) => {
               this.$db.deleteFavorite(refId).finally(() => {
                 this.getArtworkLikes(artist_id, artwork_id)
