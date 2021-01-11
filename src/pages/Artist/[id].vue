@@ -6,9 +6,31 @@
         <!-- Desktop -->
         <div class="hidden-sm-and-down py-12 px-12">
           <!-- Info -->
-          <v-row justify="center" align="center">
+          <v-row no-gutters justify="center" align="center">
+            <v-col class="pr-1" cols="auto">
+              <v-tooltip top color="black">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    icon
+                    v-bind="attrs"
+                    v-on="on"
+                    :loading="artist.isProcFollow"
+                    @click="toggleFollow"
+                  >
+                    <v-icon v-if="followerRefId !== null" color="blue lighten-2">mdi-thumb-up</v-icon>
+                    <v-icon v-else>mdi-thumb-up-outline</v-icon>
+                  </v-btn>
+                </template>
+                <span>{{ plainText.follow[getLang] }}</span>
+              </v-tooltip>
+            </v-col>
             <v-col cols="auto">
               <div class="raleway-30-700 text-uppercase">{{ artist.firstName + ' ' + artist.lastName }}</div>
+            </v-col>
+          </v-row>
+          <v-row justify="center" align="center">
+            <v-col cols="auto">
+              <div v-if="followers !== null" class="montserrat-12-400-italic">{{ followers }} FOLLOWERS</div>
             </v-col>
           </v-row>
           <v-row justify="center" align="center">
@@ -77,6 +99,22 @@
                             large
                             v-bind="attrs"
                             v-on="on"
+                            :loading="artwork.isProcFavorite"
+                            @click="toggleFavorite(artwork)"
+                          >
+                            <v-icon v-if="!checkIsFavorite(artwork.public_id)" size="30">mdi-heart-outline</v-icon>
+                            <v-icon v-else size="30" color="pink lighten-3">mdi-heart</v-icon>
+                          </v-btn>
+                        </template>
+                        <span>{{ plainText.heart[getLang] }}</span>
+                      </v-tooltip>
+                      <v-tooltip top color="black">
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-btn
+                            icon
+                            large
+                            v-bind="attrs"
+                            v-on="on"
                             @click="overlayDesktop = true; enlargedImg.url = artwork.url; enlargedImg.title = artwork.title"
                           >
                             <v-icon size="30">mdi-fullscreen</v-icon>
@@ -93,6 +131,11 @@
                         <span>{{ plainText.rentPerMonth[getLang] }}</span>
                       </div>
                     </div>
+                    <div v-if="artwork.likes !== null"
+                      class="pr-4 mt-auto montserrat-12-400-italic"
+                    >
+                      {{ artwork.likes }} LIKES
+                    </div>
                   </v-col>
                 </v-row>
               </v-card>
@@ -106,6 +149,31 @@
             <v-col class="text-center" cols="auto">
               <div class="raleway-30-700 text-uppercase">{{ artist.firstName }}</div>
               <div class="raleway-30-700 text-uppercase">{{ artist.lastName }}</div>
+            </v-col>
+          </v-row>
+          <v-row justify="center" align="center">
+            <v-col cols="auto">
+              <v-tooltip top color="black">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    icon
+                    v-bind="attrs"
+                    v-on="on"
+                    small
+                    :loading="artist.isProcFollow"
+                    @click="toggleFollow"
+                  >
+                    <v-icon v-if="followerRefId !== null" size="30" color="blue lighten-2">mdi-thumb-up</v-icon>
+                    <v-icon v-else>mdi-thumb-up-outline</v-icon>
+                  </v-btn>
+                </template>
+                <span>{{ plainText.follow[getLang] }}</span>
+              </v-tooltip>
+            </v-col>
+          </v-row>
+          <v-row justify="center" align="center">
+            <v-col cols="auto">
+              <div v-if="followers !== null" class="montserrat-12-400-italic">{{ followers }} FOLLOWERS</div>
             </v-col>
           </v-row>
           <v-row class="pb-6" justify="center" align="center">
@@ -124,7 +192,7 @@
           </div>
           <v-row
             class="px-6"
-            v-for="(artwork, i ) in artist.gallery" :key="'artwork-mobile-' + i"
+            v-for="(artwork, i) in artist.gallery" :key="'artwork-mobile-' + i"
             justify="center" align="center"
           >
             <v-col cols="12">
@@ -170,6 +238,21 @@
                             icon
                             v-bind="attrs"
                             v-on="on"
+                            :loading="artwork.isProcFavorite"
+                            @click="toggleFavorite(artwork)"
+                          >
+                            <v-icon v-if="!checkIsFavorite(artwork.public_id)">mdi-heart-outline</v-icon>
+                            <v-icon v-else color="pink lighten-3">mdi-heart</v-icon>
+                          </v-btn>
+                        </template>
+                        <span>{{ plainText.heart[getLang] }}</span>
+                      </v-tooltip>
+                      <v-tooltip top color="black">
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-btn
+                            icon
+                            v-bind="attrs"
+                            v-on="on"
                             @click="overlayMobile = true; enlargedImg.url = artwork.url; enlargedImg.title = artwork.title"
                           >
                             <v-icon>mdi-fullscreen</v-icon>
@@ -186,12 +269,18 @@
                         <span>{{ plainText.rentPerMonth[getLang] }}</span>
                       </div>
                     </div>
+                    <div v-if="artwork.likes !== null"
+                      class="pr-4 mt-auto montserrat-10-400-italic"
+                    >
+                      {{ artwork.likes }} LIKES
+                    </div>
                   </v-col>
                 </v-row>
               </v-card>
             </v-col>
           </v-row>
         </div>
+
         <!-- Scroll to Top -->
         <scroll-to-top />
 
@@ -277,6 +366,12 @@
 <script>
 import { mapGetters } from "vuex";
 
+const toPublicIdNoPath = (publicId, artworkState) => {
+  return publicId
+    .slice(publicId.indexOf(artworkState))
+    .replace(artworkState, '');
+};
+
 export default {
   components: {
     ScrollToTop: () => import("~/components/ScrollToTop.vue")
@@ -296,7 +391,8 @@ export default {
         pic: '',
         bio: '',
         gallery: [],
-        columns: [[], [], []]
+        columns: [[], [], []],
+        isProcFollow: false
       },
       overlayDesktop: false,
       overlayMobile: false,
@@ -312,6 +408,14 @@ export default {
         artworkZoom: {
           gr: 'Μεγέθυνση',
           en: 'Enlarge'
+        },
+        heart: {
+          gr: "Μου αρέσει",
+          en: "Like"
+        },
+        follow: {
+          gr: 'Ακολούθησε με',
+          en: 'Follow'
         },
         type: {
           painting: {
@@ -343,17 +447,44 @@ export default {
           en: 'Oops, an error occured. Please try again later',
           gr:  'Ωχ, κάποιο σφάλμα προέκυψε. Παρακαλώ δοκιμάστε αργότερα.'
         }
-      }
+      },
+      // user's favorite artworks
+      userFavorites: [],
+      // Reference ID in DB table 'follows' (string value if user follows artist)
+      followerRefId: null,
+      followers: null
     }
   },
   mounted () {
-    this.getUserId(this.$route.params.id);
+    if (this.$auth.isAuthenticated()) {
+      // fetch user's favorite artworks
+      this.getUserFavorites()
+      // find out if user is following the artist
+      this.getUserId(this.$route.params.id)
+        .then(() => {
+          this.$db.getRefFollow(this.$auth.user.sub, this.artist.userId)
+            .then(res => {
+              if (res.length > 0) {
+                this.followerRefId = res;
+              }
+            })
+        })
+    } else {
+      this.getUserId(this.$route.params.id); // $route.param.id is the reference Id to the 'users' DB table
+    }
   },
   computed: {
     ...mapGetters(['getLang']),
+    userRole () {
+      if (this.$auth.userRole != null) {
+        return this.$auth.userRole[0].name;
+      }
+      return null;
+    },
   },
   methods: {
     getUserId(ref) {
+      return new Promise((resolve, reject) => {
       this.$db.getUserId(ref)
         .then(id => {
           this.$auth.getMgUser(id)
@@ -373,7 +504,8 @@ export default {
               if (artist.hasOwnProperty("user_metadata") && artist.user_metadata.hasOwnProperty("bio")) {
                 this.artist.bio = artist.user_metadata.bio;
               }
-              this.$imgdb.retrieveArtworks(artist.user_id, 'approved')
+              this.artist.userId = artist.user_id;
+              this.$imgdb.getArtworks(artist.user_id, 'approved')
                 .then(found => {
                   if (found.total_count> 0) {
                     // found approved artworks
@@ -420,29 +552,44 @@ export default {
                         }
                       }
                       this.artist.gallery.push({
+                        public_id: resource.public_id,
                         url: resource.secure_url,
                         title: title,
                         type: type,
                         rentPrice: rentPrice,
                         salePrice: salePrice,
                         size: size,
-                        tags: tags
+                        tags: tags,
+                        isProcFavorite: false,
+                        likes: null
                       });
                     });
                     var count = 0;
-                    this.artist.gallery.forEach(artwork => {
-                      this.artist.columns[count].push(artwork);
-                      count = (count + 1) % 3;
+                    this.artist.gallery.forEach(async artwork => {
+                      // get likes of each artwork
+                      var likes = 0;
+                      await this.getArtworkLikes(this.artist.userId, toPublicIdNoPath(artwork.public_id, '/approved/'))
+                        .then(count => { // add the likes
+                          artwork.likes = count;
+                        })
+                        .finally(() => {
+                          this.artist.columns[count].push(artwork);
+                          count = (count + 1) % 3;
+                        });
                     });
                     this.state = 0; // OK
                   } else {
                     // Artist has no approved artworks, designate as not found
                     this.state = -1;
                   }
+                  this.getArtistFollowers(this.artist.userId)
+                    .then(count => this.followers = count)
+                    .finally(() => resolve());
                 })
                 .catch(() => {
                   // Error while fetching artworks occured
                   this.state = -2;
+                  reject();
                 })
             })
             .catch(err => {
@@ -451,12 +598,141 @@ export default {
               } else {
                 this.state = -2; // Error
               }
+              reject();
             })
         })
         .catch(() => {
           this.state = -1; // Not found
+          reject();
         })
+      })
     },
+    toggleFollow() {
+      if (!this.$auth.isAuthenticated()) {
+        // Not authenticated, can't like an artwork. Prompt login/signup.
+        this.$auth.login();
+      } else {
+        this.artist.isProcFollow = true;
+        if (this.followerRefId === null) {
+          // Not followed, so add
+          this.$db.addFollow(this.$auth.user.sub, this.artist.userId)
+            .then(refId => {
+                this.getArtistFollowers(this.artist.userId)
+                  .then(count => {
+                    this.followerRefId = refId;
+                    this.followers = count;
+                  })
+                  .finally(() => this.artist.isProcFollow = false);
+            })
+            .catch(() => this.artist.isProcFollow = false);
+        } else {
+          // Followed, so remove
+          this.$db.deleteFollow(this.followerRefId)
+            .then(reply => {
+              this.getArtistFollowers(this.artist.userId)
+                .then(count => {
+                  this.followerRefId = null;
+                  this.followers = count;
+                })
+                .finally(() => this.artist.isProcFollow = false);
+            })
+            .catch(() => this.artist.isProcFollow = false);
+        }
+      }
+    },
+    getUserFavorites() {
+      return new Promise((resolve, reject) => {
+        this.$db.getFavorites(this.$auth.user.sub)
+          .then(favorites => this.$imgdb.getFavoriteArtworks(favorites)
+            .then(res => {
+              this.userFavorites = [];
+              res.resources.forEach(resource => {
+                this.userFavorites.push(resource);
+              })
+              resolve();
+            })
+            .catch(err => reject(err)))
+          .catch(err => reject(err));
+      })
+    },
+    checkIsFavorite(public_id) {
+      var isAlreadyFavorite = false;
+      this.userFavorites.find((favorite) => {
+        if (favorite.public_id === public_id) {
+          isAlreadyFavorite = true;
+        }
+        return isAlreadyFavorite;
+      })
+      return isAlreadyFavorite;
+    },
+    toggleFavorite(artwork) {
+      if (!this.$auth.isAuthenticated()) {
+        // Not authenticated, can't like an artwork. Prompt login/signup.
+        this.$auth.login();
+      } else {
+        var isAlreadyFavorite = false;
+        var isAlreadyFavoriteIdx = -1;
+        this.userFavorites.find((favorite, idx) => {
+          if (favorite.public_id === artwork.public_id) {
+            isAlreadyFavorite = true;
+            isAlreadyFavoriteIdx = idx;
+          }
+          return isAlreadyFavorite;
+        })
+        artwork.isProcFavorite = true;
+        const artwork_id = toPublicIdNoPath(artwork.public_id, '/approved/');
+        if (isAlreadyFavorite) {
+          // Remove
+          this.$db.getRefFavorite(this.$auth.user.sub, this.artist.userId, artwork_id)
+            .then(refId => { // get Ref of favorite first
+              this.$db.deleteFavorite(refId)
+                .finally(() => {
+                  this.getUserFavorites()
+                    .finally(() => {
+                      this.getArtworkLikes(this.artist.userId, artwork_id)
+                        .then(count => artwork.likes = count)
+                        .finally(() => {
+                          artwork.isProcFavorite = false;
+                          this.$forceUpdate();
+                        })
+                    })
+                })
+            })
+            .catch(() => {
+              artwork.isProcFavorite = false;
+              this.$forceUpdate();
+            })
+        } else {
+          // Add
+          this.$db.addFavorite(this.$auth.user.sub, this.artist.userId, artwork_id)
+            .finally(() => {
+              this.getUserFavorites()
+                .finally(() => {
+                  this.getArtworkLikes(this.artist.userId, artwork_id)
+                    .then(count => artwork.likes = count)
+                    .finally(() => {
+                      artwork.isProcFavorite = false;
+                      this.$forceUpdate();
+                    })
+                })
+            })
+        }
+      }
+    },
+    async getArtistFollowers (artist_id) {
+      return await new Promise((resolve, reject) => {
+        this.$db.getArtistFollowers(artist_id)
+          .then(count => resolve(count))
+          .catch(err => reject(err))
+      })
+    },
+    async getArtworkLikes (artist_id, artwork_id) {
+      return await new Promise((resolve, reject) => {
+        this.$db.getArtworkLikes(artist_id, artwork_id)
+          .then(count => resolve(count))
+          .catch(err => reject(err))
+      })
+    }
   },
   metaInfo() {
     return {

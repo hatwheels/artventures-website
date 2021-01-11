@@ -114,7 +114,7 @@ export default {
     this.$auth.getMgUsersInRole('artist')
         .then(artists => {
             Promise.all(artists.map(async (artist) => {
-                await this.$imgdb.retrieveArtworks(artist.user_id, 'approved')
+                await this.$imgdb.getArtworks(artist.user_id, 'approved')
                     .then(found => {
                         if (found.total_count> 0) {
                             found.resources.forEach(resource => {

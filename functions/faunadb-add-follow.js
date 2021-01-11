@@ -8,6 +8,7 @@ const headers = {
 
 exports.handler = async (event, context) => {
     console.log("### START ###")
+
     try {
         const data = JSON.parse(event.body);
 
@@ -21,43 +22,50 @@ exports.handler = async (event, context) => {
             }
         }
 
+        if (!data.artist_id) {
+            console.log('400: artist_id query parameter required.')
+            console.log("### END ###")
+
+            return {
+                statusCode: 400,
+                body: 'artist_id query parameter required'
+            }
+        }
+
         var client = new faunadb.Client({
             secret: process.env.FAUNADB_SECRET,
             headers: headers
         });
 
         return await client.query(
-            q.Paginate(q.Match(q.Index('id'), data.user_id))
-          )
-          .then(ret => {
-            if (ret.data.length === 0) {
-                // Empty
-                console.log("No Ref found")
-                console.log("### END ###")
-
-                return {
-                    statusCode: 200,
-                    body: ''
+            q.Create(
+                q.Collection('follows'),
+                {
+                    data: {
+                        user_id: data.user_id,
+                        artist_id: data.artist_id,
+                    }
                 }
-            }
-            const user_id = JSON.stringify(ret.data[0][1].id);
-            console.log(user_id);
-            console.log("### END ###")
+            )
+        ).then(res => {
+            console.log("Added successfully");
+            console.log("### END ###");
+            const refId = JSON.stringify(res.ref.id);
 
             return {
                 statusCode: 200,
-                body: user_id
+                body: refId
             };
-          })
-          .catch(err => {
-            console.log(JSON.stringify(err));
-            console.log("### END ###")
+        })
+        .catch(err => {
+            console.error(JSON.stringify(err));
+            console.log("### END ###");
 
             return {
                 statusCode: err.requestResult.statusCode,
                 body: err.message
             };
-      })
+        })
     } catch (err) {
         console.log("### END ###")
 

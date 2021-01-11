@@ -73,6 +73,22 @@
                                     large
                                     v-bind="attrs"
                                     v-on="on"
+                                    :loading="artwork.isProcFavorite"
+                                    @click="toggleFavorite(artwork)"
+                                  >
+                                    <v-icon v-if="!checkIsFavorite(artwork.public_id)" size="30">mdi-heart-outline</v-icon>
+                                    <v-icon v-else size="30" color="pink lighten-3">mdi-heart</v-icon>
+                                  </v-btn>
+                                </template>
+                                <span>{{ plainText.heart[getLang] }}</span>
+                              </v-tooltip>
+                              <v-tooltip top color="black">
+                                <template v-slot:activator="{ on, attrs }">
+                                  <v-btn
+                                    icon
+                                    large
+                                    v-bind="attrs"
+                                    v-on="on"
                                     @click="overlayDesktop = true; enlargedImg.url = artwork.url; enlargedImg.title = artwork.title"
                                   >
                                     <v-icon size="30">mdi-fullscreen</v-icon>
@@ -96,6 +112,11 @@
                                 {{ artwork.rentPrice }}
                                 <span>{{ plainText.rentPerMonth[getLang] }}</span>
                               </div> -->
+                            </div>
+                            <div v-if="artwork.likes !== null"
+                              class="pr-4 mt-auto montserrat-12-400-italic"
+                            >
+                              {{ artwork.likes }} LIKES
                             </div>
                           </v-col>
                         </v-row>
@@ -185,6 +206,21 @@
                                     icon
                                     v-bind="attrs"
                                     v-on="on"
+                                    :loading="artwork.isProcFavorite"
+                                    @click="toggleFavorite(artwork)"
+                                  >
+                                    <v-icon v-if="!checkIsFavorite(artwork.public_id)">mdi-heart-outline</v-icon>
+                                    <v-icon v-else color="pink lighten-3">mdi-heart</v-icon>
+                                  </v-btn>
+                                </template>
+                                <span>{{ plainText.heart[getLang] }}</span>
+                              </v-tooltip>
+                              <v-tooltip top color="black">
+                                <template v-slot:activator="{ on, attrs }">
+                                  <v-btn
+                                    icon
+                                    v-bind="attrs"
+                                    v-on="on"
                                     @click="overlayMobile = true; enlargedImg.url = artwork.url; enlargedImg.title = artwork.title"
                                   >
                                     <v-icon>mdi-fullscreen</v-icon>
@@ -208,6 +244,11 @@
                                 {{ artwork.rentPrice }}
                                 <span>{{ plainText.rentPerMonth[getLang] }}</span>
                               </div> -->
+                            </div>
+                            <div v-if="artwork.likes !== null"
+                              class="pr-4 mt-auto montserrat-10-400-italic"
+                            >
+                              {{ artwork.likes }} LIKES
                             </div>
                           </v-col>
                         </v-row>
@@ -328,6 +369,12 @@
 <script>
 import { mapGetters } from "vuex";
 
+const toPublicIdNoPath = (publicId, artworkState) => {
+  return publicId
+    .slice(publicId.indexOf(artworkState))
+    .replace(artworkState, '');
+};
+
 export default {
   components: {
     ScrollToTop: () => import("~/components/ScrollToTop.vue")
@@ -335,10 +382,10 @@ export default {
   async created () {
     this.$auth.getMgUsersInRole('artist')
       .then(artists => {
-        this.$imgdb.retrieveArtworks('*', '')
+        this.$imgdb.getArtworks('*', '')
           .then(found => {
             if (found.total_count > 0) {
-              found.resources.forEach(resource => {
+              found.resources.forEach(async resource => {
               if (resource.folder.indexOf('approved') !== -1 &&
                   resource.folder.indexOf('google-oauth2|104266192030226467336') === -1 &&
                   resource.folder.indexOf('google-oauth2|108119525360718636347') === -1 &&
@@ -400,6 +447,7 @@ export default {
                         }
                       }
                       this.approvedArtworks.push({
+                        public_id: resource.public_id,
                         user_id: artist.user_id,
                         artist_name: artist.name,
                         url: resource.secure_url,
@@ -408,7 +456,9 @@ export default {
                         rentPrice: rentPrice,
                         salePrice: salePrice,
                         size: size,
-                        tags: tags
+                        tags: tags,
+                        isProcFavorite: false,
+                        likes: null
                       });
                     }
                 }
@@ -429,6 +479,8 @@ export default {
               }
               let count = 0;
               this.approvedArtworks.forEach((artwork, index) => {
+                this.getArtworkLikes(artwork.user_id, toPublicIdNoPath(artwork.public_id, '/approved/'))
+                  .then(count => artwork.likes = count);
                 this.gallery[Math.floor(index / this.artworksPerPage.mobile)].push(artwork);
                 this.columns[Math.floor(index / this.artworksPerPage.desktop)][count].push(artwork);
                 count = (count + 1) % 3;
@@ -445,6 +497,12 @@ export default {
           console.error(err);
           this.fetched = true;
         })
+  },
+  mounted () {
+    if (this.$auth.isAuthenticated()) {
+      // fetch user's favorite artworks
+      this.getUserFavorites()
+    }
   },
   data () {
       return {
@@ -487,6 +545,10 @@ export default {
             gr: 'Μεγέθυνση',
             en: 'Enlarge'
           },
+          heart: {
+            gr: "Μου αρέσει",
+            en: "Like"
+          },
           type: {
             painting: {
               gr: "Πίνακας",
@@ -513,11 +575,19 @@ export default {
             gr: 'Ωχ, κάτι πήγε στραβά. Παρακαλώ προσπαθήστε αργότερα.',
             en: 'Oops, something went wrong. Please reload the page later.'
           }
-        }
+        },
+        // user's favorite artworks
+        userFavorites: []
       }
   },
   computed: {
     ...mapGetters(['getLang']),
+    userRole () {
+      if (this.$auth.userRole != null) {
+        return this.$auth.userRole[0].name
+      }
+      return null
+    },
   },
   methods: {
     getRef(user_id) {
@@ -531,6 +601,90 @@ export default {
         .catch(err => {
           this.goToArtist = false;
         })
+    },
+    getUserFavorites() {
+      return new Promise((resolve, reject) => {
+        this.$db.getFavorites(this.$auth.user.sub)
+          .then(favorites => this.$imgdb.getFavoriteArtworks(favorites)
+            .then(res => {
+              this.userFavorites = [];
+              res.resources.forEach(resource => {
+                this.userFavorites.push(resource);
+              })
+              resolve();
+            })
+            .catch(err => reject(err)))
+          .catch(err => reject(err));
+      })
+    },
+    checkIsFavorite(public_id) {
+      var isAlreadyFavorite = false;
+      this.userFavorites.find((favorite) => {
+        if (favorite.public_id === public_id) {
+          isAlreadyFavorite = true;
+        }
+        return isAlreadyFavorite;
+      })
+      return isAlreadyFavorite;
+    },
+    toggleFavorite(artwork) {
+      if (!this.$auth.isAuthenticated()) {
+        // Not authenticated, can't like an artwork. Prompt login/signup.
+        this.$auth.login();
+      } else {
+        var isAlreadyFavorite = false;
+        var isAlreadyFavoriteIdx = -1;
+        this.userFavorites.find((favorite, idx) => {
+          if (favorite.public_id === artwork.public_id) {
+            isAlreadyFavorite = true;
+            isAlreadyFavoriteIdx = idx;
+          }
+          return isAlreadyFavorite;
+        })
+        artwork.isProcFavorite = true;
+        const artwork_id = toPublicIdNoPath(artwork.public_id, '/approved/');
+        var artist_id = artwork.user_id;
+        if (isAlreadyFavorite) {
+          // Remove
+          this.$db.getRefFavorite(this.$auth.user.sub, artist_id, artwork_id) // get Ref of favorite first
+            .then(refId => {
+              this.$db.deleteFavorite(refId)
+                .finally(() => {
+                  this.getUserFavorites()
+                    .finally(() => {
+                      this.getArtworkLikes(artist_id, artwork_id)
+                        .then(count => artwork.likes = count)
+                        .finally(() => {
+                            artwork.isProcFavorite = false;
+                        })
+                    })
+                })
+            })
+            .catch(() => {
+              artwork.isProcFavorite = false;
+            })
+        } else {
+          // Add
+          this.$db.addFavorite(this.$auth.user.sub, artist_id, artwork_id)
+            .finally(() => {
+              this.getUserFavorites()
+                .finally(() => {
+                  this.getArtworkLikes(artist_id, artwork_id)
+                    .then(count => artwork.likes = count)
+                    .finally(() => {
+                      artwork.isProcFavorite = false;
+                    })
+                })
+            })
+        }
+      }
+    },
+    async getArtworkLikes (artist_id, artwork_id) {
+      return await new Promise((resolve, reject) => {
+        this.$db.getArtworkLikes(artist_id, artwork_id)
+          .then(count => resolve(count))
+          .catch(err => reject(err))
+      })
     }
   },
   metaInfo() {

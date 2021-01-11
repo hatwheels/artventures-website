@@ -126,7 +126,7 @@ let auth = new Vue({
             webAuth.authorize()
         },
         logout() {
-            return new Promise((resolve, reject) => {
+            return new Promise(() => {
                 localStorage.removeItem('access_token')
                 localStorage.removeItem('id_token')
                 localStorage.removeItem('expires_at')

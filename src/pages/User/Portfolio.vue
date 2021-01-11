@@ -2,12 +2,13 @@
     <UserLayout>
       <v-main>
         <v-container class="px-0 py-12 background-color-fafafa" fluid>
-          <div
-              :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
-              class="pb-10 my-0 text-center"
-              v-html="getLang === 'gr' ? 'Το Πορτφόλιο μου' : 'My Portfolio'"
-          />
-
+          <div class="pb-10 my-0 text-center">
+            <div
+                :class="getLang === 'gr' ? 'noto-38-700' : 'playfair-38-700'"
+                v-html="getLang === 'gr' ? 'Το Πορτφόλιο μου' : 'My Portfolio'"
+            />
+            <div v-if="followers !== null" class="montserrat-12-400-italic">{{ followers }} FOLLOWERS</div>
+          </div>
           <v-card flat height="100%" color="rgba(250, 250, 250, 1)">
             <v-tabs
               v-model="tabs.currentTab"
@@ -183,6 +184,11 @@
                                 <span>{{ plainText.rentPerMonth[getLang] }}</span>
                               </div>
                             </div>
+                            <div v-if="artwork.likes !== null"
+                              class="pr-4 mt-auto montserrat-12-400-italic"
+                            >
+                              {{ artwork.likes }} LIKES
+                            </div>
                           </v-col>
                         </v-row>
                       </v-card>
@@ -318,6 +324,11 @@
                                 {{ artwork.rentPrice }}
                                 <span>{{ plainText.rentPerMonth[getLang] }}</span>
                               </div>
+                            </div>
+                            <div v-if="artwork.likes !== null"
+                              class="pr-4 mt-auto montserrat-10-400-italic"
+                            >
+                              {{ artwork.likes }} LIKES
                             </div>
                           </div>
                         </div>
@@ -736,7 +747,7 @@
                       class="white--text"
                       :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
                       color="#333333"
-                      :disabled="!restoreDialog.result.enableBtn"
+                      :loading="!restoreDialog.result.enableBtn"
                       @click="
                         if (restoreDialog.result.isSuccess) {
                           reloadArtworks();
@@ -794,7 +805,7 @@
                       class="white--text"
                       :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
                       color="#333333"
-                      :disabled="!editDialog.result.enableBtn"
+                      :loading="!editDialog.result.enableBtn"
                       @click="
                         if (editDialog.result.isSuccess) {
                           reloadArtworks();
@@ -878,7 +889,7 @@
                       class="white--text"
                       :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
                       color="#333333"
-                      :disabled="!deleteFreezeDialog.result.enableBtn"
+                      :loading="!deleteFreezeDialog.result.enableBtn"
                       @click="
                         if (deleteFreezeDialog.result.isSuccess) {
                           reloadArtworks();
@@ -950,6 +961,11 @@ import { mapGetters } from "vuex";
 import { validationMixin } from "vuelidate";
 import { required, numeric, maxLength, minLength } from "vuelidate/lib/validators";
 
+const toPublicIdNoPath = (publicId, artworkState) => {
+  return publicId
+    .slice(publicId.indexOf(artworkState))
+    .replace(artworkState, '');
+};
 const touchMap = new WeakMap();
 const alphaNumPlus = (value) => /^[a-zA-Z0-9- ]*$/.test(value)
 
@@ -986,7 +1002,10 @@ export default {
     }
   },
   async created () {
-    await this.fetchArtistArtworks();
+    if (process.isClient && this.$auth.user) {
+      await this.getArtistFollowers(this.$auth.user.sub);
+      await this.fetchArtistArtworks();
+    }
   },
   mounted () {
     this.plainText.maxArtworks.gr = 'Έχετε φτάσει το όριο των ' + this.maxImageCount + '  έργων τέχνης';
@@ -1368,7 +1387,8 @@ export default {
           toggle: false,
           enableBtn: false
         }
-      }
+      },
+      followers: null
     }
   },
   computed: {
@@ -1495,9 +1515,8 @@ export default {
     },
     // Fetch artworks
     async fetchArtistArtworks() {
-      if (process.isClient && this.$auth.user) {
-        this.isFetchingImages = true
-        this.$imgdb.retrieveArtworks(this.$auth.user.sub, '*')
+      this.isFetchingImages = true;
+      this.$imgdb.getArtworks(this.$auth.user.sub, '*')
         .then(found => {
           this.isFetchingImages = false
           if (found.total_count > 0) {
@@ -1551,7 +1570,8 @@ export default {
                     width: resource.context.width,
                     depth: resource.context.depth || 0,
                     dimension: resource.context.dimension,
-                    tags: tags
+                    tags: tags,
+                    likes: null
                   })
                   break;
                 case 'approved':
@@ -1567,7 +1587,8 @@ export default {
                     width: resource.context.width,
                     depth: resource.context.depth || null,
                     dimension: resource.context.dimension,
-                    tags: tags
+                    tags: tags,
+                    likes: null
                   })
                   break;
                 case 'rejected':
@@ -1583,7 +1604,8 @@ export default {
                     width: resource.context.width,
                     depth: resource.context.depth || null,
                     dimension: resource.context.dimension,
-                    tags: tags
+                    tags: tags,
+                    likes: null
                   })
                   break;
                 case 'frozen':
@@ -1599,7 +1621,8 @@ export default {
                     width: resource.context.width,
                     depth: resource.context.depth || null,
                     dimension: resource.context.dimension,
-                    tags: tags
+                    tags: tags,
+                    likes: null
                   })
                   break;
                 default:
@@ -1610,7 +1633,30 @@ export default {
             this.allArtworks.forEach((state, index) => {
               // Iterate over each artwork of the current state
               var count = 0;
-              state.forEach(artwork => {
+              var folder = '';
+              switch (index) {
+                case 0:
+                  folder = 'inprocess';
+                  break;
+                case 1:
+                  folder = 'approved';
+                  break;
+                case 2:
+                  folder = 'rejected';
+                  break;
+                case 3:
+                  folder = 'frozen';
+                  break;
+                default:
+                  break;
+              }
+              state.forEach(async artwork => {
+                // get likes of each artwork
+                var likes = 0;
+                await this.getArtworkLikes(this.$auth.user.sub, toPublicIdNoPath(artwork.public_id, folder))
+                  .then(count => { // add the likes
+                    artwork.likes = count;
+                  })
                 this.columns[index][count].push(artwork);
                 count = (count + 1) % 3;
               })
@@ -1623,7 +1669,6 @@ export default {
             force: true
           });
         })
-      }
     },
     reloadArtworks() {
      this.allArtworks = [
@@ -1985,6 +2030,18 @@ export default {
     editArtwork(artworkObject) {
       this.artworkDataObject = artworkObject;
       this.editDialog.toggle = true;
+    },
+    getArtistFollowers (artist_id) {
+      this.$db.getArtistFollowers(artist_id)
+        .then(count => this.followers = count)
+        .catch(err => console.log(err))
+    },
+    async getArtworkLikes (artist_id, artwork_id) {
+      return await new Promise((resolve, reject) => {
+        this.$db.getArtworkLikes(artist_id, artwork_id)
+          .then(count => resolve(count))
+          .catch(err => reject(err))
+      })
     }
   },
   metaInfo () {

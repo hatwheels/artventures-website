@@ -78,6 +78,7 @@ export default function (Vue, { appOptions, router, head, isClient }) {
       }
       case '/user/profile':
       case '/user/settings':
+      case '/user/favorites':
         if (router.app.$auth.isAuthenticated()) { // if authenticated allow access
           next();
         }
