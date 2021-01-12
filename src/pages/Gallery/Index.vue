@@ -3,7 +3,7 @@
     <v-main>
         <v-container class="pa-0 background-color-fafafa" fluid>
             <div class="py-10" />
-            <div class="playfair-38-700 text-center">{{ plainText.gallery[getLang] }}</div>
+            <div id="start" class="playfair-38-700 text-center">{{ plainText.gallery[getLang] }}</div>
             <div class="py-4" />
             <!-- Desktop -->
             <div class="hidden-sm-and-down">
@@ -24,105 +24,107 @@
               </div>
               <div v-else>
                 <div v-if="approvedArtworks.length > 0">
-                  <v-row class="px-12" justify="start" align="start">
-                    <v-col class="pr-6" v-for="(column, j) in columns[page.desktop-1]" :key="'column' + j" cols="4">
-                      <v-card class="my-6 text-center" v-for="(artwork, i) in column" :key="'artwork-' + i">
-                        <v-img
-                          :src="artwork.url"
-                          :lazy-src="artwork.url.replace('artventures/image/upload/', 'artventures/image/upload/c_thumb,w_100/')"
-                          :alt="artwork.title || 'Untitled'"
-                          contain
-                        />
-                        <v-row justify="space-between">
-                          <v-col>
-                            <v-card-title v-if="artwork.title"
-                              class="raleway-23-400 text-capitalize font-italic text-start pr-0  pb-0"
-                              v-text="artwork.title" />
-                            <div />
-                            <v-card-subtitle v-if="artwork.artist_name"
-                              class="raleway-25-400 text-capitalize text-start pr-0 pt-2"
-                              v-text="artwork.artist_name" />
-                            <v-card-text class="raleway-18-400 text-start pr-0">
-                              <div v-if="artwork.type" class="text-capitalize">{{ artwork.type[getLang] }}
-                                <span v-if="artwork.size" class="text-lowercase"> - {{ artwork.size }}</span>
-                              </div>
-                              <div v-else-if="artwork.size" class="text-lowercase">{{ artwork.size }}</div>
-                              <v-row v-if="artwork.tags.length > 0"
-                                class="pt-2"
-                                no-gutters
-                                justify="start"
-                                align="start"
-                                style="width: 100%"
-                              >
-                                <v-col
-                                  class="nunito-12-400 text-capitalize text-justify pr-1"
-                                  cols="auto"
-                                  v-for="(tag, tagId) in artwork.tags" :key="'tag-' + tagId"
+                  <div v-for="(p, o) in columns" :key="'page-' + o">
+                    <v-row v-if="page.desktop-1 === o" class="px-12 pb-6" justify="start" align="start">
+                      <v-col class="pr-6" v-for="(column, j) in p" :key="'column' + j" cols="4">
+                        <v-card class="my-6 text-center" v-for="(artwork, i) in column" :key="'artwork-' + i">
+                          <v-img
+                            :src="artwork.url"
+                            :lazy-src="artwork.url.replace('artventures/image/upload/', 'artventures/image/upload/c_thumb,w_100/')"
+                            :alt="artwork.title || 'Untitled'"
+                            contain
+                          />
+                          <v-row justify="space-between">
+                            <v-col>
+                              <v-card-title v-if="artwork.title"
+                                class="raleway-23-400 text-capitalize font-italic text-start pr-0  pb-0"
+                                v-text="artwork.title" />
+                              <div />
+                              <v-card-subtitle v-if="artwork.artist_name"
+                                class="raleway-25-400 text-capitalize text-start pr-0 pt-2"
+                                v-text="artwork.artist_name" />
+                              <v-card-text class="raleway-18-400 text-start pr-0">
+                                <div v-if="artwork.type" class="text-capitalize">{{ artwork.type[getLang] }}
+                                  <span v-if="artwork.size" class="text-lowercase"> - {{ artwork.size }}</span>
+                                </div>
+                                <div v-else-if="artwork.size" class="text-lowercase">{{ artwork.size }}</div>
+                                <v-row v-if="artwork.tags.length > 0"
+                                  class="pt-2"
+                                  no-gutters
+                                  justify="start"
+                                  align="start"
+                                  style="width: 100%"
                                 >
-                                  {{ tag }}<span v-if="tagId !== artwork.tags.length - 1">,</span>
-                                </v-col>
-                              </v-row>
-                            </v-card-text>
-                          </v-col>
-                          <v-col cols="auto" class="d-flex flex-column align-end">
-                            <v-card-actions>
-                              <v-tooltip top color="black">
-                                <template v-slot:activator="{ on, attrs }">
-                                  <v-btn
-                                    icon
-                                    large
-                                    v-bind="attrs"
-                                    v-on="on"
-                                    :loading="artwork.isProcFavorite"
-                                    @click="toggleFavorite(artwork)"
+                                  <v-col
+                                    class="nunito-12-400 text-capitalize text-justify pr-1"
+                                    cols="auto"
+                                    v-for="(tag, tagId) in artwork.tags" :key="'tag-' + tagId"
                                   >
-                                    <v-icon v-if="!checkIsFavorite(artwork.public_id)" size="30">mdi-heart-outline</v-icon>
-                                    <v-icon v-else size="30" color="pink lighten-3">mdi-heart</v-icon>
-                                  </v-btn>
-                                </template>
-                                <span>{{ plainText.heart[getLang] }}</span>
-                              </v-tooltip>
-                              <v-tooltip top color="black">
-                                <template v-slot:activator="{ on, attrs }">
-                                  <v-btn
-                                    icon
-                                    large
-                                    v-bind="attrs"
-                                    v-on="on"
-                                    @click="overlayDesktop = true; enlargedImg.url = artwork.url; enlargedImg.title = artwork.title"
-                                  >
-                                    <v-icon size="30">mdi-fullscreen</v-icon>
-                                  </v-btn>
-                                </template>
-                                <span>{{ plainText.artworkZoom[getLang] }}</span>
-                              </v-tooltip>
-                              <v-tooltip top color="black">
-                                <template v-slot:activator="{ on, attrs }">
-                                  <v-btn icon v-bind="attrs" v-on="on" @click="getRef(artwork.user_id)">
-                                    <v-icon size="30">mdi-link</v-icon>
-                                  </v-btn>
-                                </template>
-                                <span>{{ plainText.artistPage[getLang] }}</span>
-                              </v-tooltip>
-                            </v-card-actions>
-                            <div class="pb-2 pr-4 text-end">
-                              <div class="raleway-23-400" v-if="artwork.salePrice">{{ artwork.salePrice }}€</div>
-                              <!-- <div class="raleway-18-400" v-if="artwork.rentPrice">
-                                <span class="pr-1">{{ plainText.rentFor[getLang] }}</span>
-                                {{ artwork.rentPrice }}
-                                <span>{{ plainText.rentPerMonth[getLang] }}</span>
-                              </div> -->
-                            </div>
-                            <div v-if="artwork.likes !== null"
-                              class="pr-4 mt-auto montserrat-12-400-italic"
-                            >
-                              {{ artwork.likes }} LIKES
-                            </div>
-                          </v-col>
-                        </v-row>
-                      </v-card>
-                    </v-col>
-                  </v-row>
+                                    {{ tag }}<span v-if="tagId !== artwork.tags.length - 1">,</span>
+                                  </v-col>
+                                </v-row>
+                              </v-card-text>
+                            </v-col>
+                            <v-col cols="auto" class="d-flex flex-column align-end">
+                              <v-card-actions>
+                                <v-tooltip top color="black">
+                                  <template v-slot:activator="{ on, attrs }">
+                                    <v-btn
+                                      icon
+                                      large
+                                      v-bind="attrs"
+                                      v-on="on"
+                                      :loading="artwork.isProcFavorite"
+                                      @click="toggleFavorite(artwork)"
+                                    >
+                                      <v-icon v-if="!checkIsFavorite(artwork.public_id)" size="30">mdi-heart-outline</v-icon>
+                                      <v-icon v-else size="30" color="pink lighten-3">mdi-heart</v-icon>
+                                    </v-btn>
+                                  </template>
+                                  <span>{{ plainText.heart[getLang] }}</span>
+                                </v-tooltip>
+                                <v-tooltip top color="black">
+                                  <template v-slot:activator="{ on, attrs }">
+                                    <v-btn
+                                      icon
+                                      large
+                                      v-bind="attrs"
+                                      v-on="on"
+                                      @click="overlayDesktop = true; enlargedImg.url = artwork.url; enlargedImg.title = artwork.title"
+                                    >
+                                      <v-icon size="30">mdi-fullscreen</v-icon>
+                                    </v-btn>
+                                  </template>
+                                  <span>{{ plainText.artworkZoom[getLang] }}</span>
+                                </v-tooltip>
+                                <v-tooltip top color="black">
+                                  <template v-slot:activator="{ on, attrs }">
+                                    <v-btn icon v-bind="attrs" v-on="on" @click="getRefArtist(artwork.user_id)">
+                                      <v-icon size="30">mdi-link</v-icon>
+                                    </v-btn>
+                                  </template>
+                                  <span>{{ plainText.artistPage[getLang] }}</span>
+                                </v-tooltip>
+                              </v-card-actions>
+                              <div class="pb-2 pr-4 text-end">
+                                <div class="raleway-23-400" v-if="artwork.salePrice">{{ artwork.salePrice }}€</div>
+                                <!-- <div class="raleway-18-400" v-if="artwork.rentPrice">
+                                  <span class="pr-1">{{ plainText.rentFor[getLang] }}</span>
+                                  {{ artwork.rentPrice }}
+                                  <span>{{ plainText.rentPerMonth[getLang] }}</span>
+                                </div> -->
+                              </div>
+                              <div v-if="artwork.likes !== null"
+                                class="pr-4 mt-auto montserrat-12-400-italic"
+                              >
+                                {{ artwork.likes }} LIKES
+                              </div>
+                            </v-col>
+                          </v-row>
+                        </v-card>
+                      </v-col>
+                    </v-row>
+                  </div>
                 </div>
                 <div v-else class="center-viewport">
                   <v-row style="height: 100%;" justify="center" align="center">
@@ -153,108 +155,108 @@
               </div>
               <div v-else>
                 <div v-if="approvedArtworks.length > 0">
-                  <v-row
-                    class="px-6"
-                    v-for="(artwork, i ) in gallery[page.mobile-1]" :key="'artwork-mobile-' + i"
-                    justify="center" align="center"
-                    >
-                    <v-col cols="12" class="px-0">
-                      <v-card>
-                        <v-img
-                          :src="artwork.url"
-                          :lazy-src="artwork.url.replace('artventures/image/upload/', 'artventures/image/upload/c_thumb,w_100/')"
-                          :alt="artwork.title || 'Untitled'"
-                          contain
-                        />
-                        <v-row justify="space-between">
-                          <v-col>
-                            <v-card-title v-if="artwork.title"
-                              class="raleway-16-400 text-capitalize font-italic text-start pr-0 pb-0"
-                              v-text="artwork.title" />
-                            <div />
-                            <v-card-subtitle v-if="artwork.artist_name"
-                              class="raleway-18-400 text-capitalize text-start pr-0"
-                              :class="artwork.title ? 'pt-2' : ''"
-                              v-text="artwork.artist_name" />
-                            <v-card-text class="raleway-13-400 text-start pr-0">
-                              <div v-if="artwork.type" class="text-capitalize">{{ artwork.type[getLang] }}
-                                <span v-if="artwork.size" class="text-lowercase"> - {{ artwork.size }}</span>
-                              </div>
-                              <div v-else-if="artwork.size" class="text-lowercase">{{ artwork.size }}</div>
-                              <v-row v-if="artwork.tags.length > 0"
-                                class="pt-2"
-                                no-gutters
-                                justify="start"
-                                align="start"
-                                style="width: 100%"
-                              >
-                                <v-col
-                                  class="nunito-12-400 text-capitalize text-justify pr-1"
-                                  cols="auto"
-                                  v-for="(tag, i) in artwork.tags" :key="'tag-mobile-' + i"
+                  <div v-for="(p, o) in gallery" :key="'page-mobile-' + o">
+                    <div class="pb-3" v-if="page.mobile-1 === o">
+                      <v-row class="px-6" v-for="(artwork, i) in p" :key="'artwork-mobile-' + i" justify="center" align="center">
+                        <v-col cols="12" class="px-0">
+                          <v-card>
+                            <v-img
+                              :src="artwork.url"
+                              :lazy-src="artwork.url.replace('artventures/image/upload/', 'artventures/image/upload/c_thumb,w_100/')"
+                              :alt="artwork.title || 'Untitled'"
+                              contain
+                            />
+                            <v-row justify="space-between">
+                              <v-col>
+                                <v-card-title v-if="artwork.title"
+                                  class="raleway-16-400 text-capitalize font-italic text-start pr-0 pb-0"
+                                  v-text="artwork.title" />
+                                <div />
+                                <v-card-subtitle v-if="artwork.artist_name"
+                                  class="raleway-18-400 text-capitalize text-start pr-0"
+                                  :class="artwork.title ? 'pt-2' : ''"
+                                  v-text="artwork.artist_name" />
+                                <v-card-text class="raleway-13-400 text-start pr-0">
+                                  <div v-if="artwork.type" class="text-capitalize">{{ artwork.type[getLang] }}
+                                    <span v-if="artwork.size" class="text-lowercase"> - {{ artwork.size }}</span>
+                                  </div>
+                                  <div v-else-if="artwork.size" class="text-lowercase">{{ artwork.size }}</div>
+                                  <v-row v-if="artwork.tags.length > 0"
+                                    class="pt-2"
+                                    no-gutters
+                                    justify="start"
+                                    align="start"
+                                    style="width: 100%"
+                                  >
+                                    <v-col
+                                      class="nunito-12-400 text-capitalize text-justify pr-1"
+                                      cols="auto"
+                                      v-for="(tag, i) in artwork.tags" :key="'tag-mobile-' + i"
+                                    >
+                                      {{ tag }}<span v-if="i !== artwork.tags.length - 1">,</span>
+                                    </v-col>
+                                  </v-row>
+                                </v-card-text>
+                              </v-col>
+                              <v-col cols="auto" class="d-flex flex-column align-end">
+                                <v-card-actions>
+                                  <v-tooltip top color="black">
+                                    <template v-slot:activator="{ on, attrs }">
+                                      <v-btn
+                                        icon
+                                        v-bind="attrs"
+                                        v-on="on"
+                                        :loading="artwork.isProcFavorite"
+                                        @click="toggleFavorite(artwork)"
+                                      >
+                                        <v-icon v-if="!checkIsFavorite(artwork.public_id)">mdi-heart-outline</v-icon>
+                                        <v-icon v-else color="pink lighten-3">mdi-heart</v-icon>
+                                      </v-btn>
+                                    </template>
+                                    <span>{{ plainText.heart[getLang] }}</span>
+                                  </v-tooltip>
+                                  <v-tooltip top color="black">
+                                    <template v-slot:activator="{ on, attrs }">
+                                      <v-btn
+                                        icon
+                                        v-bind="attrs"
+                                        v-on="on"
+                                        @click="overlayMobile = true; enlargedImg.url = artwork.url; enlargedImg.title = artwork.title"
+                                      >
+                                        <v-icon>mdi-fullscreen</v-icon>
+                                      </v-btn>
+                                    </template>
+                                    <span>{{ plainText.artworkZoom[getLang] }}</span>
+                                  </v-tooltip>
+                                  <v-tooltip top color="black">
+                                    <template v-slot:activator="{ on, attrs }">
+                                      <v-btn icon v-bind="attrs" v-on="on" @click="getRefArtist(artwork.user_id)">
+                                        <v-icon>mdi-link</v-icon>
+                                      </v-btn>
+                                    </template>
+                                    <span>{{ plainText.artistPage[getLang] }}</span>
+                                  </v-tooltip>
+                                </v-card-actions>
+                                <div class="pb-2 pr-4 text-end">
+                                  <div class="raleway-16-400" v-if="artwork.salePrice">{{ artwork.salePrice }}€</div>
+                                  <!-- <div class="raleway-12-400" v-if="artwork.rentPrice">
+                                    <span class="pr-1">{{ plainText.rentFor[getLang] }}</span>
+                                    {{ artwork.rentPrice }}
+                                    <span>{{ plainText.rentPerMonth[getLang] }}</span>
+                                  </div> -->
+                                </div>
+                                <div v-if="artwork.likes !== null"
+                                  class="pr-4 mt-auto montserrat-10-400-italic"
                                 >
-                                  {{ tag }}<span v-if="i !== artwork.tags.length - 1">,</span>
-                                </v-col>
-                              </v-row>
-                            </v-card-text>
-                          </v-col>
-                          <v-col cols="auto" class="d-flex flex-column align-end">
-                            <v-card-actions>
-                              <v-tooltip top color="black">
-                                <template v-slot:activator="{ on, attrs }">
-                                  <v-btn
-                                    icon
-                                    v-bind="attrs"
-                                    v-on="on"
-                                    :loading="artwork.isProcFavorite"
-                                    @click="toggleFavorite(artwork)"
-                                  >
-                                    <v-icon v-if="!checkIsFavorite(artwork.public_id)">mdi-heart-outline</v-icon>
-                                    <v-icon v-else color="pink lighten-3">mdi-heart</v-icon>
-                                  </v-btn>
-                                </template>
-                                <span>{{ plainText.heart[getLang] }}</span>
-                              </v-tooltip>
-                              <v-tooltip top color="black">
-                                <template v-slot:activator="{ on, attrs }">
-                                  <v-btn
-                                    icon
-                                    v-bind="attrs"
-                                    v-on="on"
-                                    @click="overlayMobile = true; enlargedImg.url = artwork.url; enlargedImg.title = artwork.title"
-                                  >
-                                    <v-icon>mdi-fullscreen</v-icon>
-                                  </v-btn>
-                                </template>
-                                <span>{{ plainText.artworkZoom[getLang] }}</span>
-                              </v-tooltip>
-                              <v-tooltip top color="black">
-                                <template v-slot:activator="{ on, attrs }">
-                                  <v-btn icon v-bind="attrs" v-on="on" @click="getRef(artwork.user_id)">
-                                    <v-icon>mdi-link</v-icon>
-                                  </v-btn>
-                                </template>
-                                <span>{{ plainText.artistPage[getLang] }}</span>
-                              </v-tooltip>
-                            </v-card-actions>
-                            <div class="pb-2 pr-4 text-end">
-                              <div class="raleway-16-400" v-if="artwork.salePrice">{{ artwork.salePrice }}€</div>
-                              <!-- <div class="raleway-12-400" v-if="artwork.rentPrice">
-                                <span class="pr-1">{{ plainText.rentFor[getLang] }}</span>
-                                {{ artwork.rentPrice }}
-                                <span>{{ plainText.rentPerMonth[getLang] }}</span>
-                              </div> -->
-                            </div>
-                            <div v-if="artwork.likes !== null"
-                              class="pr-4 mt-auto montserrat-10-400-italic"
-                            >
-                              {{ artwork.likes }} LIKES
-                            </div>
-                          </v-col>
-                        </v-row>
-                      </v-card>
-                    </v-col>
-                  </v-row>
+                                  {{ artwork.likes }} LIKES
+                                </div>
+                              </v-col>
+                            </v-row>
+                          </v-card>
+                        </v-col>
+                      </v-row>
+                    </div>
+                  </div>
                 </div>
                 <div v-else class="center-viewport">
                   <v-row style="height: 100%;" justify="center" align="center">
@@ -280,12 +282,12 @@
             >
               <v-col cols="6">
                 <v-pagination
-                  v-model="page.desktop"
+                  :value="page.desktop"
                   :length="totalPages.desktop"
                   color="#333333"
-                  @input="$vuetify.goTo(0)"
-                  @next="$vuetify.goTo(0)"
-                  @previous="$vuetify.goTo(0)"
+                  @input="paginateDesktop"
+                  @next="nextPageDesktop"
+                  @previous="prevPageDesktop"
                 >
                 </v-pagination>
               </v-col>
@@ -300,12 +302,12 @@
             >
               <v-col cols="10">
                 <v-pagination
-                  v-model="page.mobile"
+                  :value="page.mobile"
                   :length="totalPages.mobile"
                   color="#333333"
-                  @input="$vuetify.goTo(0)"
-                  @next="$vuetify.goTo(0)"
-                  @previous="$vuetify.goTo(0)"
+                  @input="paginateMobile"
+                  @next="nextPageMobile"
+                  @previous="prevPageMobile"
                 >
                 </v-pagination>
               </v-col>
@@ -389,6 +391,7 @@ export default {
         this.$imgdb.getArtworks('*', '')
           .then(found => {
             if (found.total_count > 0) {
+              let approvedArtworks = [];
               found.resources.forEach(async resource => {
               if (resource.folder.indexOf('approved') !== -1 &&
                   resource.folder.indexOf('google-oauth2|104266192030226467336') === -1 &&
@@ -415,6 +418,7 @@ export default {
                       var size = '';
                       var type = '';
                       var tags = resource.hasOwnProperty('tags') ? resource.tags : [];
+                      var prio = 0;
                       if (resource.hasOwnProperty('context')) {
                         // Title
                         if (resource.context.hasOwnProperty('caption')) {
@@ -449,8 +453,12 @@ export default {
                             }
                           }
                         }
+                        if (resource.context.hasOwnProperty('prio')) {
+                          prio = parseInt(resource.context.prio);
+                        }
                       }
-                      this.approvedArtworks.push({
+                      approvedArtworks.push({
+                        prio: prio,
                         public_id: resource.public_id,
                         user_id: artist.user_id,
                         artist_name: artist.name,
@@ -467,6 +475,30 @@ export default {
                     }
                 }
               });
+              // block, so that helper approved artworks Object local to block
+              {
+                let helperObj = {};
+                approvedArtworks.forEach(artwork => {
+                  if (typeof helperObj[artwork.artist_name] !== 'object') {
+                    helperObj[artwork.artist_name] = {};
+                  }
+                  if (!Array.isArray(helperObj[artwork.artist_name][artwork.prio])) {
+                    helperObj[artwork.artist_name][artwork.prio] = [];
+                  }
+                  helperObj[artwork.artist_name][artwork.prio].push(artwork);
+                });
+                for (let i = 10; i >= 0;) {
+                  let decrement = true;
+                  for (let [key, value] of Object.entries(helperObj)) {
+                    if (value[i] && value[i].length > 0) {
+                      this.approvedArtworks.push(value[i].pop());
+                      decrement = false;
+                    }
+                  }
+                  if (decrement) i--;
+                }
+              }
+
               // Compute total pages and assign gallery arrays
               this.totalPages.desktop = Math.floor(this.approvedArtworks.length / this.artworksPerPage.desktop) + 1;
               this.totalPages.mobile = Math.floor(this.approvedArtworks.length / this.artworksPerPage.mobile) + 1;
@@ -594,7 +626,47 @@ export default {
     },
   },
   methods: {
-    getRef(user_id) {
+    async paginateDesktop(e) {
+      if (this.page.desktop !== e) {
+        await this.$vuetify.goTo('#start');
+        this.page.desktop = e;
+      }
+    },
+    async nextPageDesktop() {
+      if (this.page.desktop > this.totalPages.desktop) {
+        await this.$vuetify.goTo('#start');
+      } else if (this.page.desktop < this.totalPages.desktop) {
+        await this.$vuetify.goTo('#start');
+      }
+    },
+    async prevPageDesktop() {
+      if (this.page.desktop < 1) {
+        await this.$vuetify.goTo('#start');
+      } else if (this.page.desktop > 1) {
+        await this.$vuetify.goTo('#start');
+      }
+    },
+    async paginateMobile(e) {
+      if (this.page.mobile !== e) {
+        await this.$vuetify.goTo('#start');
+        this.page.mobile = e;
+      }
+    },
+    async nextPageMobile() {
+      if (this.page.mobile > this.totalPages.mobile) {
+        await this.$vuetify.goTo('#start');
+      } else if (this.page.mobile < this.totalPages.mobile) {
+        await this.$vuetify.goTo('#start');
+      }
+    },
+    async prevPageMobile() {
+      if (this.page.mobile < 1) {
+        await this.$vuetify.goTo('#start');
+      } else if (this.page.mobile > 1) {
+        await this.$vuetify.goTo('#start');
+      }
+    },
+    getRefArtist(user_id) {
       this.goToArtist = true;
       this.$db.getRef(user_id)
         .then(ref => {
