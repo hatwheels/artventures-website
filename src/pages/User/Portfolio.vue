@@ -1638,7 +1638,7 @@ export default {
               // Iterate over each artwork of the current state
               var count = 0;
               var folder = '';
-              ['inprocess', 'approved', 'rejected', 'frozen'].find((item, id) => {
+              ['/inprocess/', '/approved/', '/rejected/', '/frozen/'].find((item, id) => {
                 if (index === id) {
                   folder = item;
                   return true;
