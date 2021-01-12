@@ -388,6 +388,7 @@ export default {
               case 'painting':
                 context += "|dimension=" + String(this.unit) + "|width=" + String(this.width) +
                     "|height=" + String(this.height);
+                break;
             }
           }
           // tags

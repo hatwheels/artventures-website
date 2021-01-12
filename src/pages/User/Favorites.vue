@@ -381,12 +381,12 @@
         >
           <v-col cols="6">
             <v-pagination
-              v-model="pageFavorites.desktop"
+              :value="pageFavorites.desktop"
               :length="totalPagesFavorites.desktop"
               color="#333333"
-              @input="$vuetify.goTo('#favorite')"
-              @next="$vuetify.goTo('#favorite')"
-              @previous="$vuetify.goTo('#favorite')"
+              @input="paginateDesktop($event, pageFavorites, '#favorite')"
+              @next="nextPageDesktop(pageFavorites, totalPagesFavorites, '#favorite')"
+              @previous="prevPageDesktop(pageFavorites, '#favorite')"
             >
             </v-pagination>
           </v-col>
@@ -401,12 +401,12 @@
         >
           <v-col cols="10">
             <v-pagination
-              v-model="pageFavorites.mobile"
+              :value="pageFavorites.mobile"
               :length="totalPagesFavorites.mobile"
               color="#333333"
-              @input="$vuetify.goTo('#favorite')"
-              @next="$vuetify.goTo('#favorite')"
-              @previous="$vuetify.goTo('#favorite')"
+              @input="paginateMobile($event, pageFavorites, '#favorite')"
+              @next="nextPageMobile(pageFavorites, totalPagesFavorites, '#favorite')"
+              @previous="prevPageMobile(pageFavorites, '#favorite')"
             >
             </v-pagination>
           </v-col>
@@ -641,9 +641,9 @@
               v-model="pageFollows.desktop"
               :length="totalPagesFollows.desktop"
               color="#333333"
-              @input="$vuetify.goTo('#follow')"
-              @next="$vuetify.goTo('#follow')"
-              @previous="$vuetify.goTo('#follow')"
+              @input="paginateDesktop($event, pageFollows, '#follow')"
+              @next="nextPageDesktop(pageFollows, totalPagesFollows, '#follow')"
+              @previous="prevPageDesktop(pageFollows, '#follow')"
             >
             </v-pagination>
           </v-col>
@@ -661,9 +661,9 @@
               v-model="pageFollows.mobile"
               :length="totalPagesFollows.mobile"
               color="#333333"
-              @input="$vuetify.goTo('#follow')"
-              @next="$vuetify.goTo('#follow')"
-              @previous="$vuetify.goTo('#follow')"
+              @input="paginateMobile($event, pageFollows, '#follow')"
+              @next="nextPageMobile(pageFollows, totalPagesFollows, '#follow')"
+              @previous="prevPageMobile(pageFollows, '#follow')"
             >
             </v-pagination>
           </v-col>
@@ -872,6 +872,46 @@ export default {
     ...mapGetters(["getLang"]),
   },
   methods: {
+    async paginateDesktop(e, page, tag) {
+      if (page.desktop !== e) {
+        await this.$vuetify.goTo(tag);
+        page.desktop = e;
+      }
+    },
+    async nextPageDesktop(page, totalPages, tag) {
+      if (page.desktop > totalPages.desktop) {
+        await this.$vuetify.goTo(tag);
+      } else if (page.desktop < totalPages.desktop) {
+        await this.$vuetify.goTo(tag);
+      }
+    },
+    async prevPageDesktop(page, tag) {
+      if (page.desktop < 1) {
+        await this.$vuetify.goTo(tag);
+      } else if (page.desktop > 1) {
+        await this.$vuetify.goTo(tag);
+      }
+    },
+    async paginateMobile(e, page, tag) {
+      if (page.mobile !== e) {
+        await this.$vuetify.goTo(tag);
+        page.mobile = e;
+      }
+    },
+    async nextPageMobile(page, totalPages, tag) {
+      if (page.mobile > totalPages.mobile) {
+        await this.$vuetify.goTo(tag);
+      } else if (page.mobile < totalPages.mobile) {
+        await this.$vuetify.goTo(tag);
+      }
+    },
+    async prevPageMobile(page) {
+      if (page.mobile < 1) {
+        await this.$vuetify.goTo('#start');
+      } else if (page.mobile > 1) {
+        await this.$vuetify.goTo('#start');
+      }
+    },
     getRefArtist(artist_id) {
       this.goToArtist = true;
       this.$db
