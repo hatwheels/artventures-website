@@ -405,7 +405,7 @@
                   v-html="artworkForm.dimensions[getLang]"
                 />
                 <v-row class="pt-0 pb-3">
-                  <v-col cols="12" md="auto" class="pt-0">
+                  <v-col cols="12" md="auto">
                     <v-select
                       class="pt-0"
                       v-model="unit"
@@ -417,7 +417,7 @@
                     >
                     </v-select>
                   </v-col>
-                  <v-col class="pt-0">
+                  <v-col>
                     <v-text-field
                       v-model="height"
                       class="pt-0"
@@ -432,7 +432,7 @@
                     >
                     </v-text-field>
                   </v-col>
-                  <v-col class="pt-0">
+                  <v-col>
                     <v-text-field
                       v-model="width"
                       class="pt-0"
@@ -447,7 +447,7 @@
                     >
                     </v-text-field>
                   </v-col>
-                  <v-col class="pt-0" v-if="type === 'sculpture'">
+                  <v-col v-if="type === 'sculpture'">
                     <v-text-field
                       v-model="depth"
                       class="pt-0"
@@ -1638,7 +1638,7 @@ export default {
               // Iterate over each artwork of the current state
               var count = 0;
               var folder = '';
-              ['inprocess', 'approved', 'rejected', 'frozen'].find((item, id) => {
+              ['/inprocess/', '/approved/', '/rejected/', '/frozen/'].find((item, id) => {
                 if (index === id) {
                   folder = item;
                   return true;
@@ -1929,17 +1929,18 @@ export default {
               this.allArtworks[0].push({
                 url: response.secure_url,
                 public_id: response.public_id,
-                type: this.plainText.type[contextObj.type],
                 title: contextObj.hasOwnProperty("caption") ? contextObj.caption : '',
+                type: this.plainText.type[contextObj.type],
                 value: contextObj.hasOwnProperty("value") ? contextObj.value : '',
                 salePrice: contextObj.hasOwnProperty("sale_price") ? contextObj.sale_price : '',
                 rentPrice: contextObj.hasOwnProperty("rent_price") ? contextObj.rent_price : '',
-                dimension: contextObj.hasOwnProperty("dimension") ? contextObj.dimension : '',
                 height: contextObj.hasOwnProperty("height") ? contextObj.height : null,
                 width: contextObj.hasOwnProperty("width") ? contextObj.width : null,
                 depth: contextObj.hasOwnProperty("depth") ? contextObj.depth : null,
-                tags: response.tags
-              })
+                dimension: contextObj.hasOwnProperty("dimension") ? contextObj.dimension : '',
+                tags: response.tags,
+                likes: null
+              });
               // update column 0 (in process)
               this.columns[0] = [ [], [], [] ];
               var count = 0;
