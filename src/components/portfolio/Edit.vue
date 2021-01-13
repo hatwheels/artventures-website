@@ -386,8 +386,11 @@ export default {
                 }
                 break;
               case 'painting':
+              case 'drawing':
+              case 'photography':
+              case 'digital':
                 context += "|dimension=" + String(this.unit) + "|width=" + String(this.width) +
-                    "|height=" + String(this.height);
+                  "|height=" + String(this.height);
                 break;
             }
           }
