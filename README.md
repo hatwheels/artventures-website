@@ -14,6 +14,8 @@
 6. __Image Database__: `Cloudinary`
 7. __Auth Service__: `Auth0`
 8. __Marketing Service__: `Mailchimp`
+9. __Internally used Mail service__: `Mailgun`
+10. __Mail Service__: `Sendgrid`
 
 #### 1.2. Used Tiers
 
