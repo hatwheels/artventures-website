@@ -77,8 +77,14 @@
                               class="raleway-23-400 text-capitalize font-italic text-start pr-0"
                               v-text="artwork.title" />
                             <v-card-text class="raleway-18-400 text-start pr-0">
+                              <!-- painting/drawing/photography/digital -->
                               <div
-                                v-if="artwork.type['en'].toLowerCase() === 'painting'"
+                                v-if="
+                                  artwork.type['en'].toLowerCase() === 'painting' ||
+                                  artwork.type['en'].toLowerCase() === 'drawing' ||
+                                  artwork.type['en'].toLowerCase() === 'photography' ||
+                                  artwork.type['en'].toLowerCase() === 'digital'
+                                "
                                 class="text-capitalize"
                               >{{ artwork.type[getLang] }}
                                 <span
@@ -86,6 +92,7 @@
                                   class="text-lowercase"> - {{ artwork.height + ' x ' + artwork.width + ' ' + artwork.dimension }}
                                 </span>
                               </div>
+                              <!-- sculpture -->
                               <div
                                 v-else-if="artwork.type['en'].toLowerCase() === 'sculpture'"
                                 class="text-capitalize"
@@ -222,8 +229,14 @@
                               class="raleway-16-400 text-capitalize font-italic text-start pr-0"
                               v-text="artwork.title" />
                             <v-card-text class="raleway-13-400 text-start pr-0">
+                              <!-- painting/drawing/photography/digital -->
                               <div
-                                v-if="artwork.type['en'].toLowerCase() === 'painting'"
+                                v-if="
+                                  artwork.type['en'].toLowerCase() === 'painting' ||
+                                  artwork.type['en'].toLowerCase() === 'drawing' ||
+                                  artwork.type['en'].toLowerCase() === 'photography' ||
+                                  artwork.type['en'].toLowerCase() === 'digital'
+                                "
                                 class="text-capitalize"
                               >{{ artwork.type[getLang] }}
                                 <span
@@ -231,6 +244,7 @@
                                   class="text-lowercase"> - {{ artwork.height + ' x ' + artwork.width + ' ' + artwork.dimension }}
                                 </span>
                               </div>
+                              <!-- sculpture -->
                               <div
                                 v-else-if="artwork.type['en'].toLowerCase() === 'sculpture'"
                                 class="text-capitalize"
@@ -961,15 +975,6 @@ import { mapGetters } from "vuex";
 import { validationMixin } from "vuelidate";
 import { required, numeric, maxLength, minLength } from "vuelidate/lib/validators";
 
-const toPublicIdNoPath = (publicId, artworkState) => {
-  let c = publicId.indexOf(artworkState);
-  if (c === -1) { // Not found, return empty string
-    return "";
-  }
-  return publicId
-    .slice(c)
-    .replace(artworkState, "");
-};
 const touchMap = new WeakMap();
 const alphaNumPlus = (value) => /^[a-zA-Z0-9- ]*$/.test(value)
 
@@ -1124,12 +1129,6 @@ export default {
             en: "Frozen"
           }
         ],
-        state: [
-          'inProcess',
-          'approved',
-          'rejected',
-          'frozen'
-        ],
         emptySection: {
           gr: 'Κανένα Εργο',
           en: 'No Artwork'
@@ -1163,7 +1162,19 @@ export default {
         {
           text: this.getLang === 'gr' ? 'Γλυπτό' : 'Sculpture',
           value: 'sculpture'
-        }
+        },
+        {
+          text: this.getLang === 'gr' ? 'Σχέδιο' : 'Drawing',
+          value: 'drawing'
+        },
+        {
+          text: this.getLang === 'gr' ? 'Φωτογραφία' : 'Photography',
+          value: 'photography'
+        },
+        {
+          text: this.getLang === 'gr' ? 'Ψηφιακό' : 'Digital',
+          value: 'digital'
+        },
       ],
       artworkUnits: [
         {
@@ -1360,6 +1371,18 @@ export default {
           sculpture: {
             gr: "Γλυπτό",
             en: "Sculpture"
+          },
+          drawing: {
+            gr: "Σχέδιο",
+            en: "Drawing"
+          },
+          photography: {
+            gr: "Φωτογραφία",
+            en: "Photography"
+          },
+          digital: {
+            gr: "Ψηφιακό",
+            en: "Digital"
           }
         },
         rentFor: {
@@ -1526,7 +1549,7 @@ export default {
           if (found.total_count > 0) {
             this.currentImageCount = found.total_count
             found.resources.forEach(resource => {
-              var folder = resource.folder.replace('artwork/' + this.$auth.user.sub + '/', '');
+              var state = resource.folder.replace('artwork/' + this.$auth.user.sub + '/', '');
               var title = '';
               var value = '';
               var salePrice = '';
@@ -1560,9 +1583,9 @@ export default {
                   type = this.plainText.type[resource.context.type];
                 }
               }
-              switch (folder) {
-                case 'inprocess':
-                  this.allArtworks[0].push({
+              this.$helper.artworkStates.names.find((item, id) => {
+                if (item === state) {
+                  this.allArtworks[id].push({
                     url: resource.secure_url,
                     public_id: resource.public_id,
                     title: title,
@@ -1576,69 +1599,18 @@ export default {
                     dimension: resource.context.dimension,
                     tags: tags,
                     likes: null
-                  })
-                  break;
-                case 'approved':
-                  this.allArtworks[1].push({
-                    url: resource.secure_url,
-                    public_id: resource.public_id,
-                    title: title,
-                    type: type,
-                    value: value,
-                    salePrice: salePrice,
-                    rentPrice: rentPrice,
-                    height: resource.context.height,
-                    width: resource.context.width,
-                    depth: resource.context.depth || null,
-                    dimension: resource.context.dimension,
-                    tags: tags,
-                    likes: null
-                  })
-                  break;
-                case 'rejected':
-                  this.allArtworks[2].push({
-                    url: resource.secure_url,
-                    public_id: resource.public_id,
-                    title: title,
-                    type: type,
-                    value: value,
-                    salePrice: salePrice,
-                    rentPrice: rentPrice,
-                    height: resource.context.height,
-                    width: resource.context.width,
-                    depth: resource.context.depth || null,
-                    dimension: resource.context.dimension,
-                    tags: tags,
-                    likes: null
-                  })
-                  break;
-                case 'frozen':
-                  this.allArtworks[3].push({
-                    url: resource.secure_url,
-                    public_id: resource.public_id,
-                    title: title,
-                    type: type,
-                    value: value,
-                    salePrice: salePrice,
-                    rentPrice: rentPrice,
-                    height: resource.context.height,
-                    width: resource.context.width,
-                    depth: resource.context.depth || null,
-                    dimension: resource.context.dimension,
-                    tags: tags,
-                    likes: null
-                  })
-                  break;
-                default:
-                  break;
-              }
+                  });
+                  return true;
+                }
+                return false;
+              });
             });
             // Iterate over each state
             this.allArtworks.forEach((state, index) => {
               // Iterate over each artwork of the current state
               var count = 0;
               var folder = '';
-              ['/inprocess/', '/approved/', '/rejected/', '/frozen/'].find((item, id) => {
+              this.$helper.artworkStates.folders.find((item, id) => {
                 if (index === id) {
                   folder = item;
                   return true;
@@ -1648,7 +1620,10 @@ export default {
               state.forEach(async artwork => {
                 // get likes of each artwork
                 var likes = 0;
-                await this.getArtworkLikes(this.$auth.user.sub, toPublicIdNoPath(artwork.public_id, folder))
+                await this.getArtworkLikes(
+                    this.$auth.user.sub,
+                    this.$helper.toPublicIdNoPath(artwork.public_id, folder)
+                  )
                   .then(likesCount => { // add the likes
                     artwork.likes = likesCount;
                   })
@@ -1901,8 +1876,12 @@ export default {
                   }
                   break;
                 case 'painting':
+                case 'drawing':
+                case 'photography':
+                case 'digital':
                   context += "|dimension=" + String(this.unit) + "|width=" + String(this.width) +
-                      "|height=" + String(this.height);
+                    "|height=" + String(this.height);
+                  break;
               }
             }
             // tags

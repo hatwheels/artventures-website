@@ -743,16 +743,6 @@
 <script>
 import { mapGetters } from "vuex";
 
-const toPublicIdNoPath = (publicId, artworkState) => {
-  let c = publicId.indexOf(artworkState);
-  if (c === -1) { // Not found, return empty string
-    return "";
-  }
-  return publicId
-    .slice(c)
-    .replace(artworkState, "");
-};
-
 export default {
   components: {
     ScrollToTop: () => import("~/components/ScrollToTop.vue"),
@@ -822,6 +812,18 @@ export default {
             gr: "Γλυπτό",
             en: "Sculpture",
           },
+          drawing: {
+            gr: "Σχέδιο",
+            en: "Drawing"
+          },
+          photography: {
+            gr: 'Φωτογραφία',
+            en: "Photography"
+          },
+          digital: {
+            gr: "Ψηφιακό",
+            en: "Digital"
+          }
         },
         rentFor: {
           gr: "Ενοικίαση",
@@ -977,8 +979,13 @@ export default {
                         ) {
                           size = resource.context.height + " x " + resource.context.width + " x " + resource.context.depth + " " + resource.context.dimension;
                         }
-                      } else if (type.en.toLowerCase() === "painting") {
-                        // it's a painting
+                      } else if (
+                        type.en.toLowerCase() === "painting" ||
+                        type.en.toLowerCase() === "drawing" ||
+                        type.en.toLowerCase() === "photography" ||
+                        type.en.toLowerCase() === "digital"
+                      ) {
+                        // it's a painting/drawing/photography/digital
                         if (
                           resource.context.hasOwnProperty("dimension") &&
                           resource.context.hasOwnProperty("height") &&
@@ -1027,8 +1034,8 @@ export default {
                   });
                   if (!match) {
                     let artwork_id = "";
-                    ["/approved/", "/inprocess/", "/rejected/", "/frozen/"].find(item => {
-                      artwork_id = toPublicIdNoPath(favorite.public_id, item);
+                    this.$helper.artworkStates.folders.find(item => {
+                      artwork_id = this.$helper.toPublicIdNoPath(favorite.public_id, item);
                       return artwork_id !== "" ? true : false;
                     });
                     this.favoritesNonExisting.push({
@@ -1064,8 +1071,8 @@ export default {
           let count = 0;
           let artwork_id = "";
           this.userFavorites.forEach((artwork, index) => {
-            ["/approved/", "/inprocess/", "/rejected/", "/frozen/"].find(item => {
-              artwork_id = toPublicIdNoPath(artwork.public_id, item);
+            this.$helper.artworkStates.folders.find(item => {
+              artwork_id = this.$helper.toPublicIdNoPath(artwork.public_id, item);
               return artwork_id !== "" ? true : false;
             });
             if (artwork_id !== "") {
@@ -1158,8 +1165,8 @@ export default {
       } else {
         artwork.isProcFavorite = true;
         let artwork_id = "";
-        ["/approved/", "/inprocess/", "/rejected/", "/frozen/"].find(item => {
-          artwork_id = toPublicIdNoPath(artwork.public_id, item);
+        this.$helper.artworkStates.folders.find(item => {
+          artwork_id = this.$helper.toPublicIdNoPath(artwork.public_id, item);
           if (artwork_id !== "") {
             return true;
           }

@@ -154,8 +154,13 @@ export default {
                                       size = resource.context.height + ' x ' + resource.context.width + ' x ' +
                                         resource.context.depth + ' ' + resource.context.dimension
                                     }
-                                  } else if (type.toLowerCase() === 'painting') {
-                                    // it's a painting
+                                  } else if (
+                                      type.toLowerCase() === 'painting' ||
+                                      type.toLowerCase() === 'drawing' ||
+                                      type.toLowerCase() === 'photography' ||
+                                      type.toLowerCase() === 'digital'
+                                    ) {
+                                    // it's a painting/drawing/photography/digital
                                     if (resource.context.hasOwnProperty('dimension') &&
                                         resource.context.hasOwnProperty('height') &&
                                         resource.context.hasOwnProperty('width')) {

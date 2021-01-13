@@ -371,16 +371,6 @@
 <script>
 import { mapGetters } from "vuex";
 
-const toPublicIdNoPath = (publicId, artworkState) => {
-  let c = publicId.indexOf(artworkState);
-  if (c === -1) { // Not found, return empty string
-    return "";
-  }
-  return publicId
-    .slice(c)
-    .replace(artworkState, "");
-};
-
 export default {
   components: {
     ScrollToTop: () => import("~/components/ScrollToTop.vue")
@@ -443,8 +433,13 @@ export default {
                               size = resource.context.height + ' x ' + resource.context.width + ' x ' +
                                 resource.context.depth + ' ' + resource.context.dimension
                             }
-                          } else if (type.en.toLowerCase() === 'painting') {
-                            // it's a painting
+                          } else if (
+                            type.en.toLowerCase() === 'painting' ||
+                            type.en.toLowerCase() === 'drawing' ||
+                            type.en.toLowerCase() === 'photography' ||
+                            type.en.toLowerCase() === 'digital'
+                          ) {
+                            // it's a painting/drawing/photography/digital
                             if (resource.context.hasOwnProperty('dimension') &&
                                 resource.context.hasOwnProperty('height') &&
                                 resource.context.hasOwnProperty('width')) {
@@ -515,7 +510,10 @@ export default {
               }
               let count = 0;
               this.approvedArtworks.forEach((artwork, index) => {
-                this.getArtworkLikes(artwork.user_id, toPublicIdNoPath(artwork.public_id, '/approved/'))
+                this.getArtworkLikes(
+                    artwork.user_id,
+                    this.$helper.toPublicIdNoPath(artwork.public_id, '/approved/')
+                  )
                   .then(count => artwork.likes = count);
                 this.gallery[Math.floor(index / this.artworksPerPage.mobile)].push(artwork);
                 this.columns[Math.floor(index / this.artworksPerPage.desktop)][count].push(artwork);
@@ -593,6 +591,18 @@ export default {
             sculpture: {
               gr: "Γλυπτό",
               en: "Sculpture"
+            },
+            drawing: {
+              gr: "Σχέδιο",
+              en: "Drawing"
+            },
+            photography: {
+              gr: 'Φωτογραφία',
+              en: "Photography"
+            },
+            digital: {
+              gr: "Ψηφιακό",
+              en: "Digital"
             }
           },
           rentFor: {
@@ -722,7 +732,7 @@ export default {
           return isAlreadyFavorite;
         })
         artwork.isProcFavorite = true;
-        const artwork_id = toPublicIdNoPath(artwork.public_id, '/approved/');
+        const artwork_id = this.$helper.toPublicIdNoPath(artwork.public_id, '/approved/');
         var artist_id = artwork.user_id;
         if (isAlreadyFavorite) {
           // Remove

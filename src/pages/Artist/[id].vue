@@ -366,16 +366,6 @@
 <script>
 import { mapGetters } from "vuex";
 
-const toPublicIdNoPath = (publicId, artworkState) => {
-  let c = publicId.indexOf(artworkState);
-  if (c === -1) { // Not found, return empty string
-    return "";
-  }
-  return publicId
-    .slice(c)
-    .replace(artworkState, "");
-};
-
 export default {
   components: {
     ScrollToTop: () => import("~/components/ScrollToTop.vue")
@@ -429,6 +419,18 @@ export default {
           sculpture: {
             gr: "Γλυπτό",
             en: "Sculpture"
+          },
+          drawing: {
+            gr: "Σχέδιο",
+            en: "Drawing"
+          },
+          photography: {
+            gr: 'Φωτογραφία',
+            en: "Photography"
+          },
+          digital: {
+            gr: "Ψηφιακό",
+            en: "Digital"
           }
         },
         rentFor: {
@@ -544,8 +546,13 @@ export default {
                               size = resource.context.height + ' x ' + resource.context.width + ' x ' +
                                 resource.context.depth + ' ' + resource.context.dimension
                             }
-                          } else if (type.en.toLowerCase() === 'painting') {
-                            // it's a painting
+                          } else if (
+                            type.en.toLowerCase() === 'painting' ||
+                            type.en.toLowerCase() === 'drawing' ||
+                            type.en.toLowerCase() === 'photography' ||
+                            type.en.toLowerCase() === 'digital'
+                          ) {
+                            // it's a painting/drawing/photography/digital
                             if (resource.context.hasOwnProperty('dimension') &&
                                 resource.context.hasOwnProperty('height') &&
                                 resource.context.hasOwnProperty('width')) {
@@ -572,7 +579,10 @@ export default {
                     this.artist.gallery.forEach(async artwork => {
                       // get likes of each artwork
                       var likes = 0;
-                      await this.getArtworkLikes(this.artist.userId, toPublicIdNoPath(artwork.public_id, '/approved/'))
+                      await this.getArtworkLikes(
+                          this.artist.userId,
+                          this.$helper.toPublicIdNoPath(artwork.public_id, '/approved/')
+                        )
                         .then(count => { // add the likes
                           artwork.likes = count;
                         })
@@ -688,7 +698,7 @@ export default {
           return isAlreadyFavorite;
         })
         artwork.isProcFavorite = true;
-        const artwork_id = toPublicIdNoPath(artwork.public_id, '/approved/');
+        const artwork_id = this.$helper.toPublicIdNoPath(artwork.public_id, '/approved/');
         if (isAlreadyFavorite) {
           // Remove
           this.$db.getRefFavorite(this.$auth.user.sub, this.artist.userId, artwork_id)
