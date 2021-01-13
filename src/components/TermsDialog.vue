@@ -1,9 +1,9 @@
 <template>
     <div>
     <v-dialog v-model="toggle" :width="width" persistent>
-        <v-card class="px-4 py-2">
-            <v-window v-model="slide" continuous>
-                <v-window-item>
+        <v-stepper v-model="slide" class="rounded-0 rounded-t" non-linear>
+            <v-stepper-items>
+                <v-stepper-content step="0">
                     <v-row justify="space-around" align="center">
                         <v-col class="pb-0" cols="auto">
                             <div
@@ -34,9 +34,8 @@
                             </div>
                         </v-col>
                     </v-row>
-                </v-window-item>
-                <v-window-item>
-
+                </v-stepper-content>
+                <v-stepper-content step="1">
                     <v-row justify="space-around" align="center">
                         <v-col class="pb-0" cols="auto">
                             <div
@@ -67,8 +66,10 @@
                             </div>
                         </v-col>
                     </v-row>
-                </v-window-item>
-            </v-window>
+                </v-stepper-content>
+            </v-stepper-items>
+        </v-stepper>
+        <v-card flat class="px-0 py-0 rounded-0 rounded-b">
             <v-card-actions>
                 <v-btn
                     class="white--text"
@@ -93,6 +94,7 @@
                     class="white--text"
                     :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
                     color="#333333"
+                    :loading="isLoading"
                     @click="acceptTerms()"
                 >
                     OK
@@ -196,7 +198,7 @@ export default {
                 gr: 'Είστε σίγουροι; Δεν θα μπορείτε ν\' ανεβάσετε τα έργα τέχνης σας.',
                 en: 'Are you sure? You won\'t be able to upload your artworks.'
             },
-            loading: false,
+            isLoading: false,
             errorDialog: false,
             errorDialogText: {
                 gr: 'Κάποιο λάθος συνέβη. Παρακαλώ προσπαθήστε ξανά αργότερα.',
@@ -211,7 +213,7 @@ export default {
         ...mapGetters(['getLang']),
     },
     methods: {
-      next () {
+      async next () {
         this.slide = this.slide + 1 === this.length
           ? 0
           : this.slide + 1
@@ -219,7 +221,7 @@ export default {
       async acceptTerms () {
         var success = false;
         
-        this.loading = true;
+        this.isLoading = true;
         await this.$auth.updateUser({
                 user_metadata: {
                     acceptedTerms: true
@@ -231,7 +233,7 @@ export default {
             this.$emit('accept-terms', true);
         }
 
-        this.loading = false;
+        this.isLoading = false;
         this.$emit('update-toggle', false);
       }
     }
