@@ -33,6 +33,19 @@
                 :key="'artworks-' + i"
                 class="background-color-fafafa text-center"
               >
+                <v-card v-if="tabs.currentTab !== null" flat color="rgba(250, 250, 250, 1)">
+                  <v-card-text
+                    :class="{
+                      'noto-18-400': getLang === 'gr' && !$vuetify.breakpoint.mobile,
+                      'raleway-18-400': getLang === 'en' && !$vuetify.breakpoint.mobile,
+                      'noto-16-400': getLang === 'gr' && $vuetify.breakpoint.mobile,
+                      'raleway-16-400': getLang === 'en' && $vuetify.breakpoint.mobile,
+                      'text-start': !$vuetify.breakpoint.mobile,
+                      'text-justify': $vuetify.breakpoint.mobile
+                    }"
+                    v-text="tabs.text[tabs.currentTab][getLang]"
+                  />
+                </v-card>
                 <v-card v-if="artworksInSection.length === 0" height="300px" flat color="#FAFAFA">
                   <v-card-text>
                     <img
@@ -1129,6 +1142,24 @@ export default {
             en: "Frozen"
           }
         ],
+        text: [
+          {
+            gr: "Μετά την υποβολή ενός νέου έργου τέχνης, θα εμφανιστεί αυτομάτως εδώ. Παρακαλώ περιμένετε μέχρι να το ελέγξουμε. Θα λάβετε ένα email που θα σας ενημερώνει για το αποτέλεσμα.",
+            en: "After submitting a new artwork, it will automatically be displayed here. Please wait for us to review it. You will receive an email informing you about the outcome."
+          },
+          {
+            gr: "Όλα τα έργα σας που έχουν εγκριθεί από την ομάδα μας εμφανίζονται εδώ. Είναι διαθέσιμα προς πώληση και ενοικίαση στην εικονική γκαλερί μας.",
+            en: "All your artworks that have been approved by our team are displayed here. They are available for sale and rent in our virtual gallery."
+          },
+          {
+            gr: "Όλα τα έργα σας που δεν έχουν εγκριθεί από την ομάδα μας εμφανίζονται εδώ. Δεν είναι διαθέσιμα προς πώληση και ενοικίαση. Στο email που λάβατε σχετικά με τον έλεγχο μας, σας εξηγούμε τους λόγους απόρριψης και πιθανώς τα βήματα που πρέπει ν' ακολουθήσετε για έναν επιτυχημένο επανέλεγχο.",
+            en: "All your artworks that have been rejected by our team are displayed here. They are not available for sale and rent. In the email you received regarding our review, we give you an explanation of the rejection and eventually propose a procedure to follow for a successful approval."
+          },
+          {
+            gr: "Σε περίπτωση που επιθυμείτε την παύση προς πώληση και ενοικίαση ενός εγκεκριμένου έργου τέχνης, μπορείτε να το παγώσετε. Τα παγωμένα έργα τέχνης εμφανίζονται εδώ, δεν προβάλλονται στην εικονική γκαλερί μας και δεν είναι  διαθέσιμα προς πώληση και ενοικίαση.",
+            en: "In case you wish to pause the availability for sale and rent of an approved artwork of yours, you can freeze it. Your frozen artworks are displayed here, they are not displayed in our virtual gallery and are not available for sale and rent."
+          },
+        ],
         emptySection: {
           gr: 'Κανένα Εργο',
           en: 'No Artwork'
@@ -2029,3 +2060,9 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.color-000000DE {
+    color: #000000DE !important;
+}
+</style>
