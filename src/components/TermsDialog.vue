@@ -1,160 +1,160 @@
 <template>
     <div>
-    <v-dialog v-model="toggle" :width="width" persistent>
-        <v-stepper v-model="slide" class="rounded-0 rounded-t" non-linear>
-            <v-stepper-items>
-                <v-stepper-content step="0">
-                    <v-row justify="space-around" align="center">
-                        <v-col class="pb-0" cols="auto">
-                            <div
-                                class="color-000000DE pb-6 text-uppercase"
-                                :class="getLang === 'gr' ? 'noto-30-700' : 'raleway-30-700'"
-                                v-html="$static.contract.edges[0].node.title[getLang]"
-                            />
-                            <div
-                                class="color-000000DE"
-                                :class="getLang === 'gr' ? 'noto-18-600' : 'raleway-18-600'"
-                                v-html="$static.contract.edges[0].node.date[getLang]"
-                            />
-                            <div v-for="(chapter, i) in $static.contract.edges[0].node.chapters" :key="'chapter-' + i">
-                                <div>
+        <v-dialog v-model="toggle" :width="width" persistent>
+            <v-stepper v-model="slide" class="rounded-0 rounded-t" non-linear>
+                <v-stepper-items>
+                    <v-stepper-content step="0">
+                        <v-row justify="space-around" align="center">
+                            <v-col class="pb-0" cols="auto">
                                 <div
-                                    class="text-uppercase  pb-1"
-                                    :class="getLang === 'gr' ? 'noto-18-600' : 'raleway-18-600'"
-                                    v-html="chapter.title[getLang]"
-                                >
-                                </div>
-                                <div
-                                    :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
-                                    class="text-justify"
-                                    v-html="chapter.text[getLang]"
+                                    class="color-000000DE pb-6 text-uppercase"
+                                    :class="getLang === 'gr' ? 'noto-30-700' : 'raleway-30-700'"
+                                    v-html="$static.contract.edges[0].node.title[getLang]"
                                 />
-                                <br>
-                                </div>
-                            </div>
-                        </v-col>
-                    </v-row>
-                </v-stepper-content>
-                <v-stepper-content step="1">
-                    <v-row justify="space-around" align="center">
-                        <v-col class="pb-0" cols="auto">
-                            <div
-                                class="pb-6 color-000000DE text-uppercase"
-                                :class="getLang === 'gr' ? 'noto-30-700' : 'raleway-30-700'"
-                                v-html="$static.submission.edges[0].node.title[getLang]"
-                            />
-                            <div
-                                class="color-000000DE"
-                                :class="getLang === 'gr' ? 'noto-18-600' : 'raleway-18-600'"
-                                v-html="$static.submission.edges[0].node.date[getLang]"
-                            />
-                            <div v-for="(chapter, i) in $static.submission.edges[0].node.chapters" :key="'chapter-' + i">
-                                <div>
                                 <div
-                                    class="text-uppercase pb-1"
+                                    class="color-000000DE"
                                     :class="getLang === 'gr' ? 'noto-18-600' : 'raleway-18-600'"
-                                    v-html="chapter.title[getLang]"
-                                >
-                                </div>
-                                <div
-                                    :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
-                                    class="text-justify"
-                                    v-html="chapter.text[getLang]"
+                                    v-html="$static.contract.edges[0].node.date[getLang]"
                                 />
-                                <br>
+                                <div v-for="(chapter, i) in $static.contract.edges[0].node.chapters" :key="'chapter-' + i">
+                                    <div>
+                                    <div
+                                        class="text-uppercase  pb-1"
+                                        :class="getLang === 'gr' ? 'noto-18-600' : 'raleway-18-600'"
+                                        v-html="chapter.title[getLang]"
+                                    >
+                                    </div>
+                                    <div
+                                        :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
+                                        class="text-justify"
+                                        v-html="chapter.text[getLang]"
+                                    />
+                                    <br>
+                                    </div>
                                 </div>
-                            </div>
-                        </v-col>
-                    </v-row>
-                </v-stepper-content>
-            </v-stepper-items>
-        </v-stepper>
-        <v-card flat class="px-0 py-0 rounded-0 rounded-b">
-            <v-card-actions>
-                <v-btn
-                    class="white--text"
-                    :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
-                    color="#525252"
-                    @click="next"
+                            </v-col>
+                        </v-row>
+                    </v-stepper-content>
+                    <v-stepper-content step="1">
+                        <v-row justify="space-around" align="center">
+                            <v-col class="pb-0" cols="auto">
+                                <div
+                                    class="pb-6 color-000000DE text-uppercase"
+                                    :class="getLang === 'gr' ? 'noto-30-700' : 'raleway-30-700'"
+                                    v-html="$static.submission.edges[0].node.title[getLang]"
+                                />
+                                <div
+                                    class="color-000000DE"
+                                    :class="getLang === 'gr' ? 'noto-18-600' : 'raleway-18-600'"
+                                    v-html="$static.submission.edges[0].node.date[getLang]"
+                                />
+                                <div v-for="(chapter, i) in $static.submission.edges[0].node.chapters" :key="'chapter-' + i">
+                                    <div>
+                                    <div
+                                        class="text-uppercase pb-1"
+                                        :class="getLang === 'gr' ? 'noto-18-600' : 'raleway-18-600'"
+                                        v-html="chapter.title[getLang]"
+                                    >
+                                    </div>
+                                    <div
+                                        :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
+                                        class="text-justify"
+                                        v-html="chapter.text[getLang]"
+                                    />
+                                    <br>
+                                    </div>
+                                </div>
+                            </v-col>
+                        </v-row>
+                    </v-stepper-content>
+                </v-stepper-items>
+            </v-stepper>
+            <v-card flat class="px-0 py-0 rounded-0 rounded-b">
+                <v-card-actions>
+                    <v-btn
+                        class="white--text"
+                        :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
+                        color="#525252"
+                        @click="next"
+                    >
+                        {{ this.slide === 0 ? nextText[getLang] : prevText[getLang] }}
+                    </v-btn>
+                    <v-spacer />
+                    <!-- Reject, show prompt -->
+                    <v-btn 
+                        class="black--text"
+                        :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
+                        color="#FAFAFA"
+                        @click="rejectPrompt = true;"
+                    >
+                        {{ rejectBtnText[getLang] }}
+                    </v-btn>
+                    <!-- Accept, update acceptTerms key in $auth -->
+                    <v-btn
+                        class="white--text"
+                        :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
+                        color="#333333"
+                        :loading="isLoading"
+                        @click="acceptTerms()"
+                    >
+                        OK
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+        <!-- Reject prompt -->
+        <v-dialog persistent v-model="rejectPrompt" :width="$vuetify.breakpoint.mobile ? width : widthReject">
+            <v-card>
+                <v-card-text
+                    class="pt-4"
+                    :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
                 >
-                    {{ this.slide === 0 ? nextText[getLang] : prevText[getLang] }}
-                </v-btn>
-                <v-spacer />
-                <!-- Reject, show prompt -->
-                <v-btn 
-                    class="black--text"
-                    :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
-                    color="#FAFAFA"
-                    @click="rejectPrompt = true;"
+                    {{ rejectPromptTxt[getLang] }}
+                </v-card-text>
+                <v-card-actions>
+                    <!-- Rejected, so close prompt and terms dialog -->
+                    <v-btn
+                        class="black--text"
+                        :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
+                        color="#FAFAFA"
+                        @click="rejectPrompt = false; $emit('update-toggle', false);"
+                    >
+                        {{ getLang === 'gr' ? 'Ναι' : 'Yes' }}
+                    </v-btn>
+                    <!-- close prompt -->
+                    <v-btn 
+                        
+                        class="white--text"
+                        :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
+                        color="#333333"
+                        @click="rejectPrompt = false;"
+                    >
+                        {{ getLang === 'gr' ? 'Οχι' : 'No' }}
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+        <!-- Error Dialog -->
+        <v-dialog v-model="errorDialog" persistent :width="$vuetify.breakpoint.mobile ? width : widthReject">
+            <v-card>
+                <v-card-text
+                    class="pt-4"
+                    :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
                 >
-                    {{ rejectBtnText[getLang] }}
-                </v-btn>
-                <!-- Accept, update acceptTerms key in $auth -->
-                <v-btn
-                    class="white--text"
-                    :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
-                    color="#333333"
-                    :loading="isLoading"
-                    @click="acceptTerms()"
-                >
-                    OK
-                </v-btn>
-            </v-card-actions>
-        </v-card>
-    </v-dialog>
-    <!-- Reject prompt -->
-    <v-dialog persistent v-model="rejectPrompt" :width="$vuetify.breakpoint.mobile ? width : widthReject">
-        <v-card>
-            <v-card-text
-                class="pt-4"
-                :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
-            >
-                {{ rejectPromptTxt[getLang] }}
-            </v-card-text>
-            <v-card-actions>
-                <!-- Rejected, so close prompt and terms dialog -->
-                <v-btn
-                    class="black--text"
-                    :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
-                    color="#FAFAFA"
-                    @click="rejectPrompt = false; $emit('update-toggle', false);"
-                >
-                    {{ getLang === 'gr' ? 'Ναι' : 'Yes' }}
-                </v-btn>
-                <!-- close prompt -->
-                <v-btn 
-                    
-                    class="white--text"
-                    :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
-                    color="#333333"
-                    @click="rejectPrompt = false;"
-                >
-                    {{ getLang === 'gr' ? 'Οχι' : 'No' }}
-                </v-btn>
-            </v-card-actions>
-        </v-card>
-    </v-dialog>
-    <!-- Error Dialog -->
-    <v-dialog v-model="errorDialog" persistent :width="$vuetify.breakpoint.mobile ? width : widthReject">
-        <v-card>
-            <v-card-text
-                class="pt-4"
-                :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
-            >
-                {{ errorDialogText[getLang] }}
-            </v-card-text>
-            <v-card-actions>
-                <v-btn 
-                    class="white--text"
-                    :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
-                    color="#333333"
-                    @click="errorDialog = false; $emit('update-toggle', false);"
-                >
-                    OK
-                </v-btn>
-            </v-card-actions>
-        </v-card>
-    </v-dialog>
+                    {{ errorDialogText[getLang] }}
+                </v-card-text>
+                <v-card-actions>
+                    <v-btn 
+                        class="white--text"
+                        :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
+                        color="#333333"
+                        @click="errorDialog = false; $emit('update-toggle', false);"
+                    >
+                        OK
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
     </div>
 </template>
 
