@@ -4,7 +4,16 @@
       <img src="../../static/loading.svg" width="300vw" alt="loading">
     </div>
     <v-dialog v-model="dialog" max-width="290" overlay-color="transparent">
-      <v-card>
+      <v-card v-if="emptyName">
+        <v-card-text
+          class="px-3 pt-2 pb-4"
+          :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'">
+          {{ dialogText[getLang] }}
+        </v-card-text>
+        <v-card-actions>
+        </v-card-actions>
+      </v-card>
+      <v-card v-if="noRole">
         <v-card-text
           class="px-3 pt-2 pb-4"
           :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'">
@@ -38,6 +47,8 @@ import { mapGetters } from "vuex";
 export default {
   data () {
     return {
+      noRole: false,
+      emptyName: false,
       dialog: false,
       dialogText: {
         gr: 'Είσαστε Καλλιτέχνης;',
@@ -46,78 +57,78 @@ export default {
     }
   },
   async created() {
-    this.$auth.handleAuthentication().then((user_id) => {
-      this.$db.existsUserId(user_id)
-        .then(found => {
-          if (found) {
-            // user_id already in DB
-            this.processUser();
-          } else {
-            // not in DB, add it
-            this.$db.addUserId(user_id)
-              .then(() => this.processUser())
-              .catch(err => this.$auth.logout())
-          }
-        })
-        .catch((err) => this.$auth.logout())
-    }).catch(err => {})
+    let user_id;
+    try {
+      user_id = await this.$auth.handleAuthentication();
+    } catch { return; }
+    let user = JSON.parse(localStorage.getItem('user'));
+    if (!user.hasOwnProperty("given_name") || !user.hasOwnProperty("family_name")) {
+      this.emptyName = true;
+    }
+    let found;
+    try {
+      found = await this.$db.existsUserId(user_id);
+    } catch { this.$auth.logout(); return; }
+    if (!found) { // not in DB, add it.
+      try {
+        await this.$db.addUserId(user_id);
+      } catch { this.$auth.logout(); return; }
+    }
+    await this.processUser();
   },
   computed: {
     ...mapGetters(["getLang"]),
   },
   methods: {
-    createRoleForUser(role) {
-      this.dialog = false
-      this.$auth.assignUserRole(role)
-        .then((roleObj) => {
-          this.$auth.getUser()
-            .then(() => this.processMarketing(roleObj))
-            .catch(err => this.$auth.logout())
-        })
-        .catch(err => this.$auth.logout())
+    async createRoleForUser(role) {
+      this.dialog = false;
+      let roleObj;
+      try {
+        roleObj = await this.$auth.assignUserRole(role);
+      } catch { this.$auth.logout(); return; }
+      try {
+        await this.$auth.getUser();
+      } catch { this.$auth.logout(); return; }
+      await this.processMarketing(roleObj);
     },
-    processUser() {
-      this.$auth.getUserRole()
-        .then((roleObj) => {
-          if (roleObj == null) {
-            this.dialog = true;
-          } else {
-            this.$auth.getUser()
-              .then(() => this.processMarketing(roleObj))
-              .catch(err => this.$auth.logout())
-          }
-        })
-        .catch(err => this.$auth.logout())
+    async processUser() {
+      let roleObj;
+      try {
+        roleObj = this.$auth.getUserRole();
+      } catch { this.$auth.logout(); return; }
+      if (roleObj == null) {
+        this.noRole = true;
+      }
+      if (this.emptyName || this.noRole) {
+        this.dialog = true;
+      } else {
+        try {
+          await this.$auth.getUser();
+        } catch { this.$auth.logout(); return; }
+        await this.processMarketing(roleObj);
+      }
     },
-    processMarketing(roleObj) {
+    async processMarketing(roleObj) {
       // check if member is in Marketing Service (Mailchimp)
-      let user = JSON.parse(localStorage.getItem('user'))
-
-      this.$marketing.getMember({ email_address: user.email })
-        .then(() => { // member found. Don't subscribe her.
-          if (roleObj[0].name == 'artist')
-            this.$router.push({ path: '/user/portfolio' })
-          else
-            this.$router.push({ path: '/user/profile' })
-        })
-        .catch(() => { // member not found, automatically subscribe her.
-          this.$marketing.subscribe({
-            email_address: user.email,
-            merge_fields: {
-              'FNAME': user.given_name,
-              'LNAME': user.family_name,
-              'ROLE': roleObj[0].name
-            },
-            tags: [this.getLang],
-            status_if_new: 'subscribed'
-          })
-            .finally(() => {
-              if (roleObj[0].name == 'artist')
-                this.$router.push({ path: '/user/portfolio' })
-              else
-                this.$router.push({ path: '/user/profile' })
-            })
-        })
+      let user = JSON.parse(localStorage.getItem('user'));
+      try { // member found. Don't subscribe her.
+        await this.$marketing.getMember({ email_address: user.email });
+      } catch { // member not found, automatically subscribe her.
+        await this.$marketing.subscribe({
+          email_address: user.email,
+          merge_fields: {
+            'FNAME': user.given_name,
+            'LNAME': user.family_name,
+            'ROLE': roleObj[0].name
+          },
+          tags: [this.getLang],
+          status_if_new: 'subscribed'
+        });
+      }
+      if (roleObj[0].name == 'artist')
+        this.$router.push({ path: '/user/portfolio' })
+      else
+        this.$router.push({ path: '/user/profile' })
     }
   },
   metaInfo () {
