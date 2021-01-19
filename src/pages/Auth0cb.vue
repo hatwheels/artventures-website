@@ -1,8 +1,8 @@
 <template>
   <VoidLayout>
-    <div class="spinner">
-      <img src="../../static/loading.svg" width="300vw" alt="loading">
-    </div>
+    <v-row no-gutters style="height: 100vh !important;" align="center" justify="center">
+      <v-progress-circular :size="120" :width="12" indeterminate color="#333333" />
+    </v-row>
     <v-dialog :value="stepper.pos" max-width="80vh" overlay-color="transparent" persistent>
       <v-stepper v-model="stepper.pos">
         <v-stepper-header>
@@ -29,7 +29,7 @@
                 v-html="stepper.content[0].form.firstName[getLang]"
               />
               <v-text-field
-                v-model.trim="this.stepper.content[0].firstName"
+                v-model.trim="firstName"
                 background-color="#FAFAFA"
                 color="#1A1A1A"
                 :placeholder="getLang === 'en' ? 'Your First Name...' : 'Το Όνομα σας...'"
@@ -45,7 +45,7 @@
                   v-html="stepper.content[0].form.lastName[getLang]"
               />
               <v-text-field
-                  v-model.trim="this.stepper.content[0].lastName"
+                  v-model.trim="lastName"
                   background-color="#FAFAFA"
                   color="#1A1A1A"
                   :placeholder="getLang === 'en' ? 'Your Last Name...' : 'Το Επίθετο σας...'"
@@ -62,7 +62,7 @@
                 type="submit"
                 :disabled="$v.$invalid"
               >
-                {{ buttons.form[getLang] }}
+                {{ getLang === 'gr' ? "Υποβολη" : "Submit" }}
               </v-btn>
             </form>
           </v-stepper-content>
@@ -116,6 +116,8 @@ export default {
       noRole: false,
       emptyName: false,
       roleName: "",
+      firstName: "",
+      lastName: "",
       stepper: {
         pos: 0,
         headers: [
@@ -161,9 +163,7 @@ export default {
                     }
                 }
               }
-            },
-            firstName: "",
-            lastName: ""
+            }
           },
           {
             gr: 'Είσαστε Καλλιτέχνης;',
@@ -218,7 +218,7 @@ export default {
       let user = JSON.parse(localStorage.getItem('user'));
       if (!user.hasOwnProperty("given_name") || !user.hasOwnProperty("family_name")) {
         this.emptyName = true; // empty name(s)
-        this.stepper.content[0].firstName = user.given_name || "";
+        this.firstName = user.given_name || "";
         this.stepper.content[0].familyName = user.family_name || "";
       }
       let roleObj;
@@ -231,13 +231,15 @@ export default {
         this.roleName = roleObj[0].name;
       }
       if (this.emptyName || this.noRole) {
-        (this.emptyName && this.noRole) ?
-          this.stepper.pos = 2 : this.stepper.pos = 1;
-          this.$forceUpdate();
+          this.stepper.pos = 1;
+          // this.$forceUpdate();
       } else {
         try {
           await this.processMarketing();
         } catch {}
+        this.roleName == 'artist' ?
+          this.$router.push({ path: '/user/portfolio' }) :
+          this.$router.push({ path: '/user/profile' })
       }
     },
     async processMarketing() {
@@ -269,7 +271,7 @@ export default {
         try {
           await this.$auth.updateUser({
             given_name: this.firstName,
-            family_name: this.family_name,
+            family_name: this.lastName,
             name: name
           });
         } catch { this.$auth.logout(); return; }
@@ -277,14 +279,12 @@ export default {
       try { // Submit Role
         await this.$auth.assignUserRole(this.roleName);
       } catch { this.$auth.logout(); return; }
-      console.log("here")
       try {
         await this.processMarketing();
       } catch {}
-      console.log("after")
       this.roleName == 'artist' ?
         this.$router.push({ path: '/user/portfolio' }) :
-        this.$router.push({ path: '/user/profile' })
+        this.$router.push({ path: '/user/profile' });
     },
     async setNames() {
       this.$v.$touch();
@@ -297,7 +297,7 @@ export default {
           try {
             await this.$auth.updateUser({
               given_name: this.firstName,
-              family_name: this.family_name,
+              family_name: this.lastName,
               name: name
             });
           } catch { this.$auth.logout(); return; }
@@ -323,18 +323,6 @@ export default {
 </script>
 
 <style scoped>
-.spinner {
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  height: 100vh;
-  width: 100vw;
-  background-color: transparent;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
 .color-333333 {
   color: #333333 !important;
 }
