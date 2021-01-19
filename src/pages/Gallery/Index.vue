@@ -108,11 +108,11 @@
                               </v-card-actions>
                               <div class="pb-2 pr-4 text-end">
                                 <div class="raleway-23-400" v-if="artwork.salePrice">{{ artwork.salePrice }}€</div>
-                                <!-- <div class="raleway-18-400" v-if="artwork.rentPrice">
+                                <div class="raleway-18-400" v-if="artwork.rentPrice">
                                   <span class="pr-1">{{ plainText.rentFor[getLang] }}</span>
                                   {{ artwork.rentPrice }}
                                   <span>{{ plainText.rentPerMonth[getLang] }}</span>
-                                </div> -->
+                                </div>
                               </div>
                               <div v-if="artwork.likes !== null"
                                 class="pr-4 mt-auto montserrat-12-400-italic"
@@ -239,11 +239,11 @@
                                 </v-card-actions>
                                 <div class="pb-2 pr-4 text-end">
                                   <div class="raleway-16-400" v-if="artwork.salePrice">{{ artwork.salePrice }}€</div>
-                                  <!-- <div class="raleway-12-400" v-if="artwork.rentPrice">
+                                  <div class="raleway-12-400" v-if="artwork.rentPrice">
                                     <span class="pr-1">{{ plainText.rentFor[getLang] }}</span>
                                     {{ artwork.rentPrice }}
                                     <span>{{ plainText.rentPerMonth[getLang] }}</span>
-                                  </div> -->
+                                  </div>
                                 </div>
                                 <div v-if="artwork.likes !== null"
                                   class="pr-4 mt-auto montserrat-10-400-italic"
