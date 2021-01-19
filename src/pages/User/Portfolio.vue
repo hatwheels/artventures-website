@@ -36,7 +36,7 @@
                 <!-- Desktop -->
                 <v-card
                   v-if="tabs.currentTab !== null"
-                  class="hidden-sm-and-down pb-12 px-12"
+                  class="hidden-sm-and-down pb-12"
                   flat color="rgba(250, 250, 250, 1)"
                 >
                   <v-card-text
@@ -48,7 +48,7 @@
                 <!-- Mobile -->
                 <v-card
                   v-if="tabs.currentTab !== null"
-                  class="hidden-md-and-up pb-12 px-12"
+                  class="hidden-md-and-up pb-12"
                   flat color="rgba(250, 250, 250, 1)"
                 >
                   <v-card-text
