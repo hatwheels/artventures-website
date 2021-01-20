@@ -68,15 +68,17 @@ export default function (Vue, { appOptions, router, head, isClient }) {
   router.beforeEach((to, from, next) => {
     switch (to.path) {
       case '/admin/gallery':
-      if (router.app.$auth.isAuthenticated()) { // if authenticated allow access
-        if (router.app.$auth.userRole[0].name === 'admin') { // only admin allowed
-          next();
-        } else { // other roles not allowed!
-          next(false);
+        if (router.app.$auth.isAuthenticated()) { // if authenticated allow access
+          if (router.app.$auth.userRole[0].name === 'admin') { // only admin allowed
+            next();
+          } else { // other roles not allowed!
+            next(false);
+          }
+        } else { // trigger auth0's login
+          router.app.$auth.login();
         }
-      } else { // trigger auth0's login
-        router.app.$auth.login();
-      }
+        break;
+
       case '/user/profile':
       case '/user/settings':
       case '/user/favorites':

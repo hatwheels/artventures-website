@@ -19,7 +19,7 @@ exports.handler = async (event, context) => {
                 body: 'Bad Request'
             }
         }
-
+        var xpr = "";
         switch (data.access_type) {
             case 'single':
                 // Folder must be of structure: '<profile or artwork>/<user-id>'
@@ -33,7 +33,7 @@ exports.handler = async (event, context) => {
                         body: 'Bad Request'
                     }
                 }
-                var xpr = 'resource_type:image AND public_id=' + data.public_id
+                xpr = 'resource_type:image AND public_id=' + data.public_id
                 break;
             case 'multi':
                 // Folder must be of structure: '<profile or artwork>/<user-id>'
@@ -47,7 +47,7 @@ exports.handler = async (event, context) => {
                         body: 'Bad Request'
                     }
                 }
-                var xpr = 'resource_type:image AND folder:' + data.folder
+                xpr = 'resource_type:image AND folder:' + data.folder
                 break;
             case 'favorites':
                 if (!data.favorites || !Array.isArray(data.favorites)) {
@@ -70,7 +70,7 @@ exports.handler = async (event, context) => {
                         body: 'Not Found'
                     }
                 }
-                var xpr = 'resource_type:image AND (';
+                xpr = 'resource_type:image AND (';
                 data.favorites.forEach(resource => {
                     if (resource.length < 1) {
                         console.log('400: wrong length of favorites array element.')

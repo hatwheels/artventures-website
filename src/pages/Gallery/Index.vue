@@ -3,7 +3,7 @@
     <v-main>
         <v-container class="pa-0 background-color-fafafa" fluid>
             <div class="py-10" />
-            <div id="start" class="playfair-38-700 text-center">{{ plainText.gallery[getLang] }}</div>
+            <div id="start" class="playfair-38-700 text-center">{{ $helper.plainText.gallery[getLang] }}</div>
             <div class="py-4" />
             <!-- Desktop -->
             <div class="hidden-sm-and-down">
@@ -81,7 +81,7 @@
                                       <v-icon v-else size="30" color="pink lighten-3">mdi-heart</v-icon>
                                     </v-btn>
                                   </template>
-                                  <span>{{ plainText.heart[getLang] }}</span>
+                                  <span>{{ $helper.plainText.heart[getLang] }}</span>
                                 </v-tooltip>
                                 <v-tooltip v-if="canCopy" top color="black">
                                   <template v-slot:activator="{ on, attrs }">
@@ -95,7 +95,7 @@
                                       <v-icon size="30">mdi-share-variant-outline</v-icon>
                                     </v-btn>
                                   </template>
-                                  <span>{{ plainText.share[getLang] }}</span>
+                                  <span>{{ $helper.plainText.share[getLang] }}</span>
                                 </v-tooltip>
                                 <v-tooltip top color="black">
                                   <template v-slot:activator="{ on, attrs }">
@@ -109,7 +109,7 @@
                                       <v-icon size="30">mdi-fullscreen</v-icon>
                                     </v-btn>
                                   </template>
-                                  <span>{{ plainText.artworkZoom[getLang] }}</span>
+                                  <span>{{ $helper.plainText.artworkZoom[getLang] }}</span>
                                 </v-tooltip>
                                 <v-tooltip top color="black">
                                   <template v-slot:activator="{ on, attrs }">
@@ -117,15 +117,15 @@
                                       <v-icon size="30">mdi-link</v-icon>
                                     </v-btn>
                                   </template>
-                                  <span>{{ plainText.artistPage[getLang] }}</span>
+                                  <span>{{ $helper.plainText.artistPage[getLang] }}</span>
                                 </v-tooltip>
                               </v-card-actions>
                               <div class="pb-2 pr-4 text-end">
                                 <div class="raleway-23-400" v-if="artwork.salePrice">{{ artwork.salePrice }}€</div>
                                 <div class="raleway-18-400" v-if="artwork.rentPrice">
-                                  <span class="pr-1">{{ plainText.rentFor[getLang] }}</span>
+                                  <span class="pr-1">{{ $helper.plainText.rentFor[getLang] }}</span>
                                   {{ artwork.rentPrice }}
-                                  <span>{{ plainText.rentPerMonth[getLang] }}</span>
+                                  <span>{{ $helper.plainText.rentPerMonth[getLang] }}</span>
                                 </div>
                               </div>
                               <div v-if="artwork.likes !== null"
@@ -147,7 +147,7 @@
                         class="text-center"
                         :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
                       >
-                        {{ plainText.error[getLang]}}
+                        {{ $helper.plainText.error[getLang]}}
                       </p>
                     </v-col>
                   </v-row>
@@ -227,7 +227,7 @@
                                         <v-icon v-else color="pink lighten-3">mdi-heart</v-icon>
                                       </v-btn>
                                     </template>
-                                    <span>{{ plainText.heart[getLang] }}</span>
+                                    <span>{{ $helper.plainText.heart[getLang] }}</span>
                                   </v-tooltip>
                                   <v-tooltip v-if="canCopy" top color="black">
                                     <template v-slot:activator="{ on, attrs }">
@@ -240,7 +240,7 @@
                                         <v-icon>mdi-share-variant-outline</v-icon>
                                       </v-btn>
                                     </template>
-                                    <span>{{ plainText.share[getLang] }}</span>
+                                    <span>{{ $helper.plainText.share[getLang] }}</span>
                                   </v-tooltip>
                                   <v-tooltip top color="black">
                                     <template v-slot:activator="{ on, attrs }">
@@ -253,7 +253,7 @@
                                         <v-icon>mdi-fullscreen</v-icon>
                                       </v-btn>
                                     </template>
-                                    <span>{{ plainText.artworkZoom[getLang] }}</span>
+                                    <span>{{ $helper.plainText.artworkZoom[getLang] }}</span>
                                   </v-tooltip>
                                   <v-tooltip top color="black">
                                     <template v-slot:activator="{ on, attrs }">
@@ -261,15 +261,15 @@
                                         <v-icon>mdi-link</v-icon>
                                       </v-btn>
                                     </template>
-                                    <span>{{ plainText.artistPage[getLang] }}</span>
+                                    <span>{{ $helper.plainText.artistPage[getLang] }}</span>
                                   </v-tooltip>
                                 </v-card-actions>
                                 <div class="pb-2 pr-4 text-end">
                                   <div class="raleway-16-400" v-if="artwork.salePrice">{{ artwork.salePrice }}€</div>
                                   <div class="raleway-12-400" v-if="artwork.rentPrice">
-                                    <span class="pr-1">{{ plainText.rentFor[getLang] }}</span>
+                                    <span class="pr-1">{{ $helper.plainText.rentFor[getLang] }}</span>
                                     {{ artwork.rentPrice }}
-                                    <span>{{ plainText.rentPerMonth[getLang] }}</span>
+                                    <span>{{ $helper.plainText.rentPerMonth[getLang] }}</span>
                                   </div>
                                 </div>
                                 <div v-if="artwork.likes !== null"
@@ -292,7 +292,7 @@
                         class="text-center"
                         :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'"
                       >
-                        {{ plainText.error[getLang]}}
+                        {{ $helper.plainText.error[getLang]}}
                       </p>
                     </v-col>
                   </v-row>
@@ -369,7 +369,7 @@
                     <v-icon>mdi-close</v-icon>
                   </v-btn>
                 </template>
-                <span>{{ plainText.close[getLang] }}</span>
+                <span>{{ $helper.plainText.close[getLang] }}</span>
               </v-tooltip>
             </v-col>
           </v-row>
@@ -387,7 +387,8 @@
             />
           </div>
         </v-dialog>
-        <v-dialog v-model="isSharing.state" max-width="80vh">
+        <!-- Share Dialog -->
+        <v-dialog v-model="isSharing.state" width="auto">
           <v-card>
             <v-card-title :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'">
               {{ isSharing.text[getLang] }}
@@ -406,7 +407,7 @@
         </v-dialog>
         <!-- Wait routing to artist's page -->
         <v-overlay :value="goToArtist" color="#FAFAFA" opacity="0.70">
-          <img src="../../../static/loading.svg" width="300vw" alt="loading">
+          <v-progress-circular :size="120" :width="12" indeterminate color="#333333" />
         </v-overlay>
     </v-main>
   </Layout>
@@ -467,7 +468,7 @@ export default {
                           salePrice = resource.context.sale_price
                         }
                         if (resource.context.hasOwnProperty('type')) {
-                          type = this.plainText.type[resource.context.type];
+                          type = this.$helper.plainText.type[resource.context.type];
                           if (type.en.toLowerCase() === 'sculpture') {
                             // it's a sculpture
                             if (resource.context.hasOwnProperty('dimension') &&
@@ -571,12 +572,12 @@ export default {
         .catch(err => this.fetched = true)
   },
   mounted () {
+    if (process.isClient) {
+      this.canCopy = !!navigator.clipboard;
+    }
     if (this.$auth.isAuthenticated()) {
       // fetch user's favorite artworks
       this.getUserFavorites()
-    }
-    if (process.isClient) {
-      this.canCopy = !!navigator.clipboard;
     }
   },
   data () {
@@ -616,66 +617,6 @@ export default {
           title: ""
         },
         goToArtist: false,
-        plainText: {
-          gallery: {
-            gr: "Γκαλερί",
-            en: "Gallery"
-          },
-          artistPage: {
-            gr: 'Σελίδα καλλιτέχνη',
-            en: "Artist's page"
-          },
-          artworkZoom: {
-            gr: 'Μεγέθυνση',
-            en: 'Enlarge'
-          },
-          heart: {
-            gr: "Μου αρέσει",
-            en: "Like"
-          },
-          share: {
-            gr: "Μοιράσου το",
-            en: "Share"
-          },
-          type: {
-            painting: {
-              gr: "Πίνακας",
-              en: "Painting"
-            },
-            sculpture: {
-              gr: "Γλυπτό",
-              en: "Sculpture"
-            },
-            drawing: {
-              gr: "Σχέδιο",
-              en: "Drawing"
-            },
-            photography: {
-              gr: 'Φωτογραφία',
-              en: "Photography"
-            },
-            digital: {
-              gr: "Ψηφιακό",
-              en: "Digital"
-            }
-          },
-          rentFor: {
-            gr: 'Ενοικίαση',
-            en: 'Rent'
-          },
-          rentPerMonth: {
-            gr: '€/μ',
-            en: '€/m'
-          },
-          close: {
-            gr: 'Κλείσιμο',
-            en: 'Close'
-          },
-          error: {
-            gr: 'Ωχ, κάτι πήγε στραβά. Παρακαλώ προσπαθήστε αργότερα.',
-            en: 'Oops, something went wrong. Please reload the page later.'
-          }
-        },
         // user's favorite artworks
         userFavorites: []
       }

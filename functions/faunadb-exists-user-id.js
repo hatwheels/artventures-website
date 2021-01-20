@@ -30,7 +30,7 @@ exports.handler = async (event, context) => {
             q.Paginate(q.Match(q.Index('id'), data.user_id))
           )
           .then(ret => {
-            found = ret.data.length > 0 ? "true" : "false";
+            let found = ret.data.length > 0 ? "true" : "false";
             console.log(found);
             console.log("### END ###");
 

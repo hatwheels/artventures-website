@@ -224,19 +224,27 @@ export default {
   props: {
     artworkData: {
       type: Object,
-      default: {},
+      default() {
+        return {}
+      }
     },
     artworkForm: {
-        type: Object,
-        default: {},
+      type: Object,
+      default() {
+        return {}
+      }
     },
     artworkTypes: {
-        type: Array,
-        default: []
+      type: Array,
+      default() {
+        return []
+      }
     },
     artworkUnits: {
-        type: Array,
-        default: []
+      type: Array,
+      default() {
+        return []
+      }
     }
   },
   mixins: [validationMixin],
@@ -405,8 +413,8 @@ export default {
 
           // update
           this.$imgdb.updateArtwork(this.artworkData.public_id, context, tagsConcatStr)
-            .then(resp => this.isSuccess = true)
-            .catch(err =>  this.isSuccess = false)
+            .then(() => this.isSuccess = true)
+            .catch(() =>  this.isSuccess = false)
             .finally(() => {
               this.isLoading = false;
               this.$emit("submitted", this.isSuccess);

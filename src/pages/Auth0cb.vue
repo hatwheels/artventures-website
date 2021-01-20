@@ -216,7 +216,7 @@ export default {
     },
     async processUser() {
       let user = JSON.parse(localStorage.getItem('user'));
-      if (!user.hasOwnProperty("given_name") || !user.hasOwnProperty("family_name")) {
+      if (!Object.prototype.hasOwnProperty.call(user, "given_name") || !Object.prototype.hasOwnProperty.call(user, "family_name")) {
         this.emptyName = true; // empty name(s)
         this.firstName = user.given_name || "";
         this.stepper.content[0].familyName = user.family_name || "";
@@ -236,7 +236,9 @@ export default {
       } else {
         try {
           await this.processMarketing();
-        } catch {}
+        } catch {
+          // empty
+        }
         this.roleName == 'artist' ?
           this.$router.push({ path: '/user/portfolio' }) :
           this.$router.push({ path: '/user/profile' })
@@ -281,7 +283,9 @@ export default {
       } catch { this.$auth.logout(); return; }
       try {
         await this.processMarketing();
-      } catch {}
+      } catch {
+        // empty
+      }
       this.roleName == 'artist' ?
         this.$router.push({ path: '/user/portfolio' }) :
         this.$router.push({ path: '/user/profile' });
@@ -303,7 +307,9 @@ export default {
           } catch { this.$auth.logout(); return; }
           try {
             await this.processMarketing();
-          } catch {}
+          } catch {
+            // empty
+          }
           this.roleName == 'artist' ?
             this.$router.push({ path: '/user/portfolio' }) :
             this.$router.push({ path: '/user/profile' })

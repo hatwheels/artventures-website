@@ -268,7 +268,7 @@ query {
   businesses: allPages(filter: { path: { eq: "/content/pages/businesses/" }}) {
   edges {
     node {
- 	    main {
+     main {
         title {
           en
           gr

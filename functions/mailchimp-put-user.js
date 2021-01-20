@@ -10,7 +10,7 @@ exports.handler = async (event, context) => {
     console.log(data);
 
     if (!data.email_address) {
-      var error = 'email_address parameter required'
+      let error = 'email_address parameter required'
 
       console.error(error)
       console.log('######## END ##########')
@@ -33,7 +33,7 @@ exports.handler = async (event, context) => {
         // Warning: when changing the email of a member, the status has to be provided
         // We hash the current email, but pass the new email in the 'email_address' field
       if (!data.hasOwnProperty('status')) {
-          var error = `Changing the email of a member requires passing a status parameter`
+          let error = `Changing the email of a member requires passing a status parameter`
 
           console.error(`error: ${error}`)
           console.log('######## END ##########');
