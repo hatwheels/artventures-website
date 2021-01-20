@@ -1053,7 +1053,7 @@ export default {
                 }
             }
             if (!this.$auth.user_metadata || this.bio !== this.$auth.user_metadata.bio) {
-                if (!data.hasOwnProperty('user_metadata')) {
+                if (!Object.prototype.hasOwnProperty.call(data, "user_metadata")) {
                     data.user_metadata = {}
                 }
                 data.user_metadata.bio = this.bio
@@ -1104,13 +1104,13 @@ export default {
                         marketingData.merge_fields['ROLE'] = this.role;
                     }
                     if (dataUpdated === true) { // updated in auth service, update in marketing service as well
-                        if (data.hasOwnProperty('given_name')) {
+                        if (Object.prototype.hasOwnProperty.call(data, "given_name")) {
                             marketingData.merge_fields['FNAME'] = data.given_name;
                         }
-                        if (data.hasOwnProperty('family_name')) {
+                        if (Object.prototype.hasOwnProperty.call(data, "family_name")) {
                             marketingData.merge_fields['LNAME'] = data.family_name;
                         }
-                        if (data.hasOwnProperty('email') && status.length > 0) {
+                        if (Object.prototype.hasOwnProperty.call(data, "email") && status.length > 0) {
                             // request to change email only if member found
                             marketingData.new_email_address = data.email; // == this.email
                             // include status required to change email

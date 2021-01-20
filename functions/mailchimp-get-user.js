@@ -1,6 +1,7 @@
 const mailchimp = require("@mailchimp/mailchimp_marketing");
 const md5 = require("md5");
 
+// eslint-disable-next-line no-unused-vars
 exports.handler = async (event, context) => {
   try {
     console.log('######## START ##########')

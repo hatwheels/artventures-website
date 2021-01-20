@@ -17,6 +17,7 @@ module.exports = function (api) {
   //     ])
   //   }
   // })
+
   // eslint-disable-next-line no-unused-vars
   api.chainWebpack((config, { isServer }) => {
     if( process.env.GRIDSOME_NODE_ENV === 'development')

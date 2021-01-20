@@ -452,29 +452,29 @@ export default {
                       var salePrice = '';
                       var size = '';
                       var type = '';
-                      var tags = resource.hasOwnProperty('tags') ? resource.tags : [];
+                      var tags = Object.prototype.hasOwnProperty.call(resource, "tags") ? resource.tags : [];
                       var prio = 0;
-                      if (resource.hasOwnProperty('context')) {
+                      if (Object.prototype.hasOwnProperty.call(resource, "context")) {
                         // Title
-                        if (resource.context.hasOwnProperty('caption')) {
+                        if (Object.prototype.hasOwnProperty.call(resource.context, "caption")) {
                           title = resource.context.caption;
                           title = title.toLowerCase();
                         }
                         // Rent, Sale Price
-                        if (resource.context.hasOwnProperty('rent_price')) {
+                        if (Object.prototype.hasOwnProperty.call(resource.context, "rent_price")) {
                           rentPrice = resource.context.rent_price
                         }
-                        if (resource.context.hasOwnProperty('sale_price')) {
+                        if (Object.prototype.hasOwnProperty.call(resource.context, "sale_price")) {
                           salePrice = resource.context.sale_price
                         }
-                        if (resource.context.hasOwnProperty('type')) {
+                        if (Object.prototype.hasOwnProperty.call(resource.context, "type")) {
                           type = this.$helper.plainText.type[resource.context.type];
                           if (type.en.toLowerCase() === 'sculpture') {
                             // it's a sculpture
-                            if (resource.context.hasOwnProperty('dimension') &&
-                                resource.context.hasOwnProperty('height') &&
-                                resource.context.hasOwnProperty('width') &&
-                                resource.context.hasOwnProperty('depth')) {
+                            if (Object.prototype.hasOwnProperty.call(resource.context, "dimension") &&
+                                Object.prototype.hasOwnProperty.call(resource.context, "height") &&
+                                Object.prototype.hasOwnProperty.call(resource.context, "width") &&
+                                Object.prototype.hasOwnProperty.call(resource.context, "depth")) {
                               size = resource.context.height + ' x ' + resource.context.width + ' x ' +
                                 resource.context.depth + ' ' + resource.context.dimension
                             }
@@ -485,15 +485,15 @@ export default {
                             type.en.toLowerCase() === 'digital'
                           ) {
                             // it's a painting/drawing/photography/digital
-                            if (resource.context.hasOwnProperty('dimension') &&
-                                resource.context.hasOwnProperty('height') &&
-                                resource.context.hasOwnProperty('width')) {
+                            if (Object.prototype.hasOwnProperty.call(resource.context, "dimension") &&
+                                Object.prototype.hasOwnProperty.call(resource.context, "height") &&
+                                Object.prototype.hasOwnProperty.call(resource.context, "width")) {
                               size = resource.context.height + ' x ' + resource.context.width + ' ' +
                                 resource.context.dimension
                             }
                           }
                         }
-                        if (resource.context.hasOwnProperty('prio')) {
+                        if (Object.prototype.hasOwnProperty.call(resource.context, "prio")) {
                           prio = parseInt(resource.context.prio);
                         }
                       }
@@ -529,6 +529,7 @@ export default {
                 });
                 for (let i = 10; i >= 0;) {
                   let decrement = true;
+                  // eslint-disable-next-line no-unused-vars
                   for (let [key, value] of Object.entries(helperObj)) {
                     if (value[i] && value[i].length > 0) {
                       this.approvedArtworks.push(value[i].pop());
@@ -543,11 +544,11 @@ export default {
               this.totalPages.desktop = Math.floor(this.approvedArtworks.length / this.artworksPerPage.desktop) + 1;
               this.totalPages.mobile = Math.floor(this.approvedArtworks.length / this.artworksPerPage.mobile) + 1;
               this.gallery = Array(this.totalPages.mobile);
-              for (var i = 0; i < this.totalPages.mobile; i++) {
+              for (let i = 0; i < this.totalPages.mobile; i++) {
                 this.gallery[i] = Array();
               }
               this.columns = Array(this.totalPages.desktop);
-              for (var i = 0; i < this.totalPages.desktop; i++) {
+              for (let i = 0; i < this.totalPages.desktop; i++) {
                 this.columns[i] = Array(3);
                 this.columns[i][0] = Array();
                 this.columns[i][1] = Array();
@@ -567,9 +568,9 @@ export default {
             }
             this.fetched = true;
           })
-          .catch(err => this.fetched = true)
+          .catch(() => this.fetched = true)
         })
-        .catch(err => this.fetched = true)
+        .catch(() => this.fetched = true)
   },
   mounted () {
     if (process.isClient) {
@@ -679,7 +680,7 @@ export default {
           this.$router.push({ path: '/artist/' + ref });
           this.goToArtist = false;
         })
-        .catch(err => {
+        .catch(() => {
           this.goToArtist = false;
         })
     },
@@ -718,11 +719,9 @@ export default {
         this.$auth.login();
       } else {
         var isAlreadyFavorite = false;
-        var isAlreadyFavoriteIdx = -1;
-        this.userFavorites.find((favorite, idx) => {
+        this.userFavorites.find(favorite => {
           if (favorite.public_id === artwork.public_id) {
             isAlreadyFavorite = true;
-            isAlreadyFavoriteIdx = idx;
           }
           return isAlreadyFavorite;
         })

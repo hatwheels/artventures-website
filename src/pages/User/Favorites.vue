@@ -915,229 +915,222 @@ export default {
         .catch(() => (this.goToArtist = false));
     },
     async getUserFavorites() {
-      return await new Promise(async (resolve, reject) => {
-        this.fetchedFavorites = 0;
-        let favorites;
-        try {
-          favorites = await this.$db.getFavorites(this.$auth.user.sub);
-          // Find for each favorite artwork the artist name.
-          await Promise.all(favorites.map(async favorite => {
-            let artist_name;
-            try {
-              artist_name = await this.$auth.getMgUser(favorite[0]);
-              favorite.push(artist_name.name); // index 3
-            } catch {
-              favorite.push(''); // index 3
-            }
-          }));
-          let found;
-          if (favorites.length > 0) {
-            try {
-              found = await this.$imgdb.getFavoriteArtworks(favorites);
-              if (found.total_count > 0) {
-                found.resources.forEach(resource => {
-                  // Artist
-                  var title = "";
-                  var rentPrice = "";
-                  var salePrice = "";
-                  var size = "";
-                  var type = "";
-                  var tags = resource.hasOwnProperty("tags") ? resource.tags : [];
-                  if (resource.hasOwnProperty("context")) {
-                    // Title
-                    if (resource.context.hasOwnProperty("caption")) {
-                      title = resource.context.caption;
-                      title = title.toLowerCase();
-                    }
-                    // Rent, Sale Price
-                    if (resource.context.hasOwnProperty("rent_price")) {
-                      rentPrice = resource.context.rent_price;
-                    }
-                    if (resource.context.hasOwnProperty("sale_price")) {
-                      salePrice = resource.context.sale_price;
-                    }
-                    if (resource.context.hasOwnProperty("type")) {
-                      type = this.$helper.plainText.type[resource.context.type];
-                      if (type.en.toLowerCase() === "sculpture") {
-                        // it's a sculpture
-                        if (
-                          resource.context.hasOwnProperty("dimension") &&
-                          resource.context.hasOwnProperty("height") &&
-                          resource.context.hasOwnProperty("width") &&
-                          resource.context.hasOwnProperty("depth")
-                        ) {
-                          size = resource.context.height + " x " + resource.context.width + " x " + resource.context.depth + " " + resource.context.dimension;
-                        }
-                      } else if (
-                        type.en.toLowerCase() === "painting" ||
-                        type.en.toLowerCase() === "drawing" ||
-                        type.en.toLowerCase() === "photography" ||
-                        type.en.toLowerCase() === "digital"
+      this.fetchedFavorites = 0;
+      let favorites;
+      try {
+        favorites = await this.$db.getFavorites(this.$auth.user.sub);
+        // Find for each favorite artwork the artist name.
+        await Promise.all(favorites.map(async favorite => {
+          let artist_name;
+          try {
+            artist_name = await this.$auth.getMgUser(favorite[0]);
+            favorite.push(artist_name.name); // index 3
+          } catch {
+            favorite.push(''); // index 3
+          }
+        }));
+        let found;
+        if (favorites.length > 0) {
+          try {
+            found = await this.$imgdb.getFavoriteArtworks(favorites);
+            if (found.total_count > 0) {
+              found.resources.forEach(resource => {
+                // Artist
+                var title = "";
+                var rentPrice = "";
+                var salePrice = "";
+                var size = "";
+                var type = "";
+                var tags = Object.prototype.hasOwnProperty.call(resource, "tags") ? resource.tags : [];
+                if (Object.prototype.hasOwnProperty.call(resource, "context")) {
+                  // Title
+                  if (Object.prototype.hasOwnProperty.call(resource.context, "caption")) {
+                    title = resource.context.caption;
+                    title = title.toLowerCase();
+                  }
+                  // Rent, Sale Price
+                  if (Object.prototype.hasOwnProperty.call(resource.context, "rent_price")) {
+                    rentPrice = resource.context.rent_price;
+                  }
+                  if (Object.prototype.hasOwnProperty.call(resource.context, "sale_price")) {
+                    salePrice = resource.context.sale_price;
+                  }
+                  if (Object.prototype.hasOwnProperty.call(resource.context, "type")) {
+                    type = this.$helper.plainText.type[resource.context.type];
+                    if (type.en.toLowerCase() === "sculpture") {
+                      // it's a sculpture
+                      if (
+                        Object.prototype.hasOwnProperty.call(resource.context, "dimension") &&
+                        Object.prototype.hasOwnProperty.call(resource.context, "height") &&
+                        Object.prototype.hasOwnProperty.call(resource.context, "width") &&
+                        Object.prototype.hasOwnProperty.call(resource.context, "depth")
                       ) {
-                        // it's a painting/drawing/photography/digital
-                        if (
-                          resource.context.hasOwnProperty("dimension") &&
-                          resource.context.hasOwnProperty("height") &&
-                          resource.context.hasOwnProperty("width")
-                        ) {
-                          size = resource.context.height + " x " + resource.context.width + " " + resource.context.dimension;
-                        }
+                        size = resource.context.height + " x " + resource.context.width + " x " + resource.context.depth + " " + resource.context.dimension;
+                      }
+                    } else if (
+                      type.en.toLowerCase() === "painting" ||
+                      type.en.toLowerCase() === "drawing" ||
+                      type.en.toLowerCase() === "photography" ||
+                      type.en.toLowerCase() === "digital"
+                    ) {
+                      // it's a painting/drawing/photography/digital
+                      if (
+                        Object.prototype.hasOwnProperty.call(resource.context, "dimension") &&
+                        Object.prototype.hasOwnProperty.call(resource.context, "height") &&
+                        Object.prototype.hasOwnProperty.call(resource.context, "width")
+                      ) {
+                        size = resource.context.height + " x " + resource.context.width + " " + resource.context.dimension;
                       }
                     }
                   }
-                  // check that favorite artwork exists and if it does add artist's name. 
-                  let artist_id = resource.public_id.replace('artwork/', '');
-                  let c = artist_id.indexOf('/');
-                  artist_id = artist_id.substring(0, c);
-                  favorites.find(favorite => { // [ artist_id, refId, name ]
-                    if (favorite[0] === artist_id) {
-                      this.userFavorites.push({
-                        public_id: resource.public_id,
-                        user_id: favorite[0],
-                        artist_name: favorite[3],
-                        url: resource.secure_url,
-                        title: title,
-                        type: type,
-                        rentPrice: rentPrice,
-                        salePrice: salePrice,
-                        size: size,
-                        tags: tags,
-                        isProcFavorite: false,
-                        likes: null,
-                        favorite: true,
-                      });
-                      return true;
-                    }
-                    return false;
-                  });
-                });
-              }
-              // Resolve non-existing favorites
-              if (found.total_count < favorites.length) {
-                let favoritesNonExisting = [];
-                this.userFavorites.forEach(favorite => {
-                  let match = false;
-                  found.find(resource => {
-                    match = resource.public_id === favorite.public_id ? true : false;
-                    return match;
-                  });
-                  if (!match) {
-                    let artwork_id = "";
-                    this.$helper.artworkStates.folders.find(item => {
-                      artwork_id = this.$helper.toPublicIdNoPath(favorite.public_id, item);
-                      return artwork_id !== "" ? true : false;
-                    });
-                    this.favoritesNonExisting.push({
-                      artwork_id: artwork_id,
-                      artist_id: favorite.user_id
-                    });
-                  }
-                });
-                if (favoritesNonExisting.length > 0) {
-                  await Promise.all(favoritesNonExisting.map(async favoriteNonExisting => {
-                    this.$db.getRefFavorite(this.$auth.user.sub, favoriteNonExisting.artist_id, favoriteNonExisting.artwork_id)
-                      .then(refId => this.$db.deleteFavorite(refId))
-                  }));
                 }
+                // check that favorite artwork exists and if it does add artist's name. 
+                let artist_id = resource.public_id.replace('artwork/', '');
+                let c = artist_id.indexOf('/');
+                artist_id = artist_id.substring(0, c);
+                favorites.find(favorite => { // [ artist_id, refId, name ]
+                  if (favorite[0] === artist_id) {
+                    this.userFavorites.push({
+                      public_id: resource.public_id,
+                      user_id: favorite[0],
+                      artist_name: favorite[3],
+                      url: resource.secure_url,
+                      title: title,
+                      type: type,
+                      rentPrice: rentPrice,
+                      salePrice: salePrice,
+                      size: size,
+                      tags: tags,
+                      isProcFavorite: false,
+                      likes: null,
+                      favorite: true,
+                    });
+                    return true;
+                  }
+                  return false;
+                });
+              });
+            }
+            // Resolve non-existing favorites
+            if (found.total_count < favorites.length) {
+              let favoritesNonExisting = [];
+              this.userFavorites.forEach(favorite => {
+                let match = false;
+                found.find(resource => {
+                  match = resource.public_id === favorite.public_id ? true : false;
+                  return match;
+                });
+                if (!match) {
+                  let artwork_id = "";
+                  this.$helper.artworkStates.folders.find(item => {
+                    artwork_id = this.$helper.toPublicIdNoPath(favorite.public_id, item);
+                    return artwork_id !== "" ? true : false;
+                  });
+                  this.favoritesNonExisting.push({
+                    artwork_id: artwork_id,
+                    artist_id: favorite.user_id
+                  });
+                }
+              });
+              if (favoritesNonExisting.length > 0) {
+                await Promise.all(favoritesNonExisting.map(async favoriteNonExisting => {
+                  this.$db
+                    .getRefFavorite(this.$auth.user.sub, favoriteNonExisting.artist_id, favoriteNonExisting.artwork_id)
+                    .then(refId => this.$db.deleteFavorite(refId))
+                }));
               }
-            } catch {
-              // empty
             }
+          } catch {
+            // empty
           }
-
-          // Compute total pages and assign gallery arrays
-          this.totalPagesFavorites.desktop = Math.floor(this.userFavorites.length / this.artworksPerPageFavorites.desktop) + 1;
-          this.totalPagesFavorites.mobile = Math.floor(this.userFavorites.length / this.artworksPerPageFavorites.mobile) + 1;
-          this.gallery = Array(this.totalPagesFavorites.mobile);
-          for (var i = 0; i < this.totalPagesFavorites.mobile; i++) {
-            this.gallery[i] = Array();
-          }
-          this.columns = Array(this.totalPagesFavorites.desktop);
-          for (i = 0; i < this.totalPagesFavorites.desktop; i++) {
-            this.columns[i] = Array(3);
-            this.columns[i][0] = Array();
-            this.columns[i][1] = Array();
-            this.columns[i][2] = Array();
-          }
-          let count = 0;
-          let artwork_id = "";
-          this.userFavorites.forEach((artwork, index) => {
-            this.$helper.artworkStates.folders.find(item => {
-              artwork_id = this.$helper.toPublicIdNoPath(artwork.public_id, item);
-              return artwork_id !== "" ? true : false;
-            });
-            if (artwork_id !== "") {
-              this.getArtworkLikes(artwork.user_id, artwork_id).then(likesCount => artwork.likes = likesCount);
-            }
-            this.gallery[Math.floor(index / this.artworksPerPageFavorites.mobile)].push(artwork);
-            this.columns[Math.floor(index / this.artworksPerPageFavorites.desktop)][count].push(artwork);
-            count = (count + 1) % 3;
-          });
-          this.fetchedFavorites = 1;
-          resolve();
-        } catch (e) {
-          this.fetchedFavorites = -1;
-          reject(e);
         }
-      });
+        // Compute total pages and assign gallery arrays
+        this.totalPagesFavorites.desktop =
+          Math.floor(this.userFavorites.length / this.artworksPerPageFavorites.desktop) + 1;
+        this.totalPagesFavorites.mobile =
+          Math.floor(this.userFavorites.length / this.artworksPerPageFavorites.mobile) + 1;
+        this.gallery = Array(this.totalPagesFavorites.mobile);
+        for (var i = 0; i < this.totalPagesFavorites.mobile; i++) {
+          this.gallery[i] = Array();
+        }
+        this.columns = Array(this.totalPagesFavorites.desktop);
+        for (i = 0; i < this.totalPagesFavorites.desktop; i++) {
+          this.columns[i] = Array(3);
+          this.columns[i][0] = Array();
+          this.columns[i][1] = Array();
+          this.columns[i][2] = Array();
+        }
+        let count = 0;
+        let artwork_id = "";
+        this.userFavorites.forEach((artwork, index) => {
+          this.$helper.artworkStates.folders.find(item => {
+            artwork_id = this.$helper.toPublicIdNoPath(artwork.public_id, item);
+            return artwork_id !== "" ? true : false;
+          });
+          if (artwork_id !== "") {
+            this.getArtworkLikes(artwork.user_id, artwork_id).then(likesCount => artwork.likes = likesCount);
+          }
+          this.gallery[Math.floor(index / this.artworksPerPageFavorites.mobile)].push(artwork);
+          this.columns[Math.floor(index / this.artworksPerPageFavorites.desktop)][count].push(artwork);
+          count = (count + 1) % 3;
+        });
+        this.fetchedFavorites = 1;
+      } catch {
+        this.fetchedFavorites = -1;
+      }
     },
     async getUserFollows() {
-      return await new Promise(async (resolve, reject) => {
-        let follows;
-        try {
-          follows = await this.$db.getFollows(this.$auth.user.sub);
-          await Promise.all(
-            follows.map(async (follow) => {
-              let foundArtist;
-              try {
-                foundArtist = await this.$auth.getMgUser(follow[0]);
-                this.userFollows.push({
-                  user_id: foundArtist.user_id,
-                  name: foundArtist.name,
-                  isProcFollow: false,
-                  followerRefId: follow[1],
-                  followers: null
-                });
-              } catch {
-                // empty
-              }
-            })
-          );
-          
-          // Compute total pages and assign artists arrays
-          this.totalPagesFollows.desktop = Math.floor(this.userFollows.length / this.artworksPerPageFollows.desktop) + 1;
-          this.totalPagesFollows.mobile = Math.floor(this.userFollows.length / this.artworksPerPageFollows.mobile) + 1;
-          this.artistsMobile = Array(this.totalPagesFollows.mobile);
-          for (var i = 0; i < this.totalPagesFollows.mobile; i++) {
-            this.artistsMobile[i] = Array();
-          }
-          this.artistsDesktop = Array(this.totalPagesFollows.desktop);
-          for (i = 0; i < this.totalPagesFollows.desktop; i++) {
-            this.artistsDesktop[i] = Array(3);
-            this.artistsDesktop[i][0] = Array();
-            this.artistsDesktop[i][1] = Array();
-            this.artistsDesktop[i][2] = Array();
-          }
-          let count = 0;
-          await Promise.all(this.userFollows.map(async (artist, index) => {
-            let followCounts;
+      let follows;
+      try {
+        follows = await this.$db.getFollows(this.$auth.user.sub);
+        await Promise.all(
+          follows.map(async (follow) => {
+            let foundArtist;
             try {
-              followCounts = await this.getArtistFollowers(artist.user_id);
-              artist.followers = followCounts;
+              foundArtist = await this.$auth.getMgUser(follow[0]);
+              this.userFollows.push({
+                user_id: foundArtist.user_id,
+                name: foundArtist.name,
+                isProcFollow: false,
+                followerRefId: follow[1],
+                followers: null
+              });
             } catch {
               // empty
             }
-            this.artistsMobile[Math.floor(index / this.artworksPerPageFollows.mobile)].push(artist);
-            this.artistsDesktop[Math.floor(index / this.artworksPerPageFollows.desktop)][count].push(artist);
-            count = (count + 1) % 3;
-          }));
-          this.fetchedFollows = 1;
-          resolve();
-        } catch (e) {
-          this.fetchedFollows = -1;
-          reject(e);
+          })
+        );
+        // Compute total pages and assign artists arrays
+        this.totalPagesFollows.desktop = Math.floor(this.userFollows.length / this.artworksPerPageFollows.desktop) + 1;
+        this.totalPagesFollows.mobile = Math.floor(this.userFollows.length / this.artworksPerPageFollows.mobile) + 1;
+        this.artistsMobile = Array(this.totalPagesFollows.mobile);
+        for (var i = 0; i < this.totalPagesFollows.mobile; i++) {
+          this.artistsMobile[i] = Array();
         }
-      });
+        this.artistsDesktop = Array(this.totalPagesFollows.desktop);
+        for (i = 0; i < this.totalPagesFollows.desktop; i++) {
+          this.artistsDesktop[i] = Array(3);
+          this.artistsDesktop[i][0] = Array();
+          this.artistsDesktop[i][1] = Array();
+          this.artistsDesktop[i][2] = Array();
+        }
+        let count = 0;
+        await Promise.all(this.userFollows.map(async (artist, index) => {
+          let followCounts;
+          try {
+            followCounts = await this.getArtistFollowers(artist.user_id);
+            artist.followers = followCounts;
+          } catch {
+            // empty
+          }
+          this.artistsMobile[Math.floor(index / this.artworksPerPageFollows.mobile)].push(artist);
+          this.artistsDesktop[Math.floor(index / this.artworksPerPageFollows.desktop)][count].push(artist);
+          count = (count + 1) % 3;
+        }));
+        this.fetchedFollows = 1;
+      } catch {
+        this.fetchedFollows = -1;
+      }
     },
     async getArtworkLikes(artist_id, artwork_id) {
       return await new Promise((resolve, reject) => {

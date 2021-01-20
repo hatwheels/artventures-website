@@ -216,7 +216,8 @@ export default {
     },
     async processUser() {
       let user = JSON.parse(localStorage.getItem('user'));
-      if (!Object.prototype.hasOwnProperty.call(user, "given_name") || !Object.prototype.hasOwnProperty.call(user, "family_name")) {
+      if (!Object.prototype.hasOwnProperty.call(user, "given_name") ||
+          !Object.prototype.hasOwnProperty.call(user, "family_name")) {
         this.emptyName = true; // empty name(s)
         this.firstName = user.given_name || "";
         this.stepper.content[0].familyName = user.family_name || "";

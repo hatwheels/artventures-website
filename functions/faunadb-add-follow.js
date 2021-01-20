@@ -6,6 +6,7 @@ const headers = {
     "Access-Control-Allow-Headers": "Content-Type",
 }
 
+// eslint-disable-next-line no-unused-vars
 exports.handler = async (event, context) => {
     console.log("### START ###")
 

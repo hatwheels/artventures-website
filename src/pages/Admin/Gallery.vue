@@ -25,33 +25,35 @@
                   loading-text="Loading... Please wait"
                   sort-by="last_name"
                   :headers="[
-                      { text: 'Link', value: 'url', sortable: false, filterable: false },
-                      { text: 'Thumbnail', value: 'thumbnail', sortable: false, filterable: false },
-                      { text: 'Last Name', value: 'last_name'},
-                      { text: 'First Name', value: 'first_name'},
-                      { text: 'Title', value: 'title' },
-                      { text: 'Type', value: 'type' },
-                      { text: 'Medium', value: 'tags' },
-                      { text: 'Size', value: 'size' },
-                      { text: 'Artist\'s Price', value: 'value' },
-                      { text: 'Sale Price', value: 'salePrice' },
-                      { text: 'Rent Price', value: 'rentPrice' },
-                    ]"
-                    :items="gallery"
-                    :search="search"
-                  >
-                    <template v-slot:item.url="{ item }">
-                      <a
-                        class="mr-2"
-                        :href="item.url"
-                        target="_blank"
-                      >
-                        link
-                      </a>
+                    { text: 'Link', value: 'url', sortable: false, filterable: false },
+                    { text: 'Thumbnail', value: 'thumbnail', sortable: false, filterable: false },
+                    { text: 'Last Name', value: 'last_name'},
+                    { text: 'First Name', value: 'first_name'},
+                    { text: 'Title', value: 'title' },
+                    { text: 'Type', value: 'type' },
+                    { text: 'Medium', value: 'tags' },
+                    { text: 'Size', value: 'size' },
+                    { text: 'Artist\'s Price', value: 'value' },
+                    { text: 'Sale Price', value: 'salePrice' },
+                    { text: 'Rent Price', value: 'rentPrice' },
+                  ]"
+                  :items="gallery"
+                  :search="search"
+                >
+                  <!-- eslint-disable-next-line vue/valid-v-slot -->
+                  <template v-slot:item.url="{ item }">
+                    <a
+                      class="mr-2"
+                      :href="item.url"
+                      target="_blank"
+                    >
+                      link
+                    </a>
                   </template>
+                  <!-- eslint-disable-next-line vue/valid-v-slot -->
                   <template v-slot:item.thumbnail="{ item }">
                     <v-img class="my-1" :src="item.thumbnail" width="100" />
-                </template>
+                  </template>
                 </v-data-table>
                 <v-card-actions>
                   <div v-if="fetched">
@@ -124,33 +126,33 @@ export default {
                               var rentPrice = '';
                               var size = '';
                               var type = '';
-                              var tags = resource.hasOwnProperty('tags') ? resource.tags : [];
-                              if (resource.hasOwnProperty('context')) {
+                              var tags = Object.prototype.hasOwnProperty.call(resource, "tags") ? resource.tags : [];
+                              if (Object.prototype.hasOwnProperty.call(resource, "context")) {
                                 // Title
-                                if (resource.context.hasOwnProperty('caption')) {
+                                if (Object.prototype.hasOwnProperty.call(resource.context, "caption")) {
                                   title = resource.context.caption;
                                   title = title.toLowerCase();
                                 }
                                 // Value
-                                if (resource.context.hasOwnProperty('value')) {
+                                if (Object.prototype.hasOwnProperty.call(resource.context, "value")) {
                                   value = resource.context.value
                                 }
                                 // Sale Price
-                                if (resource.context.hasOwnProperty('sale_price')) {
+                                if (Object.prototype.hasOwnProperty.call(resource.context, "sale_price")) {
                                   salePrice = resource.context.sale_price
                                 }
                                 // Rent Price
-                                if (resource.context.hasOwnProperty('rent_price')) {
+                                if (Object.prototype.hasOwnProperty.call(resource.context, "rent_price")) {
                                   rentPrice = resource.context.rent_price
                                 }
-                                if (resource.context.hasOwnProperty('type')) {
+                                if (Object.prototype.hasOwnProperty.call(resource.context, "type")) {
                                   type = resource.context.type;
                                   if (type.toLowerCase() === 'sculpture') {
                                     // it's a sculpture
-                                    if (resource.context.hasOwnProperty('dimension') &&
-                                        resource.context.hasOwnProperty('height') &&
-                                        resource.context.hasOwnProperty('width') &&
-                                        resource.context.hasOwnProperty('depth')) {
+                                    if (Object.prototype.hasOwnProperty.call(resource.context, "dimension") &&
+                                        Object.prototype.hasOwnProperty.call(resource.context, "height") &&
+                                        Object.prototype.hasOwnProperty.call(resource.context, "width") &&
+                                        Object.prototype.hasOwnProperty.call(resource.context, "depth")) {
                                       size = resource.context.height + ' x ' + resource.context.width + ' x ' +
                                         resource.context.depth + ' ' + resource.context.dimension
                                     }
@@ -161,9 +163,9 @@ export default {
                                       type.toLowerCase() === 'digital'
                                     ) {
                                     // it's a painting/drawing/photography/digital
-                                    if (resource.context.hasOwnProperty('dimension') &&
-                                        resource.context.hasOwnProperty('height') &&
-                                        resource.context.hasOwnProperty('width')) {
+                                    if (Object.prototype.hasOwnProperty.call(resource.context, "dimension") &&
+                                        Object.prototype.hasOwnProperty.call(resource.context, "height") &&
+                                        Object.prototype.hasOwnProperty.call(resource.context, "width")) {
                                       size = resource.context.height + ' x ' + resource.context.width + ' ' +
                                         resource.context.dimension
                                     }
@@ -172,12 +174,12 @@ export default {
                               }
                               var firstName = '';
                               var lastName = '';
-                              if (artist.hasOwnProperty("given_name")) {
+                              if (Object.prototype.hasOwnProperty.call(artist, "given_name")) {
                                 firstName = artist.given_name;
                               } else {
                                 firstName = artist.name.split(" ")[0];
                               }
-                              if (artist.hasOwnProperty("family_name")) {
+                              if (Object.prototype.hasOwnProperty.call(artist, "family_name")) {
                                 lastName = artist.family_name;
                               } else {
                                 lastName = artist.name.split(" ")[1];

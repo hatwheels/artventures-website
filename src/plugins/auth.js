@@ -251,36 +251,36 @@ let auth = new Vue({
                     if (200 === res.status) {
                         const data = res.data;
                         let user = this.user;
-                        if (data.hasOwnProperty('given_name')) {
+                        if (Object.prototype.hasOwnProperty.call(data, "given_name")) {
                             user.given_name = data.given_name;
                         }
-                        if (data.hasOwnProperty('family_name')) {
+                        if (Object.prototype.hasOwnProperty.call(data, "family_name")) {
                             user.family_name = data.family_name;
                         }
-                        if (data.hasOwnProperty('name')) {
+                        if (Object.prototype.hasOwnProperty.call(data, "name")) {
                             user.name = data.name;
                         }
-                        if (data.hasOwnProperty('nickname')) {
+                        if (Object.prototype.hasOwnProperty.call(data, "nickname")) {
                             user.nickname = data.nickname;
                         }
-                        if (data.hasOwnProperty('email')) {
+                        if (Object.prototype.hasOwnProperty.call(data, "email")) {
                             user.email = data.email;
                         }
-                        if (data.hasOwnProperty('email_verified')) {
+                        if (Object.prototype.hasOwnProperty.call(data, "email_verified")) {
                             user.email_verified = data.email_verified;
                         }
-                        if (data.hasOwnProperty('verify_email')) {
+                        if (Object.prototype.hasOwnProperty.call(data, "verify_email")) {
                             user.verify_email = data.verify_email;
                         }
-                        if (data.hasOwnProperty('picture')) {
+                        if (Object.prototype.hasOwnProperty.call(data, "picture")) {
                             user.picture = data.picture;
                         }
-                        if (data.hasOwnProperty('user_metadata')) {
+                        if (Object.prototype.hasOwnProperty.call(data, "user_metadata")) {
                             this.user_metadata = data.user_metadata
-                            if (data.user_metadata.hasOwnProperty('bio')) {
+                            if (Object.prototype.hasOwnProperty.call(data.user_metadata, "bio")) {
                                 this.user_metadata.bio = data.user_metadata.bio;
                             }
-                            if (data.user_metadata.hasOwnProperty('acceptedTerms')) {
+                            if (Object.prototype.hasOwnProperty.call(data.user_metadata, "acceptedTerms")) {
                                 this.user_metadata.acceptedTerms = data.user_metadata.acceptedTerms;
                             }
                         }
@@ -390,7 +390,8 @@ let auth = new Vue({
                     }
                 ).then(res => {
                     if (200 === res.status) {
-                        if (res.hasOwnProperty("data") && res.data.length > 0 && res.data[0].name === roleName) {
+                        if (Object.prototype.hasOwnProperty.call(res, "data") &&
+                            res.data.length > 0 && res.data[0].name === roleName) {
                             axios.post(process.env.GRIDSOME_SITE_URL + '/.netlify/functions/auth0-get-user',
                                 {
                                     user_id: userId,

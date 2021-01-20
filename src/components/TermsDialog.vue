@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-dialog v-model="toggle" :width="width" persistent>
+        <v-dialog :value="toggle" :width="width" persistent>
             <v-stepper v-model="slide" class="rounded-0 rounded-t" non-linear>
                 <v-stepper-items>
                     <v-stepper-content step="0">

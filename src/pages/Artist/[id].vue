@@ -494,19 +494,21 @@ export default {
         .then(id => {
           this.$auth.getMgUser(id)
             .then(artist => {
-              if (artist.hasOwnProperty("given_name")) {
+              if (Object.prototype.hasOwnProperty.call(artist, "given_name")) {
                 this.artist.firstName = artist.given_name;
               } else {
                 this.artist.firstName = artist.name.split(" ")[0];
               }
-              if (artist.hasOwnProperty("family_name")) {
+              if (Object.prototype.hasOwnProperty.call(artist, "family_name")) {
                 this.artist.lastName = artist.family_name;
               } else {
                 this.artist.lastName = artist.name.split(" ")[1];
               }
               this.artist.name = artist.name;
-              this.artist.pic = artist.hasOwnProperty("picture_large") ? artist.picture_large : artist.picture;
-              if (artist.hasOwnProperty("user_metadata") && artist.user_metadata.hasOwnProperty("bio")) {
+              this.artist.pic =
+                Object.prototype.hasOwnProperty.call(artist, "picture_large") ? artist.picture_large : artist.picture;
+              if (Object.prototype.hasOwnProperty.call(artist, "user_metadata") &&
+                  Object.prototype.hasOwnProperty.call(artist.user_metadata, "bio")) {
                 this.artist.bio = artist.user_metadata.bio;
               }
               this.artist.userId = artist.user_id;
@@ -520,28 +522,28 @@ export default {
                       var salePrice = '';
                       var size = '';
                       var type = '';
-                      var tags = resource.hasOwnProperty('tags') ? resource.tags : [];
-                      if (resource.hasOwnProperty('context')) {
+                      var tags = Object.prototype.hasOwnProperty.call(resource, "tags") ? resource.tags : [];
+                      if (Object.prototype.hasOwnProperty.call(resource, "context")) {
                         // Title
-                        if (resource.context.hasOwnProperty('caption')) {
+                        if (Object.prototype.hasOwnProperty.call(resource.context, "caption")) {
                           title = resource.context.caption;
                           title = title.toLowerCase();
                         }
                         // Rent, Sale Price
-                        if (resource.context.hasOwnProperty('rent_price')) {
+                        if (Object.prototype.hasOwnProperty.call(resource.context, "rent_price")) {
                           rentPrice = resource.context.rent_price
                         }
-                        if (resource.context.hasOwnProperty('sale_price')) {
+                        if (Object.prototype.hasOwnProperty.call(resource.context, "sale_price")) {
                           salePrice = resource.context.sale_price
                         }
-                        if (resource.context.hasOwnProperty('type')) {
+                        if (Object.prototype.hasOwnProperty.call(resource.context, "type")) {
                           type = this.$helper.plainText.type[resource.context.type];
                           if (type.en.toLowerCase() === 'sculpture') {
                             // it's a sculpture
-                            if (resource.context.hasOwnProperty('dimension') &&
-                                resource.context.hasOwnProperty('height') &&
-                                resource.context.hasOwnProperty('width') &&
-                                resource.context.hasOwnProperty('depth')) {
+                            if (Object.prototype.hasOwnProperty.call(resource.context, "dimension") &&
+                                Object.prototype.hasOwnProperty.call(resource.context, "height") &&
+                                Object.prototype.hasOwnProperty.call(resource.context, "width") &&
+                                Object.prototype.hasOwnProperty.call(resource.context, "depth")) {
                               size = resource.context.height + ' x ' + resource.context.width + ' x ' +
                                 resource.context.depth + ' ' + resource.context.dimension
                             }
@@ -552,9 +554,9 @@ export default {
                             type.en.toLowerCase() === 'digital'
                           ) {
                             // it's a painting/drawing/photography/digital
-                            if (resource.context.hasOwnProperty('dimension') &&
-                                resource.context.hasOwnProperty('height') &&
-                                resource.context.hasOwnProperty('width')) {
+                            if (Object.prototype.hasOwnProperty.call(resource.context, "dimension") &&
+                                Object.prototype.hasOwnProperty.call(resource.context, "height") &&
+                                Object.prototype.hasOwnProperty.call(resource.context, "width")) {
                               size = resource.context.height + ' x ' + resource.context.width + ' ' +
                                 resource.context.dimension
                             }
