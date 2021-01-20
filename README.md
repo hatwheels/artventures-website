@@ -19,7 +19,7 @@
 
 #### 1.2. Used Tiers
 
-`TODO`
+- All free
 
 ### 2. Configure Project
 
