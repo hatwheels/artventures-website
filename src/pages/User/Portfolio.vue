@@ -33,16 +33,27 @@
                 :key="'artworks-' + i"
                 class="background-color-fafafa text-center"
               >
-                <v-card v-if="tabs.currentTab !== null" flat color="rgba(250, 250, 250, 1)">
+                <!-- Desktop -->
+                <v-card
+                  v-if="tabs.currentTab !== null"
+                  class="hidden-sm-and-down pb-12"
+                  flat color="rgba(250, 250, 250, 1)"
+                >
                   <v-card-text
-                    :class="{
-                      'noto-18-400': getLang === 'gr' && !$vuetify.breakpoint.mobile,
-                      'raleway-18-400': getLang === 'en' && !$vuetify.breakpoint.mobile,
-                      'noto-16-400': getLang === 'gr' && $vuetify.breakpoint.mobile,
-                      'raleway-16-400': getLang === 'en' && $vuetify.breakpoint.mobile,
-                      'text-start': !$vuetify.breakpoint.mobile,
-                      'text-justify': $vuetify.breakpoint.mobile
-                    }"
+                    :class="getLang === 'gr' ? 'noto-18-400' : 'raleway-18-400'"
+                    class="text-start"
+                    v-text="tabs.text[tabs.currentTab][getLang]"
+                  />
+                </v-card>
+                <!-- Mobile -->
+                <v-card
+                  v-if="tabs.currentTab !== null"
+                  class="hidden-md-and-up pb-12"
+                  flat color="rgba(250, 250, 250, 1)"
+                >
+                  <v-card-text
+                    :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
+                    class="text-justify"
                     v-text="tabs.text[tabs.currentTab][getLang]"
                   />
                 </v-card>

@@ -83,6 +83,20 @@
                                   </template>
                                   <span>{{ plainText.heart[getLang] }}</span>
                                 </v-tooltip>
+                                <v-tooltip v-if="canCopy" top color="black">
+                                  <template v-slot:activator="{ on, attrs }">
+                                    <v-btn
+                                      icon
+                                      large
+                                      v-bind="attrs"
+                                      v-on="on"
+                                      @click="shareArtwork(artwork)"
+                                    >
+                                      <v-icon size="30">mdi-share-variant-outline</v-icon>
+                                    </v-btn>
+                                  </template>
+                                  <span>{{ plainText.share[getLang] }}</span>
+                                </v-tooltip>
                                 <v-tooltip top color="black">
                                   <template v-slot:activator="{ on, attrs }">
                                     <v-btn
@@ -108,11 +122,11 @@
                               </v-card-actions>
                               <div class="pb-2 pr-4 text-end">
                                 <div class="raleway-23-400" v-if="artwork.salePrice">{{ artwork.salePrice }}€</div>
-                                <!-- <div class="raleway-18-400" v-if="artwork.rentPrice">
+                                <div class="raleway-18-400" v-if="artwork.rentPrice">
                                   <span class="pr-1">{{ plainText.rentFor[getLang] }}</span>
                                   {{ artwork.rentPrice }}
                                   <span>{{ plainText.rentPerMonth[getLang] }}</span>
-                                </div> -->
+                                </div>
                               </div>
                               <div v-if="artwork.likes !== null"
                                 class="pr-4 mt-auto montserrat-12-400-italic"
@@ -215,6 +229,19 @@
                                     </template>
                                     <span>{{ plainText.heart[getLang] }}</span>
                                   </v-tooltip>
+                                  <v-tooltip v-if="canCopy" top color="black">
+                                    <template v-slot:activator="{ on, attrs }">
+                                      <v-btn
+                                        icon
+                                        v-bind="attrs"
+                                        v-on="on"
+                                        @click="shareArtwork(artwork)"
+                                      >
+                                        <v-icon>mdi-share-variant-outline</v-icon>
+                                      </v-btn>
+                                    </template>
+                                    <span>{{ plainText.share[getLang] }}</span>
+                                  </v-tooltip>
                                   <v-tooltip top color="black">
                                     <template v-slot:activator="{ on, attrs }">
                                       <v-btn
@@ -239,11 +266,11 @@
                                 </v-card-actions>
                                 <div class="pb-2 pr-4 text-end">
                                   <div class="raleway-16-400" v-if="artwork.salePrice">{{ artwork.salePrice }}€</div>
-                                  <!-- <div class="raleway-12-400" v-if="artwork.rentPrice">
+                                  <div class="raleway-12-400" v-if="artwork.rentPrice">
                                     <span class="pr-1">{{ plainText.rentFor[getLang] }}</span>
                                     {{ artwork.rentPrice }}
                                     <span>{{ plainText.rentPerMonth[getLang] }}</span>
-                                  </div> -->
+                                  </div>
                                 </div>
                                 <div v-if="artwork.likes !== null"
                                   class="pr-4 mt-auto montserrat-10-400-italic"
@@ -360,6 +387,23 @@
             />
           </div>
         </v-dialog>
+        <v-dialog v-model="isSharing.state" max-width="80vh">
+          <v-card>
+            <v-card-title :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'">
+              {{ isSharing.text[getLang] }}
+            </v-card-title>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                class="white--text"
+                :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
+                color="#333333" @click="() => clearSharingDialog(true)"
+              >
+                OK
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
         <!-- Wait routing to artist's page -->
         <v-overlay :value="goToArtist" color="#FAFAFA" opacity="0.70">
           <img src="../../../static/loading.svg" width="300vw" alt="loading">
@@ -465,7 +509,7 @@ export default {
                         size: size,
                         tags: tags,
                         isProcFavorite: false,
-                        likes: null
+                        likes: null,
                       });
                     }
                 }
@@ -522,20 +566,17 @@ export default {
             }
             this.fetched = true;
           })
-          .catch(err => {
-            console.error(err);
-            this.fetched = true;
-          })
+          .catch(err => this.fetched = true)
         })
-        .catch(err => {
-          console.error(err);
-          this.fetched = true;
-        })
+        .catch(err => this.fetched = true)
   },
   mounted () {
     if (this.$auth.isAuthenticated()) {
       // fetch user's favorite artworks
       this.getUserFavorites()
+    }
+    if (process.isClient) {
+      this.canCopy = !!navigator.clipboard;
     }
   },
   data () {
@@ -559,6 +600,15 @@ export default {
         gallery: [], // [[], [], [], ...]
         // Gallery array for the desktop view
         columns: [[], [], []], // [ [[], [], []], [[], [], []], [[], [], []], ... ]
+        canCopy: false,
+        isSharing: {
+          state: false,
+          text: {
+            gr: "",
+            en: ""
+          },
+          timeoutCb: null
+        },
         overlayDesktop: false,
         overlayMobile: false,
         enlargedImg: {
@@ -582,6 +632,10 @@ export default {
           heart: {
             gr: "Μου αρέσει",
             en: "Like"
+          },
+          share: {
+            gr: "Μοιράσου το",
+            en: "Share"
           },
           type: {
             painting: {
@@ -775,6 +829,31 @@ export default {
           .then(count => resolve(count))
           .catch(err => reject(err))
       })
+    },
+    shareArtwork(artwork) {
+      if (process.isClient) {
+        navigator.clipboard.writeText(artwork.url)
+          .then(() => {
+            this.isSharing.text.gr = "Η διεύθυνση της εικόνας αντιγράφτηκε επιτυχώς!";
+            this.isSharing.text.en = "Image URL successfully copied!";
+          }) // copied
+          .catch(() => {
+            this.isSharing.text.gr = "Η αντιγραφή της διεύθυνσης της εικόνας απέτυχε.";
+            this.isSharing.text.en = "Failed to copy image URL.";
+          })  // not copied
+          .finally(() => {
+            this.isSharing.state = true;
+            this.isSharing.timeoutCb = setTimeout(() => this.clearSharingDialog(), 3000);
+          });
+      }
+    },
+    clearSharingDialog(clear=false) {
+      this.isSharing.state = false;
+      if (clear) {
+        clearTimeout(this.isSharing.timeoutCb);
+      }
+      this.isSharing.text.gr = "";
+      this.isSharing.text.en = "";
     }
   },
   metaInfo() {

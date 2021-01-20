@@ -165,67 +165,83 @@
                             </v-col>
                         </v-row>
                         <v-row justify="start" align="center">
-                            <v-btn
-                                :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
-                                class="text-capitalize white--text"
-                                color="#333333"
-                                type="submit"
-                                :disabled="$v.$invalid"
-                            >
-                                {{ buttons.form[getLang] }}
-                                <span v-show="isLoading" class="px-1 lds-ring"><div></div><div></div><div></div><div></div></span>
-                            </v-btn>
+                            <v-col cols="10">
+                                <v-btn
+                                    :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
+                                    class="text-capitalize white--text"
+                                    color="#333333"
+                                    type="submit"
+                                    :disabled="$v.$invalid"
+                                    :loading="isLoading"
+                                >
+                                    {{ buttons.form[getLang] }}
+                                </v-btn>
+                            </v-col>
                         </v-row>
                     </form>
                 </v-col>
                 <v-col cols="3">
                     <v-row justify="start" align="center">
-                        <label
-                            :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
-                            class="color-1a1a1a"
-                            v-html="form.pic[getLang]"
-                        />
+                        <v-col class="pb-1">
+                            <label
+                                :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
+                                class="color-1a1a1a"
+                                v-html="form.pic[getLang]"
+                            />
+                        </v-col>
                     </v-row>
                     <v-row>
-                        <g-image v-if="pic.length > 0" style="width: 200px;" :src="pic" fit="cover" alt="profile pic" />
+                        <v-col class="pb-1">
+                            <g-image
+                                v-if="pic.length > 0"
+                                style="width: 200px;"
+                                :src="pic"
+                                fit="cover"
+                                alt="profile pic"
+                            />
+                        </v-col>
                     </v-row>
-                    <v-row class="pt-2">
-                        <v-tooltip right :max-width="getLang === 'en' ? '200px' : '170px'">
-                            <template v-slot:activator="{ on, attrs }">
-                                <label
-                                    :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
-                                    class="pic-btn white--text text-capitalize py-1 pl-2 pr-4 text-center"
-                                    for="pic_profile_desktop"
-                                    v-bind="attrs"
-                                    v-on="on"
-                                >
-                                    <v-icon class="pb-1 white--text pr-2">mdi-pencil</v-icon>{{ buttons.pic[getLang] }}
-                                </label>
-                            </template>
-                            <span :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'">
-                                {{ getLang === 'en' ? 'Preferably small & square' : "Κατά προτίμηση μικρή & τετράγωνη" }}
-                            </span>
-                        </v-tooltip>
-                        <input
-                            id="pic_profile_desktop"
-                            ref="picProfileDesktop"
-                            name="pic_profile_desktop"
-                            style="opacity: 0;"
-                            :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
-                            accept="image/png, image/jpeg, image/bmp"
-                            type="file"
-                            @change="changeProfilePicDesktop"
-                        >
+                    <v-row class="pt-0">
+                        <v-col>
+                            <v-tooltip right :max-width="getLang === 'en' ? '200px' : '170px'">
+                                <template v-slot:activator="{ on, attrs }">
+                                    <label
+                                        :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
+                                        class="pic-btn white--text text-capitalize py-2 pl-2 pr-4 text-center"
+                                        for="pic_profile_desktop"
+                                        v-bind="attrs"
+                                        v-on="on"
+                                    >
+                                        <v-icon class="pb-1 white--text pr-2">mdi-pencil</v-icon>{{ buttons.pic[getLang] }}
+                                    </label>
+                                </template>
+                                <span :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'">
+                                    {{ getLang === 'en' ? 'Preferably small & square' : "Κατά προτίμηση μικρή & τετράγωνη" }}
+                                </span>
+                            </v-tooltip>
+                            <input
+                                id="pic_profile_desktop"
+                                ref="picProfileDesktop"
+                                name="pic_profile_desktop"
+                                style="opacity: 0;"
+                                :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
+                                accept="image/png, image/jpeg, image/bmp"
+                                type="file"
+                                @change="changeProfilePicDesktop"
+                            >
+                        </v-col>
                     </v-row>
-                    <v-row class="pt-8" justify="start" align="start">
-                        <div
-                            :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
-                            class="color-1a1a1a"
-                            v-html="pw.title[getLang]"
-                        />
+                    <v-row class="pt-8" no-gutters justify="start" align="start">
+                        <v-col>
+                            <div
+                                :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
+                                class="color-1a1a1a"
+                                v-html="pw.title[getLang]"
+                            />
+                        </v-col>
                     </v-row>
                     <v-row justify="start" align="start" no-gutter>
-                        <v-col cols="8" class="px-0">
+                        <v-col cols="8">
                             <v-btn
                                 dark
                                 color="#333333"
@@ -245,8 +261,8 @@
                             </div>
                         </v-col>
                     </v-row>
-                    <v-row justify="start" align="start" no-gutter>
-                        <v-col cols="8" class="px-0 pb-0">
+                    <v-row class="pt-4" justify="start" align="start" no-gutter>
+                        <v-col cols="8" class="pb-0">
                             <label
                                 :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
                                 class="color-1a1a1a"
@@ -255,7 +271,7 @@
                         </v-col>
                     </v-row>
                     <v-row justify="start" align="start" no-gutter>
-                        <v-col cols="8" class="px-0 py-0">
+                        <v-col cols="8" class="py-0">
                             <v-select
                                 v-model="chosenLanguage"
                                 :items="getLanguages"
@@ -271,43 +287,58 @@
             <v-row class="hidden-md-and-up" justify="center" align="start">
                 <v-col cols="10">
                     <v-row justify="center" align="center">
-                        <label
-                            :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
-                            class="color-1a1a1a"
-                            v-html="form.pic[getLang]"
-                        />
+                        <v-col class="pb-1">
+                            <label
+                                :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
+                                class="color-1a1a1a"
+                                v-html="form.pic[getLang]"
+                            />
+                        </v-col>
                     </v-row>
                     <v-row justify="center" align="center">
-                        <g-image v-if="pic.length > 0" style="width: 150px;" :src="pic" fit="cover" alt="profile pic" />
-                    </v-row>
-                    <v-row class="pt-2" justify="center" align="center">
-                        <label
-                            :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
-                            class="pic-btn white--text text-capitalize py-1 pl-2 pr-4 mt-2 text-center center-label"
-                            for="pic_profile_mobile"
-                        >
-                            <v-icon class="pb-1 white--text pr-2">mdi-pencil</v-icon>{{ buttons.pic[getLang] }}
-                        </label>
-                        <input
-                            id="pic_profile_mobile"
-                            ref="picProfileMobile"
-                            name="pic_profile_mobile"
-                            style="opacity: 0;"
-                            accept="image/png, image/jpeg, image/bmp"
-                            type="file"
-                            @change="changeProfilePicMobile"
-                        >
-                    </v-row>
-                    <v-row class="pt-9" justify="center" align="center">
-                        <div
-                            :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
-                            class="color-1a1a1a"
-                            v-html="pw.title[getLang]"
-                        />
+                        <v-col class="pb-1">
+                            <g-image
+                                v-if="pic.length > 0"
+                                style="width: 150px;"
+                                :src="pic"
+                                fit="cover"
+                                alt="profile pic"
+                            />
+                        </v-col>
                     </v-row>
                     <v-row justify="center" align="center">
                         <v-col>
-                            <div class="text-center">
+                            <label
+                                :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
+                                class="pic-btn white--text text-capitalize py-2 pl-2 pr-4 text-center"
+                                for="pic_profile_mobile"
+                            >
+                                <v-icon class="pb-1 white--text pr-2">mdi-pencil</v-icon>{{ buttons.pic[getLang] }}
+                            </label>
+                            <input
+                                id="pic_profile_mobile"
+                                class="mx-0 my-0"
+                                ref="picProfileMobile"
+                                name="pic_profile_mobile"
+                                style="opacity: 0;"
+                                accept="image/png, image/jpeg, image/bmp"
+                                type="file"
+                                @change="changeProfilePicMobile"
+                            >
+                        </v-col>
+                    </v-row>
+                    <v-row class="pt-4" justify="center" align="center">
+                        <v-col class="pb-1">
+                            <div
+                                :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
+                                class="color-1a1a1a"
+                                v-html="pw.title[getLang]"
+                            />
+                        </v-col>
+                    </v-row>
+                    <v-row justify="center" align="center">
+                        <v-col>
+                            <div>
                                 <v-btn
                                     dark
                                     color="#333333"
@@ -328,16 +359,18 @@
                             </div>
                         </v-col>
                     </v-row>
-                    <v-row class="pt-6" justify="center" align="center">
-                        <label
-                            :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
-                            class="color-1a1a1a"
-                            v-html="language[getLang]"
-                        />
+                    <v-row class="pt-3" justify="center" align="center">
+                        <v-col class="pb-1">
+                            <label
+                                :class="getLang === 'gr' ? 'noto-16-600' : 'raleway-16-600'"
+                                class="color-1a1a1a"
+                                v-html="language[getLang]"
+                            />
+                        </v-col>
                     </v-row>
-                    <v-row justify="center" align="center">
-                        <v-col cols="4" sm="3" md="2">
-                            <div class="text-center">
+                    <v-row justify="start" align="center">
+                        <v-col cols="4" sm="3" md="2" class="pt-1">
+                            <div>
                                 <v-select
                                     v-model="chosenLanguage"
                                     :items="getLanguages"
@@ -491,9 +524,9 @@
                                     color="#333333"
                                     type="submit"
                                     :disabled="$v.$invalid"
+                                    :loading="isLoading"
                                 >
                                     {{ buttons.form[getLang] }}
-                                    <span v-show="isLoading" class="px-1 lds-ring"><div></div><div></div><div></div><div></div></span>
                                 </v-btn>
                             </form>
                         </v-col>
@@ -1245,10 +1278,6 @@ export default {
     border-radius: 4px;
     cursor: pointer;
     background-color: #333333;
-}
-.center-label {
-    position: absolute;
-    text-align: center;
 }
 .v-messages__message {
   font-family: 'Raleway', sans-serif !important;
