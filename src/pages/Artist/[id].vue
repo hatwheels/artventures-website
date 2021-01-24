@@ -134,7 +134,7 @@
                             <v-icon size="30">mdi-fullscreen</v-icon>
                           </v-btn>
                         </template>
-                        <span>{{ plainText.artworkZoom[getLang] }}</span>
+                        <span>{{ $helper.plainText.artworkZoom[getLang] }}</span>
                       </v-tooltip>
                     </v-card-actions>
                     <div class="pb-2 pr-4 text-end">

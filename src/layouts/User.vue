@@ -44,7 +44,7 @@
         <v-tooltip left color="black">
           <template v-slot:activator="{ on, attrs }">
             <v-btn
-              v-bind="attrs" v-on="on"
+              v-on="on" v-bind="attrs"
               icon color="transparent"
             >
               <v-icon color="#333333">mdi-basket</v-icon>
@@ -129,10 +129,7 @@
       <v-spacer />
 
       <v-toolbar-items class="pa-0">
-        <v-btn
-          v-bind="attrs" v-on="on"
-          icon color="transparent"
-        >
+        <v-btn icon color="transparent">
           <v-icon color="#333333">mdi-basket</v-icon>
         </v-btn>
         <v-menu bottom :offset-y="true" transition="slide-y-transition">

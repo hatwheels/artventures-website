@@ -58,13 +58,14 @@
                   />
                 </v-card>
                 <v-card v-if="artworksInSection.length === 0" height="300px" flat color="#FAFAFA">
-                  <v-card-text>
+                  <v-card-text style="height: 100% !important">
                     <v-progress-circular
                       v-show="isFetchingImages"
                       :size="60"
                       :width="6"
                       indeterminate
                       color="#333333"
+                      style="height: 100% !important"
                     />
                   </v-card-text>
                   <v-card-text
