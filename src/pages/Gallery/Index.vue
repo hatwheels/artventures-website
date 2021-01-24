@@ -123,16 +123,16 @@
                               <div class="pb-2 pr-4 text-end">
                                 <div class="raleway-23-400 d-flex justify-end align-center" v-if="artwork.salePrice">
                                   <v-tooltip left color="black">
-                                      <template v-slot:activator="{ on, attrs }">
+                                    <template v-slot:activator="{ on, attrs }">
                                       <v-btn
                                         class="mr-1"
                                         icon
-                                        height="24"
-                                        width="24"
+                                        height="36"
+                                        width="36"
                                         v-bind="attrs"
                                         v-on="on"
                                       >
-                                        <v-icon size="20">mdi-basket-plus</v-icon>
+                                        <v-icon size="24">mdi-basket-plus</v-icon>
                                       </v-btn>
                                     </template>
                                     <span>{{getLang == "gr" ? "Προσθήκη στο καλάθι" : "Add to basket"}}</span>

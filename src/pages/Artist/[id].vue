@@ -138,7 +138,24 @@
                       </v-tooltip>
                     </v-card-actions>
                     <div class="pb-2 pr-4 text-end">
-                      <div class="raleway-23-400" v-if="artwork.salePrice">{{ artwork.salePrice }}€</div>
+                      <div class="raleway-23-400 d-flex justify-end align-center" v-if="artwork.salePrice">
+                        <v-tooltip left color="black">
+                          <template v-slot:activator="{ on, attrs }">
+                            <v-btn
+                              class="mr-1"
+                              icon
+                              height="36"
+                              width="36"
+                              v-bind="attrs"
+                              v-on="on"
+                            >
+                              <v-icon size="24">mdi-basket-plus</v-icon>
+                            </v-btn>
+                          </template>
+                          <span>{{getLang == "gr" ? "Προσθήκη στο καλάθι" : "Add to basket"}}</span>
+                        </v-tooltip>
+                        <div>{{ artwork.salePrice }}€</div>
+                      </div>
                       <div class="raleway-18-400" v-if="artwork.rentPrice">
                         <span class="pr-1">{{ $helper.plainText.rentFor[getLang] }}</span>
                         {{ artwork.rentPrice }}
@@ -157,7 +174,7 @@
           </v-row>
         </div>
         <!-- Mobile -->
-        <div class="hidden-md-and-up">
+        <div class="hidden-md-and-up pb-6">
           <!-- Info -->
           <v-row class="pt-12 px-12" justify="center" align="center">
             <v-col class="text-center" cols="auto">
@@ -199,9 +216,7 @@
             </v-col>
           </v-row>
           <!-- Artworks -->
-          <div
-            class="py-6 text-center playfair-38-700"
-          >
+          <div class="py-6 text-center playfair-38-700">
             {{ $helper.plainText.artworks[getLang] }}
           </div>
           <v-row
@@ -209,7 +224,7 @@
             v-for="(artwork, i) in artist.gallery" :key="'artwork-mobile-' + i"
             justify="center" align="center"
           >
-            <v-col cols="12">
+            <v-col cols="12" class="px-0 py-4">
               <v-card>
                 <v-img
                   :src="artwork.url"
@@ -250,13 +265,15 @@
                         <template v-slot:activator="{ on, attrs }">
                           <v-btn
                             icon
+                            height="24"
+                            width="24"
                             v-bind="attrs"
                             v-on="on"
                             :loading="artwork.isProcFavorite"
                             @click="toggleFavorite(artwork)"
                           >
-                            <v-icon v-if="!checkIsFavorite(artwork.public_id)">mdi-heart-outline</v-icon>
-                            <v-icon v-else color="pink lighten-3">mdi-heart</v-icon>
+                            <v-icon v-if="!checkIsFavorite(artwork.public_id)" size="20">mdi-heart-outline</v-icon>
+                            <v-icon v-else color="pink lighten-3" size="20">mdi-heart</v-icon>
                           </v-btn>
                         </template>
                         <span>{{ $helper.plainText.heart[getLang] }}</span>
@@ -265,11 +282,13 @@
                         <template v-slot:activator="{ on, attrs }">
                           <v-btn
                             icon
+                            height="24"
+                            width="24"
                             v-bind="attrs"
                             v-on="on"
                             @click="shareArtwork(artwork)"
                           >
-                            <v-icon>mdi-share-variant-outline</v-icon>
+                            <v-icon size="20">mdi-share-variant-outline</v-icon>
                           </v-btn>
                         </template>
                         <span>{{ $helper.plainText.share[getLang] }}</span>
@@ -278,18 +297,37 @@
                         <template v-slot:activator="{ on, attrs }">
                           <v-btn
                             icon
+                            height="24"
+                            width="24"
                             v-bind="attrs"
                             v-on="on"
                             @click="overlayMobile = true; enlargedImg.url = artwork.url; enlargedImg.title = artwork.title"
                           >
-                            <v-icon>mdi-fullscreen</v-icon>
+                            <v-icon size="20">mdi-fullscreen</v-icon>
                           </v-btn>
                         </template>
                         <span>{{ $helper.plainText.artworkZoom[getLang] }}</span>
                       </v-tooltip>
                     </v-card-actions>
                     <div class="pb-2 pr-4 text-end">
-                      <div class="raleway-16-400" v-if="artwork.salePrice">{{ artwork.salePrice }}€</div>
+                      <div class="raleway-16-400 d-flex justify-end align-center" v-if="artwork.salePrice">
+                        <v-tooltip left color="black">
+                          <template v-slot:activator="{ on, attrs }">
+                            <v-btn
+                              class="mr-1"
+                              icon
+                              v-bind="attrs"
+                              v-on="on"
+                              height="24"
+                              width="24"
+                            >
+                              <v-icon size="18">mdi-basket-plus</v-icon>
+                            </v-btn>
+                          </template>
+                          <span>{{getLang == "gr" ? "Προσθήκη στο καλάθι" : "Add to basket"}}</span>
+                        </v-tooltip>
+                        <div>{{ artwork.salePrice }}€</div>
+                      </div>
                       <div class="raleway-12-400" v-if="artwork.rentPrice">
                         <span class="pr-1">{{ $helper.plainText.rentFor[getLang] }}</span>
                         {{ artwork.rentPrice }}
