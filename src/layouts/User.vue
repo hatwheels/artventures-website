@@ -27,24 +27,42 @@
     </vue-cookie-accept-decline>
     
     <!-- Desktop -->
-    <v-app-bar class="hidden-sm-and-down px-11 rounded-b-xl" app outlined absolute color="#e8e8e8" height="76px">
-      <v-btn width="185px" color="transparent" text icon to="/">
-        <g-image style="width: 100%" :src="logo[0]" alt="logo" />
-      </v-btn>
+    <v-app-bar
+      class="hidden-sm-and-down px-4 rounded-b-xl"
+      app outlined absolute
+      color="#e8e8e8" height="76px"
+    >
+      <v-toolbar-items class="pa-0">
+        <g-link to="/">
+          <g-image width="185" :src="logo[0]" alt="logo" />
+        </g-link>
+      </v-toolbar-items>
 
       <v-spacer />
 
       <v-toolbar-items class="pa-0">
-       <v-menu bottom :offset-y="true" transition="slide-y-transition">
-          <template v-slot:activator="{ on }">
-            <v-btn class="px-2" text v-on="on" color="transparent" :ripple="false">
+        <v-tooltip left color="black">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              v-bind="attrs" v-on="on"
+              icon color="transparent"
+            >
+              <v-icon color="#333333">mdi-basket</v-icon>
+            </v-btn>
+          </template>
+          <span v-html="routes.basket[getLang]" />
+        </v-tooltip>
+        <v-menu bottom :offset-y="true" transition="slide-y-transition" open-on-hover open-delay="300">
+          <template v-slot:activator="{ on, attrs, value }">
+            <v-btn class="px-0 ml-2" v-on="on" v-bind="attrs" text color="transparent" :ripple="false">
               <v-avatar>
                 <v-img v-if="userPicture" :src="userPicture" alt="profile pic" />
               </v-avatar>
-              <v-icon color="#333333" right large>mdi-menu-down</v-icon>
+              <v-icon v-if="value" color="#333333">mdi-chevron-up</v-icon>
+              <v-icon v-else color="#333333">mdi-chevron-down</v-icon>
             </v-btn>
           </template>
-          <v-list flat color="#e8e8e8">
+          <v-list color="#e8e8e8">
             <v-list-item to="/user/profile">
               <v-list-item-title
                 :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
@@ -101,21 +119,30 @@
     </v-app-bar>
 
     <!-- Mobile -->
-    <v-app-bar class="hidden-md-and-up px-6 rounded-b-xl" app outlined absolute color="#e8e8e8" height="50px">
-      <v-btn width="122px" color="transparent" text icon to="/">
-        <g-image style="width: 100%" :src="logo[1]" alt="logo" />
-      </v-btn>
+    <v-app-bar class="hidden-md-and-up px-2 rounded-b-xl" app outlined absolute color="#e8e8e8" height="50px">
+      <v-toolbar-items class="pa-0">
+        <v-btn width="122px" color="transparent" text icon to="/">
+          <g-image style="width: 100%" :src="logo[1]" alt="logo" />
+        </v-btn>
+      </v-toolbar-items>
 
       <v-spacer />
 
       <v-toolbar-items class="pa-0">
-       <v-menu bottom :offset-y="true" transition="slide-y-transition">
-          <template v-slot:activator="{ on }">
-            <v-btn class="px-2" text v-on="on" color="transparent" :ripple="false">
-              <v-avatar size="40">
+        <v-btn
+          v-bind="attrs" v-on="on"
+          icon color="transparent"
+        >
+          <v-icon color="#333333">mdi-basket</v-icon>
+        </v-btn>
+        <v-menu bottom :offset-y="true" transition="slide-y-transition">
+          <template v-slot:activator="{ on, attrs, value }">
+            <v-btn class="px-0" text v-on="on" v-bind="attrs" color="transparent" :ripple="false">
+              <v-avatar size="36">
                 <v-img v-if="userPicture" :src="userPicture" alt="profile pic" />
               </v-avatar>
-              <v-icon color="#333333" right large>mdi-menu-down</v-icon>
+              <v-icon v-if="value" color="#333333">mdi-chevron-up</v-icon>
+              <v-icon v-else color="#333333">mdi-chevron-down</v-icon>
             </v-btn>
           </template>
           <v-list flat color="#e8e8e8">
@@ -298,6 +325,10 @@ export default {
         logout: {
           gr: '<div class="color-333333 text-capitalize">Αποσύνδεση</div>', // Greek, raw html
           en: '<div class="color-333333 text-capitalize">Logout</div>', // English, raw html
+        },
+        basket: {
+          gr: '<div class="text-capitalize">Καλάθι</div>', // Greek, raw html
+          en: '<div class="text-capitalize">Checkout</div>', // English, raw html
         }
       },
       spa: {

@@ -27,36 +27,38 @@
 
     <!-- Desktop -->
     <v-app-bar
+      class="hidden-sm-and-down px-4 rounded-b-xl"
       app outlined absolute
-      class="hidden-sm-and-down px-11 rounded-b-xl"
       color="#e8e8e8" height="76px"
     >
-
-      <v-btn width="185" color="transparent" text icon to="/">/
-        <g-image :src="logo[0]" style="width: 100%" alt="logo" />
-      </v-btn>
+      <v-toolbar-items class="pa-0">
+        <g-link to="/">
+          <g-image width="185" :src="logo[0]" alt="logo" />
+        </g-link>
+      </v-toolbar-items>
 
       <v-spacer />
 
       <v-toolbar-items class="pa-0">
         <v-btn
           :class="'nunito-18-400'"
-          class="px-2"
           text color="transparent"
           to="/"
           v-html="routes.about[getLang]"
         />
-        <v-menu open-on-hover bottom :offset-y="true" transition="slide-y-transition">
-          <template v-slot:activator="{ on }">
-            <v-btn class="px-2" text color="transparent" v-on="on" :ripple="false">
+        <v-menu open-on-hover open-delay="300" bottom :offset-y="true" transition="slide-y-transition">
+          <template v-slot:activator="{ on, attrs, value }">
+            <v-btn text color="transparent" v-on="on" v-bind="attrs" :ripple="false">
               <div
                 :class="'nunito-18-400'"
                 class="color-333333"
                 v-html="routes.explore[getLang]"
               />
+              <v-icon v-if="value" color="#333333">mdi-chevron-up</v-icon>
+              <v-icon v-else color="#333333">mdi-chevron-down</v-icon>
             </v-btn>
           </template>
-          <v-list flat color="#e8e8e8">
+          <v-list color="#e8e8e8">
             <v-list-item v-for="(route, i) in routes.explore.routes" :key="'route-' + i" :to="route.route">
               <v-list-item-title :class="getLang === 'gr' ? 'noto-16-500' : 'nunito-18-400'" v-html="route[getLang]" />
             </v-list-item>
@@ -64,21 +66,18 @@
         </v-menu>
         <v-btn
           :class="'nunito-18-400'"
-          class="px-2"
           text color="transparent"
           to="/artists"
           v-html="routes.forArtists[getLang]"
         />
         <v-btn
           :class="'nunito-18-400'"
-          class="px-2"
           text color="transparent"
           to="/gallery"
           v-html="routes.gallery[getLang]"
         />
         <v-btn
           :class="'nunito-18-400'"
-          class="px-2"
           text color="transparent"
           to="/faq"
           v-html="routes.faq[getLang]"
@@ -87,8 +86,9 @@
           <v-btn
             v-if="$route.path == '/'"
             :class="'raleway-18-400'"
-            style="border-radius: 8px;"
+            class="rounded-lg"
             depressed
+            elevation="2"
             color="#333333"
             @click="goTo('#contact-us')"
             v-html="routes.contact[getLang]"
@@ -96,24 +96,26 @@
           <v-btn
             v-else
             :class="'raleway-18-400'"
-            style="border-radius: 8px;"
+            class="rounded-lg"
             depressed
+            elevation="2"
             color="#333333"
             :to="{ path: '/', hash:'#contact-us' }"
             v-html="routes.contact[getLang]"
           />
         </div>
-        <v-menu open-on-hover bottom :offset-y="true" transition="slide-y-transition">
-          <template v-slot:activator="{ on }">
-            <v-btn class="px-2" text color="transparent" v-on="on" :ripple="false">
+        <v-menu open-on-hover open-delay="300" bottom :offset-y="true" transition="slide-y-transition">
+          <template v-slot:activator="{ on, attrs, value }">
+            <v-btn text color="transparent" v-on="on" v-bind="attrs" :ripple="false">
               <div
                 class="color-333333 nunito-18-400"
                 v-html="getLang"
               />
-              <v-icon color="#333333" right>mdi-menu-down</v-icon>
+              <v-icon v-if="!value" color="#333333">mdi-chevron-down</v-icon>
+              <v-icon v-else color="#333333">mdi-chevron-up</v-icon>
             </v-btn>
           </template>
-          <v-list flat color="#e8e8e8">
+          <v-list color="#e8e8e8">
             <v-list-item v-for="(language, i) in getLanguages" :key="'lang-' + i" @click="setLanguage(language)">
               <v-list-item-title
                 class="color-333333 text-center text-uppercase nunito-18-400"
@@ -122,14 +124,27 @@
             </v-list-item>
           </v-list>
         </v-menu>
-        <v-btn
-          :class="'nunito-18-400'"
-          class="px-2"
-          text color="transparent"
-          to="/user/profile"
-          v-html="isAuthenticated ? routes.profile[getLang] : routes.login[getLang]"
-        />
+        <v-divider class="mx-1" vertical inset />
+        <v-tooltip bottom color="black">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              v-bind="attrs" v-on="on"
+              icon color="transparent"
+            >
+              <v-icon color="#333333">mdi-basket</v-icon>
+            </v-btn>
+          </template>
+          <span v-html="routes.basket[getLang]" />
+        </v-tooltip>
       </v-toolbar-items>
+      <v-btn
+        id="login-btn"
+        class="nunito-18-400 rounded-lg mx-2"
+        outlined
+        color="transparent"
+        to="/user/profile"
+        v-html="isAuthenticated ? routes.profile[getLang] : routes.login[getLang]"
+      />
     </v-app-bar>
 
   <!-- Mobile -->
@@ -192,8 +207,9 @@
                     <v-list-item v-if="$route.path == '/'" class="pb-5 px-0">
                       <v-btn
                         :class="getLang === 'gr' ? 'noto-25-400' : 'raleway-25-400'"
-                        x-large
                         depressed
+                        elevation="2"
+                        x-large
                         color="#333333"
                         @click="modalMenu = false; goTo('#contact-us-small');"
                         v-html="routes.contact[getLang]"
@@ -203,8 +219,9 @@
                       <v-btn
                         :class="getLang === 'gr' ? 'noto-25-400' : 'raleway-25-400'"
                         class="py-4"
-                        x-large
                         depressed
+                        elevation="2"
+                        x-large
                         color="#333333"
                         :to="{ path: '/', hash:'#contact-us-small' }"
                         v-html="routes.contact[getLang]"
@@ -219,12 +236,24 @@
                         <v-icon large color="#757575">mdi-chevron-double-right</v-icon>
                       </v-list-item-icon>
                     </v-list-item>
-                   <v-list-item class="pb-5 px-0" to="/user/profile">
-                      <v-list-item-title
-                        :class="getLang === 'gr' ? 'noto-28-400' : 'raleway-28-400'"
-                        v-html="isAuthenticated ? routes.profile[getLang] : routes.login[getLang]"
-                      />
-                   </v-list-item>
+                    <v-list-item class="pb-5 px-0">
+                      <v-icon class="pr-3" color="#333333">mdi-basket</v-icon>
+                      <v-list-item-content>
+                        <v-list-item-title
+                          :class="getLang === 'gr' ? 'noto-28-400' : 'raleway-28-400'"
+                          class="color-333333"
+                          v-html="routes.basket[getLang]"
+                        >
+                          
+                        </v-list-item-title>
+                      </v-list-item-content>
+                    </v-list-item>
+                    <v-list-item class="pb-5 px-0" to="/user/profile">
+                        <v-list-item-title
+                          :class="getLang === 'gr' ? 'noto-28-400' : 'raleway-28-400'"
+                          v-html="isAuthenticated ? routes.profile[getLang] : routes.login[getLang]"
+                        />
+                    </v-list-item>
                   </v-list>
                 </v-carousel-item>
                 <v-carousel-item>
@@ -456,6 +485,10 @@ export default {
         login: {
           gr: '<div class="color-333333 text-capitalize">Σύνδεση</div>', // Greek, raw html
           en: '<div class="color-333333 text-capitalize">Login</div>', // English, raw html
+        },
+        basket: {
+          gr: '<div class="text-capitalize">Καλάθι</div>', // Greek, raw html
+          en: '<div class="text-capitalize">Checkout</div>', // English, raw html
         }
       },
       modalMenu: false,
@@ -522,6 +555,10 @@ export default {
 
 <style>
 @import '../assets/style/transitions.css';
+
+#login-btn.v-btn--outlined {
+  border: thin solid #333333 !important;
+}
 
 .v-navigation-drawer__border {
   background-color: transparent !important;
