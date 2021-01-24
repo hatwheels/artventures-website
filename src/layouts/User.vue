@@ -640,7 +640,7 @@ export default {
   background: #525252 !important;
 }
 .v-card__text, .v-card__title, .v-card__subtitle {
-  word-break: normal; /* maybe !important  */
+  word-break: normal !important;
   line-height: 1.1;
 }
 </style>

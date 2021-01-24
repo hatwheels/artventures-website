@@ -56,7 +56,7 @@
                                   style="width: 100%"
                                 >
                                   <v-col
-                                    class="nunito-12-400 text-capitalize text-justify pr-1"
+                                    class="nunito-12-400 text-capitalize text-start pr-1"
                                     cols="auto"
                                     v-for="(tag, tagId) in artwork.tags" :key="'tag-' + tagId"
                                   >
@@ -121,7 +121,24 @@
                                 </v-tooltip>
                               </v-card-actions>
                               <div class="pb-2 pr-4 text-end">
-                                <div class="raleway-23-400" v-if="artwork.salePrice">{{ artwork.salePrice }}€</div>
+                                <div class="raleway-23-400 d-flex justify-end align-center" v-if="artwork.salePrice">
+                                  <v-tooltip left color="black">
+                                      <template v-slot:activator="{ on, attrs }">
+                                      <v-btn
+                                        class="mr-1"
+                                        icon
+                                        height="24"
+                                        width="24"
+                                        v-bind="attrs"
+                                        v-on="on"
+                                      >
+                                        <v-icon size="20">mdi-basket-plus</v-icon>
+                                      </v-btn>
+                                    </template>
+                                    <span>{{getLang == "gr" ? "Προσθήκη στο καλάθι" : "Add to basket"}}</span>
+                                  </v-tooltip>
+                                  <div>{{ artwork.salePrice }}€</div>
+                                </div>
                                 <div class="raleway-18-400" v-if="artwork.rentPrice">
                                   <span class="pr-1">{{ $helper.plainText.rentFor[getLang] }}</span>
                                   {{ artwork.rentPrice }}
@@ -180,7 +197,7 @@
                               :alt="artwork.title || 'Untitled'"
                               contain
                             />
-                            <v-row justify="space-between">
+                            <v-row justify="space-between" no-gutters>
                               <v-col>
                                 <v-card-title v-if="artwork.title"
                                   class="raleway-16-400 text-capitalize font-italic text-start pr-0 pb-0"
@@ -203,7 +220,7 @@
                                     style="width: 100%"
                                   >
                                     <v-col
-                                      class="nunito-12-400 text-capitalize text-justify pr-1"
+                                      class="nunito-12-400 text-capitalize text-start pr-1"
                                       cols="auto"
                                       v-for="(tag, i) in artwork.tags" :key="'tag-mobile-' + i"
                                     >
@@ -217,14 +234,17 @@
                                   <v-tooltip top color="black">
                                     <template v-slot:activator="{ on, attrs }">
                                       <v-btn
+                                        class="px-0"
                                         icon
+                                        height="24"
+                                        width="24"
                                         v-bind="attrs"
                                         v-on="on"
                                         :loading="artwork.isProcFavorite"
                                         @click="toggleFavorite(artwork)"
                                       >
-                                        <v-icon v-if="!checkIsFavorite(artwork.public_id)">mdi-heart-outline</v-icon>
-                                        <v-icon v-else color="pink lighten-3">mdi-heart</v-icon>
+                                        <v-icon v-if="!checkIsFavorite(artwork.public_id)" size="20">mdi-heart-outline</v-icon>
+                                        <v-icon v-else color="pink lighten-3" size="20">mdi-heart</v-icon>
                                       </v-btn>
                                     </template>
                                     <span>{{ $helper.plainText.heart[getLang] }}</span>
@@ -232,12 +252,15 @@
                                   <v-tooltip v-if="canCopy" top color="black">
                                     <template v-slot:activator="{ on, attrs }">
                                       <v-btn
+                                        class="px-0"
                                         icon
+                                        height="24"
+                                        width="24"
                                         v-bind="attrs"
                                         v-on="on"
                                         @click="shareArtwork(artwork)"
                                       >
-                                        <v-icon>mdi-share-variant-outline</v-icon>
+                                        <v-icon size="20">mdi-share-variant-outline</v-icon>
                                       </v-btn>
                                     </template>
                                     <span>{{ $helper.plainText.share[getLang] }}</span>
@@ -245,27 +268,55 @@
                                   <v-tooltip top color="black">
                                     <template v-slot:activator="{ on, attrs }">
                                       <v-btn
+                                        class="px-0"
                                         icon
+                                        height="24"
+                                        width="24"
                                         v-bind="attrs"
                                         v-on="on"
                                         @click="overlayMobile = true; enlargedImg.url = artwork.url; enlargedImg.title = artwork.title"
                                       >
-                                        <v-icon>mdi-fullscreen</v-icon>
+                                        <v-icon size="20">mdi-fullscreen</v-icon>
                                       </v-btn>
                                     </template>
                                     <span>{{ $helper.plainText.artworkZoom[getLang] }}</span>
                                   </v-tooltip>
                                   <v-tooltip top color="black">
                                     <template v-slot:activator="{ on, attrs }">
-                                      <v-btn icon v-bind="attrs" v-on="on" @click="getRefArtist(artwork.user_id)">
-                                        <v-icon>mdi-link</v-icon>
+                                      <v-btn
+                                        class="px-0"
+                                        icon
+                                        height="24"
+                                        width="24"
+                                        v-bind="attrs"
+                                        v-on="on"
+                                        @click="getRefArtist(artwork.user_id)"
+                                      >
+                                        <v-icon size="20">mdi-link</v-icon>
                                       </v-btn>
                                     </template>
                                     <span>{{ $helper.plainText.artistPage[getLang] }}</span>
                                   </v-tooltip>
                                 </v-card-actions>
                                 <div class="pb-2 pr-4 text-end">
-                                  <div class="raleway-16-400" v-if="artwork.salePrice">{{ artwork.salePrice }}€</div>
+                                  <div class="raleway-16-400 d-flex justify-end align-center" v-if="artwork.salePrice">
+                                    <v-tooltip left color="black">
+                                      <template v-slot:activator="{ on, attrs }">
+                                        <v-btn
+                                          class="mr-1"
+                                          icon
+                                          v-bind="attrs"
+                                          v-on="on"
+                                          height="24"
+                                          width="24"
+                                        >
+                                          <v-icon size="18">mdi-basket-plus</v-icon>
+                                        </v-btn>
+                                      </template>
+                                      <span>{{getLang == "gr" ? "Προσθήκη στο καλάθι" : "Add to basket"}}</span>
+                                    </v-tooltip>
+                                    <div>{{ artwork.salePrice }}€</div>
+                                  </div>
                                   <div class="raleway-12-400" v-if="artwork.rentPrice">
                                     <span class="pr-1">{{ $helper.plainText.rentFor[getLang] }}</span>
                                     {{ artwork.rentPrice }}
