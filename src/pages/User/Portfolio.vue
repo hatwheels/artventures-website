@@ -955,8 +955,8 @@
 
           <!-- Desktop Overlay -->
           <v-overlay class="hidden-sm-and-down" :value="overlayDesktop">
-            <v-row no-gutters>
-              <v-col>
+            <v-row class="background-color-dddddd rounded" no-gutters>
+              <v-col cols="auto">
                 <v-img
                   class="rounded"
                   :src="enlargedImg.url"
@@ -964,40 +964,57 @@
                   :alt="enlargedImg.title || 'Untitled'"
                   max-height="98vh"
                   max-width="95vw"
+                  position="top"
                   contain
-                />
-              </v-col>
-              <v-col>
-                <v-tooltip right color="black">
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-btn
-                      icon
-                      v-on="on"
-                      v-bind="attrs"
-                      @click="enlargedImg.url = ''; enlargedImg.title = ''; overlayDesktop = false;"
-                    >
-                      <v-icon>mdi-close</v-icon>
-                    </v-btn>
-                  </template>
-                  <span>{{ $helper.plainText.close[getLang] }}</span>
-                </v-tooltip>
+                >
+                  <div class="white d-flex justify-end px-1 py-1">
+                    <v-tooltip bottom color="black">
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                          icon
+                          v-on="on"
+                          v-bind="attrs"
+                          color="#333333"
+                          @click="enlargedImg.url = ''; enlargedImg.title = ''; overlayDesktop = false;"
+                        >
+                          <v-icon>mdi-close</v-icon>
+                        </v-btn>
+                      </template>
+                      <span>{{ $helper.plainText.close[getLang] }}</span>
+                    </v-tooltip>
+                  </div>
+                </v-img>
               </v-col>
             </v-row>
           </v-overlay>
           <!-- Mobile Overlay -->
-          <v-dialog class="hidden-md-and-up" v-model="overlayMobile" fullscreen persistent hide-overlay no-click-animation>
-            <v-img
-              class="rounded"
-              :src="enlargedImg.url"
-              :lazy-src="enlargedImg.url.replace('artventures/image/upload/', 'artventures/image/upload/c_thumb,w_100/')"
-              :alt="enlargedImg.title || 'Untitled'"
-              width="100vw"
-              height="100vh"
-              contain
-              @click="enlargedImg.url = ''; enlargedImg.title = ''; overlayMobile = false;"
-            />
+          <v-dialog class="hidden-md-and-up" v-model="overlayMobile" fullscreen persistent no-click-animation>
+            <v-row class="background-color-dddddd rounded" no-gutters align="center" justify="center">
+              <v-col cols="auto">
+                <v-img
+                  class="rounded"
+                  :src="enlargedImg.url"
+                  :lazy-src="enlargedImg.url.replace('artventures/image/upload/', 'artventures/image/upload/c_thumb,w_100/')"
+                  :alt="enlargedImg.title || 'Untitled'"
+                  width="100vw"
+                  height="100vh"
+                  contain
+                  position="top"
+                  @click="enlargedImg.url = ''; enlargedImg.title = ''; overlayMobile = false;"
+                >
+                  <div class="white d-flex justify-end px-1 py-1">
+                    <v-btn
+                      icon
+                      color="#333333"
+                      @click="enlargedImg.url = ''; enlargedImg.title = ''; overlayMobile = false;"
+                    >
+                      <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                  </div>
+                </v-img>
+              </v-col>
+            </v-row>
           </v-dialog>
-
         </v-container>
       </v-main>
     </UserLayout>
