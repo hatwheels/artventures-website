@@ -205,7 +205,7 @@
                                     large
                                     v-bind="attrs"
                                     v-on="on"
-                                    @click="overlayDesktop = true; enlargedImg.url = artwork.url; enlargedImg.title = artwork.title"
+                                    @click="overlayDesktop = true; enlargedArtwork = artwork;"
                                   >
                                     <v-icon size="30">mdi-fullscreen</v-icon>
                                   </v-btn>
@@ -356,7 +356,7 @@
                                     icon
                                     v-bind="attrs"
                                     v-on="on"
-                                    @click="overlayMobile = true; enlargedImg.url = artwork.url; enlargedImg.title = artwork.title"
+                                    @click="overlayMobile = true; enlargedArtwork = artwork;"
                                   >
                                     <v-icon>mdi-fullscreen</v-icon>
                                   </v-btn>
@@ -958,59 +958,109 @@
             <v-row class="background-color-dddddd rounded" no-gutters>
               <v-col cols="auto">
                 <v-img
+                  v-if="!$helper.objIsEmpty(enlargedArtwork)"
                   class="rounded"
-                  :src="enlargedImg.url"
-                  :lazy-src="enlargedImg.url.replace('artventures/image/upload/', 'artventures/image/upload/c_thumb,w_100/')"
-                  :alt="enlargedImg.title || 'Untitled'"
+                  :src="enlargedArtwork.url"
+                  :lazy-src="enlargedArtwork.url.replace('artventures/image/upload/', 'artventures/image/upload/c_thumb,w_100/')"
+                  :alt="enlargedArtwork.title || 'Untitled'"
                   max-height="98vh"
                   max-width="95vw"
                   position="top"
                   contain
                 >
-                  <div class="white d-flex justify-end px-1 py-1">
-                    <v-tooltip bottom color="black">
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-btn
-                          icon
-                          v-on="on"
-                          v-bind="attrs"
-                          color="#333333"
-                          @click="enlargedImg.url = ''; enlargedImg.title = ''; overlayDesktop = false;"
-                        >
-                          <v-icon>mdi-close</v-icon>
-                        </v-btn>
-                      </template>
-                      <span>{{ $helper.plainText.close[getLang] }}</span>
-                    </v-tooltip>
-                  </div>
+                  <v-row class="white px-1 py-1" no-gutters justify="space-between" align="center">
+                    <v-col cols="auto" class="text-capitalize">
+                      <div class="d-flex justify-center align-center">
+                        <div v-if="enlargedArtwork.title" class="pl-2 raleway-16-400 color-333333">
+                          {{ enlargedArtwork.title }}</div>
+                      </div>
+                    </v-col>
+                    <v-col cols="auto" class="raleway-18-400 color-333333 text-center">
+                      <span v-if="enlargedArtwork.salePrice">{{ enlargedArtwork.salePrice }}€</span>
+                      <span v-if="enlargedArtwork.salePrice && enlargedArtwork.rentPrice"> - </span>
+                      <span v-if="enlargedArtwork.rentPrice"> 
+                        <span>{{ enlargedArtwork.rentPrice }}</span>
+                        <span>{{ $helper.plainText.rentPerMonth[getLang] }}</span>
+                      </span>
+                    </v-col>
+                    <v-col cols="auto" class="text-end">
+                      <v-tooltip bottom color="black">
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-btn
+                            icon
+                            v-on="on"
+                            v-bind="attrs"
+                            color="#333333"
+                            @click="enlargedArtwork = {}; overlayDesktop = false;"
+                          >
+                            <v-icon>mdi-close</v-icon>
+                          </v-btn>
+                        </template>
+                        <span>{{ $helper.plainText.close[getLang] }}</span>
+                      </v-tooltip>
+                    </v-col>
+                  </v-row>
                 </v-img>
               </v-col>
             </v-row>
           </v-overlay>
           <!-- Mobile Overlay -->
-          <v-dialog class="hidden-md-and-up" v-model="overlayMobile" fullscreen persistent no-click-animation>
-            <v-row class="background-color-dddddd rounded" no-gutters align="center" justify="center">
+          <v-dialog v-model="overlayMobile"
+            class="hidden-md-and-up"
+            fullscreen
+            persistent
+            no-click-animation
+            transition="scroll-x-transition"
+          >
+            <v-row
+              class="rounded"
+              style="height: 100% !important; width: 100% !important;"
+              no-gutters align="center" justify="center"
+            >
               <v-col cols="auto">
                 <v-img
+                  v-if="!$helper.objIsEmpty(enlargedArtwork)"
                   class="rounded"
-                  :src="enlargedImg.url"
-                  :lazy-src="enlargedImg.url.replace('artventures/image/upload/', 'artventures/image/upload/c_thumb,w_100/')"
-                  :alt="enlargedImg.title || 'Untitled'"
-                  width="100vw"
-                  height="100vh"
+                  :src="enlargedArtwork.url"
+                  :lazy-src="enlargedArtwork.url.replace('artventures/image/upload/', 'artventures/image/upload/c_thumb,w_100/')"
+                  :alt="enlargedArtwork.title || 'Untitled'"
                   contain
                   position="top"
-                  @click="enlargedImg.url = ''; enlargedImg.title = ''; overlayMobile = false;"
+                  @click="enlargedArtwork = {}; overlayMobile = false;"
                 >
-                  <div class="white d-flex justify-end px-1 py-1">
-                    <v-btn
-                      icon
-                      color="#333333"
-                      @click="enlargedImg.url = ''; enlargedImg.title = ''; overlayMobile = false;"
-                    >
-                      <v-icon>mdi-close</v-icon>
-                    </v-btn>
-                  </div>
+                  <v-row class="white px-1 py-1" no-gutters justify="space-between" align="center">
+                    <v-col cols="auto" class="text-capitalize">
+                      <div class="d-flex flex-column justify-center align-start">
+                        <div v-if="enlargedArtwork.title" class="raleway-13-400 color-333333">
+                          {{ enlargedArtwork.title }}</div>
+                      </div>
+                    </v-col>
+                    <v-col cols="auto" class="raleway-16-400 color-333333 text-center">
+                      <div class="d-flex flex-column justify-center align-start">
+                        <div v-if="enlargedArtwork.salePrice">{{ enlargedArtwork.salePrice }}€</div>
+                        <div v-if="enlargedArtwork.rentPrice">
+                          <span>{{ enlargedArtwork.rentPrice }}</span>
+                          <span>{{ $helper.plainText.rentPerMonth[getLang] }}</span>
+                        </div>
+                      </div>
+                    </v-col>
+                    <v-col cols="auto" class="text-end">
+                      <v-tooltip bottom color="black">
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-btn
+                            icon
+                            v-on="on"
+                            v-bind="attrs"
+                            color="#333333"
+                            @click="enlargedArtwork = {}; overlayMobile = false;"
+                          >
+                            <v-icon>mdi-close</v-icon>
+                          </v-btn>
+                        </template>
+                        <span>{{ $helper.plainText.close[getLang] }}</span>
+                      </v-tooltip>
+                    </v-col>
+                  </v-row>
                 </v-img>
               </v-col>
             </v-row>
@@ -1093,10 +1143,7 @@ export default {
       },
       overlayDesktop: false,
       overlayMobile: false,
-      enlargedImg: {
-        url: "",
-        title: ""
-      },
+      enlargedArtwork: {},
       alertImage: false,
       dialogPortfolio: {
         toggle: false,

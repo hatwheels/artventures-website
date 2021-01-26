@@ -141,6 +141,7 @@
         id="login-btn"
         class="nunito-18-400 rounded-lg mx-2"
         outlined
+        elevation="1"
         color="transparent"
         to="/user/profile"
         v-html="isAuthenticated ? routes.profile[getLang] : routes.login[getLang]"

@@ -113,6 +113,9 @@ let helper = new Vue({
         toPublicIdNoPath(publicId, artworkState) {
             let c = publicId.indexOf(artworkState);
             return c === -1 ? "" : publicId.slice(c).replace(artworkState, "");
+        },
+        objIsEmpty(obj) {
+            return obj.constructor === Object && !Object.entries(obj).length;
         }
     }
 })
