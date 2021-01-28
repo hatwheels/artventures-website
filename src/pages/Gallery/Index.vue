@@ -122,20 +122,39 @@
                               </v-card-actions>
                               <div class="pb-2 pr-4 text-end">
                                 <div class="raleway-23-400 d-flex justify-end align-center" v-if="artwork.salePrice">
-                                  <v-tooltip left color="black">
+                                  <v-tooltip v-if="true !== $eshop.isInBasket(artwork.public_id)" left color="black">
                                     <template v-slot:activator="{ on, attrs }">
                                       <v-btn
                                         class="mr-1"
-                                        icon
-                                        height="36"
-                                        width="36"
                                         v-bind="attrs"
                                         v-on="on"
+                                        fab
+                                        height="30"
+                                        width="30"
+                                        color="#333333"
+                                        @click="$eshop.addToBasket(artwork); $forceUpdate();"
                                       >
-                                        <v-icon size="24">mdi-basket-plus</v-icon>
+                                        <v-icon size="20" color="#FAFAFA">mdi-basket-plus</v-icon>
                                       </v-btn>
                                     </template>
-                                    <span>{{getLang == "gr" ? "Προσθήκη στο καλάθι" : "Add to basket"}}</span>
+                                    <span>{{ getLang == "gr" ? "Προσθήκη στο καλάθι" : "Add to basket" }}</span>
+                                  </v-tooltip>
+                                  <v-tooltip v-else left color="black">
+                                    <template v-slot:activator="{ on, attrs }">
+                                      <v-btn
+                                        class="mr-1 border-fa-btn"
+                                        v-bind="attrs"
+                                        v-on="on"
+                                        fab
+                                        color="#FAFAFA"
+                                        height="30"
+                                        width="30"
+                                        @click="$eshop.removeFromBasket(artwork.public_id); $forceUpdate();"
+                                      >
+                                        <v-icon color="#333333" size="20">mdi-basket-minus</v-icon>
+                                      </v-btn>
+                                    </template>
+                                    <span>{{ getLang == "gr" ? "Διαγραφή απο καλάθι" : "Remove from basket" }}</span>
                                   </v-tooltip>
                                   <div>{{ artwork.salePrice }}€</div>
                                 </div>
@@ -300,21 +319,28 @@
                                 </v-card-actions>
                                 <div class="pb-2 pr-4 text-end">
                                   <div class="raleway-16-400 d-flex justify-end align-center" v-if="artwork.salePrice">
-                                    <v-tooltip left color="black">
-                                      <template v-slot:activator="{ on, attrs }">
-                                        <v-btn
-                                          class="mr-1"
-                                          icon
-                                          v-bind="attrs"
-                                          v-on="on"
-                                          height="24"
-                                          width="24"
-                                        >
-                                          <v-icon size="18">mdi-basket-plus</v-icon>
-                                        </v-btn>
-                                      </template>
-                                      <span>{{getLang == "gr" ? "Προσθήκη στο καλάθι" : "Add to basket"}}</span>
-                                    </v-tooltip>
+                                    <v-btn
+                                      v-if="true !== $eshop.isInBasket(artwork.public_id)"
+                                      class="mr-1"
+                                      fab
+                                      height="20"
+                                      width="20"
+                                      color="#333333"
+                                      @click="$eshop.addToBasket(artwork); $forceUpdate();"
+                                    >
+                                      <v-icon color="#FAFAFA" size="14">mdi-basket-plus</v-icon>
+                                    </v-btn>
+                                    <v-btn
+                                      v-else
+                                      class="mr-1 border-fa-btn"
+                                      fab
+                                      height="20"
+                                      width="20"
+                                      color="#FAFAFA"
+                                      @click="$eshop.removeFromBasket(artwork.public_id); $forceUpdate();"
+                                    >
+                                      <v-icon color="#333333" size="14">mdi-basket-minus</v-icon>
+                                    </v-btn>
                                     <div>{{ artwork.salePrice }}€</div>
                                   </div>
                                   <div class="raleway-12-400" v-if="artwork.rentPrice">
@@ -427,21 +453,37 @@
                     </span>
                   </v-col>
                   <v-col cols="auto" class="text-end">
-                    <v-tooltip bottom color="black">
+                    <v-tooltip v-if="true !== $eshop.isInBasket(enlargedArtwork.public_id)" bottom color="black">
                       <template v-slot:activator="{ on, attrs }">
                         <v-btn
-                          class="mr-1 rounded-xl"
+                          class="mr-1"
+                          v-on="on"
+                          v-bind="attrs"
                           fab
                           x-small
                           color="#333333"
-                          v-on="on"
-                          v-bind="attrs"
-                          @click="enlargedArtwork = {}; overlayDesktop = false;"
+                          @click="$eshop.addToBasket(enlargedArtwork); $forceUpdate();"
                         >
                           <v-icon color="#FAFAFA">mdi-basket-plus</v-icon>
                         </v-btn>
                       </template>
                       <span>{{ getLang == "gr" ? "Προσθήκη στο καλάθι" : "Add to basket" }}</span>
+                    </v-tooltip>
+                    <v-tooltip v-else bottom color="black">
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                          class="mr-1 border-fa-btn"
+                          v-on="on"
+                          v-bind="attrs"
+                          fab
+                          x-small
+                          color="#FAFAFA"
+                          @click="$eshop.removeFromBasket(enlargedArtwork.public_id); $forceUpdate();"
+                        >
+                          <v-icon color="#333333">mdi-basket-minus</v-icon>
+                        </v-btn>
+                      </template>
+                      <span>{{ getLang == "gr" ? "Διαγραφή απο καλάθι" : "Remove from basket" }}</span>
                     </v-tooltip>
                     <v-tooltip bottom color="black">
                       <template v-slot:activator="{ on, attrs }">
@@ -507,13 +549,24 @@
                   </v-col>
                   <v-col cols="auto" class="text-end">
                     <v-btn
-                      class="mr-1 rounded-xl"
+                      v-if="true !== $eshop.isInBasket(enlargedArtwork.public_id)"
+                      class="mr-1 border-fa-btn"
                       fab
                       x-small
                       color="#333333"
-                      @click="enlargedArtwork = {}; overlayMobile = false;"
+                      @click="$eshop.addToBasket(enlargedArtwork); $forceUpdate();"
                     >
                       <v-icon color="#FAFAFA">mdi-basket-plus</v-icon>
+                    </v-btn>
+                    <v-btn
+                      v-else
+                      class="mr-1 border-fa-btn"
+                      fab
+                      x-small
+                      color="#FAFAFA"
+                      @click="$eshop.removeFromBasket(enlargedArtwork.public_id); $forceUpdate();"
+                    >
+                      <v-icon color="#333333">mdi-basket-minus</v-icon>
                     </v-btn>
                     <v-btn
                       icon
@@ -953,4 +1006,8 @@ export default {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+.border-fa-btn {
+  border: thin solid #333333 !important;
+}
+
 </style>

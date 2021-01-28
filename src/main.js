@@ -19,6 +19,7 @@ import DbPlugin from './plugins/db'
 import ImgdbPlugin from './plugins/imgdb'
 import MarketingPlugin from './plugins/marketing'
 import AdminPlugin from './plugins/admin'
+import EshopPlugin from './plugins/eshop'
 import HelperPlugin from './plugins/helper'
 
 export default function (Vue, { appOptions, router, head, isClient }) {
@@ -161,6 +162,7 @@ export default function (Vue, { appOptions, router, head, isClient }) {
   Vue.use(ImgdbPlugin);
   Vue.use(MarketingPlugin);
   Vue.use(AdminPlugin);
+  Vue.use(EshopPlugin);
   Vue.use(HelperPlugin);
 
   // Register layouts
