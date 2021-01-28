@@ -5,23 +5,21 @@ let eshop = new Vue({
     isInBasket() {
       return (id) => {
         const itemsInBasket = JSON.parse(localStorage.getItem('itemsInBasket')) || [];
-        return itemsInBasket.find(item => item.public_id === id) === undefined ? itemsInBasket : true;
+        return itemsInBasket.find(item => item.public_id === id) === undefined ? false : true;
       }
     }
   },
   methods: {
+
     addToBasket(item) {
-      const found = this.isInBasket(item.public_id);
-      if (true !== found) { // not in basket
-        found.push(item);
-        localStorage.setItem('itemsInBasket', JSON.stringify(found));
+      const curItems = JSON.parse(localStorage.getItem('itemsInBasket')) || [];
+      if (curItems.find(elem => elem.public_id === item.public_id) === undefined) {  // not in basket
+        curItems.push(item);
+        localStorage.setItem('itemsInBasket', JSON.stringify(curItems));
       }
     },
     removeFromBasket(id) {
-      console.log(id)
       const items = (JSON.parse(localStorage.getItem('itemsInBasket')) || []).filter(item => item.public_id !== id);
-      console.log(items);
-      console.log(JSON.parse(localStorage.getItem('itemsInBasket')) || [])
       localStorage.setItem('itemsInBasket', JSON.stringify(items));
     }
   }

@@ -1082,7 +1082,7 @@ export default {
   components: {
     ScrollToTop: () => import("~/components/ScrollToTop.vue"),
     TermsDialog: () => import("~/components/TermsDialog.vue"),
-    EditArtwork: () => import("~/components/portfolio/Edit.vue")
+    EditArtwork: () => import("~/components/artwork/Edit.vue")
   },
   mixins: [validationMixin],
   validations: {

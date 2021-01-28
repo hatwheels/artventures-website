@@ -159,20 +159,43 @@
                         </v-card-actions>
                         <div class="pb-2 pr-4 text-end">
                           <div class="raleway-23-400 d-flex justify-end align-center" v-if="artwork.salePrice">
-                            <v-tooltip left color="black">
+                            <v-tooltip v-if="!$eshop.isInBasket(artwork.public_id)" left color="black">
                               <template v-slot:activator="{ on, attrs }">
                                 <v-btn
-                                  class="mr-1"
-                                  icon
-                                  height="36"
-                                  width="36"
+                                  class="mr-2"
                                   v-bind="attrs"
                                   v-on="on"
+                                  fab
+                                  light
+                                  elevation="2"
+                                  height="30"
+                                  width="30"
+                                  color="#333333"
+                                  @click="$eshop.addToBasket(artwork); $forceUpdate();"
                                 >
-                                  <v-icon size="24">mdi-basket-plus</v-icon>
+                                  <v-icon size="20" color="#FAFAFA">mdi-basket-plus</v-icon>
                                 </v-btn>
                               </template>
-                              <span>{{getLang == "gr" ? "Προσθήκη στο καλάθι" : "Add to basket"}}</span>
+                              <span>{{ getLang == "gr" ? "Προσθήκη στο καλάθι" : "Add to basket" }}</span>
+                            </v-tooltip>
+                            <v-tooltip v-else left color="black">
+                              <template v-slot:activator="{ on, attrs }">
+                                <v-btn 
+                                  class="mr-2 border-fa-btn"
+                                  v-bind="attrs"
+                                  v-on="on"
+                                  fab
+                                  dark
+                                  elevation="2"
+                                  height="30"
+                                  width="30"
+                                  color="#FAFAFA"
+                                  @click="$eshop.removeFromBasket(artwork.public_id); $forceUpdate();"
+                                >
+                                  <v-icon color="#333333" size="20">mdi-basket-minus</v-icon>
+                                </v-btn>
+                              </template>
+                              <span>{{ getLang == "gr" ? "Διαγραφή απο καλάθι" : "Remove from basket" }}</span>
                             </v-tooltip>
                             <div>{{ artwork.salePrice }}€</div>
                           </div>
@@ -362,21 +385,29 @@
                         </v-card-actions>
                         <div class="pb-2 pr-4 text-end">
                           <div class="raleway-16-400 d-flex justify-end align-center" v-if="artwork.salePrice">
-                            <v-tooltip left color="black">
-                              <template v-slot:activator="{ on, attrs }">
-                                <v-btn
-                                  class="mr-1"
-                                  icon
-                                  v-bind="attrs"
-                                  v-on="on"
-                                  height="24"
-                                  width="24"
-                                >
-                                  <v-icon size="18">mdi-basket-plus</v-icon>
-                                </v-btn>
-                              </template>
-                              <span>{{getLang == "gr" ? "Προσθήκη στο καλάθι" : "Add to basket"}}</span>
-                            </v-tooltip>
+                            <v-btn
+                              v-if="true !== $eshop.isInBasket(artwork.public_id)"
+                              class="mr-2"
+                              fab
+                              height="26"
+                              width="26"
+                              color="#333333"
+                              @click="$eshop.addToBasket(artwork); $forceUpdate();"
+                            >
+                              <v-icon color="#FAFAFA" size="16">mdi-basket-plus</v-icon>
+                            </v-btn>
+                            <v-btn
+                              v-else
+                              class="mr-2 border-fa-btn"
+                              fab
+                              icon
+                              height="26"
+                              width="26"
+                              color="#FAFAFA"
+                              @click="$eshop.removeFromBasket(artwork.public_id); $forceUpdate();"
+                            >
+                              <v-icon color="#333333" size="16">mdi-basket-minus</v-icon>
+                            </v-btn>
                             <div>{{ artwork.salePrice }}€</div>
                           </div>
                           <div class="raleway-12-400" v-if="artwork.rentPrice">
@@ -727,154 +758,15 @@
         <!-- Scroll to Top -->
         <scroll-to-top />
       </v-container>
-      <!-- Desktop Overlay -->
-      <v-overlay class="hidden-sm-and-down" :value="overlayDesktop">
-        <v-row class="background-color-dddddd rounded" no-gutters>
-          <v-col cols="auto">
-            <v-img
-              v-if="!$helper.objIsEmpty(enlargedArtwork)"
-              class="rounded"
-              :src="enlargedArtwork.url"
-              :lazy-src="enlargedArtwork.url.replace('artventures/image/upload/', 'artventures/image/upload/c_thumb,w_100/')"
-              :alt="enlargedArtwork.title || 'Untitled'"
-              max-height="98vh"
-              max-width="95vw"
-              position="top"
-              contain
-            >
-              <v-row class="white px-1 py-1" no-gutters justify="space-between" align="center">
-                <v-col cols="auto" class="text-capitalize">
-                  <div class="d-flex justify-center align-center">
-                    <div v-if="enlargedArtwork.title" class="px-2 raleway-16-400 color-333333">
-                      {{ enlargedArtwork.title }}</div>
-                    <div v-if="enlargedArtwork.artist_name" class="raleway-18-400 font-italic color-757575">
-                      {{ enlargedArtwork.artist_name }}</div>
-                  </div>
-                </v-col>
-                <v-col cols="auto" class="raleway-18-400 color-333333 text-center">
-                  <span v-if="enlargedArtwork.salePrice">{{ enlargedArtwork.salePrice }}€</span>
-                  <span v-if="enlargedArtwork.salePrice && enlargedArtwork.rentPrice"> - </span>
-                  <span v-if="enlargedArtwork.rentPrice"> 
-                    <span>{{ enlargedArtwork.rentPrice }}</span>
-                    <span>{{ $helper.plainText.rentPerMonth[getLang] }}</span>
-                  </span>
-                </v-col>
-                <v-col cols="auto" class="text-end">
-                  <v-tooltip bottom color="black">
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-btn
-                        class="mr-1 rounded-xl"
-                        fab
-                        x-small
-                        color="#333333"
-                        v-on="on"
-                        v-bind="attrs"
-                        @click="enlargedArtwork = {}; overlayDesktop = false;"
-                      >
-                        <v-icon color="#FAFAFA">mdi-basket-plus</v-icon>
-                      </v-btn>
-                    </template>
-                    <span>{{ getLang == "gr" ? "Προσθήκη στο καλάθι" : "Add to basket" }}</span>
-                  </v-tooltip>
-                  <v-tooltip bottom color="black">
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-btn
-                        icon
-                        v-on="on"
-                        v-bind="attrs"
-                        color="#333333"
-                        @click="enlargedArtwork = {}; overlayDesktop = false;"
-                      >
-                        <v-icon>mdi-close</v-icon>
-                      </v-btn>
-                    </template>
-                    <span>{{ $helper.plainText.close[getLang] }}</span>
-                  </v-tooltip>
-                </v-col>
-              </v-row>
-            </v-img>
-          </v-col>
-        </v-row>
-      </v-overlay>
-      <!-- Mobile Overlay -->
-      <v-dialog v-model="overlayMobile"
-        class="hidden-md-and-up"
-        fullscreen
-        persistent
-        no-click-animation
-        transition="scroll-x-transition"
-      >
-        <v-row
-          class="rounded"
-          style="height: 100% !important; width: 100% !important;"
-          no-gutters align="center" justify="center"
-        >
-          <v-col cols="auto">
-            <v-img
-              v-if="!$helper.objIsEmpty(enlargedArtwork)"
-              class="rounded"
-              :src="enlargedArtwork.url"
-              :lazy-src="enlargedArtwork.url.replace('artventures/image/upload/', 'artventures/image/upload/c_thumb,w_100/')"
-              :alt="enlargedArtwork.title || 'Untitled'"
-              contain
-              position="top"
-              @click="enlargedArtwork = {}; overlayMobile = false;"
-            >
-              <v-row class="white px-1 py-1" no-gutters justify="space-between" align="center">
-                <v-col cols="auto" class="text-capitalize">
-                  <div class="d-flex flex-column justify-center align-start">
-                    <div v-if="enlargedArtwork.title" class="raleway-13-400 color-333333">
-                      {{ enlargedArtwork.title }}</div>
-                    <div v-if="enlargedArtwork.artist_name" class="raleway-16-400 font-italic color-757575">
-                      {{ enlargedArtwork.artist_name }}</div>
-                  </div>
-                </v-col>
-                <v-col cols="auto" class="raleway-16-400 color-333333 text-center">
-                    <div class="d-flex flex-column justify-center align-start">
-                      <div v-if="enlargedArtwork.salePrice">{{ enlargedArtwork.salePrice }}€</div>
-                      <div v-if="enlargedArtwork.rentPrice">
-                        <span>{{ enlargedArtwork.rentPrice }}</span>
-                        <span>{{ $helper.plainText.rentPerMonth[getLang] }}</span>
-                      </div>
-                    </div>
-                </v-col>
-                <v-col cols="auto" class="text-end">
-                  <v-tooltip bottom color="black">
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-btn
-                        class="mr-1 rounded-xl"
-                        fab
-                        x-small
-                        color="#333333"
-                        v-on="on"
-                        v-bind="attrs"
-                        @click="enlargedArtwork = {}; overlayMobile = false;"
-                      >
-                        <v-icon color="#FAFAFA">mdi-basket-plus</v-icon>
-                      </v-btn>
-                    </template>
-                    <span>{{ getLang == "gr" ? "Προσθήκη στο καλάθι" : "Add to basket" }}</span>
-                  </v-tooltip>
-                  <v-tooltip bottom color="black">
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-btn
-                        icon
-                        v-on="on"
-                        v-bind="attrs"
-                        color="#333333"
-                        @click="enlargedArtwork = {}; overlayMobile = false;"
-                      >
-                        <v-icon>mdi-close</v-icon>
-                      </v-btn>
-                    </template>
-                    <span>{{ $helper.plainText.close[getLang] }}</span>
-                  </v-tooltip>
-                </v-col>
-              </v-row>
-            </v-img>
-          </v-col>
-        </v-row>
-      </v-dialog>
+        <!-- Enlarge Artwork Modal -->
+        <enlarged-artwork
+          :overlayDesktop="overlayDesktop"
+          :overlayMobile="overlayMobile"
+          :enlargedArtwork="enlargedArtwork"
+          @update-enlarged-artwork="(val) => enlargedArtwork = val"
+          @update-overlay-desktop="(val) => overlayDesktop = val"
+          @update-overlay-mobile="(val) => overlayMobile = val"
+        ></enlarged-artwork>
       <!-- Share Dialog -->
       <v-dialog v-model="isSharing.state" width="auto">
         <v-card>
@@ -907,6 +799,7 @@ import { mapGetters } from "vuex";
 export default {
   components: {
     ScrollToTop: () => import("~/components/ScrollToTop.vue"),
+    EnlargedArtwork: () => import("~/components/artwork/Enlarge.vue")
   },
   data() {
     return {

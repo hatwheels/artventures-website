@@ -906,6 +906,9 @@ export default {
   word-break: normal imp !important;
   line-height: 1.1;
 }
+.border-fa-btn {
+  border: thin solid #333333 !important;
+}
 </style>
 
 <static-query>
