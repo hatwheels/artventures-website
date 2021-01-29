@@ -132,7 +132,6 @@ export default function (Vue, { appOptions, router, head, isClient }) {
         return state.userRole
       }
     },
-
     mutations: {
       setLang (state, val) {
         state.lang = val

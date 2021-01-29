@@ -743,7 +743,10 @@ export default {
                   resolve();
                 })
                 .catch(err => reject(err));
-            } else { this.userFavorites = []; }
+            } else {
+              this.userFavorites = [];
+              resolve();
+            }
           })
           .catch(err => reject(err));
       })

@@ -125,21 +125,43 @@
           </v-list>
         </v-menu>
         <v-divider class="mx-1" vertical inset />
-        <v-tooltip bottom color="black">
-          <template v-slot:activator="{ on, attrs }">
+      </v-toolbar-items>
+      <v-tooltip bottom color="black">
+        <template v-slot:activator="{ on, attrs }">
+          <v-badge
+            v-show="$eshop.basketValue.length > 0"
+            class="mx-4"
+            overlap
+            color="green"
+            left
+            :content="$eshop.basketValue.length"
+          >
             <v-btn
+              class="ml-1"
               v-bind="attrs" v-on="on"
+              height="30" width="30"
+              large
               icon color="transparent"
             >
               <v-icon color="#333333">mdi-basket</v-icon>
             </v-btn>
-          </template>
-          <span v-html="routes.basket[getLang]" />
-        </v-tooltip>
-      </v-toolbar-items>
+          </v-badge>
+          <v-btn
+            v-show="$eshop.basketValue.length === 0"
+            class="mx-4"
+            v-bind="attrs" v-on="on"
+            height="30" width="30"
+            large
+            icon color="transparent"
+            >
+            <v-icon color="#333333">mdi-basket</v-icon>
+          </v-btn>
+        </template>
+        <span v-html="routes.basket[getLang]" />
+      </v-tooltip>
       <v-btn
         id="login-btn"
-        class="nunito-18-400 rounded-lg mx-2"
+        class="nunito-18-400 rounded-lg"
         outlined
         elevation="1"
         color="transparent"
@@ -238,16 +260,18 @@
                       </v-list-item-icon>
                     </v-list-item>
                     <v-list-item class="pb-5 px-0">
-                      <v-icon class="pr-3" color="#333333">mdi-basket</v-icon>
-                      <v-list-item-content>
-                        <v-list-item-title
-                          :class="getLang === 'gr' ? 'noto-28-400' : 'raleway-28-400'"
-                          class="color-333333"
-                          v-html="routes.basket[getLang]"
-                        >
-                          
-                        </v-list-item-title>
-                      </v-list-item-content>
+                        <v-badge v-show="$eshop.basketValue.length > 0" class="mr-6" color="green" :content="$eshop.basketValue.length" >
+                          <v-icon color="#333333">mdi-basket</v-icon>
+                        </v-badge>
+                        <v-icon v-show="$eshop.basketValue.length === 0" class="mr-4" color="#333333">mdi-basket</v-icon>
+                        <v-list-item-content>
+                          <v-list-item-title
+                            :class="getLang === 'gr' ? 'noto-28-400' : 'raleway-28-400'"
+                            class="color-333333"
+                            v-html="routes.basket[getLang]"
+                          >
+                          </v-list-item-title>
+                        </v-list-item-content>
                     </v-list-item>
                     <v-list-item class="pb-5 px-0" to="/user/profile">
                         <v-list-item-title
@@ -507,7 +531,7 @@ export default {
           gr: 'Αγγλικά',
           en: 'English'
         }
-      }
+      },
     }
   },
   computed: {

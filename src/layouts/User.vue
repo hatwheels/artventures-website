@@ -40,21 +40,41 @@
 
       <v-spacer />
 
-      <v-toolbar-items class="pa-0">
-        <v-tooltip left color="black">
-          <template v-slot:activator="{ on, attrs }">
+      <v-tooltip left color="black">
+        <template v-slot:activator="{ on, attrs }">
+          <v-badge
+            v-show="$eshop.basketValue.length > 0"
+            overlap
+            color="green"
+            left
+            :content="$eshop.basketValue.length"
+          >
             <v-btn
-              v-on="on" v-bind="attrs"
+              class="ml-1"
+              v-bind="attrs" v-on="on"
+              height="30" width="30"
+              large
               icon color="transparent"
             >
               <v-icon color="#333333">mdi-basket</v-icon>
             </v-btn>
-          </template>
-          <span v-html="routes.basket[getLang]" />
-        </v-tooltip>
+          </v-badge>
+          <v-btn
+            v-show="$eshop.basketValue.length === 0"
+            v-bind="attrs" v-on="on"
+            height="30" width="30"
+            large
+            icon color="transparent"
+            >
+            <v-icon color="#333333">mdi-basket</v-icon>
+          </v-btn>
+        </template>
+        <span v-html="routes.basket[getLang]" />
+      </v-tooltip>
+      <v-toolbar-items class="pa-0 ml-4">
         <v-menu bottom :offset-y="true" transition="slide-y-transition" open-on-hover open-delay="300">
           <template v-slot:activator="{ on, attrs, value }">
-            <v-btn class="px-0 ml-2" v-on="on" v-bind="attrs" text color="transparent" :ripple="false">
+            <v-btn class="px-0" v-on="on" v-bind="attrs" text color="transparent" :ripple="false">
               <v-avatar>
                 <v-img v-if="userPicture" :src="userPicture" alt="profile pic" />
               </v-avatar>
@@ -128,10 +148,15 @@
 
       <v-spacer />
 
-      <v-toolbar-items class="pa-0">
-        <v-btn icon color="transparent">
+      <v-badge v-show="$eshop.basketValue.length > 0" left color="green" :content="$eshop.basketValue.length" overlap>
+        <v-btn height="30" width="30" icon color="transparent">
           <v-icon color="#333333">mdi-basket</v-icon>
         </v-btn>
+      </v-badge>
+      <v-btn height="30" width="30" v-show="$eshop.basketValue.length === 0" icon color="transparent">
+        <v-icon color="#333333">mdi-basket</v-icon>
+      </v-btn>
+      <v-toolbar-items class="pa-0">
         <v-menu bottom :offset-y="true" transition="slide-y-transition">
           <template v-slot:activator="{ on, attrs, value }">
             <v-btn class="px-0" text v-on="on" v-bind="attrs" color="transparent" :ripple="false">

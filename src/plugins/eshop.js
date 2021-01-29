@@ -1,26 +1,41 @@
 import Vue from 'vue';
 
 let eshop = new Vue({
+  data () {
+    return {
+      basketValue: (process.isClient) ? (JSON.parse(localStorage.getItem('itemsInBasket')) || []) : []
+    }
+  },
   computed: {
+    basket: {
+      get: function() {
+        return this.basketValue;
+      },
+      set: function(itemArr) {
+        this.basketValue = itemArr;
+        if (process.isClient) {
+          localStorage.setItem('itemsInBasket', JSON.stringify(itemArr));
+        }
+      }
+    },
     isInBasket() {
       return (id) => {
-        const itemsInBasket = JSON.parse(localStorage.getItem('itemsInBasket')) || [];
-        return itemsInBasket.find(item => item.public_id === id) === undefined ? false : true;
+        return this.basketValue.find(item => item.public_id === id) === undefined ? false : true;
       }
     }
   },
   methods: {
-
     addToBasket(item) {
-      const curItems = JSON.parse(localStorage.getItem('itemsInBasket')) || [];
-      if (curItems.find(elem => elem.public_id === item.public_id) === undefined) {  // not in basket
-        curItems.push(item);
-        localStorage.setItem('itemsInBasket', JSON.stringify(curItems));
+      if (this.basketValue.find(elem => elem.public_id === item.public_id) === undefined) {  // not in basket
+        this.basketValue.push(item);
+        if (process.isClient) {
+          localStorage.setItem('itemsInBasket', JSON.stringify(this.basketValue));
+        }
       }
     },
     removeFromBasket(id) {
-      const items = (JSON.parse(localStorage.getItem('itemsInBasket')) || []).filter(item => item.public_id !== id);
-      localStorage.setItem('itemsInBasket', JSON.stringify(items));
+      const items = this.basketValue.filter(item => item.public_id !== id);
+      this.basket = items;
     }
   }
 })

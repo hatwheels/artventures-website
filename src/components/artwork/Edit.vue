@@ -58,7 +58,6 @@
               hide-selected
               hide-no-data
               counter="10"
-              append-icon=""
               @input="delayTouch($v.tags)"
               @blur="$v.tags.$touch()"
             ></v-combobox>

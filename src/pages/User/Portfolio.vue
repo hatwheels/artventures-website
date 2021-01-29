@@ -58,22 +58,24 @@
                   />
                 </v-card>
                 <v-card v-if="artworksInSection.length === 0" height="300px" flat color="#FAFAFA">
-                  <v-card-text style="height: 100% !important">
+                  <v-card-text v-if="isFetchingImages" style="height: 100% !important">
                     <v-progress-circular
-                      v-show="isFetchingImages"
+                      
                       :size="60"
                       :width="6"
                       indeterminate
                       color="#333333"
-                      style="height: 100% !important"
+                      style="height: 300px"
                     />
                   </v-card-text>
                   <v-card-text
-                    v-show="!isFetchingImages"
-                    style="padding-top: 140px;"
+                    v-else
                     :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
-                    v-html="tabs.emptySection[getLang]"
-                  />
+                  >
+                    <v-row style="height: 300px" justify="center" align="center">
+                      <v-col>{{ tabs.emptySection[getLang] }}</v-col>
+                    </v-row>
+                  </v-card-text>
                 </v-card>
                 <v-container fluid>
                   <!-- Desktop -->
@@ -205,7 +207,11 @@
                                     large
                                     v-bind="attrs"
                                     v-on="on"
-                                    @click="overlayDesktop = true; enlargedArtwork = artwork;"
+                                    @click="overlayDesktop = true;
+                                      enlargedArtwork = artwork;
+                                      enlargedArtwork.artist_name = $auth.user.name;
+                                      enlargedArtwork.user_id = $auth.user.sub;
+                                    "
                                   >
                                     <v-icon size="30">mdi-fullscreen</v-icon>
                                   </v-btn>
@@ -356,7 +362,12 @@
                                     icon
                                     v-bind="attrs"
                                     v-on="on"
-                                    @click="overlayMobile = true; enlargedArtwork = artwork;"
+                                    @click="
+                                      overlayMobile = true;
+                                      enlargedArtwork = artwork;
+                                      enlargedArtwork.artist_name = $auth.user.name;
+                                      enlargedArtwork.user_id = $auth.user.sub;
+                                    "
                                   >
                                     <v-icon>mdi-fullscreen</v-icon>
                                   </v-btn>
@@ -442,7 +453,6 @@
                   hide-selected
                   hide-no-data
                   counter="10"
-                  append-icon=""
                   @input="delayTouch($v.tags)"
                   @blur="$v.tags.$touch()"
                 ></v-combobox>
@@ -953,118 +963,16 @@
           <!-- Scroll to Top -->
           <scroll-to-top />
 
-          <!-- Desktop Overlay -->
-          <v-overlay class="hidden-sm-and-down" :value="overlayDesktop">
-            <v-row class="background-color-dddddd rounded" no-gutters>
-              <v-col cols="auto">
-                <v-img
-                  v-if="!$helper.objIsEmpty(enlargedArtwork)"
-                  class="rounded"
-                  :src="enlargedArtwork.url"
-                  :lazy-src="enlargedArtwork.url.replace('artventures/image/upload/', 'artventures/image/upload/c_thumb,w_100/')"
-                  :alt="enlargedArtwork.title || 'Untitled'"
-                  max-height="98vh"
-                  max-width="95vw"
-                  position="top"
-                  contain
-                >
-                  <v-row class="white px-1 py-1" no-gutters justify="space-between" align="center">
-                    <v-col cols="auto" class="text-capitalize">
-                      <div class="d-flex justify-center align-center">
-                        <div v-if="enlargedArtwork.title" class="pl-2 raleway-16-400 color-333333">
-                          {{ enlargedArtwork.title }}</div>
-                      </div>
-                    </v-col>
-                    <v-col cols="auto" class="raleway-18-400 color-333333 text-center">
-                      <span v-if="enlargedArtwork.salePrice">{{ enlargedArtwork.salePrice }}€</span>
-                      <span v-if="enlargedArtwork.salePrice && enlargedArtwork.rentPrice"> - </span>
-                      <span v-if="enlargedArtwork.rentPrice"> 
-                        <span>{{ enlargedArtwork.rentPrice }}</span>
-                        <span>{{ $helper.plainText.rentPerMonth[getLang] }}</span>
-                      </span>
-                    </v-col>
-                    <v-col cols="auto" class="text-end">
-                      <v-tooltip bottom color="black">
-                        <template v-slot:activator="{ on, attrs }">
-                          <v-btn
-                            icon
-                            v-on="on"
-                            v-bind="attrs"
-                            color="#333333"
-                            @click="enlargedArtwork = {}; overlayDesktop = false;"
-                          >
-                            <v-icon>mdi-close</v-icon>
-                          </v-btn>
-                        </template>
-                        <span>{{ $helper.plainText.close[getLang] }}</span>
-                      </v-tooltip>
-                    </v-col>
-                  </v-row>
-                </v-img>
-              </v-col>
-            </v-row>
-          </v-overlay>
-          <!-- Mobile Overlay -->
-          <v-dialog v-model="overlayMobile"
-            class="hidden-md-and-up"
-            fullscreen
-            persistent
-            no-click-animation
-            transition="scroll-x-transition"
-          >
-            <v-row
-              class="rounded"
-              style="height: 100% !important; width: 100% !important;"
-              no-gutters align="center" justify="center"
-            >
-              <v-col cols="auto">
-                <v-img
-                  v-if="!$helper.objIsEmpty(enlargedArtwork)"
-                  class="rounded"
-                  :src="enlargedArtwork.url"
-                  :lazy-src="enlargedArtwork.url.replace('artventures/image/upload/', 'artventures/image/upload/c_thumb,w_100/')"
-                  :alt="enlargedArtwork.title || 'Untitled'"
-                  contain
-                  position="top"
-                  @click="enlargedArtwork = {}; overlayMobile = false;"
-                >
-                  <v-row class="white px-1 py-1" no-gutters justify="space-between" align="center">
-                    <v-col cols="auto" class="text-capitalize">
-                      <div class="d-flex flex-column justify-center align-start">
-                        <div v-if="enlargedArtwork.title" class="raleway-13-400 color-333333">
-                          {{ enlargedArtwork.title }}</div>
-                      </div>
-                    </v-col>
-                    <v-col cols="auto" class="raleway-16-400 color-333333 text-center">
-                      <div class="d-flex flex-column justify-center align-start">
-                        <div v-if="enlargedArtwork.salePrice">{{ enlargedArtwork.salePrice }}€</div>
-                        <div v-if="enlargedArtwork.rentPrice">
-                          <span>{{ enlargedArtwork.rentPrice }}</span>
-                          <span>{{ $helper.plainText.rentPerMonth[getLang] }}</span>
-                        </div>
-                      </div>
-                    </v-col>
-                    <v-col cols="auto" class="text-end">
-                      <v-tooltip bottom color="black">
-                        <template v-slot:activator="{ on, attrs }">
-                          <v-btn
-                            icon
-                            v-on="on"
-                            v-bind="attrs"
-                            color="#333333"
-                            @click="enlargedArtwork = {}; overlayMobile = false;"
-                          >
-                            <v-icon>mdi-close</v-icon>
-                          </v-btn>
-                        </template>
-                        <span>{{ $helper.plainText.close[getLang] }}</span>
-                      </v-tooltip>
-                    </v-col>
-                  </v-row>
-                </v-img>
-              </v-col>
-            </v-row>
-          </v-dialog>
+        <!-- Enlarge Artwork Modal -->
+        <enlarged-artwork
+          :overlayDesktop="overlayDesktop"
+          :overlayMobile="overlayMobile"
+          :enlargedArtwork="enlargedArtwork"
+          @update-enlarged-artwork="(val) => enlargedArtwork = val"
+          @update-overlay-desktop="(val) => overlayDesktop = val"
+          @update-overlay-mobile="(val) => overlayMobile = val"
+        ></enlarged-artwork>
+
         </v-container>
       </v-main>
     </UserLayout>
@@ -1082,7 +990,8 @@ export default {
   components: {
     ScrollToTop: () => import("~/components/ScrollToTop.vue"),
     TermsDialog: () => import("~/components/TermsDialog.vue"),
-    EditArtwork: () => import("~/components/artwork/Edit.vue")
+    EditArtwork: () => import("~/components/artwork/Edit.vue"),
+    EnlargedArtwork: () => import("~/components/artwork/Enlarge.vue")
   },
   mixins: [validationMixin],
   validations: {

@@ -34,7 +34,7 @@
               </v-col>
               <v-col cols="auto" class="text-end">
                 <div class="d-flex justify-center align-center">
-                  <div v-if="enlargedArtwork.salePrice">
+                  <div v-if="enlargedArtwork.salePrice && ($auth.user.sub !== enlargedArtwork.user_id)">
                     <v-tooltip v-if="true !== $eshop.isInBasket(enlargedArtwork.public_id)" bottom color="black">
                       <template v-slot:activator="{ on, attrs }">
                         <v-btn
@@ -142,7 +142,7 @@
               </v-col>
               <v-col cols="auto" class="text-end">
                 <v-row no-gutters justify="end" align="center">
-                  <v-col v-if="enlargedArtwork.salePrice">
+                  <v-col v-if="enlargedArtwork.salePrice && ($auth.user.sub !== enlargedArtwork.user_id)">
                     <v-btn
                       v-if="true !== $eshop.isInBasket(enlargedArtwork.public_id)"
                       class="border-fa-btn"
@@ -198,6 +198,10 @@
 import { mapGetters } from "vuex";
 
 export default {
+  updated () {
+    console.log(this.enlargedArtwork)
+    console.log(this.$auth.user.sub)
+  },
   props: {
     overlayDesktop: {
       type: Boolean,

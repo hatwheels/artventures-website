@@ -133,6 +133,7 @@
                               overlayDesktop = true;
                               enlargedArtwork = artwork;
                               enlargedArtwork.artist_name = artist.firstName + ' ' + artist.lastName;
+                              enlargedArtwork.user_id = artist.user_id;
                             "
                           >
                             <v-icon size="30">mdi-fullscreen</v-icon>
@@ -332,6 +333,7 @@
                               overlayMobile = true;
                               enlargedArtwork = artwork;
                               enlargedArtwork.artist_name = artist.firstName + ' ' + artist.lastName;
+                              enlargedArtwork.user_id = artist.user_id;
                             "
                           >
                             <v-icon size="20">mdi-fullscreen</v-icon>
