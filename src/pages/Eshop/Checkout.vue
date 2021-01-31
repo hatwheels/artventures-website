@@ -14,10 +14,8 @@
           </v-card-title>
           <v-card-text class="px-16 py-6">
             <div class="px-16">
-              <v-row
-                class="py-2"
-                no-gutters justify="center" align="center"
-              >
+              <!-- Headers -->
+              <v-row class="py-2" no-gutters justify="center" align="center">
                 <v-col cols="3" class="border-bottom-333333">
                   <div class="playfair-30-700 text-center">
                     {{ headers[0][getLang] }}
@@ -38,7 +36,11 @@
                     {{ headers[3][getLang] }}
                   </div>
                 </v-col>
+                <v-col cols="2" class="pl-2 border-bottom-333333">
+                  <div style="height: 33px;"></div>
+                </v-col>
               </v-row>
+              <!-- Content -->
               <v-row
                 class="pt-2"
                 v-for="(item, i) in $eshop.basketValue" :key="'item-' + i"
@@ -54,7 +56,6 @@
                       )
                     "
                     :alt="item.title || 'Untitled'"
-
                     contain
                   />
                 </v-col>
@@ -87,7 +88,16 @@
                     <div>{{ item.salePrice }}€</div>
                   </div>
                 </v-col>
+                <v-col cols="2" class="p-2 raleway-25-400  border-bottom-dddddd">
+                  <div v-if="item.salePrice" class="d-flex flex-column justify-center height-100pc">
+                    <div class="d-flex justify-center align-center">
+                    <v-btn color="#000000DE" class="pa-auto" outlined>Remove</v-btn>
+                    <v-checkbox class="pl-4" color="#000000DE"></v-checkbox>
+                    </div>
+                  </div>
+                </v-col>
               </v-row>
+              <!-- Footer -->
               <v-row no-gutters class="pt-6 raleway-25-400" justify="center" align="center">
                 <v-col cols="3" />
                 <v-col cols="3" />
@@ -103,6 +113,7 @@
                     <div>{{ $eshop.totalSalePrice }}€</div>
                   </div>
                 </v-col>
+                <v-col cols="2" />
               </v-row>
             </div>
           </v-card-text>
@@ -159,6 +170,10 @@ export default {
         {
           gr: 'Τιμή Πώλησης',
           en: 'Sale Price'
+        },
+        {
+          gr: '',
+          en: ''
         }
       ],
       title: {
@@ -212,10 +227,6 @@ export default {
   border-bottom: thin solid #DDDDDD;
 }
 
-.v-card__text {
-  color: #000000DE !important;
-}
-
 @media (max-width: 1264px ) {
   @media (max-height: 1264px) {
     .main-padding {
@@ -229,5 +240,9 @@ export default {
       padding: 50px 0px !important;
     }
   }
+}
+
+.v-card__text {
+  color: #000000DE !important;
 }
 </style>>
