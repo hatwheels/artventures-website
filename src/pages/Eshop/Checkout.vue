@@ -91,35 +91,46 @@
                 <v-col cols="2" class="p-2 raleway-25-400  border-bottom-dddddd">
                   <div v-if="item.salePrice" class="d-flex flex-column justify-center height-100pc">
                     <div class="d-flex justify-center align-center">
-                    <v-btn color="#000000DE" class="pa-auto" outlined>Remove</v-btn>
-                    <v-checkbox class="pl-4" color="#000000DE"></v-checkbox>
+                      <v-btn color="#000000DE" class="pa-auto" outlined>{{ removeBtn.single[getLang] }}</v-btn>
+                      <v-checkbox class="pl-4" color="#000000DE"></v-checkbox>
                     </div>
                   </div>
                 </v-col>
               </v-row>
               <!-- Footer -->
               <v-row no-gutters class="pt-6 raleway-25-400" justify="center" align="center">
-                <v-col cols="3" />
-                <v-col cols="3" />
-                <v-col cols="2">
+                <v-col cols="3"  class="px-2" />
+                <v-col cols="3"  class="px-2" />
+                <v-col cols="2"  class="px-2">
                   <div v-if="$eshop.allRentPricesValid">
                     <div class="font-weight-bold">{{ total[getLang] }}</div>
                     <div>{{ $eshop.totalRentPrice }}{{ $helper.plainText.rentPerMonth[getLang] }}</div>
                   </div>
                 </v-col>
-                <v-col cols="2">
+                <v-col cols="2" class="px-2">
                   <div v-if="$eshop.allSalePricesValid">
                     <div class="font-weight-bold">{{ total[getLang] }}</div>
                     <div>{{ $eshop.totalSalePrice }}€</div>
                   </div>
                 </v-col>
-                <v-col cols="2" />
+                <v-col class="pr-2" cols="2">
+                  <div style="height: 60px !important;" class="d-flex justify-center align-center">
+                    <v-btn
+                      class="pa-auto ma-auto height-100pc"
+                      color="#000000DE"
+                      outlined
+                      v-html="removeBtn.selected[getLang]"
+                    />
+                  </div>
+                </v-col>
               </v-row>
             </div>
           </v-card-text>
-          <v-card-actions >
+          <v-card-actions>
             <v-row no-gutters justify="center" align="center">
-              <v-col class="text-center"><v-btn dark color="#333333">{{ buyBtn[getLang] }}</v-btn></v-col>
+              <v-col class="text-center">
+                <v-btn class="mx-auto pa-auto" dark color="#333333">{{ buyBtn[getLang] }}</v-btn>
+              </v-col>
             </v-row>
           </v-card-actions>
         </v-card>
@@ -191,6 +202,16 @@ export default {
       buyBtn: {
         gr: 'Αγορα',
         en: 'Buy'
+      },
+      removeBtn: {
+        single: {
+          gr: 'Αφαιρεση',
+          en: 'Remove'
+        },
+        selected: {
+          gr: 'Αφαιρεση<br>επιλεγμενων',
+          en: 'Remove<br>selected'
+        }
       }
     }
   },
