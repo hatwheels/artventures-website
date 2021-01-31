@@ -22,6 +22,22 @@ let eshop = new Vue({
       return (id) => {
         return this.basketValue.find(item => item.public_id === id) === undefined ? false : true;
       }
+    },
+    allRentPricesValid() {
+      return this.$eshop.basketValue.every(el1 => Object.prototype.hasOwnProperty.call(el1, "rentPrice") === true);
+    },
+    allSalePricesValid() {
+      return this.$eshop.basketValue.every(el1 => Object.prototype.hasOwnProperty.call(el1, "salePrice") === true);
+    },
+    totalRentPrice() {
+      let total = 0;
+      this.$eshop.basketValue.forEach(el1 => total += parseInt(el1.rentPrice));
+      return total;
+    },
+    totalSalePrice() {
+      let total = 0;
+      this.$eshop.basketValue.forEach(el1 => total += parseInt(el1.salePrice));
+      return total;
     }
   },
   methods: {

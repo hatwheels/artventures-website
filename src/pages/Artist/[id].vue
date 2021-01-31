@@ -823,7 +823,7 @@ export default {
       titleTemplate: this.artist.name + " — Artventures",
       meta: [{ name: "description", content: "Artist's page" }],
     };
-  },
+  }
 }
 </script>
 

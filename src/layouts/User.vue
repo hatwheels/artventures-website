@@ -16,13 +16,13 @@
       @clicked-decline="cookieClickedDecline"
     >
       <div slot="message" class="messageText" :class="getLang === 'gr' ? 'noto-16-500' : 'nunito-18-400'">
-        {{ cookieTxt[getLang] }}
+        {{ $helper.cookieTxt[getLang] }}
       </div>
       <div slot="declineContent" :class="getLang === 'gr' ? 'noto-16-500' : 'nunito-18-400'">
-        {{ declineCookies[getLang] }}
+        {{ $helper.declineCookies[getLang] }}
       </div>
       <div slot="acceptContent" :class="getLang === 'gr' ? 'noto-16-500' : 'nunito-18-400'">
-        {{ allowCookies[getLang] }}
+        {{ $helper.allowCookies[getLang] }}
         </div>
     </vue-cookie-accept-decline>
     
@@ -34,7 +34,7 @@
     >
       <v-toolbar-items class="pa-0">
         <g-link to="/">
-          <g-image width="185" :src="logo[0]" alt="logo" />
+          <g-image width="185" :src="$helper.logo[0]" alt="logo" />
         </g-link>
       </v-toolbar-items>
 
@@ -55,6 +55,7 @@
               height="30" width="30"
               large
               icon color="transparent"
+              to="/eshop/checkout"
             >
               <v-icon color="#333333">mdi-basket</v-icon>
             </v-btn>
@@ -65,11 +66,12 @@
             height="30" width="30"
             large
             icon color="transparent"
-            >
+            to="/eshop/checkout"
+          >
             <v-icon color="#333333">mdi-basket</v-icon>
           </v-btn>
         </template>
-        <span v-html="routes.basket[getLang]" />
+        <span v-html="$helper.routes.basket[getLang]" />
       </v-tooltip>
       <v-toolbar-items class="pa-0 ml-4">
         <v-menu bottom :offset-y="true" transition="slide-y-transition" open-on-hover open-delay="300">
@@ -87,49 +89,49 @@
               <v-list-item-title
                 :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
                 color="#333333"
-                v-html="spa.profile[getLang]"
+                v-html="$helper.spa.profile[getLang]"
               />
             </v-list-item>
             <v-list-item v-if="userRole === 'admin' || userRole === 'artist'" to="/user/portfolio">
               <v-list-item-title
                 :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
                 color="#333333"
-                v-html="spa.portfolio[getLang]"
+                v-html="$helper.spa.portfolio[getLang]"
               />
             </v-list-item>
             <v-list-item to="/gallery">
               <v-list-item-title
                 :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
                 color="#333333"
-                v-html="spa.gallery[getLang]"
+                v-html="$helper.spa.gallery[getLang]"
               />
             </v-list-item>
             <v-list-item to="/user/favorites">
               <v-list-item-title
                 :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
                 color="#333333"
-                v-html="spa.favorites[getLang]"
+                v-html="$helper.spa.favorites[getLang]"
               />
             </v-list-item>
             <v-list-item to="/user/settings">
               <v-list-item-title
                 :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
                 color="#333333"
-                v-html="spa.settings[getLang]"
+                v-html="$helper.spa.settings[getLang]"
               />
             </v-list-item>
             <v-list-item v-if="userRole === 'admin'" to="/admin/gallery">
               <v-list-item-title
                 :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
                 color="#333333"
-                v-html="spa.galleryList[getLang]"
+                v-html="$helper.spa.galleryList[getLang]"
               />
             </v-list-item>
             <v-list-item @click="logout">
               <v-list-item-title
                 :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
                 color="#333333"
-                v-html="routes.logout[getLang]"
+                v-html="$helper.routes.logout[getLang]"
               />
             </v-list-item>
           </v-list>
@@ -142,18 +144,19 @@
     <v-app-bar class="hidden-md-and-up px-2 rounded-b-xl" app outlined absolute color="#e8e8e8" height="50px">
       <v-toolbar-items class="pa-0">
         <v-btn width="122px" color="transparent" text icon to="/">
-          <g-image style="width: 100%" :src="logo[1]" alt="logo" />
+          <g-image style="width: 100%" :src="$helper.logo[1]" alt="logo" />
         </v-btn>
       </v-toolbar-items>
 
       <v-spacer />
 
       <v-badge v-show="$eshop.basketValue.length > 0" left color="green" :content="$eshop.basketValue.length" overlap>
-        <v-btn height="30" width="30" icon color="transparent">
+        <v-btn height="30" width="30" icon color="transparent" to="/eshop/checkout">
           <v-icon color="#333333">mdi-basket</v-icon>
         </v-btn>
       </v-badge>
-      <v-btn height="30" width="30" v-show="$eshop.basketValue.length === 0" icon color="transparent">
+      <v-btn v-show="$eshop.basketValue.length === 0"
+        height="30" width="30" icon color="transparent" to="/eshop/checkout">
         <v-icon color="#333333">mdi-basket</v-icon>
       </v-btn>
       <v-toolbar-items class="pa-0">
@@ -172,49 +175,49 @@
               <v-list-item-title
                 :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
                 color="#333333"
-                v-html="spa.profile[getLang]"
+                v-html="$helper.spa.profile[getLang]"
               />
             </v-list-item>
             <v-list-item v-if="userRole === 'admin' || userRole === 'artist'" to="/user/portfolio">
               <v-list-item-title
                 :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
                 color="#333333"
-                v-html="spa.portfolio[getLang]"
+                v-html="$helper.spa.portfolio[getLang]"
               />
             </v-list-item>
             <v-list-item to="/gallery">
               <v-list-item-title
                 :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
                 color="#333333"
-                v-html="spa.gallery[getLang]"
+                v-html="$helper.spa.gallery[getLang]"
               />
             </v-list-item>
             <v-list-item to="/user/favorites">
               <v-list-item-title
                 :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
                 color="#333333"
-                v-html="spa.favorites[getLang]"
+                v-html="$helper.spa.favorites[getLang]"
               />
             </v-list-item>
             <v-list-item to="/user/settings">
               <v-list-item-title
                 :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
                 color="#333333"
-                v-html="spa.settings[getLang]"
+                v-html="$helper.spa.settings[getLang]"
               />
             </v-list-item>
             <v-list-item v-if="userRole === 'admin'" to="/admin/gallery">
               <v-list-item-title
                 :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
                 color="#333333"
-                v-html="spa.galleryList[getLang]"
+                v-html="$helper.spa.galleryList[getLang]"
               />
             </v-list-item>
             <v-list-item @click="logout">
               <v-list-item-title
                 :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
                 color="#333333"
-                v-html="routes.logout[getLang]"
+                v-html="$helper.routes.logout[getLang]"
               />
             </v-list-item>
           </v-list>
@@ -243,31 +246,31 @@
       <div class="d-flex flex-column align-center">
         <!-- Desktop -->
         <div class="hidden-sm-and-down pb-1">
-          <a class="px-1" style="text-decoration: none;" href="https://www.facebook.com/artventures.me" target="_blank">
+          <a class="px-1 no-decoration" href="https://www.facebook.com/artventures.me" target="_blank">
             <v-icon large class="black--text">mdi-facebook</v-icon>
           </a>
-          <a class="px-1" style="text-decoration: none;" href="https://www.instagram.com/artventures.me/" target="_blank">
+          <a class="px-1 no-decoration" href="https://www.instagram.com/artventures.me/" target="_blank">
             <v-icon large class="black--text">mdi-instagram</v-icon>
           </a>
-          <a class="px-1" style="text-decoration: none;" href="https://twitter.com/Artventures6" target="_blank">
+          <a class="px-1 no-decoration" href="https://twitter.com/Artventures6" target="_blank">
             <v-icon large class="black--text">mdi-twitter</v-icon>
           </a>
-          <a class="px-1" style="text-decoration: none;" href="https://www.linkedin.com/company/artventuresco" target="_blank">
+          <a class="px-1 no-decoration" href="https://www.linkedin.com/company/artventuresco" target="_blank">
             <v-icon large class="black--text">mdi-linkedin</v-icon>
           </a>
         </div>
         <!-- Mobile -->
         <div class="hidden-md-and-up pb-1">
-          <a class="px-2" style="text-decoration: none;" href="https://www.facebook.com/artventures.me" target="_blank">
+          <a class="px-2 no-decoration" href="https://www.facebook.com/artventures.me" target="_blank">
             <v-icon class="black--text" small>mdi-facebook</v-icon>
           </a>
-          <a class="px-2" style="text-decoration: none;" href="https://www.instagram.com/artventures.me/" target="_blank">
+          <a class="px-2 no-decoration" href="https://www.instagram.com/artventures.me/" target="_blank">
             <v-icon class="black--text" small>mdi-instagram</v-icon>
           </a>
-          <a class="px-2" style="text-decoration: none;" href="https://twitter.com/Artventures6" target="_blank">
+          <a class="px-2 no-decoration" href="https://twitter.com/Artventures6" target="_blank">
             <v-icon class="black--text" small>mdi-twitter</v-icon>
           </a>
-          <a class="px-2" style="text-decoration: none;" href="https://www.linkedin.com/company/artventuresco" target="_blank">
+          <a class="px-2 no-decoration" href="https://www.linkedin.com/company/artventuresco" target="_blank">
             <v-icon class="black--text" small>mdi-linkedin</v-icon>
           </a>
         </div>
@@ -288,9 +291,8 @@
           </div>
         </div>
         <g-link
-          style="text-decoration: none;"
           :class="getLang === 'en' ? 'raleway-13-400' : 'noto-13-400'"
-          class="black--text"
+          class="black--text no-decoration"
           to="/privacy-policy"
         >
           {{ getLang === 'en' ? 'Privacy Policy' : 'Πολιτική Απορρήτου' }}
@@ -333,59 +335,7 @@ export default {
   data () {
     return {
       // Cookies
-      status: null,
-      cookieTxt: {
-        gr: 'Χρησιμοποιούμε αρχεία αναγνώρισης ("cookies") για την βελτίωση της εμπειρίας και την ανάλυση της διαδικτυακής κίνησης.',
-        en: 'We use cookies to offer you a better experience and analyse traffic.',
-      },
-      allowCookies: {
-        gr: 'Αποδέχομαι',
-        en: 'Accept',
-      },
-      declineCookies: {
-        gr: 'Αρνούμαι',
-        en: 'Decline',
-      },
-      logo: [
-        'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto,h_76,w_auto/v1583838043/artventures/artventures_logo.svg',
-        'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto,h_50,w_auto/v1583838043/artventures/artventures_logo.svg',
-      ],
-      routes: {
-        logout: {
-          gr: '<div class="color-333333 text-capitalize">Αποσύνδεση</div>', // Greek, raw html
-          en: '<div class="color-333333 text-capitalize">Logout</div>', // English, raw html
-        },
-        basket: {
-          gr: '<div class="text-capitalize">Καλάθι</div>', // Greek, raw html
-          en: '<div class="text-capitalize">Checkout</div>', // English, raw html
-        }
-      },
-      spa: {
-        profile: {
-          gr: '<div class="color-333333 text-capitalize">Προφίλ</div>', // Greek, raw html
-          en: '<div class="color-333333 text-capitalize">Profile</div>', // English, raw html
-        },
-        portfolio: {
-          gr: '<div class="color-333333 text-capitalize">Πορτφόλιο</div>', // Greek, raw html
-          en: '<div class="color-333333 text-capitalize">Portfolio</div>', // English, raw html
-        },
-        settings: {
-          gr: '<div class="color-333333 text-capitalize">Ρυθμίσεις</div>', // Greek, raw html
-          en: '<div class="color-333333 text-capitalize">Settings</div>', // English, raw html
-        },
-        galleryList: {
-          gr: '<div class="color-333333 text-capitalize">Πίνακας Έργων</div>', // Greek, raw html
-          en: '<div class="color-333333 text-capitalize">Artworks Table</div>', // English, raw html
-        },
-        gallery: {
-          gr: '<div class="color-333333 text-capitalize">Γκαλερί</div>', // Greek, raw html
-          en: '<div class="color-333333 text-capitalize">Gallery</div>', // English, raw html
-        },
-        favorites: {
-          gr: '<div class="color-333333 text-capitalize">Αγαπημένα</div>', // Greek, raw html
-          en: '<div class="color-333333 text-capitalize">Favorites</div>', // English, raw html
-        }
-      },
+      status: null
     }
   },
   computed: {
@@ -433,15 +383,12 @@ export default {
 <style>
 @import '../assets/style/transitions.css';
 
-.v-navigation-drawer__border {
-  background-color: transparent !important;
+.border-fa-btn {
+  border: thin solid #333333 !important;
 }
 
-.v-toolbar__content {
-  padding-bottom: 0px;
-  padding-top: 0px;
-  padding-left: 0px;
-  padding-right: 0px;
+.no-decoration {
+  text-decoration: none;
 }
 
 .pos-rel {
@@ -675,8 +622,14 @@ export default {
   word-break: normal !important;
   line-height: 1.1;
 }
-.border-fa-btn {
-  border: thin solid #333333 !important;
+.v-navigation-drawer__border {
+  background-color: transparent !important;
+}
+.v-toolbar__content {
+  padding-bottom: 0px;
+  padding-top: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
 }
 </style>
 
