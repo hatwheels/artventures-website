@@ -342,18 +342,18 @@ export default {
     ...mapGetters(['getLang', 'getLanguages']),
     userRole () {
       if (this.$auth.userRole != null) {
-        return this.$auth.userRole[0].name
+        return this.$auth.userRole[0].name;
       }
-      return null
+      return null;
     },
     userPicture () {
       if (this.$auth.user) {
         if (process.isClient) {
-          var user = JSON.parse(localStorage.getItem('user'))
-          return user.picture
+          var user = JSON.parse(localStorage.getItem('user'));
+          return user.picture;
         }
       }
-      return null
+      return null;
     }
   },
   methods: {

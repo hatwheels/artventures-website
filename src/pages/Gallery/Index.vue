@@ -627,9 +627,7 @@
       <!-- Share Dialog -->
       <v-dialog v-model="isSharing.state" width="auto">
         <v-card>
-          <v-card-title
-            :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
-          >
+          <v-card-title :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'">
             {{ isSharing.text[getLang] }}
           </v-card-title>
           <v-card-actions>

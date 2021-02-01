@@ -237,12 +237,17 @@ export default {
       } else {
         try {
           await this.processMarketing();
-        } catch {
-          // empty
+        } finally {
+          console.log(this.$eshop.redirectInCheckoutValue);
+          if (this.$eshop.redirectInCheckoutValue) {
+            this.$eshop.redirectInCheckout = false;
+            this.$router.push({ path: '/eshop/checkout' })
+          } else {
+            this.roleName == 'artist' ?
+              this.$router.push({ path: '/user/portfolio' }) :
+              this.$router.push({ path: '/user/profile' })
+          }
         }
-        this.roleName == 'artist' ?
-          this.$router.push({ path: '/user/portfolio' }) :
-          this.$router.push({ path: '/user/profile' })
       }
     },
     async processMarketing() {
@@ -284,12 +289,17 @@ export default {
       } catch { this.$auth.logout(); return; }
       try {
         await this.processMarketing();
-      } catch {
-        // empty
+      } finally {
+        console.log(this.$eshop.redirectInCheckoutValue);
+        if (this.$eshop.redirectInCheckoutValue) {
+          this.$eshop.redirectInCheckout = false;
+          this.$router.push({ path: '/eshop/checkout' })
+        } else {
+          this.roleName == 'artist' ?
+            this.$router.push({ path: '/user/portfolio' }) :
+            this.$router.push({ path: '/user/profile' })
+        }
       }
-      this.roleName == 'artist' ?
-        this.$router.push({ path: '/user/portfolio' }) :
-        this.$router.push({ path: '/user/profile' });
     },
     async setNames() {
       this.$v.$touch();
@@ -308,12 +318,17 @@ export default {
           } catch { this.$auth.logout(); return; }
           try {
             await this.processMarketing();
-          } catch {
-            // empty
+          } finally {
+            console.log(this.$eshop.redirectInCheckoutValue);
+            if (this.$eshop.redirectInCheckoutValue) {
+              this.$eshop.redirectInCheckout = false;
+              this.$router.push({ path: '/eshop/checkout' })
+            } else {
+              this.roleName == 'artist' ?
+                this.$router.push({ path: '/user/portfolio' }) :
+                this.$router.push({ path: '/user/profile' })
+            }
           }
-          this.roleName == 'artist' ?
-            this.$router.push({ path: '/user/portfolio' }) :
-            this.$router.push({ path: '/user/profile' })
         }
       }
     }

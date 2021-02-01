@@ -168,7 +168,7 @@
         outlined
         elevation="1"
         color="transparent"
-        to="/user/profile"
+        @click="$auth.login()"
         v-html="$helper.routes.login[getLang]"
       />
       <v-toolbar-items v-else class="pa-0 ml-4">
@@ -357,11 +357,11 @@
                           </v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
-                    <v-list-item v-if="!isAuthenticated" class="pb-5 px-0" to="/user/profile">
-                        <v-list-item-title
-                          :class="getLang === 'gr' ? 'noto-28-400' : 'raleway-28-400'"
-                          v-html="$helper.routes.login[getLang]"
-                        />
+                    <v-list-item v-if="!isAuthenticated" class="pb-5 px-0" @click="$auth.login()">
+                      <v-list-item-title
+                        :class="getLang === 'gr' ? 'noto-28-400' : 'raleway-28-400'"
+                        v-html="$helper.routes.login[getLang]"
+                      />
                     </v-list-item>
                   </v-list>
                 </v-carousel-item>
@@ -615,6 +615,21 @@ export default {
   },
   computed: {
     ...mapGetters(['getLang', 'getLanguages']),
+    userRole () {
+      if (this.$auth.userRole != null) {
+        return this.$auth.userRole[0].name;
+      }
+      return null;
+    },
+    userPicture () {
+      if (this.$auth.user) {
+        if (process.isClient) {
+          var user = JSON.parse(localStorage.getItem('user'));
+          return user.picture;
+        }
+      }
+      return null;
+    }
   },
   methods: {
     ...mapMutations(['setLang', 'setCookieRedirect']),
@@ -652,6 +667,9 @@ export default {
     },
     cookieClickedDecline() {
       this.status = 'decline';
+    },
+    logout() {
+      this.$auth.logout();
     }
   },
 }

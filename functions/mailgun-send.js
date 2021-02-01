@@ -36,9 +36,14 @@ exports.handler = (event, context) => {
                 body: 'message parameter required'
             }
         }
-        var to = ['mail@artventures.me', 'pdemertzis@gmail.com', 'kmarko1385@gmail.com'];
-        if (Object.prototype.hasOwnProperty.call(data, "to") && data.to === 'all') {
-            to.push('smakrigiorgou@gmail.com');
+        var to = [];
+        if (process.env.GRIDSOME_BUILD === "prod") { // prod
+            to = ['mail@artventures.me', 'pdemertzis@gmail.com', 'kmarko1385@gmail.com'];
+            if (Object.prototype.hasOwnProperty.call(data, "to") && data.to === 'all') {
+                to.push('smakrigiorgou@gmail.com');
+            }
+        } else { // dev
+            to = ['kmarko1385@gmail.com'];
         }
 
         let content = {
