@@ -59,7 +59,7 @@ exports.handler = (event, context) => {
                 from: 'Artventures <mail@artventures.me>',
                 to: to,
                 subject: data.subject,
-                html: `<div style="padding: 4px 0px 14px 0px; background-color: #DDDDDD; color: #000000DE; font-family: Raleway, sans-serif; font-size: x-large; text-align: center">
+                html: `<div style="padding: 4px 0px 14px 0px; background-color: #DDDDDD; color: #000000DE; font-family: Raleway, sans-serif; font-size: medium; text-align: center">
                     <p>New Order from</p>
                     <p style="font-style: italic; font-weight: bold; color: #000000DE;">${data.firstname} ${data.lastname}, ${data.email}</p>
                     ${data.message}

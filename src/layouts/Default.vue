@@ -27,7 +27,7 @@
 
     <!-- Desktop -->
     <v-app-bar
-      class="hidden-sm-and-down px-4 rounded-b-xl"
+      class="hidden-md-and-down px-4 rounded-b-xl"
       app outlined absolute
       color="#e8e8e8" height="76px"
     >
@@ -240,7 +240,7 @@
   <!-- Mobile -->
     <v-app-bar
       app absolute
-      class="hidden-md-and-up px-3"
+      class="hidden-lg-and-up px-3"
       color="#F7F7F7" height="50px"
     >
       <v-btn width="122px" color="transparent" text icon to="/">
