@@ -238,7 +238,6 @@ export default {
         try {
           await this.processMarketing();
         } finally {
-          console.log(this.$eshop.redirectInCheckoutValue);
           if (this.$eshop.redirectInCheckoutValue) {
             this.$eshop.redirectInCheckout = false;
             this.$router.push({ path: '/eshop/checkout' })
@@ -290,7 +289,6 @@ export default {
       try {
         await this.processMarketing();
       } finally {
-        console.log(this.$eshop.redirectInCheckoutValue);
         if (this.$eshop.redirectInCheckoutValue) {
           this.$eshop.redirectInCheckout = false;
           this.$router.push({ path: '/eshop/checkout' })
@@ -319,7 +317,6 @@ export default {
           try {
             await this.processMarketing();
           } finally {
-            console.log(this.$eshop.redirectInCheckoutValue);
             if (this.$eshop.redirectInCheckoutValue) {
               this.$eshop.redirectInCheckout = false;
               this.$router.push({ path: '/eshop/checkout' })

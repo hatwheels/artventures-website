@@ -1,3 +1,5 @@
+/* Helper Plugin */
+
 import Vue from 'vue';
 
 let helper = new Vue({

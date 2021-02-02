@@ -12,35 +12,9 @@
               {{ title[getLang] }}
             </div>
           </v-card-title>
-          <v-card-text class="px-16 py-6">
+          <!-- Desktop -->
+          <v-card-text v-if="showItems" class="hidden-sm-and-down px-16 py-6">
             <div class="px-16">
-              <!-- Headers -->
-              <!-- <v-row class="py-2" no-gutters justify="center" align="center">
-                <v-col cols="3" class="border-bottom-333333">
-                  <div class="playfair-30-700 text-center">
-                    {{ headers[0][getLang] }}
-                  </div>
-                </v-col>
-                <v-col cols="3" class="pl-4 pr-2 border-bottom-333333">
-                  <div class="playfair-30-700">
-                    {{ headers[1][getLang] }}
-                  </div>
-                </v-col>
-                <v-col cols="2" class="px-2 border-bottom-333333">
-                  <div class="playfair-30-700">
-                    {{ headers[2][getLang] }}
-                  </div>
-                </v-col>
-                <v-col cols="2" class="px-2 border-bottom-333333">
-                  <div class="playfair-30-700">
-                    {{ headers[3][getLang] }}
-                  </div>
-                </v-col>
-                <v-col cols="2" class="pl-2 border-bottom-333333">
-                  <div style="height: 33px;"></div>
-                </v-col>
-              </v-row> -->
-              <!-- Content -->
               <v-row
                 class="pt-2"
                 v-for="(item, i) in $eshop.basketValue" :key="'item-' + i"
@@ -114,7 +88,7 @@
                           color="#000000DE"
                           class="pa-auto"
                           outlined
-                          @click="$eshop.removeFromBasket(item.public_id)"
+                          @click="removeFromBasket(item.public_id);"
                         >
                           {{ removeBtn.single[getLang] }}
                         </v-btn>
@@ -146,13 +120,15 @@
                       color="#000000DE"
                       outlined
                       :disabled="$eshop.basketValue.every(item => item.selected === false)"
-                      @click="$eshop.removeSelectedFromBasket()"
+                      @click="removeSelectedFromBasket();"
                       v-html="removeBtn.selected[getLang]"
                     />
                   </div>
                 </v-col>
               </v-row>
             </div>
+          </v-card-text>
+          <v-card-text class="hidden-md-and-up px-16 py-6">
           </v-card-text>
           <v-card-actions>
             <v-row no-gutters justify="center" align="center">
@@ -239,7 +215,7 @@
               class="white--text"
               :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
               color="#333333"
-              @click="sendOrder()"
+              @click="sendOrder();"
             >
               OK
             </v-btn>
@@ -282,31 +258,10 @@ export default {
   data() {
     return {
       isAuthenticated: false,
+      showItems: true,
       confirmOrderDialog: false,
       orderSentDialog: false,
       loginDialog: false,
-      // headers: [
-      //   {
-      //     gr: 'Εργο Τέχνης',
-      //     en: 'Artwork'
-      //   },
-      //   {
-      //     gr: 'Περιγραφή',
-      //     en: 'Description'
-      //   },
-      //   {
-      //     gr: 'Τιμή Ενοικίασης',
-      //     en: 'Rent Price'
-      //   },
-      //   {
-      //     gr: 'Τιμή Πώλησης',
-      //     en: 'Sale Price'
-      //   },
-      //   {
-      //     gr: '',
-      //     en: ''
-      //   }
-      // ],
       choices: [
         {
           text: "Sale",
@@ -367,8 +322,8 @@ export default {
           en: "Thank you for your order!"
         },
         text: {
-          gr: "Λάβαμε την παραγγελία σας. Σύντομα θα επικοινωνήσουμε μαζί σας μέσω email.",
-          en: "Your order has been sent. We will contact via email soon."
+          gr: "Λάβαμε την παραγγελία σας και σας στείλαμε μέσω email τα στοιχεία της παραγγελίας σας. Σύντομα θα επικοινωνήσουμε μαζί σας μέσω email για τα επόμενα βήματα.",
+          en: "We received your order and we sent you an email with your order's information.  We will contact you soon via email for the next steps."
         },
       }
     }
@@ -383,37 +338,122 @@ export default {
   },
   methods: {
     login() {
+      // Save preferences in items
+      if (process.isClient) {
+        localStorage.setItem('itemsInBasket', JSON.stringify(this.$eshop.basketValue));
+      }
       this.loginDialog = false;
       this.$eshop.redirectInCheckout = true;
       this.$auth.login();
     },
+    removeFromBasket(id) {
+      this.$eshop.removeFromBasket(id);
+      this.showItems = false;
+      setTimeout(() => this.showItems = true, 50);
+    },
+    removeSelectedFromBasket() {
+      this.$eshop.removeSelectedFromBasket();
+      this.showItems = false;
+      setTimeout(() => this.showItems = true, 50);
+    },
     sendOrder() {
-      // Notify us
-      let message = "";
+      // Notify us and buyer
+      let message = '';
+      let msgBuyer = '<div style="padding: 0px 0px 10px 0px; background-color: #DDDDDD;"><img style="display: block; margin-left: auto; margin-right: auto;" src="' + this.$helper.logo[0] + '" />';
+      msgBuyer += '<div style="padding: 0px 0px 20px 0px; font-family: Raleway, sans-serif; font-size: x-large; font-weight:bold; text-align: center; color: #000000DE;">Your Order</div>';
       this.$eshop.basketValue.forEach(item => {
-        message += "\n1. ";
-        message += item.artist_name;
+        // Start new item
+        message += '<div style="display: flex; flex-direction: row; align-content: center; align-items: center; justify-content: center;  color: #000000DE; font-family: Raleway, sans-serif; font-size: x-large; text-align: center;">';
+        msgBuyer += '<div style="display: flex; flex-direction: row; align-content: center; align-items: center; justify-content: center; color: #000000DE; font-family: Raleway, sans-serif; font-size: x-large; text-align: center;">';
+        // Embed Image
+        message += '<div style="display: flex; flex-direction: column;">';
+        message += '<img style="padding: 10px;" src="' + item.url + '" width="300px" />';
+        msgBuyer += '<img style="padding: 10px;" src="' + item.url + '" width="300px" />';
+        // Link Image
+        message += '<a style="padding: 10px;" href="' + item.url + '" target="_blank">Link</a>';
+        message += '</div>';
+
+        // Artist
+        message += '<div style="display: flex; flex-direction: column;">';
+        message += '<div style="padding: 10px; text-transform: capitalize;">' + item.artist_name + '</div>';
+        msgBuyer += '<div style="display: flex; flex-direction: column; align-content: start; align-items: start; justify-content: start;">';
+        msgBuyer += '<div style="padding: 10px; text-transform: capitalize;">' + item.artist_name + '</div>';
+        // Title
         if (item.title.length) {
-          message += ", " + item.title;
+          message += '<div style="padding: 10px; font-style: italic; text-transform: capitalize;">' + item.title + '</div>';
+          msgBuyer += '<div style="padding: 10px; font-style: italic; text-transform: capitalize;">' + item.title + '</div>';
         }
-        if (item.type.length) {
-          message += ", " + item.type;
+        // Type
+        if (item.type) {
+          message += '<div style="padding: 10px;">' + item.type.en;
+          msgBuyer += '<div style="padding: 10px;">' + item.type[this.getLang];
+          // Size
+          if (item.size.length) {
+            message += ' - <span>' + item.size + '</span>';
+            msgBuyer += ' - <span>' + item.size + '</span>';
+          }
+          msgBuyer += '</div>';
+          message += '</div>';
         }
-        if (item.size.length) {
-          message += ", " + item.size;
+        // Sale or Rent?
+        message += '<div style="padding: 10px; text-transform: capitalize;">' + item.choice + ': ';
+        if (item.choice === "sale") {
+          message += '<span style="text-transform: lowercase;">' + item.salePrice +  '€</span></div>';
+        } else {
+          message += '<span style="text-transform: lowercase;">' + item.rentPrice + this.$helper.plainText.rentPerMonth['en'] + '</span></div>';
         }
-        message += ", " + item.choice + ": " + (item.choice === "sale") ? item.salePrice : item.rentPrice;
+        msgBuyer += '<div style="padding: 10px;">';
+        if (this.getLang === 'gr') { // greek
+          if (item.choice === 'sale') { // sale
+            msgBuyer += 'Αγορά: ' + item.salePrice + '€</div>';
+          } else { // rent
+            msgBuyer += 'Ενοικίαση: ' + item.rentPrice + this.$helper.plainText.rentPerMonth[this.getLang] + '</div>';
+          }
+        } else { // english
+          if (item.choice === 'sale') { // sale
+            msgBuyer += 'Sale: ' + item.salePrice + '€</div>';
+          } else { // rent
+            msgBuyer += 'Rent: ' + item.rentPrice + this.$helper.plainText.rentPerMonth[this.getLang] + '</div>';
+          }
+        }
+        message += '</div></div>';
+        msgBuyer += '</div></div>';
       });
-      message += "\nTotal Sale Price: " + this.$eshop.totalSalePrice;
-      message += "\nTotal Rent Price: " + + this.$eshop.totalRentPrice;
-        this.$admin.sendEmail({
+      message += '<div style="padding: 10px; text-align: center;"></div>';
+      message += '<p style="font-family: Raleway, sans-serif; font-size: x-large; font-weight: bold; text-align: center; color: #000000DE;">Total Sale Price: ' + this.$eshop.totalSalePrice + '€</p>';
+      message += '<p style="font-family: Raleway, sans-serif; font-size: x-large; font-weight: bold; text-align: center; color: #000000DE;>Total Rent Price: ' + this.$eshop.totalRentPrice + this.$helper.plainText.rentPerMonth['en'] + '</p>';
+      msgBuyer += '<div style="padding: 10px;"></div>';
+      if (this.getLang === 'gr') { // greek
+        msgBuyer += '<p style="font-family: Raleway, sans-serif; font-size: x-large; font-weight: bold; text-align: center; color: #000000DE;">Συνολική Τιμή Αγοράς: ' + this.$eshop.totalSalePrice + '€</p>';
+        msgBuyer += '<p style="font-family: Raleway, sans-serif; font-size: x-large; font-weight: bold; text-align: center; color: #000000DE;">Συνολική Τιμή Ενοικίασης: ' + this.$eshop.totalRentPrice + this.$helper.plainText.rentPerMonth[this.getLang] + '</p>';
+      } else { // english
+        msgBuyer += '<p style="font-family: Raleway, sans-serif; font-size: x-large; font-weight: bold; text-align: center; color: #000000DE;">Total Sale Price: ' + this.$eshop.totalSalePrice + '€</p>';
+        msgBuyer += '<p style="font-family: Raleway, sans-serif; font-size: x-large; font-weight: bold; text-align: center; color: #000000DE;">Total Rent Price: ' + this.$eshop.totalRentPrice + this.$helper.plainText.rentPerMonth[this.getLang] + '</p>';
+      }
+      msgBuyer += '</div>';
+
+      // Notify us
+      var subject = "New Order";
+      if (this.$auth.user.name) {
+        subject += " from " + this.$auth.user.name;
+      }
+      this.$admin.sendEmail({
         email: this.$auth.user.email || '',
         firstname: this.$auth.user.given_name || '',
         lastname: this.$auth.user.family_name || '',
-        subject: "New Order",
+        subject: subject,
         message: message,
+        html: true,
         to: 'all'
       });
+      // Notify buyer
+      this.$notify.sendEmail({
+        to: this.$auth.user.email || '',
+        subject: 'Your Order at Artventures',
+        message: msgBuyer,
+        html: true
+      });
+
       this.confirmOrderDialog = false;
       this.orderSentDialog = true;
     }

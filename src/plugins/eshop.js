@@ -1,3 +1,5 @@
+/* Eshop Plugin */
+
 import Vue from 'vue';
 
 let eshop = new Vue({
