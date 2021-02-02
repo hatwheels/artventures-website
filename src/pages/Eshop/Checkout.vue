@@ -710,4 +710,4 @@ export default {
 .v-card__text {
   color: #000000DE !important;
 }
-</style>>
+</style>
