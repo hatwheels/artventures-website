@@ -15,105 +15,107 @@
       @clicked-decline="cookieClickedDecline"
     >
       <div slot="message" class="messageText" :class="'nunito-18-400'">
-        {{ cookieTxt[getLang] }}
+        {{ $helper.cookieTxt[getLang] }}
       </div>
       <div slot="declineContent" :class="'nunito-18-400'">
-        {{ declineCookies[getLang] }}
+        {{ $helper.declineCookies[getLang] }}
       </div>
       <div slot="acceptContent" :class="'nunito-18-400'">
-        {{ allowCookies[getLang] }}
+        {{ $helper.allowCookies[getLang] }}
         </div>
     </vue-cookie-accept-decline>
 
     <!-- Desktop -->
     <v-app-bar
+      class="hidden-md-and-down px-4 rounded-b-xl"
       app outlined absolute
-      class="hidden-sm-and-down px-11 rounded-b-xl"
       color="#e8e8e8" height="76px"
     >
-
-      <v-btn width="185" color="transparent" text icon to="/">/
-        <g-image :src="logo[0]" style="width: 100%" alt="logo" />
-      </v-btn>
+      <v-toolbar-items class="pa-0">
+        <g-link to="/">
+          <g-image width="185" :src="$helper.logo[0]" alt="logo" />
+        </g-link>
+      </v-toolbar-items>
 
       <v-spacer />
 
       <v-toolbar-items class="pa-0">
         <v-btn
           :class="'nunito-18-400'"
-          class="px-2"
           text color="transparent"
           to="/"
-          v-html="routes.about[getLang]"
+          v-html="$helper.routes.about[getLang]"
         />
-        <v-menu open-on-hover bottom :offset-y="true" transition="slide-y-transition">
-          <template v-slot:activator="{ on }">
-            <v-btn class="px-2" text color="transparent" v-on="on" :ripple="false">
+        <v-menu open-on-hover open-delay="300" bottom :offset-y="true" transition="slide-y-transition">
+          <template v-slot:activator="{ on, attrs, value }">
+            <v-btn text color="transparent" v-on="on" v-bind="attrs" :ripple="false">
               <div
                 :class="'nunito-18-400'"
                 class="color-333333"
-                v-html="routes.explore[getLang]"
+                v-html="$helper.routes.explore[getLang]"
               />
+              <v-icon v-if="value" color="#333333">mdi-chevron-up</v-icon>
+              <v-icon v-else color="#333333">mdi-chevron-down</v-icon>
             </v-btn>
           </template>
-          <v-list flat color="#e8e8e8">
-            <v-list-item v-for="(route, i) in routes.explore.routes" :key="'route-' + i" :to="route.route">
+          <v-list color="#e8e8e8">
+            <v-list-item v-for="(route, i) in $helper.routes.explore.routes" :key="'route-' + i" :to="route.route">
               <v-list-item-title :class="getLang === 'gr' ? 'noto-16-500' : 'nunito-18-400'" v-html="route[getLang]" />
             </v-list-item>
           </v-list>
         </v-menu>
         <v-btn
           :class="'nunito-18-400'"
-          class="px-2"
           text color="transparent"
           to="/artists"
-          v-html="routes.forArtists[getLang]"
+          v-html="$helper.routes.forArtists[getLang]"
         />
         <v-btn
           :class="'nunito-18-400'"
-          class="px-2"
           text color="transparent"
           to="/gallery"
-          v-html="routes.gallery[getLang]"
+          v-html="$helper.routes.gallery[getLang]"
         />
         <v-btn
           :class="'nunito-18-400'"
-          class="px-2"
           text color="transparent"
           to="/faq"
-          v-html="routes.faq[getLang]"
+          v-html="$helper.routes.faq[getLang]"
         />
         <div class="my-5 mx-2">
           <v-btn
             v-if="$route.path == '/'"
             :class="'raleway-18-400'"
-            style="border-radius: 8px;"
+            class="rounded-lg"
             depressed
+            elevation="2"
             color="#333333"
             @click="goTo('#contact-us')"
-            v-html="routes.contact[getLang]"
+            v-html="$helper.routes.contact[getLang]"
           />
           <v-btn
             v-else
             :class="'raleway-18-400'"
-            style="border-radius: 8px;"
+            class="rounded-lg"
             depressed
+            elevation="2"
             color="#333333"
             :to="{ path: '/', hash:'#contact-us' }"
-            v-html="routes.contact[getLang]"
+            v-html="$helper.routes.contact[getLang]"
           />
         </div>
-        <v-menu open-on-hover bottom :offset-y="true" transition="slide-y-transition">
-          <template v-slot:activator="{ on }">
-            <v-btn class="px-2" text color="transparent" v-on="on" :ripple="false">
+        <v-menu open-on-hover open-delay="300" bottom :offset-y="true" transition="slide-y-transition">
+          <template v-slot:activator="{ on, attrs, value }">
+            <v-btn text color="transparent" v-on="on" v-bind="attrs" :ripple="false">
               <div
                 class="color-333333 nunito-18-400"
                 v-html="getLang"
               />
-              <v-icon color="#333333" right>mdi-menu-down</v-icon>
+              <v-icon v-if="!value" color="#333333">mdi-chevron-down</v-icon>
+              <v-icon v-else color="#333333">mdi-chevron-up</v-icon>
             </v-btn>
           </template>
-          <v-list flat color="#e8e8e8">
+          <v-list color="#e8e8e8">
             <v-list-item v-for="(language, i) in getLanguages" :key="'lang-' + i" @click="setLanguage(language)">
               <v-list-item-title
                 class="color-333333 text-center text-uppercase nunito-18-400"
@@ -122,24 +124,127 @@
             </v-list-item>
           </v-list>
         </v-menu>
-        <v-btn
-          :class="'nunito-18-400'"
-          class="px-2"
-          text color="transparent"
-          to="/user/profile"
-          v-html="isAuthenticated ? routes.profile[getLang] : routes.login[getLang]"
-        />
+        <v-divider class="mx-1" vertical inset />
+      </v-toolbar-items>
+      <v-tooltip bottom color="black">
+        <template v-slot:activator="{ on, attrs }">
+          <v-badge
+            v-show="$eshop.basketValue.length > 0"
+            class="mx-4"
+            overlap
+            color="green"
+            left
+            :content="$eshop.basketValue.length"
+          >
+            <v-btn
+              class="ml-1"
+              v-bind="attrs" v-on="on"
+              height="30" width="30"
+              large
+              icon color="transparent"
+              to="/eshop/checkout"
+            >
+              <v-icon color="#333333">mdi-basket</v-icon>
+            </v-btn>
+          </v-badge>
+          <v-btn
+            v-show="$eshop.basketValue.length === 0"
+            class="mx-4"
+            v-bind="attrs" v-on="on"
+            height="30" width="30"
+            large
+            icon color="transparent"
+            to="/eshop/checkout"
+          >
+            <v-icon color="#333333">mdi-basket</v-icon>
+          </v-btn>
+        </template>
+        <span v-html="$helper.routes.basket[getLang]" />
+      </v-tooltip>
+      <v-btn
+        v-if="!isAuthenticated"
+        id="login-btn"
+        class="nunito-18-400 rounded-lg"
+        outlined
+        elevation="1"
+        color="transparent"
+        @click="$auth.login()"
+        v-html="$helper.routes.login[getLang]"
+      />
+      <v-toolbar-items v-else class="pa-0 ml-4">
+        <v-menu bottom :offset-y="true" transition="slide-y-transition" open-on-hover open-delay="300">
+          <template v-slot:activator="{ on, attrs, value }">
+            <v-btn class="px-0" v-on="on" v-bind="attrs" text color="transparent" :ripple="false">
+              <v-avatar>
+                <v-img v-if="userPicture" :src="userPicture" alt="profile pic" />
+              </v-avatar>
+              <v-icon v-if="value" color="#333333">mdi-chevron-up</v-icon>
+              <v-icon v-else color="#333333">mdi-chevron-down</v-icon>
+            </v-btn>
+          </template>
+          <v-list color="#e8e8e8">
+            <v-list-item to="/user/profile">
+              <v-list-item-title
+                :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
+                color="#333333"
+                v-html="$helper.spa.profile[getLang]"
+              />
+            </v-list-item>
+            <v-list-item v-if="userRole === 'admin' || userRole === 'artist'" to="/user/portfolio">
+              <v-list-item-title
+                :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
+                color="#333333"
+                v-html="$helper.spa.portfolio[getLang]"
+              />
+            </v-list-item>
+            <v-list-item to="/gallery">
+              <v-list-item-title
+                :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
+                color="#333333"
+                v-html="$helper.spa.gallery[getLang]"
+              />
+            </v-list-item>
+            <v-list-item to="/user/favorites">
+              <v-list-item-title
+                :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
+                color="#333333"
+                v-html="$helper.spa.favorites[getLang]"
+              />
+            </v-list-item>
+            <v-list-item to="/user/settings">
+              <v-list-item-title
+                :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
+                color="#333333"
+                v-html="$helper.spa.settings[getLang]"
+              />
+            </v-list-item>
+            <v-list-item v-if="userRole === 'admin'" to="/admin/gallery">
+              <v-list-item-title
+                :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
+                color="#333333"
+                v-html="$helper.spa.galleryList[getLang]"
+              />
+            </v-list-item>
+            <v-list-item @click="logout">
+              <v-list-item-title
+                :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
+                color="#333333"
+                v-html="$helper.routes.logout[getLang]"
+              />
+            </v-list-item>
+          </v-list>
+        </v-menu>
       </v-toolbar-items>
     </v-app-bar>
 
   <!-- Mobile -->
     <v-app-bar
       app absolute
-      class="hidden-md-and-up px-3"
+      class="hidden-lg-and-up px-3"
       color="#F7F7F7" height="50px"
     >
       <v-btn width="122px" color="transparent" text icon to="/">
-        <g-image style="width: 100%" :src="logo[1]" alt="logo" />
+        <g-image style="width: 100%" :src="$helper.logo[1]" alt="logo" />
       </v-btn>
 
       <v-spacer />
@@ -153,19 +258,25 @@
           </template>
           <v-card flat>
             <div class="d-flex justify-space-between">
-              <v-carousel ref="menucarousel" hide-delimiter-background hide-delimiters :show-arrows="false" height="100%">
+              <v-carousel
+                ref="menucarousel"
+                hide-delimiter-background
+                hide-delimiters
+                :show-arrows="false"
+                height="100%"
+              >
                 <v-carousel-item>
                   <v-list color="#ffffff" class="px-9  py-9">
                     <v-list-item class="pb-5 px-0" to="/">
                       <v-list-item-title
                         :class="getLang === 'gr' ? 'noto-28-400' : 'raleway-28-400'"
-                        v-html="routes.about[getLang]"
+                        v-html="$helper.routes.about[getLang]"
                       />
                     </v-list-item>
                     <v-list-item class="pb-5 px-0" @click="modalSlide = 'explore'; $refs.menucarousel.next();">
                       <v-list-item-title
                         :class="getLang === 'gr' ? 'noto-28-400' : 'raleway-28-400'"
-                        v-html="routes.explore[getLang]"
+                        v-html="$helper.routes.explore[getLang]"
                       />
                       <v-list-item-icon>
                         <v-icon large color="#757575">mdi-chevron-double-right</v-icon>
@@ -174,40 +285,42 @@
                     <v-list-item class="pb-5 px-0" to="/artists">
                       <v-list-item-title
                         :class="getLang === 'gr' ? 'noto-28-400' : 'raleway-28-400'"
-                        v-html="routes.forArtists[getLang]"
+                        v-html="$helper.routes.forArtists[getLang]"
                       />
                     </v-list-item>
                     <v-list-item class="pb-5 px-0" to="/gallery">
                       <v-list-item-title
                         :class="getLang === 'gr' ? 'noto-28-400' : 'raleway-28-400'"
-                        v-html="routes.gallery[getLang]"
+                        v-html="$helper.routes.gallery[getLang]"
                       />
                     </v-list-item>
                     <v-list-item class="pb-5 px-0" to="/faq">
                       <v-list-item-title
                         :class="getLang === 'gr' ? 'noto-28-400' : 'raleway-28-400'"
-                        v-html="routes.faq[getLang]"
+                        v-html="$helper.routes.faq[getLang]"
                       />
                     </v-list-item>
                     <v-list-item v-if="$route.path == '/'" class="pb-5 px-0">
                       <v-btn
                         :class="getLang === 'gr' ? 'noto-25-400' : 'raleway-25-400'"
-                        x-large
                         depressed
+                        elevation="2"
+                        x-large
                         color="#333333"
                         @click="modalMenu = false; goTo('#contact-us-small');"
-                        v-html="routes.contact[getLang]"
+                        v-html="$helper.routes.contact[getLang]"
                       />
                     </v-list-item>
                     <v-list-item v-else class="pb-5 px-0">
                       <v-btn
                         :class="getLang === 'gr' ? 'noto-25-400' : 'raleway-25-400'"
                         class="py-4"
-                        x-large
                         depressed
+                        elevation="2"
+                        x-large
                         color="#333333"
                         :to="{ path: '/', hash:'#contact-us-small' }"
-                        v-html="routes.contact[getLang]"
+                        v-html="$helper.routes.contact[getLang]"
                       />
                     </v-list-item>
                     <v-list-item class="pb-5 px-0" @click="modalSlide = 'language'; $refs.menucarousel.next();">
@@ -219,12 +332,37 @@
                         <v-icon large color="#757575">mdi-chevron-double-right</v-icon>
                       </v-list-item-icon>
                     </v-list-item>
-                   <v-list-item class="pb-5 px-0" to="/user/profile">
+                    <v-list-item class="pb-5 px-0" to="/eshop/checkout">
+                        <v-badge
+                          v-show="$eshop.basketValue.length > 0"
+                          class="mr-6"
+                          color="green"
+                          :content="$eshop.basketValue.length"
+                        >
+                          <v-icon color="#333333">mdi-basket</v-icon>
+                        </v-badge>
+                        <v-icon
+                          v-show="$eshop.basketValue.length === 0"
+                          class="mr-4"
+                          color="#333333"
+                        >
+                          mdi-basket
+                        </v-icon>
+                        <v-list-item-content>
+                          <v-list-item-title
+                            :class="getLang === 'gr' ? 'noto-28-400' : 'raleway-28-400'"
+                            class="color-333333"
+                            v-html="$helper.routes.basket[getLang]"
+                          >
+                          </v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                    <v-list-item v-if="!isAuthenticated" class="pb-5 px-0" @click="$auth.login()">
                       <v-list-item-title
                         :class="getLang === 'gr' ? 'noto-28-400' : 'raleway-28-400'"
-                        v-html="isAuthenticated ? routes.profile[getLang] : routes.login[getLang]"
+                        v-html="$helper.routes.login[getLang]"
                       />
-                   </v-list-item>
+                    </v-list-item>
                   </v-list>
                 </v-carousel-item>
                 <v-carousel-item>
@@ -240,7 +378,11 @@
                         {{ getLang === 'gr' ? 'Πίσω': 'Back' }}
                       </v-list-item-title>
                     </v-list-item>
-                    <v-list-item class="pb-5 px-0" v-for="(route, i) in routes.explore.routes" :key="'modal-route-' + i" :to="route.route">
+                    <v-list-item
+                      class="pb-5 px-0"
+                      v-for="(route, i) in $helper.routes.explore.routes"
+                      :key="'modal-route-' + i" :to="route.route"
+                    >
                       <v-list-item-title
                         :class="getLang === 'gr' ? 'noto-28-400' : 'raleway-28-400'"
                         v-html="route[getLang]"
@@ -276,6 +418,68 @@
             </div>
           </v-card>
         </v-dialog>
+        <v-menu v-if="isAuthenticated" bottom :offset-y="true" transition="slide-y-transition">
+          <template v-slot:activator="{ on, attrs, value }">
+            <v-btn class="px-0" text v-on="on" v-bind="attrs" color="transparent" :ripple="false">
+              <v-avatar size="36">
+                <v-img v-if="userPicture" :src="userPicture" alt="profile pic" />
+              </v-avatar>
+              <v-icon v-if="value" color="#333333">mdi-chevron-up</v-icon>
+              <v-icon v-else color="#333333">mdi-chevron-down</v-icon>
+            </v-btn>
+          </template>
+          <v-list flat color="#e8e8e8">
+            <v-list-item to="/user/profile">
+              <v-list-item-title
+                :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
+                color="#333333"
+                v-html="$helper.spa.profile[getLang]"
+              />
+            </v-list-item>
+            <v-list-item v-if="userRole === 'admin' || userRole === 'artist'" to="/user/portfolio">
+              <v-list-item-title
+                :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
+                color="#333333"
+                v-html="$helper.spa.portfolio[getLang]"
+              />
+            </v-list-item>
+            <v-list-item to="/gallery">
+              <v-list-item-title
+                :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
+                color="#333333"
+                v-html="$helper.spa.gallery[getLang]"
+              />
+            </v-list-item>
+            <v-list-item to="/user/favorites">
+              <v-list-item-title
+                :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
+                color="#333333"
+                v-html="$helper.spa.favorites[getLang]"
+              />
+            </v-list-item>
+            <v-list-item to="/user/settings">
+              <v-list-item-title
+                :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
+                color="#333333"
+                v-html="$helper.spa.settings[getLang]"
+              />
+            </v-list-item>
+            <v-list-item v-if="userRole === 'admin'" to="/admin/gallery">
+              <v-list-item-title
+                :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
+                color="#333333"
+                v-html="$helper.spa.galleryList[getLang]"
+              />
+            </v-list-item>
+            <v-list-item @click="logout">
+              <v-list-item-title
+                :class="getLang === 'gr' ? 'noto-16-500' : 'raleway-18-400'"
+                color="#333333"
+                v-html="$helper.routes.logout[getLang]"
+              />
+            </v-list-item>
+          </v-list>
+        </v-menu>
       </v-toolbar-items>
     </v-app-bar>
 
@@ -288,6 +492,7 @@
     <v-footer
       app
       color="#dddddd"
+      fixed
       absolute
       class="d-flex flex-xs-row flex-sm-row flex-column justify-space-around align-center px-12 py-9"
     >
@@ -299,31 +504,31 @@
       <div class="d-flex flex-column align-center">
         <!-- Desktop -->
         <div class="hidden-sm-and-down pb-1">
-          <a class="px-1" style="text-decoration: none;" href="https://www.facebook.com/artventures.me" target="_blank">
+          <a class="px-1 no-decoration" href="https://www.facebook.com/artventures.me" target="_blank">
             <v-icon large class="black--text">mdi-facebook</v-icon>
           </a>
-          <a class="px-1" style="text-decoration: none;" href="https://www.instagram.com/artventures.me/" target="_blank">
+          <a class="px-1 no-decoration" href="https://www.instagram.com/artventures.me/" target="_blank">
             <v-icon large class="black--text">mdi-instagram</v-icon>
           </a>
-          <a class="px-1" style="text-decoration: none;" href="https://twitter.com/Artventures6" target="_blank">
+          <a class="px-1 no-decoration" href="https://twitter.com/Artventures6" target="_blank">
             <v-icon large class="black--text">mdi-twitter</v-icon>
           </a>
-          <a class="px-1" style="text-decoration: none;" href="https://www.linkedin.com/company/artventuresco" target="_blank">
+          <a class="px-1 no-decoration" href="https://www.linkedin.com/company/artventuresco" target="_blank">
             <v-icon large class="black--text">mdi-linkedin</v-icon>
           </a>
         </div>
         <!-- Mobile -->
         <div class="hidden-md-and-up pb-1">
-          <a class="px-2" style="text-decoration: none;" href="https://www.facebook.com/artventures.me" target="_blank">
+          <a class="px-2 no-decoration" href="https://www.facebook.com/artventures.me" target="_blank">
             <v-icon class="black--text" small>mdi-facebook</v-icon>
           </a>
-          <a class="px-2" style="text-decoration: none;" href="https://www.instagram.com/artventures.me/" target="_blank">
+          <a class="px-2 no-decoration" href="https://www.instagram.com/artventures.me/" target="_blank">
             <v-icon class="black--text" small>mdi-instagram</v-icon>
           </a>
-          <a class="px-2" style="text-decoration: none;" href="https://twitter.com/Artventures6" target="_blank">
+          <a class="px-2 no-decoration" href="https://twitter.com/Artventures6" target="_blank">
             <v-icon class="black--text" small>mdi-twitter</v-icon>
           </a>
-          <a class="px-2" style="text-decoration: none;" href="https://www.linkedin.com/company/artventuresco" target="_blank">
+          <a class="px-2 no-decoration" href="https://www.linkedin.com/company/artventuresco" target="_blank">
             <v-icon class="black--text" small>mdi-linkedin</v-icon>
           </a>
         </div>
@@ -345,9 +550,8 @@
           </div>
         </div>
         <g-link
-          style="text-decoration: none;"
           :class="getLang === 'en' ? 'raleway-13-400' : 'noto-13-400'"
-          class="black--text"
+          class="black--text no-decoration"
           to="/privacy-policy"
         >
           {{ getLang === 'en' ? 'Privacy Policy' : 'Πολιτική Απορρήτου' }}
@@ -391,73 +595,6 @@ export default {
       isAuthenticated: false,
       // Cookies
       status: null,
-      cookieTxt: {
-        gr: 'Χρησιμοποιούμε αρχεία αναγνώρισης ("cookies") για την βελτίωση της εμπειρίας και την ανάλυση της διαδικτυακής κίνησης.',
-        en: 'We use cookies to offer you a better experience and analyse traffic.',
-      },
-      allowCookies: {
-        gr: 'Αποδέχομαι',
-        en: 'Accept',
-      },
-      declineCookies: {
-        gr: 'Αρνούμαι',
-        en: 'Decline',
-      },
-      logo: [
-        'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto,h_76,w_auto/v1583838043/artventures/artventures_logo.svg',
-        'https://res.cloudinary.com/de1jgt6c5/image/upload/q_auto,fl_lossy,f_auto,dpr_auto,h_50,w_auto/v1583838043/artventures/artventures_logo.svg',
-      ],
-      routes: {
-        about: {
-          gr: '<div class="color-333333 text-capitalize">Αρχική</div>', // Greek, raw html
-          en: '<div class="color-333333 text-capitalize">About</div>', // English, raw html
-        },
-        explore: {
-          gr: '<div class="color-333333 text-capitalize">Εξερεύνησε</div>', // Greek, raw html
-          en: '<div class="color-333333 text-capitalize">Explore</div>', // English, raw html
-          routes: [
-            {
-              gr: '<div class="color-333333 text-capitalize">Ιδιώτες</div>',
-              en: '<div class="color-333333 text-capitalize">Individuals</div>',
-              route: '/individuals',
-            },
-            {
-              gr: '<div class="color-333333 text-capitalize">Εταιρείες</div>',
-              en: '<div class="color-333333 text-capitalize">Businesses</div>',
-              route: '/businesses',
-            },
-            {
-              gr: '<div class="color-333333 text-capitalize">Ξενοδοχεία</div>',
-              en: '<div class="color-333333 text-capitalize">Hotels</div>',
-              route: '/hotels',
-            }
-          ]
-        },
-        gallery: {
-          gr: '<div class="color-333333 text-capitalize">Γκαλερί</div>', // Greek, raw html
-          en: '<div class="color-333333 text-capitalize">Gallery</div>', // English, raw html
-        },
-        forArtists: {
-          gr: '<div class="color-333333 text-capitalize">Για Καλλιτέχνες</div>', // Greek, raw html
-          en: '<div class="color-333333 text-capitalize">For Artists</div>', // English, raw html
-        },
-        faq: {
-          gr: '<div class="color-333333 text-capitalize">Ερωτήσεις</div>', // Greek, raw html
-          en: '<div class="color-333333">F.A.Q.</div>', // English, raw html
-        },
-        contact: {
-          gr: '<div class="white--text text-capitalize">Επικοινωνία</div>', // Greek, raw html
-          en: '<div class="white--text text-capitalize">Contact</div>', // English, raw html
-        },
-        profile: {
-          gr: '<div class="color-333333 text-capitalize">Προφίλ</div>', // Greek, raw html
-          en: '<div class="color-333333 text-capitalize">Profile</div>', // English, raw html
-        },
-        login: {
-          gr: '<div class="color-333333 text-capitalize">Σύνδεση</div>', // Greek, raw html
-          en: '<div class="color-333333 text-capitalize">Login</div>', // English, raw html
-        }
-      },
       modalMenu: false,
       modalSlide: 'explore',
       langTitle: {
@@ -473,11 +610,26 @@ export default {
           gr: 'Αγγλικά',
           en: 'English'
         }
-      }
+      },
     }
   },
   computed: {
     ...mapGetters(['getLang', 'getLanguages']),
+    userRole () {
+      if (this.$auth.userRole != null) {
+        return this.$auth.userRole[0].name;
+      }
+      return null;
+    },
+    userPicture () {
+      if (this.$auth.user) {
+        if (process.isClient) {
+          var user = JSON.parse(localStorage.getItem('user'));
+          return user.picture;
+        }
+      }
+      return null;
+    }
   },
   methods: {
     ...mapMutations(['setLang', 'setCookieRedirect']),
@@ -515,6 +667,9 @@ export default {
     },
     cookieClickedDecline() {
       this.status = 'decline';
+    },
+    logout() {
+      this.$auth.logout();
     }
   },
 }
@@ -523,15 +678,16 @@ export default {
 <style>
 @import '../assets/style/transitions.css';
 
-.v-navigation-drawer__border {
-  background-color: transparent !important;
+#login-btn.v-btn--outlined {
+  border: thin solid #333333 !important;
 }
 
-.v-toolbar__content {
-  padding-bottom: 0px;
-  padding-top: 0px;
-  padding-left: 0px;
-  padding-right: 0px;
+.border-fa-btn {
+  border: thin solid #333333 !important;
+}
+
+.no-decoration {
+  text-decoration: none;
 }
 
 .pos-rel {
@@ -865,8 +1021,19 @@ export default {
   background: #525252 !important;
 }
 .v-card__text, .v-card__title, .v-card__subtitle {
-  word-break: normal; /* maybe !important  */
+  word-break: normal imp !important;
   line-height: 1.1;
+}
+
+.v-navigation-drawer__border {
+  background-color: transparent !important;
+}
+
+.v-toolbar__content {
+  padding-bottom: 0px;
+  padding-top: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
 }
 </style>
 

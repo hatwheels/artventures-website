@@ -1053,7 +1053,7 @@ export default {
                 }
             }
             if (!this.$auth.user_metadata || this.bio !== this.$auth.user_metadata.bio) {
-                if (!data.hasOwnProperty('user_metadata')) {
+                if (!Object.prototype.hasOwnProperty.call(data, "user_metadata")) {
                     data.user_metadata = {}
                 }
                 data.user_metadata.bio = this.bio
@@ -1072,7 +1072,7 @@ export default {
                 if (dataChanged) { // update if data changed
                     await this.$auth.updateUser(data)
                         .then(() =>  dataUpdated = true) // successfully updated data
-                        .catch(err => dataUpdated = false) // updating data failed
+                        .catch(() => dataUpdated = false) // updating data failed
                 }
                 if (roleChanged) { // update if role changed
                     await this.$auth.updateUserRole(this.role)
@@ -1080,7 +1080,7 @@ export default {
                             roleUpdated.flag = true;
                             roleUpdated.obj = roleObj;
                         }) // successfully updated role
-                        .catch(err => roleUpdated.flag = false) // updating role failed
+                        .catch(() => roleUpdated.flag = false) // updating role failed
                 }
 
                 if (dataUpdated  === true || roleUpdated.flag  === true) { // one of them at least successfully updated
@@ -1104,13 +1104,13 @@ export default {
                         marketingData.merge_fields['ROLE'] = this.role;
                     }
                     if (dataUpdated === true) { // updated in auth service, update in marketing service as well
-                        if (data.hasOwnProperty('given_name')) {
+                        if (Object.prototype.hasOwnProperty.call(data, "given_name")) {
                             marketingData.merge_fields['FNAME'] = data.given_name;
                         }
-                        if (data.hasOwnProperty('family_name')) {
+                        if (Object.prototype.hasOwnProperty.call(data, "family_name")) {
                             marketingData.merge_fields['LNAME'] = data.family_name;
                         }
-                        if (data.hasOwnProperty('email') && status.length > 0) {
+                        if (Object.prototype.hasOwnProperty.call(data, "email") && status.length > 0) {
                             // request to change email only if member found
                             marketingData.new_email_address = data.email; // == this.email
                             // include status required to change email
@@ -1224,7 +1224,7 @@ export default {
                     // Should retry maybe to update profile pic url to auth0.
                 })
             })
-            .catch(err => {
+            .catch(() => {
                 this.picToUploadBase64 = null
                 this.picUploadDialog.text.en = "An error occured while changing your profile pic. Please try again later"
                 this.picUploadDialog.text.gr = "Κάποιο σφάλμα προέκυψε ενημερώνοντας την εικόνα προφίλ σας. Παρακαλώ προσπαθήστε ξανά αργότερα"
@@ -1240,11 +1240,11 @@ export default {
         this.pwDialog.toggle = false
         if (process.isClient) {
             this.$auth.resetPassword()
-            .then(res => {
+            .then(() => {
                 this.pwDialog.emailText.en = 'An email with instructions will be sent shortly to ' + this.email
                 this.pwDialog.emailText.gr = 'Ένα email με πληροφορίες θα σταλεί σε λίγο στην διεύθυνση ' + this.email
                 this.pwDialog.emailSent = true
-            }).catch(err => {
+            }).catch(() => {
                 this.pwDialog.emailText.en = 'An error has occured'
                 this.pwDialog.emailText.gr = 'Κάποιο σφάλμα προέκυψε'
                 this.pwDialog.emailSent = true

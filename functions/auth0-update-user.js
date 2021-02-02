@@ -4,6 +4,7 @@ const headers = {
     "Access-Control-Allow-Headers": "Content-Type",
 }
 
+// eslint-disable-next-line no-unused-vars
 exports.handler = async (event, context) => {
     console.log("### START ###")
 
@@ -53,29 +54,29 @@ exports.handler = async (event, context) => {
 
                 const filteredUser = {}
                 var nameUpdate = false
-                if (data.hasOwnProperty('given_name')) {
+                if (Object.prototype.hasOwnProperty.call(data, "given_name")) {
                     filteredUser.given_name = user.given_name
                     nameUpdate = true
                 }
-                if (data.hasOwnProperty('family_name')) {
+                if (Object.prototype.hasOwnProperty.call(data, "family_name")) {
                     filteredUser.family_name = user.family_name
                     nameUpdate = true
                 }
                 if (nameUpdate) {
                     filteredUser.name = user.name
                 }
-                if (data.hasOwnProperty('nickname')) {
+                if (Object.prototype.hasOwnProperty.call(data, "nickname")) {
                     filteredUser.nickname = user.nickname
                 }
-                if (data.hasOwnProperty('email')) {
+                if (Object.prototype.hasOwnProperty.call(data, "email")) {
                     filteredUser.email = user.email
                     filteredUser.email_verified = user.email_verified
                     filteredUser.verify_email = user.verify_email
                 }
-                if (data.hasOwnProperty('picture')) {
+                if (Object.prototype.hasOwnProperty.call(data, "picture")) {
                     filteredUser.picture = user.picture
                 }
-                if (data.hasOwnProperty('user_metadata')) {
+                if (Object.prototype.hasOwnProperty.call(data, "user_metadata")) {
                     filteredUser.user_metadata = user.user_metadata
                 }
 

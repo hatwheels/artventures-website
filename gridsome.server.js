@@ -4,7 +4,7 @@
 
 // Changes here require a server restart.
 // To restart press CTRL + C in terminal and run `gridsome develop`
-const nodeExternals = require('webpack-node-externals')
+// const nodeExternals = require('webpack-node-externals')
 const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin');
 
 module.exports = function (api) {
@@ -17,6 +17,8 @@ module.exports = function (api) {
   //     ])
   //   }
   // })
+
+  // eslint-disable-next-line no-unused-vars
   api.chainWebpack((config, { isServer }) => {
     if( process.env.GRIDSOME_NODE_ENV === 'development')
     {
@@ -24,11 +26,11 @@ module.exports = function (api) {
     }
     config.plugin('vuetify-loader').use(VuetifyLoaderPlugin);
   });
-
+  // eslint-disable-next-line no-unused-vars
   api.loadSource(({ addCollection }) => {
     // Use the Data Store API here: https://gridsome.org/docs/data-store-api/
   })
-
+  // eslint-disable-next-line no-unused-vars
   api.createPages(({ createPage }) => {
     // Use the Pages API here: https://gridsome.org/docs/pages-api/
   })

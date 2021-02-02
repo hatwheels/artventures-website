@@ -1,6 +1,7 @@
 const mailchimp = require("@mailchimp/mailchimp_marketing");
 const md5 = require("md5");
 
+// eslint-disable-next-line no-unused-vars
 exports.handler = async (event, context) => {
   try {
     console.log('######## START ##########')
@@ -10,7 +11,7 @@ exports.handler = async (event, context) => {
     console.log(data);
 
     if (!data.email_address) {
-      var error = 'email_address parameter required'
+      let error = 'email_address parameter required'
 
       console.error(error)
       console.log('######## END ##########')
@@ -29,11 +30,11 @@ exports.handler = async (event, context) => {
 
     const emailHash = md5(data.email_address.toLowerCase());
 
-    if (data.hasOwnProperty('new_email_address')) {
+    if (Object.prototype.hasOwnProperty.call(data, "new_email_address")) {
         // Warning: when changing the email of a member, the status has to be provided
         // We hash the current email, but pass the new email in the 'email_address' field
-      if (!data.hasOwnProperty('status')) {
-          var error = `Changing the email of a member requires passing a status parameter`
+      if (!Object.prototype.hasOwnProperty.call(data, "status")) {
+          let error = `Changing the email of a member requires passing a status parameter`
 
           console.error(`error: ${error}`)
           console.log('######## END ##########');

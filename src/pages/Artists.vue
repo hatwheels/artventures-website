@@ -376,7 +376,7 @@ query {
   artists: allPages(filter: { path: { eq: "/content/pages/artists/" }}) {
   edges {
     node {
- 	    mainartists {
+     mainartists {
         title {
           en
           gr

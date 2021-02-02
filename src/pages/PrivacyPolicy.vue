@@ -31,8 +31,8 @@
 <page-query>
 query {
   privacypolicy: allPages(filter: { path: { eq: "/content/pages/privacypolicy/" }}) {
-  	edges {
-  		node {
+    edges {
+      node {
         id
         path
         title {

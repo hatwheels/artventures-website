@@ -58,19 +58,24 @@
                   />
                 </v-card>
                 <v-card v-if="artworksInSection.length === 0" height="300px" flat color="#FAFAFA">
-                  <v-card-text>
-                    <img
-                      v-show="isFetchingImages"
-                      src="../../../static/loading.svg"
-                      alt="Loading"
+                  <v-card-text v-if="isFetchingImages" style="height: 100% !important">
+                    <v-progress-circular
+                      
+                      :size="60"
+                      :width="6"
+                      indeterminate
+                      color="#333333"
+                      style="height: 300px"
                     />
                   </v-card-text>
                   <v-card-text
-                    v-show="!isFetchingImages"
-                    style="padding-top: 140px;"
+                    v-else
                     :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'"
-                    v-html="tabs.emptySection[getLang]"
-                  />
+                  >
+                    <v-row style="height: 300px" justify="center" align="center">
+                      <v-col>{{ tabs.emptySection[getLang] }}</v-col>
+                    </v-row>
+                  </v-card-text>
                 </v-card>
                 <v-container fluid>
                   <!-- Desktop -->
@@ -174,7 +179,7 @@
                                     <v-icon size="30">mdi-pencil</v-icon>
                                   </v-btn>
                                 </template>
-                                <span>{{ plainText.artworkEdit[getLang] }}</span>
+                                <span>{{ $helper.plainText.artworkEdit[getLang] }}</span>
                               </v-tooltip>
                               <!-- Delete -->
                               <v-tooltip top color="black">
@@ -189,7 +194,10 @@
                                     <v-icon size="30">{{ i === 1 ? 'mdi-delete' : 'mdi-delete-forever' }}</v-icon>
                                   </v-btn>
                                 </template>
-                                <span>{{ i === 1 ? plainText.artworkFreeze[getLang] : plainText.artworkDelete[getLang] }}</span>
+                                <span>{{ i === 1 ?
+                                  $helper.plainText.artworkFreeze[getLang] :
+                                  $helper.plainText.artworkDelete[getLang] }}
+                                </span>
                               </v-tooltip>
                               <!-- Fullscreen -->
                               <v-tooltip top color="black">
@@ -199,20 +207,24 @@
                                     large
                                     v-bind="attrs"
                                     v-on="on"
-                                    @click="overlayDesktop = true; enlargedImg.url = artwork.url; enlargedImg.title = artwork.title"
+                                    @click="overlayDesktop = true;
+                                      enlargedArtwork = artwork;
+                                      enlargedArtwork.artist_name = $auth.user.name;
+                                      enlargedArtwork.user_id = $auth.user.sub;
+                                    "
                                   >
                                     <v-icon size="30">mdi-fullscreen</v-icon>
                                   </v-btn>
                                 </template>
-                                <span>{{ plainText.artworkZoom[getLang] }}</span>
+                                <span>{{ $helper.plainText.artworkZoom[getLang] }}</span>
                               </v-tooltip>
                             </v-card-actions>
                             <div class="pb-2 pr-4 text-end">
                               <div class="raleway-23-400" v-if="artwork.salePrice">{{ artwork.salePrice }}€</div>
                               <div class="raleway-18-400" v-if="artwork.rentPrice">
-                                <span class="pr-1">{{ plainText.rentFor[getLang] }}</span>
+                                <span class="pr-1">{{ $helper.plainText.rentFor[getLang] }}</span>
                                 {{ artwork.rentPrice }}
-                                <span>{{ plainText.rentPerMonth[getLang] }}</span>
+                                <span>{{ $helper.plainText.rentPerMonth[getLang] }}</span>
                               </div>
                             </div>
                             <div v-if="artwork.likes !== null"
@@ -324,7 +336,7 @@
                                     <v-icon>mdi-pencil</v-icon>
                                   </v-btn>
                                 </template>
-                                <span>{{ plainText.artworkEdit[getLang] }}</span>
+                                <span>{{ $helper.plainText.artworkEdit[getLang] }}</span>
                               </v-tooltip>
                               <!-- Delete -->
                               <v-tooltip top color="black"  open-on-click open-on-focus>
@@ -338,7 +350,10 @@
                                     <v-icon>{{ i === 1 ? 'mdi-delete' : 'mdi-delete-forever' }}</v-icon>
                                   </v-btn>
                                 </template>
-                                <span>{{ i === 1 ? plainText.artworkFreeze[getLang] : plainText.artworkDelete[getLang] }}</span>
+                                <span>{{ i === 1 ?
+                                  $helper.plainText.artworkFreeze[getLang] :
+                                  $helper.plainText.artworkDelete[getLang] }}
+                                </span>
                               </v-tooltip>
                               <!-- Fullscreen -->
                               <v-tooltip top color="black" open-on-click open-on-focus>
@@ -347,20 +362,25 @@
                                     icon
                                     v-bind="attrs"
                                     v-on="on"
-                                    @click="overlayMobile = true; enlargedImg.url = artwork.url; enlargedImg.title = artwork.title"
+                                    @click="
+                                      overlayMobile = true;
+                                      enlargedArtwork = artwork;
+                                      enlargedArtwork.artist_name = $auth.user.name;
+                                      enlargedArtwork.user_id = $auth.user.sub;
+                                    "
                                   >
                                     <v-icon>mdi-fullscreen</v-icon>
                                   </v-btn>
                                 </template>
-                                <span>{{ plainText.artworkZoom[getLang] }}</span>
+                                <span>{{ $helper.plainText.artworkZoom[getLang] }}</span>
                               </v-tooltip>
                             </v-card-actions>
                             <div class="pb-2 pr-4 text-end">
                               <div class="raleway-16-400" v-if="artwork.salePrice">{{ artwork.salePrice }}€</div>
                               <div class="raleway-12-400" v-if="artwork.rentPrice">
-                                <span class="pr-1">{{ plainText.rentFor[getLang] }}</span>
+                                <span class="pr-1">{{ $helper.plainText.rentFor[getLang] }}</span>
                                 {{ artwork.rentPrice }}
-                                <span>{{ plainText.rentPerMonth[getLang] }}</span>
+                                <span>{{ $helper.plainText.rentPerMonth[getLang] }}</span>
                               </div>
                             </div>
                             <div v-if="artwork.likes !== null"
@@ -433,7 +453,6 @@
                   hide-selected
                   hide-no-data
                   counter="10"
-                  append-icon=""
                   @input="delayTouch($v.tags)"
                   @blur="$v.tags.$touch()"
                 ></v-combobox>
@@ -636,7 +655,7 @@
                   dismissible
                   transition="slide-x-transition"
               >
-                {{ plainText.maxArtworks[getLang] }}
+                {{ $helper.plainText.maxArtworks[getLang] }}
               </v-alert>
             </v-row>
             <v-row justify="center" align="center">
@@ -944,50 +963,15 @@
           <!-- Scroll to Top -->
           <scroll-to-top />
 
-          <!-- Desktop Overlay -->
-          <v-overlay class="hidden-sm-and-down" :value="overlayDesktop">
-            <v-row no-gutters>
-              <v-col>
-                <v-img
-                  class="rounded"
-                  :src="enlargedImg.url"
-                  :lazy-src="enlargedImg.url.replace('artventures/image/upload/', 'artventures/image/upload/c_thumb,w_100/')"
-                  :alt="enlargedImg.title || 'Untitled'"
-                  max-height="98vh"
-                  max-width="95vw"
-                  contain
-                />
-              </v-col>
-              <v-col>
-                <v-tooltip right color="black">
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-btn
-                      icon
-                      v-on="on"
-                      v-bind="attrs"
-                      @click="enlargedImg.url = ''; enlargedImg.title = ''; overlayDesktop = false;"
-                    >
-                      <v-icon>mdi-close</v-icon>
-                    </v-btn>
-                  </template>
-                  <span>{{ plainText.close[getLang] }}</span>
-                </v-tooltip>
-              </v-col>
-            </v-row>
-          </v-overlay>
-          <!-- Mobile Overlay -->
-          <v-dialog class="hidden-md-and-up" v-model="overlayMobile" fullscreen persistent hide-overlay no-click-animation>
-            <v-img
-              class="rounded"
-              :src="enlargedImg.url"
-              :lazy-src="enlargedImg.url.replace('artventures/image/upload/', 'artventures/image/upload/c_thumb,w_100/')"
-              :alt="enlargedImg.title || 'Untitled'"
-              width="100vw"
-              height="100vh"
-              contain
-              @click="enlargedImg.url = ''; enlargedImg.title = ''; overlayMobile = false;"
-            />
-          </v-dialog>
+        <!-- Enlarge Artwork Modal -->
+        <enlarged-artwork
+          :overlayDesktop="overlayDesktop"
+          :overlayMobile="overlayMobile"
+          :enlargedArtwork="enlargedArtwork"
+          @update-enlarged-artwork="(val) => enlargedArtwork = val"
+          @update-overlay-desktop="(val) => overlayDesktop = val"
+          @update-overlay-mobile="(val) => overlayMobile = val"
+        ></enlarged-artwork>
 
         </v-container>
       </v-main>
@@ -1006,7 +990,8 @@ export default {
   components: {
     ScrollToTop: () => import("~/components/ScrollToTop.vue"),
     TermsDialog: () => import("~/components/TermsDialog.vue"),
-    EditArtwork: () => import("~/components/portfolio/Edit.vue")
+    EditArtwork: () => import("~/components/artwork/Edit.vue"),
+    EnlargedArtwork: () => import("~/components/artwork/Enlarge.vue")
   },
   mixins: [validationMixin],
   validations: {
@@ -1041,11 +1026,12 @@ export default {
     }
   },
   mounted () {
-    this.plainText.maxArtworks.gr = 'Έχετε φτάσει το όριο των ' + this.maxImageCount + '  έργων τέχνης';
-    this.plainText.maxArtworks.en = 'You have reached the limit of ' + this.maxImageCount + ' artworks';
+    this.$helper.plainText.maxArtworks.gr = 'Έχετε φτάσει το όριο των ' + this.maxImageCount + '  έργων τέχνης';
+    this.$helper.plainText.maxArtworks.en = 'You have reached the limit of ' + this.maxImageCount + ' artworks';
     // Has user accepted terms?
-    if (!this.$auth.hasOwnProperty('user_metadata') || !this.$auth.user_metadata.hasOwnProperty('acceptedTerms')
-        || !this.$auth.user_metadata.acceptedTerms) {
+    if (!Object.prototype.hasOwnProperty.call(this.$auth, "user_metadata") ||
+        !Object.prototype.hasOwnProperty.call(this.$auth.user_metadata, "acceptedTerms") ||
+        !this.$auth.user_metadata.acceptedTerms) {
       // accepted (user metadata) key does not exist or is false
       this.termsDialog = true;
       this.termsAccepted = false;
@@ -1066,10 +1052,7 @@ export default {
       },
       overlayDesktop: false,
       overlayMobile: false,
-      enlargedImg: {
-        url: "",
-        title: ""
-      },
+      enlargedArtwork: {},
       alertImage: false,
       dialogPortfolio: {
         toggle: false,
@@ -1388,62 +1371,6 @@ export default {
           en: 'Submission Terms',
         }
       },
-      plainText: {
-        artworkZoom: {
-          gr: 'Μεγέθυνση',
-          en: 'Enlarge'
-        },
-        artworkEdit: {
-          gr: 'Επεξεργασία',
-          en: 'Edit'
-        },
-        artworkFreeze: {
-          gr: 'Πάγωμα',
-          en: 'Freeze'
-        },
-        artworkDelete: {
-          gr: 'Διαγραφή',
-          en: 'Delete'
-        },
-        type: {
-          painting: {
-            gr: "Πίνακας",
-            en: "Painting"
-          },
-          sculpture: {
-            gr: "Γλυπτό",
-            en: "Sculpture"
-          },
-          drawing: {
-            gr: "Σχέδιο",
-            en: "Drawing"
-          },
-          photography: {
-            gr: "Φωτογραφία",
-            en: "Photography"
-          },
-          digital: {
-            gr: "Ψηφιακό",
-            en: "Digital"
-          }
-        },
-        rentFor: {
-          gr: 'Ενοικίαση',
-          en: 'Rent'
-        },
-        rentPerMonth: {
-          gr: '€/μ',
-          en: '€/m'
-        },
-        close: {
-          gr: 'Κλείσιμο',
-          en: 'Close'
-        },
-        maxArtworks: {
-          gr: 'Έχετε φτάσει το όριο των 30 έργων τέχνης',
-          en: 'You have reached the limit of 30 artworks'
-        }
-      },
       artworkDataObject: null,
       editDialog: {
         toggle: false,
@@ -1597,32 +1524,32 @@ export default {
               var salePrice = '';
               var rentPrice = '';
               var type = '';
-              var tags = resource.hasOwnProperty('tags') ? resource.tags : [];
-              if (resource.hasOwnProperty('context')) {
+              var tags = Object.prototype.hasOwnProperty.call(resource, "tags") ? resource.tags : [];
+              if (Object.prototype.hasOwnProperty.call(resource, "context")) {
                 // Title
-                if (resource.context.hasOwnProperty('caption')) {
+                if (Object.prototype.hasOwnProperty.call(resource.context,"caption")) {
                   title = resource.context.caption;
                   title = title.toLowerCase();
                 }
                 // Value, Rent Price
-                if (resource.context.hasOwnProperty('value')) {
+                if (Object.prototype.hasOwnProperty.call(resource.context,"value")) {
                   value = resource.context.value;
                 }
                 // Sale Price
-                if (resource.context.hasOwnProperty('sale_price')) {
+                if (Object.prototype.hasOwnProperty.call(resource.context,"sale_price")) {
                   salePrice = resource.context.sale_price;
                 } else if (value.length) {
                   salePrice = JSON.stringify(this.calcSalePrice(parseInt(value)));
                 }
-                if (resource.context.hasOwnProperty('rent_price')) {
+                if (Object.prototype.hasOwnProperty.call(resource.context,"rent_price") ) {
                   rentPrice = resource.context.rent_price;
                 } else if (value.length) {
                   rentPrice = JSON.stringify(this.calcRentPrice(this.calcSalePrice(parseInt(value))));
                 } else if (salePrice.length) {
                   rentPrice = JSON.stringify(this.calcRentPrice(parseInt(salePrice)));
                 }
-                if (resource.context.hasOwnProperty('type')) {
-                  type = this.plainText.type[resource.context.type];
+                if (Object.prototype.hasOwnProperty.call(resource.context,"type")) {
+                  type = this.$helper.plainText.type[resource.context.type];
                 }
               }
               this.$helper.artworkStates.names.find((item, id) => {
@@ -1661,7 +1588,6 @@ export default {
               });
               state.forEach(async artwork => {
                 // get likes of each artwork
-                var likes = 0;
                 await this.getArtworkLikes(
                     this.$auth.user.sub,
                     this.$helper.toPublicIdNoPath(artwork.public_id, folder)
@@ -1675,7 +1601,7 @@ export default {
             })
           }
         })
-        .catch(err => {
+        .catch(() => {
           this.$router.replace({
             path: '/user/profile',
             force: true
@@ -1735,12 +1661,12 @@ export default {
       this.restoreDialog.result.text.en = '';
       this.restoreDialog.result.enableBtn = false;
     },
-    restoreProcess(public_id) {
+    restoreProcess() {
       this.restoreDialog.loading = true;
       this.$imgdb.moveArtwork(
         this.restoreDialog.public_id,
         this.restoreDialog.public_id.replace('frozen', 'approved')
-      ).then(approved => {
+      ).then(() => {
         this.restoreDialog.result.isSuccess = true;
         this.restoreDialog.result.text.en = "Successfully restored";
         this.restoreDialog.result.text.gr = "Επαναφέρθηκε επιτυχώς";
@@ -1760,7 +1686,7 @@ export default {
           });
         }
       })
-      .catch(err => {
+      .catch(() => {
         this.restoreDialog.result.isSuccess = false;
         this.restoreDialog.result.text.en = "Restoration failed. Please try again later";
         this.restoreDialog.result.text.gr = "Η επαναφορά απέτυχε. Παρακαλώ προσπαθήστε αργότερα";
@@ -1810,7 +1736,7 @@ export default {
         // Delete
         this.deleteFreezeDialog.loading = true;
         this.$imgdb.deleteArtwork(this.deleteFreezeDialog.public_id)
-          .then(deleted => {
+          .then(() => {
             this.deleteFreezeDialog.result.text.en = "Successfully deleted";
             this.deleteFreezeDialog.result.text.gr = "Διεγράφη επιτυχώς"
             this.deleteFreezeDialog.result.isSuccess = true;
@@ -1830,7 +1756,7 @@ export default {
               });
             }
           })
-          .catch(err => {
+          .catch(() => {
             this.deleteFreezeDialog.result.text.en = "Deletion failed. Please try again later";
             this.deleteFreezeDialog.result.text.gr = "Η διαγραφή απέτυχε. Παρακαλώ προσπαθήστε αργότερα"
             this.deleteFreezeDialog.result.isSuccess = false;
@@ -1847,7 +1773,7 @@ export default {
         this.$imgdb.moveArtwork(
           this.deleteFreezeDialog.public_id,
           this.deleteFreezeDialog.public_id.replace('approved', 'frozen')
-        ).then(frozen => {
+        ).then(() => {
             this.deleteFreezeDialog.result.text.en = "Successfully frozen";
             this.deleteFreezeDialog.result.text.gr = "Παγώθηκε επιτυχώς";
             this.deleteFreezeDialog.result.isSuccess = true;
@@ -1867,7 +1793,7 @@ export default {
               });
             }
           })
-          .catch(err => {
+          .catch(() => {
             this.deleteFreezeDialog.result.text.en = "Frozing failed. Please try again later";
             this.deleteFreezeDialog.result.text.gr = "Το πάγωμα απέτυχε. Παρακαλώ προσπαθήστε αργότερα";
             this.deleteFreezeDialog.result.isSuccess = false;
@@ -1945,20 +1871,21 @@ export default {
 
             this.$imgdb.uploadArtwork(this.$auth.user.sub, this.imageToUploadBase64, context, tagsConcatStr, watermarkObj)
             .then(async (response) => {
-              const contextObj = response.context.hasOwnProperty("custom") ? response.context.custom : response.context;
+              const contextObj = Object.prototype.hasOwnProperty.call(response.context,"custom") ?
+                response.context.custom : response.context;
               // update artworks 0 (in process)
               this.allArtworks[0].push({
                 url: response.secure_url,
                 public_id: response.public_id,
-                title: contextObj.hasOwnProperty("caption") ? contextObj.caption : '',
-                type: this.plainText.type[contextObj.type],
-                value: contextObj.hasOwnProperty("value") ? contextObj.value : '',
-                salePrice: contextObj.hasOwnProperty("sale_price") ? contextObj.sale_price : '',
-                rentPrice: contextObj.hasOwnProperty("rent_price") ? contextObj.rent_price : '',
-                height: contextObj.hasOwnProperty("height") ? contextObj.height : null,
-                width: contextObj.hasOwnProperty("width") ? contextObj.width : null,
-                depth: contextObj.hasOwnProperty("depth") ? contextObj.depth : null,
-                dimension: contextObj.hasOwnProperty("dimension") ? contextObj.dimension : '',
+                title: Object.prototype.hasOwnProperty.call(contextObj, "caption") ? contextObj.caption : '',
+                type: this.$helper.plainText.type[contextObj.type],
+                value: Object.prototype.hasOwnProperty.call(contextObj, "value") ? contextObj.value : '',
+                salePrice: Object.prototype.hasOwnProperty.call(contextObj, "sale_price") ? contextObj.sale_price : '',
+                rentPrice: Object.prototype.hasOwnProperty.call(contextObj, "rent_price") ? contextObj.rent_price : '',
+                height: Object.prototype.hasOwnProperty.call(contextObj, "height") ? contextObj.height : null,
+                width: Object.prototype.hasOwnProperty.call(contextObj, "width") ? contextObj.width : null,
+                depth: Object.prototype.hasOwnProperty.call(contextObj, "depth") ? contextObj.depth : null,
+                dimension: Object.prototype.hasOwnProperty.call(contextObj, "dimension") ? contextObj.dimension : '',
                 tags: response.tags,
                 likes: null
               });
@@ -1973,7 +1900,7 @@ export default {
                 // Notify us
                 let message = "url: "+ response.secure_url + "\n";
                 for (var key in contextObj) {
-                  if (contextObj.hasOwnProperty(key)) {
+                  if (Object.prototype.hasOwnProperty.call(contextObj, key)) {
                     message += key + ': ' + contextObj[key] +'\n'
                   }
                 }
@@ -1999,7 +1926,7 @@ export default {
               this.isLoading = false;
               this.currentImageCount++;
             })
-            .catch(err => { 
+            .catch(() => { 
               this.type = null;
               this.title = null;
               this.unit = this.width = this.height = this.depth = null;

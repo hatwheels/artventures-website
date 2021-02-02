@@ -18,7 +18,9 @@ import AuthPlugin from './plugins/auth'
 import DbPlugin from './plugins/db'
 import ImgdbPlugin from './plugins/imgdb'
 import MarketingPlugin from './plugins/marketing'
+import NotificationPlugin from './plugins/notify'
 import AdminPlugin from './plugins/admin'
+import EshopPlugin from './plugins/eshop'
 import HelperPlugin from './plugins/helper'
 
 export default function (Vue, { appOptions, router, head, isClient }) {
@@ -68,15 +70,17 @@ export default function (Vue, { appOptions, router, head, isClient }) {
   router.beforeEach((to, from, next) => {
     switch (to.path) {
       case '/admin/gallery':
-      if (router.app.$auth.isAuthenticated()) { // if authenticated allow access
-        if (router.app.$auth.userRole[0].name === 'admin') { // only admin allowed
-          next();
-        } else { // other roles not allowed!
-          next(false);
+        if (router.app.$auth.isAuthenticated()) { // if authenticated allow access
+          if (router.app.$auth.userRole[0].name === 'admin') { // only admin allowed
+            next();
+          } else { // other roles not allowed!
+            next(false);
+          }
+        } else { // trigger auth0's login
+          router.app.$auth.login();
         }
-      } else { // trigger auth0's login
-        router.app.$auth.login();
-      }
+        break;
+
       case '/user/profile':
       case '/user/settings':
       case '/user/favorites':
@@ -129,7 +133,6 @@ export default function (Vue, { appOptions, router, head, isClient }) {
         return state.userRole
       }
     },
-
     mutations: {
       setLang (state, val) {
         state.lang = val
@@ -158,7 +161,9 @@ export default function (Vue, { appOptions, router, head, isClient }) {
   Vue.use(DbPlugin);
   Vue.use(ImgdbPlugin);
   Vue.use(MarketingPlugin);
+  Vue.use(NotificationPlugin);
   Vue.use(AdminPlugin);
+  Vue.use(EshopPlugin);
   Vue.use(HelperPlugin);
 
   // Register layouts

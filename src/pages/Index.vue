@@ -757,37 +757,37 @@ export default {
       }, 400);
     },
     /* Side Navigation */
-    onAbout({ going, direction }) {
+    onAbout({ going }) {
       if (going === this.$waypointMap.GOING_IN && this.isSideNav) {
         this.sideNav[0].active = true;
         this.sideNav[1].active = this.sideNav[2].active = this.sideNav[3].active = this.sideNav[4].active = this.sideNav[5].active = false;
       }
     },
-    onExplore({ going, direction }) {
+    onExplore({ going }) {
       if (going === this.$waypointMap.GOING_IN && this.isSideNav) {
         this.sideNav[1].active = true;
         this.sideNav[0].active = this.sideNav[2].active = this.sideNav[3].active = this.sideNav[4].active = this.sideNav[5].active = false;
       }
     },
-    onArtists({ going, direction }) {
+    onArtists({ going }) {
       if (going === this.$waypointMap.GOING_IN && this.isSideNav) {
         this.sideNav[2].active = true;
         this.sideNav[0].active = this.sideNav[1].active = this.sideNav[3].active = this.sideNav[4].active = this.sideNav[5].active = false;
       }
     },
-    onBenefits({ going, direction }) {
+    onBenefits({ going }) {
       if (going === this.$waypointMap.GOING_IN && this.isSideNav) {
         this.sideNav[3].active = true;
         this.sideNav[0].active = this.sideNav[1].active = this.sideNav[2].active = this.sideNav[4].active = this.sideNav[5].active = false;
       }
     },
-    onMedia({ going, direction }) {
+    onMedia({ going }) {
       if (going === this.$waypointMap.GOING_IN && this.isSideNav) {
         this.sideNav[4].active = true;
         this.sideNav[0].active = this.sideNav[1].active = this.sideNav[2].active = this.sideNav[3].active = this.sideNav[5].active = false;
       }
     },
-    onContact({ going, direction }) {
+    onContact({ going }) {
       if (going === this.$waypointMap.GOING_IN && this.isSideNav) {
         this.sideNav[5].active = true;
         this.sideNav[0].active = this.sideNav[1].active = this.sideNav[2].active = this.sideNav[3].active = this.sideNav[4].active = false;

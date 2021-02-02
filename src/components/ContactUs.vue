@@ -328,7 +328,7 @@ export default {
                     this.setAlert('error')
                   }
                 })
-                .catch(err => {
+                .catch(() => {
                   // server-side error
                   this.clearFields()
                   this.setAlert('error')
@@ -362,7 +362,7 @@ export default {
                   this.setAlert('error')
                 }
               })
-              .catch((err) => {
+              .catch(() => {
                 // server-side error
                 this.clearFields()
                 this.setAlert('error')

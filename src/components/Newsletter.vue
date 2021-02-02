@@ -148,7 +148,7 @@ export default {
             this.email = ''
           }
         })
-        .catch(err => {
+        .catch(() => {
           // server-side error
           this.dialogText.en = "An internal error has occured!";
           this.dialogText.gr = "Κάποιο σφάλμα προέκυψε!";

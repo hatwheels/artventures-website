@@ -216,7 +216,8 @@ export default {
     },
     async processUser() {
       let user = JSON.parse(localStorage.getItem('user'));
-      if (!user.hasOwnProperty("given_name") || !user.hasOwnProperty("family_name")) {
+      if (!Object.prototype.hasOwnProperty.call(user, "given_name") ||
+          !Object.prototype.hasOwnProperty.call(user, "family_name")) {
         this.emptyName = true; // empty name(s)
         this.firstName = user.given_name || "";
         this.stepper.content[0].familyName = user.family_name || "";
@@ -236,10 +237,16 @@ export default {
       } else {
         try {
           await this.processMarketing();
-        } catch {}
-        this.roleName == 'artist' ?
-          this.$router.push({ path: '/user/portfolio' }) :
-          this.$router.push({ path: '/user/profile' })
+        } finally {
+          if (this.$eshop.redirectInCheckoutValue) {
+            this.$eshop.redirectInCheckout = false;
+            this.$router.push({ path: '/eshop/checkout' })
+          } else {
+            this.roleName == 'artist' ?
+              this.$router.push({ path: '/user/portfolio' }) :
+              this.$router.push({ path: '/user/profile' })
+          }
+        }
       }
     },
     async processMarketing() {
@@ -281,10 +288,16 @@ export default {
       } catch { this.$auth.logout(); return; }
       try {
         await this.processMarketing();
-      } catch {}
-      this.roleName == 'artist' ?
-        this.$router.push({ path: '/user/portfolio' }) :
-        this.$router.push({ path: '/user/profile' });
+      } finally {
+        if (this.$eshop.redirectInCheckoutValue) {
+          this.$eshop.redirectInCheckout = false;
+          this.$router.push({ path: '/eshop/checkout' })
+        } else {
+          this.roleName == 'artist' ?
+            this.$router.push({ path: '/user/portfolio' }) :
+            this.$router.push({ path: '/user/profile' })
+        }
+      }
     },
     async setNames() {
       this.$v.$touch();
@@ -303,10 +316,16 @@ export default {
           } catch { this.$auth.logout(); return; }
           try {
             await this.processMarketing();
-          } catch {}
-          this.roleName == 'artist' ?
-            this.$router.push({ path: '/user/portfolio' }) :
-            this.$router.push({ path: '/user/profile' })
+          } finally {
+            if (this.$eshop.redirectInCheckoutValue) {
+              this.$eshop.redirectInCheckout = false;
+              this.$router.push({ path: '/eshop/checkout' })
+            } else {
+              this.roleName == 'artist' ?
+                this.$router.push({ path: '/user/portfolio' }) :
+                this.$router.push({ path: '/user/profile' })
+            }
+          }
         }
       }
     }

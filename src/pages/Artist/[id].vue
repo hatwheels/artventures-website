@@ -21,7 +21,7 @@
                     <v-icon v-else>mdi-thumb-up-outline</v-icon>
                   </v-btn>
                 </template>
-                <span>{{ plainText.follow[getLang] }}</span>
+                <span>{{ $helper.plainText.follow[getLang] }}</span>
               </v-tooltip>
             </v-col>
             <v-col cols="auto">
@@ -52,7 +52,7 @@
           <div
             class="px-12 pb-6 pt-8 text-center playfair-38-700"
           >
-            {{ plainText.artworks[getLang] }}
+            {{ $helper.plainText.artworks[getLang] }}
           </div>
           <v-row class="pb-12 px-12" justify="start" align="start">
             <v-col class="pr-6" v-for="(column, j) in artist.columns" :key="'column' + j" cols="4">
@@ -106,7 +106,21 @@
                             <v-icon v-else size="30" color="pink lighten-3">mdi-heart</v-icon>
                           </v-btn>
                         </template>
-                        <span>{{ plainText.heart[getLang] }}</span>
+                        <span>{{ $helper.plainText.heart[getLang] }}</span>
+                      </v-tooltip>
+                      <v-tooltip v-if="canCopy" top color="black">
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-btn
+                            icon
+                            large
+                            v-bind="attrs"
+                            v-on="on"
+                            @click="shareArtwork(artwork)"
+                          >
+                            <v-icon size="30">mdi-share-variant-outline</v-icon>
+                          </v-btn>
+                        </template>
+                        <span>{{ $helper.plainText.share[getLang] }}</span>
                       </v-tooltip>
                       <v-tooltip top color="black">
                         <template v-slot:activator="{ on, attrs }">
@@ -115,20 +129,65 @@
                             large
                             v-bind="attrs"
                             v-on="on"
-                            @click="overlayDesktop = true; enlargedImg.url = artwork.url; enlargedImg.title = artwork.title"
+                            @click="
+                              overlayDesktop = true;
+                              enlargedArtwork = artwork;
+                              enlargedArtwork.artist_name = artist.firstName + ' ' + artist.lastName;
+                              enlargedArtwork.user_id = artist.user_id;
+                            "
                           >
                             <v-icon size="30">mdi-fullscreen</v-icon>
                           </v-btn>
                         </template>
-                        <span>{{ plainText.artworkZoom[getLang] }}</span>
+                        <span>{{ $helper.plainText.artworkZoom[getLang] }}</span>
                       </v-tooltip>
                     </v-card-actions>
                     <div class="pb-2 pr-4 text-end">
-                      <div class="raleway-23-400" v-if="artwork.salePrice">{{ artwork.salePrice }}€</div>
+                      <div class="raleway-23-400 d-flex justify-end align-center" v-if="artwork.salePrice">
+                        <v-tooltip v-if="!$eshop.isInBasket(artwork.public_id)" left color="black">
+                          <template v-slot:activator="{ on, attrs }">
+                            <v-btn
+                              class="mr-2"
+                              v-bind="attrs"
+                              v-on="on"
+                              fab
+                              light
+                              elevation="2"
+                              height="30"
+                              width="30"
+                              color="#333333"
+                              @click="$eshop.addToBasket(artwork); $forceUpdate();"
+                            >
+                              <v-icon size="20" color="#FAFAFA">mdi-basket-plus</v-icon>
+                            </v-btn>
+                          </template>
+                          <span>{{ getLang == "gr" ? "Προσθήκη στο καλάθι" : "Add to basket" }}</span>
+                        </v-tooltip>
+                        <v-tooltip v-else left color="black">
+                          <template v-slot:activator="{ on, attrs }">
+                            <v-btn 
+                              class="mr-2 border-fa-btn"
+                              v-bind="attrs"
+                              v-on="on"
+                              fab
+                              dark
+                              elevation="2"
+                              height="30"
+                              width="30"
+                              color="#FAFAFA"
+                              @click="$eshop.removeFromBasket(artwork.public_id); $forceUpdate();"
+                            >
+                              <v-icon color="#333333" size="20">mdi-basket-minus</v-icon>
+                            </v-btn>
+                          </template>
+                          <span>{{ getLang == "gr" ? "Διαγραφή απο καλάθι" : "Remove from basket" }}</span>
+                        </v-tooltip>
+                        <div>{{ artwork.salePrice }}€</div>
+                      </div>
                       <div class="raleway-18-400" v-if="artwork.rentPrice">
-                        <span class="pr-1">{{ plainText.rentFor[getLang] }}</span>
+                        <span class="pr-1">{{ $helper.plainText.rentFor[getLang] }}</span>
                         {{ artwork.rentPrice }}
-                        <span>{{ plainText.rentPerMonth[getLang] }}</span>
+                        <span>{{ $helper.plainText.rentPerMonth[getLang] }}</span>
                       </div>
                     </div>
                     <div v-if="artwork.likes !== null"
@@ -143,7 +202,7 @@
           </v-row>
         </div>
         <!-- Mobile -->
-        <div class="hidden-md-and-up">
+        <div class="hidden-md-and-up pb-6">
           <!-- Info -->
           <v-row class="pt-12 px-12" justify="center" align="center">
             <v-col class="text-center" cols="auto">
@@ -167,7 +226,7 @@
                     <v-icon v-else>mdi-thumb-up-outline</v-icon>
                   </v-btn>
                 </template>
-                <span>{{ plainText.follow[getLang] }}</span>
+                <span>{{ $helper.plainText.follow[getLang] }}</span>
               </v-tooltip>
             </v-col>
           </v-row>
@@ -185,17 +244,15 @@
             </v-col>
           </v-row>
           <!-- Artworks -->
-          <div
-            class="py-6 text-center playfair-38-700"
-          >
-            {{ plainText.artworks[getLang] }}
+          <div class="py-6 text-center playfair-38-700">
+            {{ $helper.plainText.artworks[getLang] }}
           </div>
           <v-row
             class="px-6"
             v-for="(artwork, i) in artist.gallery" :key="'artwork-mobile-' + i"
             justify="center" align="center"
           >
-            <v-col cols="12">
+            <v-col cols="12" class="px-0 py-4">
               <v-card>
                 <v-img
                   :src="artwork.url"
@@ -236,37 +293,86 @@
                         <template v-slot:activator="{ on, attrs }">
                           <v-btn
                             icon
+                            height="24"
+                            width="24"
                             v-bind="attrs"
                             v-on="on"
                             :loading="artwork.isProcFavorite"
                             @click="toggleFavorite(artwork)"
                           >
-                            <v-icon v-if="!checkIsFavorite(artwork.public_id)">mdi-heart-outline</v-icon>
-                            <v-icon v-else color="pink lighten-3">mdi-heart</v-icon>
+                            <v-icon v-if="!checkIsFavorite(artwork.public_id)" size="20">mdi-heart-outline</v-icon>
+                            <v-icon v-else color="pink lighten-3" size="20">mdi-heart</v-icon>
                           </v-btn>
                         </template>
-                        <span>{{ plainText.heart[getLang] }}</span>
+                        <span>{{ $helper.plainText.heart[getLang] }}</span>
+                      </v-tooltip>
+                      <v-tooltip v-if="canCopy" top color="black">
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-btn
+                            icon
+                            height="24"
+                            width="24"
+                            v-bind="attrs"
+                            v-on="on"
+                            @click="shareArtwork(artwork)"
+                          >
+                            <v-icon size="20">mdi-share-variant-outline</v-icon>
+                          </v-btn>
+                        </template>
+                        <span>{{ $helper.plainText.share[getLang] }}</span>
                       </v-tooltip>
                       <v-tooltip top color="black">
                         <template v-slot:activator="{ on, attrs }">
                           <v-btn
                             icon
+                            height="24"
+                            width="24"
                             v-bind="attrs"
                             v-on="on"
-                            @click="overlayMobile = true; enlargedImg.url = artwork.url; enlargedImg.title = artwork.title"
+                            @click="
+                              overlayMobile = true;
+                              enlargedArtwork = artwork;
+                              enlargedArtwork.artist_name = artist.firstName + ' ' + artist.lastName;
+                              enlargedArtwork.user_id = artist.user_id;
+                            "
                           >
-                            <v-icon>mdi-fullscreen</v-icon>
+                            <v-icon size="20">mdi-fullscreen</v-icon>
                           </v-btn>
                         </template>
-                        <span>{{ plainText.artworkZoom[getLang] }}</span>
+                        <span>{{ $helper.plainText.artworkZoom[getLang] }}</span>
                       </v-tooltip>
                     </v-card-actions>
                     <div class="pb-2 pr-4 text-end">
-                      <div class="raleway-16-400" v-if="artwork.salePrice">{{ artwork.salePrice }}€</div>
+                      <div class="raleway-16-400 d-flex justify-end align-center" v-if="artwork.salePrice">
+                        <v-btn
+                          v-if="true !== $eshop.isInBasket(artwork.public_id)"
+                          class="mr-2"
+                          fab
+                          height="26"
+                          width="26"
+                          color="#333333"
+                          @click="$eshop.addToBasket(artwork); $forceUpdate();"
+                        >
+                          <v-icon color="#FAFAFA" size="16">mdi-basket-plus</v-icon>
+                        </v-btn>
+                        <v-btn
+                          v-else
+                          class="mr-2 border-fa-btn"
+                          fab
+                          icon
+                          height="26"
+                          width="26"
+                          color="#FAFAFA"
+                          @click="$eshop.removeFromBasket(artwork.public_id); $forceUpdate();"
+                        >
+                          <v-icon color="#333333" size="16">mdi-basket-minus</v-icon>
+                        </v-btn>
+                        <div>{{ artwork.salePrice }}€</div>
+                      </div>
                       <div class="raleway-12-400" v-if="artwork.rentPrice">
-                        <span class="pr-1">{{ plainText.rentFor[getLang] }}</span>
+                        <span class="pr-1">{{ $helper.plainText.rentFor[getLang] }}</span>
                         {{ artwork.rentPrice }}
-                        <span>{{ plainText.rentPerMonth[getLang] }}</span>
+                        <span>{{ $helper.plainText.rentPerMonth[getLang] }}</span>
                       </div>
                     </div>
                     <div v-if="artwork.likes !== null"
@@ -283,57 +389,42 @@
 
         <!-- Scroll to Top -->
         <scroll-to-top />
+        
+        <!-- Enlarge Artwork Modal -->
+        <enlarged-artwork
+          :overlayDesktop="overlayDesktop"
+          :overlayMobile="overlayMobile"
+          :enlargedArtwork="enlargedArtwork"
+          @update-enlarged-artwork="(val) => enlargedArtwork = val"
+          @update-overlay-desktop="(val) => overlayDesktop = val"
+          @update-overlay-mobile="(val) => overlayMobile = val"
+        ></enlarged-artwork>
 
-        <!-- Desktop Overlay -->
-        <v-overlay class="hidden-sm-and-down" :value="overlayDesktop">
-          <v-row no-gutters>
-            <v-col>
-              <v-img
-                class="rounded"
-                :src="enlargedImg.url"
-                :lazy-src="enlargedImg.url.replace('artventures/image/upload/', 'artventures/image/upload/c_thumb,w_100/')"
-                :alt="enlargedImg.title || 'Untitled'"
-                max-height="98vh"
-                max-width="95vw"
-                contain
-              />
-            </v-col>
-            <v-col>
-              <v-tooltip right color="black">
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn
-                    icon
-                    v-on="on"
-                    v-bind="attrs"
-                    @click="enlargedImg.url = ''; enlargedImg.title = ''; overlayDesktop = false;"
-                  >
-                    <v-icon>mdi-close</v-icon>
-                  </v-btn>
-                </template>
-                <span>{{ plainText.close[getLang] }}</span>
-              </v-tooltip>
-            </v-col>
-          </v-row>
-        </v-overlay>
-        <!-- Mobile Overlay -->
-        <v-dialog class="hidden-md-and-up" v-model="overlayMobile" fullscreen persistent hide-overlay no-click-animation>
-          <div style="width: 100vw; height: 100vh">
-            <v-img
-              class="rounded"
-              :src="enlargedImg.url"
-              :lazy-src="enlargedImg.url.replace('artventures/image/upload/', 'artventures/image/upload/c_thumb,w_100/')"
-              :alt="enlargedImg.title || 'Untitled'"
-              contain
-              @click="enlargedImg.url = ''; enlargedImg.title = ''; overlayMobile = false;"
-            />
-          </div>
+        <!-- Share Dialog -->
+        <v-dialog v-model="isSharing.state" width="auto">
+          <v-card>
+            <v-card-title :class="getLang === 'gr' ? 'noto-16-400' : 'raleway-16-400'">
+              {{ isSharing.text[getLang] }}
+            </v-card-title>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                class="white--text"
+                :class="getLang === 'gr' ? 'noto-13-400' : 'raleway-13-400'"
+                color="#333333" @click="() => clearSharingDialog(true)"
+              >
+                OK
+              </v-btn>
+            </v-card-actions>
+          </v-card>
         </v-dialog>
       </v-container>
 
       <!-- Loading -->
       <v-overlay v-else-if="state === 1" color="#FAFAFA" opacity="0.70">
-        <img src="../../../static/loading.svg" width="300vw" alt="loading">
+        <v-progress-circular :size="120" :width="12" indeterminate color="#333333" />
       </v-overlay>
+
       <!-- Not found -->
       <v-container v-else-if="state === -1" class="pa-0 background-color-fafafa" fluid>
         <v-card class="center-viewport" color="#fafafa" flat>
@@ -341,19 +432,20 @@
             <v-col>
               <p class="text-center" :class="getLang === 'gr' ? 'noto-30-700' : 'playfair-30-700'">404</p>
               <p class="text-center" :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'">
-                {{ plainText.error404[getLang] }}
+                {{ $helper.plainText.error404[getLang] }}
               </p>
             </v-col>
           </v-row>
         </v-card>
       </v-container>
+
       <!-- Error -->
       <v-container v-else class="pa-0 background-color-fafafa" fluid>
         <v-card class="center-viewport" color="#fafafa" flat>
           <v-row style="height: 100%" justify="center" align="center">
             <v-col>
               <p class="text-center" :class="getLang === 'gr' ? 'noto-16-400-1p6em' : 'raleway-16-400-1p6em'">
-                {{ plainText.error[getLang] }}
+                {{ $helper.plainText.error[getLang] }}
               </p>
             </v-col>
           </v-row>
@@ -368,7 +460,8 @@ import { mapGetters } from "vuex";
 
 export default {
   components: {
-    ScrollToTop: () => import("~/components/ScrollToTop.vue")
+    ScrollToTop: () => import("~/components/ScrollToTop.vue"),
+    EnlargedArtwork: () => import("~/components/artwork/Enlarge.vue")
   },
   data () {
     return {
@@ -390,75 +483,21 @@ export default {
       },
       overlayDesktop: false,
       overlayMobile: false,
-      enlargedImg: {
-        url: "",
-        title: ""
-      },
-      plainText: {
-        artworks: {
-          en: "Artworks",
-          gr: "Εργα Τέχνης"
-        },
-        artworkZoom: {
-          gr: 'Μεγέθυνση',
-          en: 'Enlarge'
-        },
-        heart: {
-          gr: "Μου αρέσει",
-          en: "Like"
-        },
-        follow: {
-          gr: 'Ακολούθησε με',
-          en: 'Follow'
-        },
-        type: {
-          painting: {
-            gr: "Πίνακας",
-            en: "Painting"
-          },
-          sculpture: {
-            gr: "Γλυπτό",
-            en: "Sculpture"
-          },
-          drawing: {
-            gr: "Σχέδιο",
-            en: "Drawing"
-          },
-          photography: {
-            gr: 'Φωτογραφία',
-            en: "Photography"
-          },
-          digital: {
-            gr: "Ψηφιακό",
-            en: "Digital"
-          }
-        },
-        rentFor: {
-          gr: 'Ενοικίαση',
-          en: 'Rent'
-        },
-        rentPerMonth: {
-          gr: '€/μ',
-          en: '€/m'
-        },
-        close: {
-          gr: 'Κλείσιμο',
-          en: 'Close'
-        },
-        error404: {
-          en: 'Oops, page not found.',
-          gr:  'Ωχ, η σελίδα δεν βρέθηκε.'
-        },
-        error: {
-          en: 'Oops, an error occured. Please try again later',
-          gr:  'Ωχ, κάποιο σφάλμα προέκυψε. Παρακαλώ δοκιμάστε αργότερα.'
-        }
-      },
+      enlargedArtwork: {},
       // user's favorite artworks
       userFavorites: [],
       // Reference ID in DB table 'follows' (string value if user follows artist)
       followerRefId: null,
-      followers: null
+      followers: null,
+      canCopy: false,
+      isSharing: {
+        state: false,
+        text: {
+          gr: "",
+          en: ""
+        },
+        timeoutCb: null
+      }
     }
   },
   mounted () {
@@ -478,6 +517,9 @@ export default {
     } else {
       this.getUserId(this.$route.params.id); // $route.param.id is the reference Id to the 'users' DB table
     }
+    if (process.isClient) {
+      this.canCopy = !!navigator.clipboard;
+    }
   },
   computed: {
     ...mapGetters(['getLang']),
@@ -495,19 +537,21 @@ export default {
         .then(id => {
           this.$auth.getMgUser(id)
             .then(artist => {
-              if (artist.hasOwnProperty("given_name")) {
+              if (Object.prototype.hasOwnProperty.call(artist, "given_name")) {
                 this.artist.firstName = artist.given_name;
               } else {
                 this.artist.firstName = artist.name.split(" ")[0];
               }
-              if (artist.hasOwnProperty("family_name")) {
+              if (Object.prototype.hasOwnProperty.call(artist, "family_name")) {
                 this.artist.lastName = artist.family_name;
               } else {
                 this.artist.lastName = artist.name.split(" ")[1];
               }
               this.artist.name = artist.name;
-              this.artist.pic = artist.hasOwnProperty("picture_large") ? artist.picture_large : artist.picture;
-              if (artist.hasOwnProperty("user_metadata") && artist.user_metadata.hasOwnProperty("bio")) {
+              this.artist.pic =
+                Object.prototype.hasOwnProperty.call(artist, "picture_large") ? artist.picture_large : artist.picture;
+              if (Object.prototype.hasOwnProperty.call(artist, "user_metadata") &&
+                  Object.prototype.hasOwnProperty.call(artist.user_metadata, "bio")) {
                 this.artist.bio = artist.user_metadata.bio;
               }
               this.artist.userId = artist.user_id;
@@ -521,28 +565,28 @@ export default {
                       var salePrice = '';
                       var size = '';
                       var type = '';
-                      var tags = resource.hasOwnProperty('tags') ? resource.tags : [];
-                      if (resource.hasOwnProperty('context')) {
+                      var tags = Object.prototype.hasOwnProperty.call(resource, "tags") ? resource.tags : [];
+                      if (Object.prototype.hasOwnProperty.call(resource, "context")) {
                         // Title
-                        if (resource.context.hasOwnProperty('caption')) {
+                        if (Object.prototype.hasOwnProperty.call(resource.context, "caption")) {
                           title = resource.context.caption;
                           title = title.toLowerCase();
                         }
                         // Rent, Sale Price
-                        if (resource.context.hasOwnProperty('rent_price')) {
+                        if (Object.prototype.hasOwnProperty.call(resource.context, "rent_price")) {
                           rentPrice = resource.context.rent_price
                         }
-                        if (resource.context.hasOwnProperty('sale_price')) {
+                        if (Object.prototype.hasOwnProperty.call(resource.context, "sale_price")) {
                           salePrice = resource.context.sale_price
                         }
-                        if (resource.context.hasOwnProperty('type')) {
-                          type = this.plainText.type[resource.context.type];
+                        if (Object.prototype.hasOwnProperty.call(resource.context, "type")) {
+                          type = this.$helper.plainText.type[resource.context.type];
                           if (type.en.toLowerCase() === 'sculpture') {
                             // it's a sculpture
-                            if (resource.context.hasOwnProperty('dimension') &&
-                                resource.context.hasOwnProperty('height') &&
-                                resource.context.hasOwnProperty('width') &&
-                                resource.context.hasOwnProperty('depth')) {
+                            if (Object.prototype.hasOwnProperty.call(resource.context, "dimension") &&
+                                Object.prototype.hasOwnProperty.call(resource.context, "height") &&
+                                Object.prototype.hasOwnProperty.call(resource.context, "width") &&
+                                Object.prototype.hasOwnProperty.call(resource.context, "depth")) {
                               size = resource.context.height + ' x ' + resource.context.width + ' x ' +
                                 resource.context.depth + ' ' + resource.context.dimension
                             }
@@ -553,9 +597,9 @@ export default {
                             type.en.toLowerCase() === 'digital'
                           ) {
                             // it's a painting/drawing/photography/digital
-                            if (resource.context.hasOwnProperty('dimension') &&
-                                resource.context.hasOwnProperty('height') &&
-                                resource.context.hasOwnProperty('width')) {
+                            if (Object.prototype.hasOwnProperty.call(resource.context, "dimension") &&
+                                Object.prototype.hasOwnProperty.call(resource.context, "height") &&
+                                Object.prototype.hasOwnProperty.call(resource.context, "width")) {
                               size = resource.context.height + ' x ' + resource.context.width + ' ' +
                                 resource.context.dimension
                             }
@@ -578,7 +622,6 @@ export default {
                     var count = 0;
                     this.artist.gallery.forEach(async artwork => {
                       // get likes of each artwork
-                      var likes = 0;
                       await this.getArtworkLikes(
                           this.artist.userId,
                           this.$helper.toPublicIdNoPath(artwork.public_id, '/approved/')
@@ -642,7 +685,7 @@ export default {
         } else {
           // Followed, so remove
           this.$db.deleteFollow(this.followerRefId)
-            .then(reply => {
+            .then(() => {
               this.getArtistFollowers(this.artist.userId)
                 .then(count => {
                   this.followerRefId = null;
@@ -689,11 +732,9 @@ export default {
         this.$auth.login();
       } else {
         var isAlreadyFavorite = false;
-        var isAlreadyFavoriteIdx = -1;
-        this.userFavorites.find((favorite, idx) => {
+        this.userFavorites.find((favorite) => {
           if (favorite.public_id === artwork.public_id) {
             isAlreadyFavorite = true;
-            isAlreadyFavoriteIdx = idx;
           }
           return isAlreadyFavorite;
         })
@@ -750,14 +791,39 @@ export default {
           .then(count => resolve(count))
           .catch(err => reject(err))
       })
+    },
+    shareArtwork(artwork) {
+      if (process.isClient) {
+        navigator.clipboard.writeText(artwork.url)
+          .then(() => {
+            this.isSharing.text.gr = "Η διεύθυνση της εικόνας αντιγράφτηκε επιτυχώς!";
+            this.isSharing.text.en = "Image URL successfully copied!";
+          }) // copied
+          .catch(() => {
+            this.isSharing.text.gr = "Η αντιγραφή της διεύθυνσης της εικόνας απέτυχε.";
+            this.isSharing.text.en = "Failed to copy image URL.";
+          })  // not copied
+          .finally(() => {
+            this.isSharing.state = true;
+            this.isSharing.timeoutCb = setTimeout(() => this.clearSharingDialog(), 3000);
+          });
+      }
+    },
+    clearSharingDialog(clear=false) {
+      this.isSharing.state = false;
+      if (clear) {
+        clearTimeout(this.isSharing.timeoutCb);
+      }
+      this.isSharing.text.gr = "";
+      this.isSharing.text.en = "";
     }
   },
   metaInfo() {
     return {
       titleTemplate: this.artist.name + " — Artventures",
-      meta: [{ name: "description", content: "Gallery" }],
+      meta: [{ name: "description", content: "Artist's page" }],
     };
-  },
+  }
 }
 </script>
 

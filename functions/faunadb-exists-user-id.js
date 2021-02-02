@@ -6,6 +6,7 @@ const headers = {
     "Access-Control-Allow-Headers": "Content-Type",
 }
 
+// eslint-disable-next-line no-unused-vars
 exports.handler = async (event, context) => {
     console.log("### START ###")
     try {
@@ -30,7 +31,7 @@ exports.handler = async (event, context) => {
             q.Paginate(q.Match(q.Index('id'), data.user_id))
           )
           .then(ret => {
-            found = ret.data.length > 0 ? "true" : "false";
+            let found = ret.data.length > 0 ? "true" : "false";
             console.log(found);
             console.log("### END ###");
 
