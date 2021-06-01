@@ -49,4 +49,4 @@
 
 1. In `package.json`:
     - always keep `sass-loader` dev dependency to 7.3.1.
-    - always keep `swiper` dependency to 5.4.5.
+    - check swiper 6.5.1 is working.

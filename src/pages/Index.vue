@@ -801,9 +801,8 @@ export default {
       {
         rel: 'stylesheet',
         type: "text/css",
-        href: 'https://cdnjs.cloudflare.com/ajax/libs/Swiper/5.4.5/css/swiper.min.css'
-        // latest swiper is 6.x.x but hasn't been incorporated into vue-awesome-swiper yet
-        // href: 'https://unpkg.com/swiper@6.2.0/swiper-bundle.min.css'
+        href: 'https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.5.1/swiper-bundle.min.js'
+        // TODO: Swiper 6.5.1 has to be tested
       }
     ]
   },
