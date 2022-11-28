@@ -34,7 +34,7 @@
     "vue-json-csv": "^1.2.11",
     "vue-window-size": "^1.0.2",
     "vuelidate": "^0.7.5",
-    "vuetify": "^2.3.10",
+    "vuetify": "^2.6.10",
     "vuex": "^3.5.1"
   },
   "devDependencies": {
